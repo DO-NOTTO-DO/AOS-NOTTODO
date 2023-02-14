@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Release NotToDo</string>
+    <!--Shared Preferences-->
+    <string name="preference_file_name">kr.co.nottodo.PREFERENCE_FILE</string>
 </resources>
