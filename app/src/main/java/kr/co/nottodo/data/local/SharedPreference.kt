@@ -33,4 +33,8 @@ object SharedPreference {
     fun getString(key: String): String? {
         return preferences.getString(key, BLANK)
     }
+
+    fun clear() {
+        preferences.edit { clear() }
+    }
 }
