@@ -9,24 +9,24 @@
 
     <TextView
         android:id="@+id/tv_login_title"
-        style="@style/Sb24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
         android:layout_marginTop="133dp"
         android:text="나만을 위한 추천과\n안전한 데이터 보관의 시작!"
+        android:textAppearance="@style/Sb24"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_login_desc"
-        style="@style/M16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
         android:layout_marginTop="17dp"
         android:text="계정을 연동 하면 언제 어디서든\n낫투두 기록을 관리할 수 있어요."
+        android:textAppearance="@style/M16"
         android:textColor="@color/gray_4_9398aa"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_login_title" />
