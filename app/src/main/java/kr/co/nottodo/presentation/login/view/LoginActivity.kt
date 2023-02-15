@@ -1,8 +1,10 @@
 package kr.co.nottodo.presentation.login.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import kr.co.nottodo.MainActivity
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
 
@@ -14,5 +16,10 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.ivLoginLabelKakao.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
     }
 }
