@@ -2,4 +2,8 @@
     <string name="app_name">Release NotToDo</string>
     <!--Shared Preferences-->
     <string name="preference_file_name">kr.co.nottodo.PREFERENCE_FILE</string>
+    <!--Bottom Navigation Icon Id-->
+    <string name="menu_main_home">홈</string>
+    <string name="menu_main_calendar">캘린더</string>
+    <string name="menu_main_my_page">마이 페이지</string>
 </resources>
