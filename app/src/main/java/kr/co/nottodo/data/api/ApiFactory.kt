@@ -1,0 +1,39 @@
+package kr.co.nottodo.data.api
+
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
+import kr.co.nottodo.BuildConfig
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+
+object ApiFactory {
+
+    private val client by lazy {
+        OkHttpClient.Builder().addInterceptor(TokenInterceptor())
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }).build()
+    }
+
+    private val json by lazy {
+        Json {
+            coerceInputValues = true
+        }
+    }
+    val retrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.base_url)
+            .client(client)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+
+    inline fun <reified T> create(): T = retrofit.create<T>(T::class.java)
+}
+
+object ServicePool {
+    //TODO: 각자 서비스 만드시고 해당 페이지에 서비스 객체 생성해주시면 됩니다 !!
+
+}
