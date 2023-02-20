@@ -8,13 +8,13 @@ import kr.co.nottodo.data.model.ResponseHomeDaily
 import kr.co.nottodo.databinding.ItemListHomeTodoBinding
 import kr.co.nottodo.util.DiffUtilItemCallback
 
-class HomeAdpater(private val itemClick: (ResponseHomeDaily) -> Unit) :
+class HomeAdpater() :
     ListAdapter<ResponseHomeDaily, HomeAdpater.HomeViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val binding =
             ItemListHomeTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return HomeViewHolder(binding, itemClick)
+        return HomeViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
@@ -22,8 +22,7 @@ class HomeAdpater(private val itemClick: (ResponseHomeDaily) -> Unit) :
     }
 
     class HomeViewHolder(
-        private val binding: ItemListHomeTodoBinding,
-        private val itemClick: (ResponseHomeDaily) -> Unit
+        private val binding: ItemListHomeTodoBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ResponseHomeDaily) {
             binding.tvHomeTodoSituation.text = data.situation
