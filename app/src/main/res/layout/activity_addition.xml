@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -11,170 +10,80 @@
             type="kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
-        tools:context=".presentation.addition.view.AdditionActivity">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="낫투두 생성 창 닫기"
-            android:src="@drawable/ic_cancel"
-            app:layout_constraintBottom_toBottomOf="@id/tv_addition_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_addition_title" />
-
-        <TextView
-            android:id="@+id/tv_addition_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="낫투두 생성"
-            android:textAppearance="@style/M18"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_addition_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="18dp"
-            android:text="추가"
-            android:textAppearance="@style/M16"
-            android:textColor="@color/gray_3_5d5d6b"
-            app:layout_constraintBottom_toBottomOf="@id/tv_addition_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_addition_title" />
-
-        <View
-            android:id="@+id/view_addition_line"
-            android:layout_width="0dp"
-            android:layout_height="0.7dp"
-            android:layout_marginTop="24dp"
-            android:background="@color/gray_2_34343a"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_addition_title" />
+        android:background="@color/black">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_addition_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="18dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rectangle_solid_gray1_radius_12"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.514"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_addition_line">
-
-            <TextView
-                android:id="@+id/tv_addition_date_title_before"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="18dp"
-                android:layout_marginStart="18dp"
-                android:text="날짜"
-                android:textAppearance="@style/R14"
-                android:textColor="@color/gray_7_8e8e93"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:text="완료"
-                android:textColor="@color/gray_4_9398aa"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/tv_addition_date_title_before"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_addition_date_title_before" />
-
-            <TextView
-                android:id="@+id/tv_addition_date_start_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="37dp"
-                android:text="오늘"
-                android:textAppearance="@style/M14"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_addition_date_title_before"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_addition_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="7dp"
-                android:text="2023.02.02"
-                android:textAppearance="@style/M14"
-                android:textColor="@color/gray_4_9398aa"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_addition_date_start_desc"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_addition_date_end_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="7dp"
-                android:text="그 외 1일"
-                android:textAppearance="@style/M14"
-                android:textColor="@color/white"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_addition_date"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".presentation.addition.view.AdditionActivity">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_date_picker"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:contentDescription="낫투두 생성 창 닫기"
+                android:src="@drawable/ic_cancel"
+                app:layout_constraintBottom_toBottomOf="@id/tv_addition_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_addition_title" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_addition_mission"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="18dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_addition_date">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_addition_mission_closed"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tv_addition_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rectangle_stroke_gray3_1_radius_12"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="24dp"
+                android:text="낫투두 생성"
+                android:textAppearance="@style/M18"
+                android:textColor="@color/white"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_addition_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="18dp"
+                android:text="추가"
+                android:textAppearance="@style/M16"
+                android:textColor="@color/gray_3_5d5d6b"
+                app:layout_constraintBottom_toBottomOf="@id/tv_addition_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_addition_title" />
+
+            <View
+                android:id="@+id/view_addition_line"
+                android:layout_width="0dp"
+                android:layout_height="0.7dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/gray_2_34343a"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_addition_title" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_addition_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rectangle_solid_gray1_radius_12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.514"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_addition_line">
 
                 <TextView
-                    android:id="@+id/tv_addition_mission_closed_title"
+                    android:id="@+id/tv_addition_date_title_before"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="18dp"
                     android:layout_marginStart="18dp"
-                    android:text="낫투두"
+                    android:text="날짜"
                     android:textAppearance="@style/R14"
                     android:textColor="@color/gray_7_8e8e93"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -182,151 +91,535 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_addition_mission_closed_essential"
+                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="*필수"
-                    android:textAppearance="@style/R14"
-                    android:textColor="@color/green_1_98ffa9"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iv_addition_mission_closed_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_check"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_addition_mission_closed_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="82dp"
-                    android:text="@string/addition_input"
-                    android:textAppearance="@style/R14"
-                    android:textColor="@color/gray_3_5d5d6b"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_addition_mission_opened"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
-                android:paddingHorizontal="18dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/tv_addition_mission_opened_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="18dp"
-                    android:text="낫투두"
-                    android:textAppearance="@style/M14"
-                    android:textColor="@color/green_1_98ffa9"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_addition_mission_opened_desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:bufferType="spannable"
-                    android:textAppearance="@style/Sb20"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_addition_mission_opened_title" />
-
-                <EditText
-                    android:id="@+id/et_addition_mission"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:backgroundTint="@color/gray_3_5d5d6b"
-                    android:inputType="text"
-                    android:textAppearance="@style/M14"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_addition_mission_opened_desc" />
-
-                <TextView
-                    android:id="@+id/tv_addition_mission_text_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0/20"
-                    android:textAppearance="@style/R12"
-                    android:textColor="@color/gray_3_5d5d6b"
-                    app:layout_constraintEnd_toEndOf="@id/et_addition_mission"
-                    app:layout_constraintTop_toBottomOf="@id/et_addition_mission" />
-
-                <TextView
-                    android:id="@+id/tv_addition_mission_rv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
-                    android:text="낫투두 입력 기록"
-                    android:textAppearance="@style/R14"
+                    android:layout_marginEnd="20dp"
+                    android:text="완료"
                     android:textColor="@color/gray_4_9398aa"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_addition_mission" />
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_addition_date_title_before"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_addition_date_title_before" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_addition_mission"
+                <TextView
+                    android:id="@+id/tv_addition_date_start_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="37dp"
+                    android:text="오늘"
+                    android:textAppearance="@style/M14"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_addition_date_title_before"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_addition_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:text="2023.02.02"
+                    android:textAppearance="@style/M14"
+                    android:textColor="@color/gray_4_9398aa"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_addition_date_start_desc"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_addition_date_end_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:text="그 외 1일"
+                    android:textAppearance="@style/M14"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_addition_date"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_date_picker"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_addition_mission"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_addition_date">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_addition_mission_closed"
                     android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="32dp"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle_stroke_gray3_1_radius_12"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_addition_mission_rv_title" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_addition_mission_closed_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="18dp"
+                        android:layout_marginStart="18dp"
+                        android:text="낫투두"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_7_8e8e93"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_mission_closed_essential"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="*필수"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/green_1_98ffa9"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_addition_mission_closed_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_check"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_mission_closed_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="82dp"
+                        android:text="@string/addition_input"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_3_5d5d6b"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_addition_mission_opened"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
+                    android:paddingHorizontal="18dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_addition_mission_opened_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="18dp"
+                        android:text="낫투두"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/green_1_98ffa9"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_mission_opened_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="13dp"
+                        android:bufferType="spannable"
+                        android:textAppearance="@style/Sb20"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_mission_opened_title" />
+
+                    <EditText
+                        android:id="@+id/et_addition_mission"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:backgroundTint="@color/gray_3_5d5d6b"
+                        android:inputType="text"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_mission_opened_desc" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_mission_text_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0/20"
+                        android:textAppearance="@style/R12"
+                        android:textColor="@color/gray_3_5d5d6b"
+                        app:layout_constraintEnd_toEndOf="@id/et_addition_mission"
+                        app:layout_constraintTop_toBottomOf="@id/et_addition_mission" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_mission_rv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:text="낫투두 입력 기록"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_4_9398aa"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/et_addition_mission" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_addition_mission"
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="32dp"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_mission_rv_title" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_addition_situation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="18dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/rectangle_stroke_gray3_1_radius_12"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_addition_mission">
-
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_addition_situation_closed"
+                android:id="@+id/layout_addition_situation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rectangle_stroke_gray3_1_radius_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/layout_addition_mission">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_addition_situation_closed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_addition_situation_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="18dp"
+                        android:layout_marginStart="18dp"
+                        android:text="상황"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_7_8e8e93"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_situation_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="82dp"
+                        android:text="@string/addition_input"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_3_5d5d6b"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_situation_essential"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="*필수"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/green_1_98ffa9"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_addition_situation_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_check"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_addition_situation_opened"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
+                    android:paddingHorizontal="18dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_addition_situation_opened_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="18dp"
+                        android:text="상황"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/green_1_98ffa9"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_situation_opened_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="13dp"
+                        android:bufferType="spannable"
+                        android:textAppearance="@style/Sb20"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_situation_opened_title" />
+
+                    <EditText
+                        android:id="@+id/et_addition_situation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="37dp"
+                        android:backgroundTint="@color/gray_3_5d5d6b"
+                        android:inputType="text"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_situation_opened_desc" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_situation_text_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0/20"
+                        android:textAppearance="@style/R12"
+                        android:textColor="@color/gray_3_5d5d6b"
+                        app:layout_constraintEnd_toEndOf="@id/et_addition_situation"
+                        app:layout_constraintTop_toBottomOf="@id/et_addition_situation" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_situation_recommend_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:text="추천 키워드"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/et_addition_situation" />
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/layout_addition_situation_recommend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_situation_recommend_title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_addition_action"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rectangle_stroke_gray3_1_radius_12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_addition_situation">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_addition_action_closed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_addition_action_closed_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="18dp"
+                        android:layout_marginStart="18dp"
+                        android:text="실천행동"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_7_8e8e93"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_action_closed_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="82dp"
+                        android:text="@string/addition_input"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_3_5d5d6b"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_addition_action_closed_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_check"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_addition_action_opened"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
+                    android:paddingHorizontal="18dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_addition_action_opened_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="18dp"
+                        android:text="실천행동"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/green_1_98ffa9"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_action_opened_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="13dp"
+                        android:bufferType="spannable"
+                        android:textAppearance="@style/Sb20"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_action_opened_title" />
+
+                    <EditText
+                        android:id="@+id/et_addition_action"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="37dp"
+                        android:backgroundTint="@color/gray_3_5d5d6b"
+                        android:inputType="text"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_action_opened_desc" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_action_text_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0/20"
+                        android:textAppearance="@style/R12"
+                        android:textColor="@color/gray_3_5d5d6b"
+                        app:layout_constraintEnd_toEndOf="@id/et_addition_action"
+                        app:layout_constraintTop_toBottomOf="@id/et_addition_action" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_action_example"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="39dp"
+                        android:text="예시)"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_3_5d5d6b"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/et_addition_action" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_action_example_mission"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="유튜브 보지않기"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/bg_f2f2f7"
+                        app:layout_constraintStart_toEndOf="@id/tv_addition_action_example"
+                        app:layout_constraintTop_toTopOf="@id/tv_addition_action_example" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_action_example_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="37dp"
+                        android:text="유튜브 프리미엄 구독 취소\n공부 중에 가방 안에 핸드폰 넣기"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_4_9398aa"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/tv_addition_action_example_mission"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_action_example_mission" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_addition_goal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rectangle_stroke_gray3_1_radius_12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_addition_action">
 
                 <TextView
-                    android:id="@+id/tv_addition_situation_title"
+                    android:id="@+id/tv_addition_goal_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="18dp"
                     android:layout_marginStart="18dp"
-                    android:text="상황"
+                    android:text="목표"
                     android:textAppearance="@style/R14"
                     android:textColor="@color/gray_7_8e8e93"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -334,7 +627,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_addition_situation_input"
+                    android:id="@+id/tv_addition_goal_input"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="82dp"
@@ -345,20 +638,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_addition_situation_essential"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="*필수"
-                    android:textAppearance="@style/R14"
-                    android:textColor="@color/green_1_98ffa9"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <ImageView
-                    android:id="@+id/iv_addition_situation_check"
+                    android:id="@+id/iv_addition_goal_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -367,195 +648,21 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_addition_situation_opened"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
-                android:paddingHorizontal="18dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/tv_addition_situation_opened_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="18dp"
-                    android:text="상황"
-                    android:textAppearance="@style/M14"
-                    android:textColor="@color/green_1_98ffa9"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_addition_situation_opened_desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:bufferType="spannable"
-                    android:textAppearance="@style/Sb20"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_addition_situation_opened_title" />
-
-                <EditText
-                    android:id="@+id/et_addition_situation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:backgroundTint="@color/gray_3_5d5d6b"
-                    android:inputType="text"
-                    android:textAppearance="@style/M14"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_addition_situation_opened_desc" />
-
-                <TextView
-                    android:id="@+id/tv_addition_situation_text_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0/20"
-                    android:textAppearance="@style/R12"
-                    android:textColor="@color/gray_3_5d5d6b"
-                    app:layout_constraintEnd_toEndOf="@id/et_addition_situation"
-                    app:layout_constraintTop_toBottomOf="@id/et_addition_situation" />
-
-                <TextView
-                    android:id="@+id/tv_addition_situation_recommend_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
-                    android:text="추천 키워드"
-                    android:textAppearance="@style/R14"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_addition_situation" />
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/layout_addition_situation_recommend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/tv_addition_situation_recommend_title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_addition_action"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="18dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/rectangle_stroke_gray3_1_radius_12"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_addition_situation">
-
-            <TextView
-                android:id="@+id/tv_addition_action_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="18dp"
-                android:layout_marginStart="18dp"
-                android:text="실천행동"
-                android:textAppearance="@style/R14"
-                android:textColor="@color/gray_7_8e8e93"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_addition_action_input"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="82dp"
-                android:text="@string/addition_input"
-                android:textAppearance="@style/R14"
-                android:textColor="@color/gray_3_5d5d6b"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <ImageView
-                android:id="@+id/iv_addition_action_check"
+                android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_check"
-                android:visibility="gone"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginVertical="33dp"
+                android:src="@drawable/img_addition_tip"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_addition_goal" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_addition_goal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="18dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/rectangle_stroke_gray3_1_radius_12"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_addition_action">
-
-            <TextView
-                android:id="@+id/tv_addition_goal_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="18dp"
-                android:layout_marginStart="18dp"
-                android:text="목표"
-                android:textAppearance="@style/R14"
-                android:textColor="@color/gray_7_8e8e93"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_addition_goal_input"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="82dp"
-                android:text="@string/addition_input"
-                android:textAppearance="@style/R14"
-                android:textColor="@color/gray_3_5d5d6b"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/iv_addition_goal_check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_check"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="32dp"
-            android:layout_marginVertical="33dp"
-            android:src="@drawable/img_addition_tip"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_addition_goal" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
