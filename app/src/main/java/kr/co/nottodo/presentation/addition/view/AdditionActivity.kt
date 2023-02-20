@@ -13,6 +13,9 @@ import kr.co.nottodo.presentation.addition.adapter.AdditionAdapter
 class AdditionActivity : AppCompatActivity() {
     lateinit var binding: ActivityAdditionBinding
     var isMissionToggleVisible: Boolean = false
+    var isSituationToggleVisible: Boolean = false
+    var isActionToggleVisible: Boolean = false
+    var isGoalToggleVisible: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,8 +25,11 @@ class AdditionActivity : AppCompatActivity() {
 
         initRecyclerView()
 
-        initMissionSsb()
+        initSsbs()
+        initToggles()
+    }
 
+    private fun initToggles() {
         binding.layoutAdditionMission.setOnClickListener {
             if (!isMissionToggleVisible) {
                 binding.layoutAdditionMissionClosed.visibility = View.GONE
@@ -35,29 +41,62 @@ class AdditionActivity : AppCompatActivity() {
                 isMissionToggleVisible = false
             }
         }
+
+        binding.layoutAdditionSituation.setOnClickListener {
+            if (!isSituationToggleVisible) {
+                binding.layoutAdditionSituationClosed.visibility = View.GONE
+                binding.layoutAdditionSituationOpened.visibility = View.VISIBLE
+                isSituationToggleVisible = true
+            } else {
+                binding.layoutAdditionSituationClosed.visibility = View.VISIBLE
+                binding.layoutAdditionSituationOpened.visibility = View.GONE
+                isSituationToggleVisible = false
+            }
+        }
     }
 
-    private fun initMissionSsb() {
-        val ssb = SpannableStringBuilder("어떤 낫투두를 설정해볼까요?")
-        ssb.setSpan(
+    private fun initSsbs() {
+        val missionOpenedDesc = SpannableStringBuilder("어떤 낫투두를 설정해볼까요?")
+        missionOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.white)),
             0,
             2,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        ssb.setSpan(
+        missionOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.green_1_98ffa9)),
             3,
             6,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        ssb.setSpan(
+        missionOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.white)),
             6,
             15,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        binding.tvAdditionMissionOpenedDesc.text = ssb
+        binding.tvAdditionMissionOpenedDesc.text = missionOpenedDesc
+
+        val situationOpenedDesc = SpannableStringBuilder("어떤 상황에서\n낫투두를 실천하고 싶나요?")
+        situationOpenedDesc.setSpan(
+            ForegroundColorSpan(getColor(R.color.white)),
+            0,
+            2,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        situationOpenedDesc.setSpan(
+            ForegroundColorSpan(getColor(R.color.green_1_98ffa9)),
+            3,
+            5,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        situationOpenedDesc.setSpan(
+            ForegroundColorSpan(getColor(R.color.white)),
+            5,
+            22,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        binding.tvAdditionSituationOpenedDesc.text = situationOpenedDesc
     }
 
     private fun initRecyclerView() {
