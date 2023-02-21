@@ -14,6 +14,7 @@ import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.AdditionAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 import kr.co.nottodo.util.addButtons
+import kr.co.nottodo.util.showToast
 
 class AdditionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdditionBinding
@@ -29,6 +30,7 @@ class AdditionActivity : AppCompatActivity() {
 
         initDataBinding()
         initRecyclerView(setMissionName)
+        setSituationRecommendations()
         initSsbs()
         initToggles()
 
@@ -36,13 +38,17 @@ class AdditionActivity : AppCompatActivity() {
         observeSituation()
         observeAction()
         observeGoal()
-        setAddButton()
-        setSituationRecommendations()
 
-        binding.ivAdditionDelete.setOnClickListener { finish() }
+        setAddButton()
+        setFinishButton()
     }
 
-    val setMissionName: (String) -> Unit = { missionName: String ->
+    private fun setFinishButton() {
+        binding.ivAdditionDelete.setOnClickListener { finish() }
+
+    }
+
+    private val setMissionName: (String) -> Unit = { missionName: String ->
         binding.etAdditionMission.setText(missionName)
     }
 
@@ -64,6 +70,7 @@ class AdditionActivity : AppCompatActivity() {
         binding.tvAdditionAdd.setOnClickListener {
             if (binding.tvAdditionAdd.currentTextColor == getColor(R.color.white)) {
                 // 낫투두 추가
+                this.showToast("낫투두 추가 완료")
             }
         }
     }
@@ -189,63 +196,124 @@ class AdditionActivity : AppCompatActivity() {
     private fun initToggles() {
         binding.layoutAdditionMission.setOnClickListener {
             if (!isMissionToggleVisible) {
-                binding.layoutAdditionMissionClosed.visibility = View.GONE
-                binding.layoutAdditionMissionOpened.visibility = View.VISIBLE
-                isMissionToggleVisible = true
+                openMissionToggle()
+                closeDateToggle()
+                closeSituationToggle()
+                closeActionToggle()
+                closeGoalToggle()
             } else {
-                binding.layoutAdditionMissionClosed.visibility = View.VISIBLE
-                binding.layoutAdditionMissionOpened.visibility = View.GONE
-                isMissionToggleVisible = false
+                closeMissionToggle()
             }
         }
 
         binding.layoutAdditionSituation.setOnClickListener {
             if (!isSituationToggleVisible) {
-                binding.layoutAdditionSituationClosed.visibility = View.GONE
-                binding.layoutAdditionSituationOpened.visibility = View.VISIBLE
-                isSituationToggleVisible = true
+                openSituationToggle()
+                closeDateToggle()
+                closeMissionToggle()
+                closeActionToggle()
+                closeGoalToggle()
             } else {
-                binding.layoutAdditionSituationClosed.visibility = View.VISIBLE
-                binding.layoutAdditionSituationOpened.visibility = View.GONE
-                isSituationToggleVisible = false
+                closeSituationToggle()
             }
         }
 
         binding.layoutAdditionAction.setOnClickListener {
             if (!isActionToggleVisible) {
-                binding.layoutAdditionActionClosed.visibility = View.GONE
-                binding.layoutAdditionActionOpened.visibility = View.VISIBLE
-                isActionToggleVisible = true
+                openActionToggle()
+                closeDateToggle()
+                closeMissionToggle()
+                closeSituationToggle()
+                closeGoalToggle()
             } else {
-                binding.layoutAdditionActionClosed.visibility = View.VISIBLE
-                binding.layoutAdditionActionOpened.visibility = View.GONE
-                isActionToggleVisible = false
+                closeActionToggle()
             }
         }
 
         binding.layoutAdditionGoal.setOnClickListener {
             if (!isGoalToggleVisible) {
-                binding.layoutAdditionGoalClosed.visibility = View.GONE
-                binding.layoutAdditionGoalOpened.visibility = View.VISIBLE
-                isGoalToggleVisible = true
+                openGoalToggle()
+                closeDateToggle()
+                closeMissionToggle()
+                closeSituationToggle()
+                closeActionToggle()
             } else {
-                binding.layoutAdditionGoalClosed.visibility = View.VISIBLE
-                binding.layoutAdditionGoalOpened.visibility = View.GONE
-                isGoalToggleVisible = false
+                closeGoalToggle()
             }
         }
 
         binding.layoutAdditionDate.setOnClickListener {
             if (!isDateToggleVisible) {
-                binding.layoutAdditionDateClosed.visibility = View.GONE
-                binding.layoutAdditionDateOpened.visibility = View.VISIBLE
-                isDateToggleVisible = true
+                openDateToggle()
+                closeMissionToggle()
+                closeSituationToggle()
+                closeActionToggle()
+                closeGoalToggle()
+
             } else {
-                binding.layoutAdditionDateClosed.visibility = View.VISIBLE
-                binding.layoutAdditionDateOpened.visibility = View.GONE
-                isDateToggleVisible = false
+                closeDateToggle()
             }
         }
+    }
+
+    private fun closeDateToggle() {
+        binding.layoutAdditionDateClosed.visibility = View.VISIBLE
+        binding.layoutAdditionDateOpened.visibility = View.GONE
+        isDateToggleVisible = false
+    }
+
+    private fun openDateToggle() {
+        binding.layoutAdditionDateClosed.visibility = View.GONE
+        binding.layoutAdditionDateOpened.visibility = View.VISIBLE
+        isDateToggleVisible = true
+    }
+
+    private fun closeGoalToggle() {
+        binding.layoutAdditionGoalClosed.visibility = View.VISIBLE
+        binding.layoutAdditionGoalOpened.visibility = View.GONE
+        isGoalToggleVisible = false
+    }
+
+    private fun openGoalToggle() {
+        binding.layoutAdditionGoalClosed.visibility = View.GONE
+        binding.layoutAdditionGoalOpened.visibility = View.VISIBLE
+        isGoalToggleVisible = true
+    }
+
+    private fun openActionToggle() {
+        binding.layoutAdditionActionClosed.visibility = View.GONE
+        binding.layoutAdditionActionOpened.visibility = View.VISIBLE
+        isActionToggleVisible = true
+    }
+
+    private fun closeActionToggle() {
+        binding.layoutAdditionActionClosed.visibility = View.VISIBLE
+        binding.layoutAdditionActionOpened.visibility = View.GONE
+        isActionToggleVisible = false
+    }
+
+    private fun openSituationToggle() {
+        binding.layoutAdditionSituationClosed.visibility = View.GONE
+        binding.layoutAdditionSituationOpened.visibility = View.VISIBLE
+        isSituationToggleVisible = true
+    }
+
+    private fun closeSituationToggle() {
+        binding.layoutAdditionSituationClosed.visibility = View.VISIBLE
+        binding.layoutAdditionSituationOpened.visibility = View.GONE
+        isSituationToggleVisible = false
+    }
+
+    private fun closeMissionToggle() {
+        binding.layoutAdditionMissionClosed.visibility = View.VISIBLE
+        binding.layoutAdditionMissionOpened.visibility = View.GONE
+        isMissionToggleVisible = false
+    }
+
+    private fun openMissionToggle() {
+        binding.layoutAdditionMissionClosed.visibility = View.GONE
+        binding.layoutAdditionMissionOpened.visibility = View.VISIBLE
+        isMissionToggleVisible = true
     }
 
     private fun initSsbs() {
@@ -312,7 +380,7 @@ class AdditionActivity : AppCompatActivity() {
         binding.tvAdditionGoalOpenedDesc.text = goalOpenedDesc
     }
 
-    private fun initRecyclerView(lamda: (String) -> Unit) {
-        binding.rvAdditionMission.adapter = AdditionAdapter(this, lamda)
+    private fun initRecyclerView(lambda: (String) -> Unit) {
+        binding.rvAdditionMission.adapter = AdditionAdapter(this, lambda)
     }
 }
