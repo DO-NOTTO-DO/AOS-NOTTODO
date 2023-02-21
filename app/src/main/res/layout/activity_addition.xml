@@ -71,83 +71,139 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/rectangle_solid_gray1_radius_12"
+                android:background="@drawable/rectangle_solid_gray_1_radius_12"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.514"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view_addition_line">
 
-                <TextView
-                    android:id="@+id/tv_addition_date_title_before"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_addition_date_closed"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="18dp"
-                    android:layout_marginStart="18dp"
-                    android:text="날짜"
-                    android:textAppearance="@style/R14"
-                    android:textColor="@color/gray_7_8e8e93"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tv_addition_date_title_before"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="18dp"
+                        android:layout_marginStart="18dp"
+                        android:text="날짜"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_7_8e8e93"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:text="완료"
+                        android:textColor="@color/gray_4_9398aa"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_addition_date_title_before"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_addition_date_title_before" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_date_start_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="37dp"
+                        android:text="오늘"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_addition_date_title_before"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:text="2023.02.02"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/gray_4_9398aa"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_addition_date_start_desc"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_date_end_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:text="그 외 1일"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/white"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_addition_date"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_date_picker"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_addition_date_opened"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:text="완료"
-                    android:textColor="@color/gray_4_9398aa"
+                    android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
+                    android:paddingHorizontal="18dp"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_addition_date_title_before"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_addition_date_title_before" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/tv_addition_date_start_desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="37dp"
-                    android:text="오늘"
-                    android:textAppearance="@style/M14"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tv_addition_date_title_before"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/tv_addition_date_opened_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="18dp"
+                        android:text="날짜"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/green_1_98ffa9"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_addition_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="7dp"
-                    android:text="2023.02.02"
-                    android:textAppearance="@style/M14"
-                    android:textColor="@color/gray_4_9398aa"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tv_addition_date_start_desc"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/tv_addition_date_opened_complete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="완료"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/gray_4_9398aa"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_addition_date_opened_title" />
 
-                <TextView
-                    android:id="@+id/tv_addition_date_end_desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="7dp"
-                    android:text="그 외 1일"
-                    android:textAppearance="@style/M14"
-                    android:textColor="@color/white"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tv_addition_date"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/tv_addition_date_opened_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="언제 낫투두를 실천할까요?"
+                        android:textAppearance="@style/M20"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/tv_addition_date_opened_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_date_opened_title" />
 
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_date_picker"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -613,41 +669,172 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_addition_action">
 
-                <TextView
-                    android:id="@+id/tv_addition_goal_title"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_addition_goal_closed"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="18dp"
-                    android:layout_marginStart="18dp"
-                    android:text="목표"
-                    android:textAppearance="@style/R14"
-                    android:textColor="@color/gray_7_8e8e93"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_addition_goal_input"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="82dp"
-                    android:text="@string/addition_input"
-                    android:textAppearance="@style/R14"
-                    android:textColor="@color/gray_3_5d5d6b"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iv_addition_goal_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_check"
-                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_addition_goal_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="18dp"
+                        android:layout_marginStart="18dp"
+                        android:text="목표"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_7_8e8e93"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_goal_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="82dp"
+                        android:text="@string/addition_input"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_3_5d5d6b"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_addition_goal_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_check"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_addition_goal_opened"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
+                    android:paddingHorizontal="18dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_addition_goal_opened_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="18dp"
+                        android:text="목표"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/green_1_98ffa9"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_goal_opened_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="13dp"
+                        android:bufferType="spannable"
+                        android:textAppearance="@style/Sb20"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_goal_opened_title" />
+
+                    <EditText
+                        android:id="@+id/et_addition_goal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="37dp"
+                        android:backgroundTint="@color/gray_3_5d5d6b"
+                        android:inputType="text"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_goal_opened_desc" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_goal_text_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0/20"
+                        android:textAppearance="@style/R12"
+                        android:textColor="@color/gray_3_5d5d6b"
+                        app:layout_constraintEnd_toEndOf="@id/et_addition_goal"
+                        app:layout_constraintTop_toBottomOf="@id/et_addition_goal" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_goal_example"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="39dp"
+                        android:text="예시)"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_3_5d5d6b"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/et_addition_goal" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_goal_example_mission_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rectangle_solid_gray_2_radius_50"
+                        android:paddingHorizontal="13dp"
+                        android:paddingVertical="3dp"
+                        android:text="낫투두"
+                        android:textAppearance="@style/R12"
+                        android:textColor="@color/gray_4_9398aa"
+                        app:layout_constraintStart_toStartOf="@id/tv_addition_goal_example"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_goal_example" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_goal_example_mission_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="유튜브 보지 않기"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_4_9398aa"
+                        app:layout_constraintStart_toEndOf="@id/tv_addition_goal_example_mission_title"
+                        app:layout_constraintTop_toTopOf="@id/tv_addition_goal_example_mission_title" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_goal_example_goal_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="48dp"
+                        android:background="@drawable/rectangle_solid_gray_2_radius_50"
+                        android:paddingHorizontal="13dp"
+                        android:paddingVertical="3dp"
+                        android:text="목표"
+                        android:textAppearance="@style/R12"
+                        android:textColor="@color/gray_4_9398aa"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/tv_addition_goal_example_mission_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_goal_example_mission_title" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_goal_example_goal_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="유튜브 프리미엄 구독 취소"
+                        android:textAppearance="@style/R14"
+                        android:textColor="@color/gray_4_9398aa"
+                        app:layout_constraintStart_toEndOf="@id/tv_addition_goal_example_goal_title"
+                        app:layout_constraintTop_toTopOf="@id/tv_addition_goal_example_goal_title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -11,11 +11,12 @@ import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.AdditionAdapter
 
 class AdditionActivity : AppCompatActivity() {
-    lateinit var binding: ActivityAdditionBinding
-    var isMissionToggleVisible: Boolean = false
-    var isSituationToggleVisible: Boolean = false
-    var isActionToggleVisible: Boolean = false
-    var isGoalToggleVisible: Boolean = false
+    private lateinit var binding: ActivityAdditionBinding
+    private var isDateToggleVisible: Boolean = false
+    private var isMissionToggleVisible: Boolean = false
+    private var isSituationToggleVisible: Boolean = false
+    private var isActionToggleVisible: Boolean = false
+    private var isGoalToggleVisible: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +25,6 @@ class AdditionActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initRecyclerView()
-
         initSsbs()
         initToggles()
     }
@@ -63,6 +63,30 @@ class AdditionActivity : AppCompatActivity() {
                 binding.layoutAdditionActionClosed.visibility = View.VISIBLE
                 binding.layoutAdditionActionOpened.visibility = View.GONE
                 isActionToggleVisible = false
+            }
+        }
+
+        binding.layoutAdditionGoal.setOnClickListener {
+            if (!isGoalToggleVisible) {
+                binding.layoutAdditionGoalClosed.visibility = View.GONE
+                binding.layoutAdditionGoalOpened.visibility = View.VISIBLE
+                isGoalToggleVisible = true
+            } else {
+                binding.layoutAdditionGoalClosed.visibility = View.VISIBLE
+                binding.layoutAdditionGoalOpened.visibility = View.GONE
+                isGoalToggleVisible = false
+            }
+        }
+
+        binding.layoutAdditionDate.setOnClickListener {
+            if (!isDateToggleVisible) {
+                binding.layoutAdditionDateClosed.visibility = View.GONE
+                binding.layoutAdditionDateOpened.visibility = View.VISIBLE
+                isDateToggleVisible = true
+            } else {
+                binding.layoutAdditionDateClosed.visibility = View.VISIBLE
+                binding.layoutAdditionDateOpened.visibility = View.GONE
+                isDateToggleVisible = false
             }
         }
     }
@@ -114,6 +138,21 @@ class AdditionActivity : AppCompatActivity() {
             ForegroundColorSpan(getColor(R.color.white)), 18, 26, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         binding.tvAdditionActionOpenedDesc.text = actionOpenedDesc
+
+        val goalOpenedDesc = SpannableStringBuilder("낫투두를 통해서\n어떤 목표를 이루려 하나요?")
+        goalOpenedDesc.setSpan(
+            ForegroundColorSpan(getColor(R.color.white)), 0, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        goalOpenedDesc.setSpan(
+            ForegroundColorSpan(getColor(R.color.green_1_98ffa9)),
+            12,
+            14,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        goalOpenedDesc.setSpan(
+            ForegroundColorSpan(getColor(R.color.white)), 14, 24, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        binding.tvAdditionGoalOpenedDesc.text = goalOpenedDesc
     }
 
     private fun initRecyclerView() {
