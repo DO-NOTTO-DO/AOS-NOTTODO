@@ -12,4 +12,15 @@
     <string name="home_today_month">2023년 1월</string>
     <string name="home_item_list_situation">밥 먹을 때</string>
     <string name="home_item_list_natodo">배민 vip 탈출하기</string>
+    <string name="home_modal_edit">편집</string>
+    <string name="home_dialog_statics">누적\n20회</string>
+    <string name="home_dialog_do_action">실천 행동</string>
+    <string name="home_dialog_do_action_description">배달의 민족 어플 삭제하기\n주 1회 마트에서 장보기\n가계부 쓰기</string>
+    <string name="home_dialog_goal">목표</string>
+    <string name="home_dialog_goal_description">불필요한 지출 줄이기</string>
+    <string name="home_dialog_do_another">다른 날도 할래요</string>
+    <string name="home_dialog_add_day">날짜 선택</string>
+    <string name="home_dialog_delete_btn">삭제하기</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
