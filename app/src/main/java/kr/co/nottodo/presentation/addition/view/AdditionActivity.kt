@@ -5,13 +5,17 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.AdditionAdapter
+import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 
 class AdditionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdditionBinding
+    private val viewModel by viewModels<AdditionViewModel>()
     private var isDateToggleVisible: Boolean = false
     private var isMissionToggleVisible: Boolean = false
     private var isSituationToggleVisible: Boolean = false
@@ -21,12 +25,22 @@ class AdditionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityAdditionBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+        initDataBinding()
         initRecyclerView()
         initSsbs()
         initToggles()
+
+        viewModel.isMissionFilled.observe(this){
+            binding
+        }
+
+        binding.ivAdditionDelete.setOnClickListener { finish() }
+    }
+
+    private fun initDataBinding() {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_addition)
+        binding.vm = viewModel
+        binding.lifecycleOwner = this
     }
 
     private fun initToggles() {
