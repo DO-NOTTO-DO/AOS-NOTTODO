@@ -13,6 +13,7 @@ import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.AdditionAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
+import kr.co.nottodo.util.addButtons
 
 class AdditionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdditionBinding
@@ -36,8 +37,14 @@ class AdditionActivity : AppCompatActivity() {
         observeAction()
         observeGoal()
         setAddButton()
+        setSituationRecommendations()
 
         binding.ivAdditionDelete.setOnClickListener { finish() }
+    }
+
+    private fun setSituationRecommendations() {
+        binding.layoutAdditionSituationRecommend.addButtons(
+            listOf("업무 시간 중", "작업 중", "기상 시간", "공부 시간", "취침 전", "출근 중",), binding.etAdditionSituation)
     }
 
     private fun setAddButton() {
