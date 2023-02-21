@@ -35,8 +35,25 @@ class AdditionActivity : AppCompatActivity() {
         observeSituation()
         observeAction()
         observeGoal()
+        setAddButton()
 
         binding.ivAdditionDelete.setOnClickListener { finish() }
+    }
+
+    private fun setAddButton() {
+        viewModel.isAbleToAdd.observe(this) {
+            if (it == true) {
+                binding.tvAdditionAdd.setTextColor(getColor(R.color.white))
+            } else {
+                binding.tvAdditionAdd.setTextColor(getColor(R.color.gray_3_5d5d6b))
+            }
+        }
+        binding.tvAdditionAdd.setOnClickListener {
+            if (binding.tvAdditionAdd.currentTextColor == getColor(R.color.white))
+            {
+                // 낫투두 추가
+            }
+        }
     }
 
     private fun observeGoal() {
