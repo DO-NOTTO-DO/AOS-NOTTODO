@@ -28,7 +28,7 @@ class AdditionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initDataBinding()
-        initRecyclerView()
+        initRecyclerView(setMissionName)
         initSsbs()
         initToggles()
 
@@ -42,9 +42,15 @@ class AdditionActivity : AppCompatActivity() {
         binding.ivAdditionDelete.setOnClickListener { finish() }
     }
 
+    val setMissionName: (String) -> Unit = { missionName: String ->
+        binding.etAdditionMission.setText(missionName)
+    }
+
     private fun setSituationRecommendations() {
         binding.layoutAdditionSituationRecommend.addButtons(
-            listOf("업무 시간 중", "작업 중", "기상 시간", "공부 시간", "취침 전", "출근 중",), binding.etAdditionSituation)
+            listOf("업무 시간 중", "작업 중", "기상 시간", "공부 시간", "취침 전", "출근 중"),
+            binding.etAdditionSituation
+        )
     }
 
     private fun setAddButton() {
@@ -56,8 +62,7 @@ class AdditionActivity : AppCompatActivity() {
             }
         }
         binding.tvAdditionAdd.setOnClickListener {
-            if (binding.tvAdditionAdd.currentTextColor == getColor(R.color.white))
-            {
+            if (binding.tvAdditionAdd.currentTextColor == getColor(R.color.white)) {
                 // 낫투두 추가
             }
         }
@@ -307,7 +312,7 @@ class AdditionActivity : AppCompatActivity() {
         binding.tvAdditionGoalOpenedDesc.text = goalOpenedDesc
     }
 
-    private fun initRecyclerView() {
-        binding.rvAdditionMission.adapter = AdditionAdapter(this)
+    private fun initRecyclerView(lamda: (String) -> Unit) {
+        binding.rvAdditionMission.adapter = AdditionAdapter(this, lamda)
     }
 }
