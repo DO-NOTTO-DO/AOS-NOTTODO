@@ -33,19 +33,75 @@ class AdditionActivity : AppCompatActivity() {
 
         observeMission()
         observeSituation()
+        observeAction()
+        observeGoal()
 
         binding.ivAdditionDelete.setOnClickListener { finish() }
+    }
+
+    private fun observeGoal() {
+        viewModel.goal.observe(this) {
+            binding.tvAdditionGoalTextCount.text = it.length.toString() + "/20"
+            if (it.isNotBlank()) {
+                binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
+                    this, R.drawable.rectangle_solid_gray_1_radius_12
+                )
+                binding.ivAdditionGoalCheck.visibility = View.VISIBLE
+                binding.tvAdditionGoalClosedChoice.visibility = View.GONE
+                with(binding.tvAdditionGoalInput) {
+                    text = viewModel.goal.value
+                    setTextColor(getColor(R.color.white))
+                }
+
+            } else {
+                binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
+                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                )
+                binding.ivAdditionGoalCheck.visibility = View.GONE
+                binding.tvAdditionGoalClosedChoice.visibility = View.VISIBLE
+                with(binding.tvAdditionGoalInput) {
+                    text = getText(R.string.addition_input)
+                    setTextColor(getColor(R.color.gray_3_5d5d6b))
+                }
+            }
+        }
+    }
+
+    private fun observeAction() {
+        viewModel.action.observe(this) {
+            binding.tvAdditionActionTextCount.text = it.length.toString() + "/20"
+            if (it.isNotBlank()) {
+                binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
+                    this, R.drawable.rectangle_solid_gray_1_radius_12
+                )
+                binding.ivAdditionActionClosedCheck.visibility = View.VISIBLE
+                binding.tvAdditionActionClosedChoice.visibility = View.GONE
+                with(binding.tvAdditionActionClosedInput) {
+                    text = viewModel.action.value
+                    setTextColor(getColor(R.color.white))
+                }
+
+            } else {
+                binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
+                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                )
+                binding.ivAdditionActionClosedCheck.visibility = View.GONE
+                binding.tvAdditionActionClosedChoice.visibility = View.VISIBLE
+                with(binding.tvAdditionActionClosedInput) {
+                    text = getText(R.string.addition_input)
+                    setTextColor(getColor(R.color.gray_3_5d5d6b))
+                }
+            }
+        }
     }
 
     private fun observeSituation() {
         viewModel.situation.observe(this) {
             binding.tvAdditionSituationTextCount.text = it.length.toString() + "/20"
             if (it.isNotBlank()) {
-                binding.layoutAdditionSituationClosed.background =
-                    AppCompatResources.getDrawable(
-                        this,
-                        R.drawable.rectangle_solid_gray_1_radius_12
-                    )
+                binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
+                    this, R.drawable.rectangle_solid_gray_1_radius_12
+                )
                 binding.ivAdditionSituationCheck.visibility = View.VISIBLE
                 with(binding.tvAdditionSituationInput) {
                     text = viewModel.situation.value
@@ -53,11 +109,9 @@ class AdditionActivity : AppCompatActivity() {
                 }
 
             } else {
-                binding.layoutAdditionSituationClosed.background =
-                    AppCompatResources.getDrawable(
-                        this,
-                        R.drawable.rectangle_stroke_gray3_1_radius_12
-                    )
+                binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
+                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                )
                 binding.ivAdditionSituationCheck.visibility = View.GONE
                 with(binding.tvAdditionSituationInput) {
                     text = getText(R.string.addition_input)
@@ -71,11 +125,9 @@ class AdditionActivity : AppCompatActivity() {
         viewModel.mission.observe(this) {
             binding.tvAdditionMissionTextCount.text = it.length.toString() + "/20"
             if (it.isNotBlank()) {
-                binding.layoutAdditionMissionClosed.background =
-                    AppCompatResources.getDrawable(
-                        this,
-                        R.drawable.rectangle_solid_gray_1_radius_12
-                    )
+                binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
+                    this, R.drawable.rectangle_solid_gray_1_radius_12
+                )
                 binding.ivAdditionMissionClosedCheck.visibility = View.VISIBLE
                 with(binding.tvAdditionMissionClosedName) {
                     text = viewModel.mission.value
@@ -85,11 +137,9 @@ class AdditionActivity : AppCompatActivity() {
                 binding.rvAdditionMission.visibility = View.GONE
 
             } else {
-                binding.layoutAdditionMissionClosed.background =
-                    AppCompatResources.getDrawable(
-                        this,
-                        R.drawable.rectangle_stroke_gray3_1_radius_12
-                    )
+                binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
+                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                )
                 binding.ivAdditionMissionClosedCheck.visibility = View.GONE
                 with(binding.tvAdditionMissionClosedName) {
                     text = getText(R.string.addition_input)
@@ -172,10 +222,7 @@ class AdditionActivity : AppCompatActivity() {
     private fun initSsbs() {
         val missionOpenedDesc = SpannableStringBuilder("어떤 낫투두를 설정해볼까요?")
         missionOpenedDesc.setSpan(
-            ForegroundColorSpan(getColor(R.color.white)),
-            0,
-            2,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(getColor(R.color.white)), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         missionOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.green_1_98ffa9)),
@@ -184,10 +231,7 @@ class AdditionActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         missionOpenedDesc.setSpan(
-            ForegroundColorSpan(getColor(R.color.white)),
-            6,
-            15,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(getColor(R.color.white)), 6, 15, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         binding.tvAdditionMissionOpenedDesc.text = missionOpenedDesc
 
@@ -195,10 +239,7 @@ class AdditionActivity : AppCompatActivity() {
             "어떤 상황에서\n낫투두를 실천하고 싶나요?"
         )
         situationOpenedDesc.setSpan(
-            ForegroundColorSpan(getColor(R.color.white)),
-            0,
-            2,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(getColor(R.color.white)), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         situationOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.green_1_98ffa9)),
@@ -207,19 +248,13 @@ class AdditionActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         situationOpenedDesc.setSpan(
-            ForegroundColorSpan(getColor(R.color.white)),
-            5,
-            22,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(getColor(R.color.white)), 5, 22, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         binding.tvAdditionSituationOpenedDesc.text = situationOpenedDesc
 
         val actionOpenedDesc = SpannableStringBuilder("낫투두를 이루기 위해서\n어떤 행동이 필요한가요?")
         actionOpenedDesc.setSpan(
-            ForegroundColorSpan(getColor(R.color.white)),
-            0,
-            16,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(getColor(R.color.white)), 0, 16, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         actionOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.green_1_98ffa9)),
@@ -228,19 +263,13 @@ class AdditionActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         actionOpenedDesc.setSpan(
-            ForegroundColorSpan(getColor(R.color.white)),
-            18,
-            26,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(getColor(R.color.white)), 18, 26, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         binding.tvAdditionActionOpenedDesc.text = actionOpenedDesc
 
         val goalOpenedDesc = SpannableStringBuilder("낫투두를 통해서\n어떤 목표를 이루려 하나요?")
         goalOpenedDesc.setSpan(
-            ForegroundColorSpan(getColor(R.color.white)),
-            0,
-            11,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(getColor(R.color.white)), 0, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         goalOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.green_1_98ffa9)),
@@ -249,10 +278,7 @@ class AdditionActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         goalOpenedDesc.setSpan(
-            ForegroundColorSpan(getColor(R.color.white)),
-            14,
-            24,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(getColor(R.color.white)), 14, 24, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         binding.tvAdditionGoalOpenedDesc.text = goalOpenedDesc
     }
