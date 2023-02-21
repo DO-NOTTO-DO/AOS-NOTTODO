@@ -38,41 +38,36 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeSituation() {
-        viewModel.mission.observe(this) {
-            binding.tvAdditionMissionTextCount.text = it.length.toString() + "/20"
+        viewModel.situation.observe(this) {
+            binding.tvAdditionSituationTextCount.text = it.length.toString() + "/20"
             if (it.isNotBlank()) {
-                binding.layoutAdditionMissionClosed.background =
+                binding.layoutAdditionSituationClosed.background =
                     AppCompatResources.getDrawable(
                         this,
                         R.drawable.rectangle_solid_gray_1_radius_12
                     )
-                binding.ivAdditionMissionClosedCheck.visibility = View.VISIBLE
-                with(binding.tvAdditionMissionClosedName) {
-                    text = viewModel.mission.value
+                binding.ivAdditionSituationCheck.visibility = View.VISIBLE
+                with(binding.tvAdditionSituationInput) {
+                    text = viewModel.situation.value
                     setTextColor(getColor(R.color.white))
                 }
-                binding.tvAdditionMissionRvTitle.visibility = View.GONE
-                binding.rvAdditionMission.visibility = View.GONE
 
             } else {
-                binding.layoutAdditionMissionClosed.background =
+                binding.layoutAdditionSituationClosed.background =
                     AppCompatResources.getDrawable(
                         this,
                         R.drawable.rectangle_stroke_gray3_1_radius_12
                     )
-                binding.ivAdditionMissionClosedCheck.visibility = View.GONE
-                with(binding.tvAdditionMissionClosedName) {
+                binding.ivAdditionSituationCheck.visibility = View.GONE
+                with(binding.tvAdditionSituationInput) {
                     text = getText(R.string.addition_input)
                     setTextColor(getColor(R.color.gray_3_5d5d6b))
                 }
-                binding.tvAdditionMissionRvTitle.visibility = View.VISIBLE
-                binding.rvAdditionMission.visibility = View.VISIBLE
             }
         }
     }
 
     private fun observeMission() {
-        binding.tvAdditionMissionTextCount.text = "0/20"
         viewModel.mission.observe(this) {
             binding.tvAdditionMissionTextCount.text = it.length.toString() + "/20"
             if (it.isNotBlank()) {
