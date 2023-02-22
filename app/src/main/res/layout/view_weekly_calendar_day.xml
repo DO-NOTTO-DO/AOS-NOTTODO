@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="day"
+            type="String" />
+
+        <variable
+            name="day_string"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/tv_weekly_calendar_day_text"
+            style="@style/B12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{day_string}"
+            android:textSize="12sp"
+            tools:text="월"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_weekly_calendar_day"
+            style="@style/B14"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="2dp"
+            android:text="@{day}"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_weekly_calendar_day_text"
+            tools:text="31" />
+
+        <ImageView
+            android:id="@+id/iv_today"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/bg_monthly_calendar_today"
+            app:layout_constraintBottom_toBottomOf="@id/tv_weekly_calendar_day"
+            app:layout_constraintEnd_toEndOf="@id/tv_weekly_calendar_day"
+            app:layout_constraintStart_toStartOf="@id/tv_weekly_calendar_day"
+            app:layout_constraintTop_toTopOf="@id/tv_weekly_calendar_day"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
