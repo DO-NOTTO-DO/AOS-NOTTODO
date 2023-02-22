@@ -14,6 +14,8 @@ fun FlexboxLayout.addButtons(texts: List<String>, editText: EditText) {
         button.text = element
         button.setOnClickListener {
             editText.setText(element)
+            it.context.showKeyboard(it.rootView)
+            editText.requestFocus()
         }
 
         val layoutParams = ViewGroup.MarginLayoutParams(

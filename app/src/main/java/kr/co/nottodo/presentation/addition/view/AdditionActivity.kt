@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.view.KeyEvent
+import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +16,10 @@ import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.AdditionAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 import kr.co.nottodo.util.addButtons
+import kr.co.nottodo.util.hideKeyboard
+import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showToast
+import timber.log.Timber
 
 class AdditionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdditionBinding
@@ -41,6 +46,41 @@ class AdditionActivity : AppCompatActivity() {
 
         setAddButton()
         setFinishButton()
+
+        Timber.e("789")
+
+
+        binding.etAdditionMission.setOnKeyListener { view, keyCode, keyEvent ->
+            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+                closeMissionToggle()
+                hideKeyboard(binding.root)
+            }
+            return@setOnKeyListener false
+        }
+
+        binding.etAdditionSituation.setOnKeyListener { view, keyCode, keyEvent ->
+            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+                closeSituationToggle()
+                hideKeyboard(binding.root)
+            }
+            return@setOnKeyListener false
+        }
+
+        binding.etAdditionAction.setOnKeyListener { view, keyCode, keyEvent ->
+            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+                closeActionToggle()
+                hideKeyboard(binding.root)
+            }
+            return@setOnKeyListener false
+        }
+
+        binding.etAdditionGoal.setOnKeyListener { view, keyCode, keyEvent ->
+            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+                closeActionToggle()
+                hideKeyboard(binding.root)
+            }
+            return@setOnKeyListener false
+        }
     }
 
     private fun setFinishButton() {
@@ -50,6 +90,8 @@ class AdditionActivity : AppCompatActivity() {
 
     private val setMissionName: (String) -> Unit = { missionName: String ->
         binding.etAdditionMission.setText(missionName)
+        this.showKeyboard(binding.root)
+        binding.etAdditionMission.requestFocus()
     }
 
     private fun setSituationRecommendations() {
