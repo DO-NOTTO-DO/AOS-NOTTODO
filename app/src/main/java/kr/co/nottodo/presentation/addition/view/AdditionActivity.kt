@@ -236,7 +236,7 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun initToggles() {
-        binding.layoutAdditionMission.setOnClickListener {
+        binding.layoutAdditionMissionClosed.setOnClickListener {
             if (!isMissionToggleVisible) {
                 openMissionToggle()
                 closeDateToggle()
@@ -248,7 +248,7 @@ class AdditionActivity : AppCompatActivity() {
             }
         }
 
-        binding.layoutAdditionSituation.setOnClickListener {
+        binding.layoutAdditionSituationClosed.setOnClickListener {
             if (!isSituationToggleVisible) {
                 openSituationToggle()
                 closeDateToggle()
@@ -260,7 +260,7 @@ class AdditionActivity : AppCompatActivity() {
             }
         }
 
-        binding.layoutAdditionAction.setOnClickListener {
+        binding.layoutAdditionActionClosed.setOnClickListener {
             if (!isActionToggleVisible) {
                 openActionToggle()
                 closeDateToggle()
@@ -272,7 +272,7 @@ class AdditionActivity : AppCompatActivity() {
             }
         }
 
-        binding.layoutAdditionGoal.setOnClickListener {
+        binding.layoutAdditionGoalClosed.setOnClickListener {
             if (!isGoalToggleVisible) {
                 openGoalToggle()
                 closeDateToggle()
@@ -284,7 +284,7 @@ class AdditionActivity : AppCompatActivity() {
             }
         }
 
-        binding.layoutAdditionDate.setOnClickListener {
+        binding.layoutAdditionDateClosed.setOnClickListener {
             if (!isDateToggleVisible) {
                 openDateToggle()
                 closeMissionToggle()
@@ -295,6 +295,10 @@ class AdditionActivity : AppCompatActivity() {
             } else {
                 closeDateToggle()
             }
+        }
+
+        binding.tvAdditionDateOpenedComplete.setOnClickListener {
+            closeDateToggle()
         }
     }
 
