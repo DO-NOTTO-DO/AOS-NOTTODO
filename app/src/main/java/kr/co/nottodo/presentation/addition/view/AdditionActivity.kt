@@ -19,7 +19,6 @@ import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showToast
-import timber.log.Timber
 
 class AdditionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdditionBinding
@@ -36,7 +35,7 @@ class AdditionActivity : AppCompatActivity() {
         initDataBinding()
         initRecyclerView(setMissionName)
         setSituationRecommendations()
-        initSsbs()
+        initOpenedDesc()
         initToggles()
 
         observeMission()
@@ -47,10 +46,7 @@ class AdditionActivity : AppCompatActivity() {
         setAddButton()
         setFinishButton()
 
-        Timber.e("789")
-
-
-        binding.etAdditionMission.setOnKeyListener { view, keyCode, keyEvent ->
+        binding.etAdditionMission.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
                 closeMissionToggle()
                 hideKeyboard(binding.root)
@@ -58,7 +54,7 @@ class AdditionActivity : AppCompatActivity() {
             return@setOnKeyListener false
         }
 
-        binding.etAdditionSituation.setOnKeyListener { view, keyCode, keyEvent ->
+        binding.etAdditionSituation.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
                 closeSituationToggle()
                 hideKeyboard(binding.root)
@@ -66,7 +62,7 @@ class AdditionActivity : AppCompatActivity() {
             return@setOnKeyListener false
         }
 
-        binding.etAdditionAction.setOnKeyListener { view, keyCode, keyEvent ->
+        binding.etAdditionAction.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
                 closeActionToggle()
                 hideKeyboard(binding.root)
@@ -74,9 +70,9 @@ class AdditionActivity : AppCompatActivity() {
             return@setOnKeyListener false
         }
 
-        binding.etAdditionGoal.setOnKeyListener { view, keyCode, keyEvent ->
+        binding.etAdditionGoal.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
-                closeActionToggle()
+                closeGoalToggle()
                 hideKeyboard(binding.root)
             }
             return@setOnKeyListener false
@@ -96,8 +92,7 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun setSituationRecommendations() {
         binding.layoutAdditionSituationRecommend.addButtons(
-            listOf("업무 시간 중", "작업 중", "기상 시간", "공부 시간", "취침 전", "출근 중"),
-            binding.etAdditionSituation
+            listOf("업무 시간 중", "작업 중", "기상 시간", "공부 시간", "취침 전", "출근 중"), binding.etAdditionSituation
         )
     }
 
@@ -119,7 +114,7 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun observeGoal() {
         viewModel.goal.observe(this) {
-            binding.tvAdditionGoalTextCount.text = it.length.toString() + "/20"
+            binding.tvAdditionGoalTextCount.text = it.length.toString() + maxTextSize
             if (it.isNotBlank()) {
                 binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
@@ -147,7 +142,7 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun observeAction() {
         viewModel.action.observe(this) {
-            binding.tvAdditionActionTextCount.text = it.length.toString() + "/20"
+            binding.tvAdditionActionTextCount.text = it.length.toString() + maxTextSize
             if (it.isNotBlank()) {
                 binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
@@ -175,7 +170,7 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun observeSituation() {
         viewModel.situation.observe(this) {
-            binding.tvAdditionSituationTextCount.text = it.length.toString() + "/20"
+            binding.tvAdditionSituationTextCount.text = it.length.toString() + maxTextSize
             if (it.isNotBlank()) {
                 binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
@@ -201,7 +196,7 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun observeMission() {
         viewModel.mission.observe(this) {
-            binding.tvAdditionMissionTextCount.text = it.length.toString() + "/20"
+            binding.tvAdditionMissionTextCount.text = it.length.toString() + maxTextSize
             if (it.isNotBlank()) {
                 binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
@@ -362,8 +357,8 @@ class AdditionActivity : AppCompatActivity() {
         isMissionToggleVisible = true
     }
 
-    private fun initSsbs() {
-        val missionOpenedDesc = SpannableStringBuilder("어떤 낫투두를 설정해볼까요?")
+    private fun initOpenedDesc() {
+        val missionOpenedDesc = SpannableStringBuilder(missionOpenedDesc)
         missionOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.white)), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
@@ -379,7 +374,7 @@ class AdditionActivity : AppCompatActivity() {
         binding.tvAdditionMissionOpenedDesc.text = missionOpenedDesc
 
         val situationOpenedDesc = SpannableStringBuilder(
-            "어떤 상황에서\n낫투두를 실천하고 싶나요?"
+            situationOpenedDesc
         )
         situationOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.white)), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -395,7 +390,7 @@ class AdditionActivity : AppCompatActivity() {
         )
         binding.tvAdditionSituationOpenedDesc.text = situationOpenedDesc
 
-        val actionOpenedDesc = SpannableStringBuilder("낫투두를 이루기 위해서\n어떤 행동이 필요한가요?")
+        val actionOpenedDesc = SpannableStringBuilder(actionOpenedDesc)
         actionOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.white)), 0, 16, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
@@ -410,7 +405,7 @@ class AdditionActivity : AppCompatActivity() {
         )
         binding.tvAdditionActionOpenedDesc.text = actionOpenedDesc
 
-        val goalOpenedDesc = SpannableStringBuilder("낫투두를 통해서\n어떤 목표를 이루려 하나요?")
+        val goalOpenedDesc = SpannableStringBuilder(goalOpenedDesc)
         goalOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.white)), 0, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
@@ -428,5 +423,13 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun initRecyclerView(lambda: (String) -> Unit) {
         binding.rvAdditionMission.adapter = AdditionAdapter(this, lambda)
+    }
+
+    companion object {
+        const val maxTextSize = "/20"
+        const val missionOpenedDesc = "어떤 낫투두를 설정해볼까요?"
+        const val situationOpenedDesc = "어떤 상황에서\n낫투두를 실천하고 싶나요?"
+        const val actionOpenedDesc = "낫투두를 이루기 위해서\n어떤 행동이 필요한가요?"
+        const val goalOpenedDesc = "낫투두를 통해서\n어떤 목표를 이루려 하나요?"
     }
 }
