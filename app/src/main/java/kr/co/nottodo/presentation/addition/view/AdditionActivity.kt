@@ -7,6 +7,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.KeyEvent
 import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.View
+import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -87,6 +88,7 @@ class AdditionActivity : AppCompatActivity() {
     private val setMissionName: (String) -> Unit = { missionName: String ->
         binding.etAdditionMission.setText(missionName)
         binding.etAdditionMission.requestFocus()
+        binding.etAdditionMission.setSelection(binding.etAdditionMission.length())
         this.showKeyboard(binding.etAdditionMission)
     }
 
@@ -315,16 +317,24 @@ class AdditionActivity : AppCompatActivity() {
         isGoalToggleVisible = false
     }
 
+    private fun requestFocusWithShowingKeyboard(editText: EditText) {
+        editText.requestFocus()
+        editText.setSelection(editText.length())
+        showKeyboard(editText)
+    }
+
     private fun openGoalToggle() {
         binding.layoutAdditionGoalClosed.visibility = View.GONE
         binding.layoutAdditionGoalOpened.visibility = View.VISIBLE
         isGoalToggleVisible = true
+        requestFocusWithShowingKeyboard(binding.etAdditionGoal)
     }
 
     private fun openActionToggle() {
         binding.layoutAdditionActionClosed.visibility = View.GONE
         binding.layoutAdditionActionOpened.visibility = View.VISIBLE
         isActionToggleVisible = true
+        requestFocusWithShowingKeyboard(binding.etAdditionAction)
     }
 
     private fun closeActionToggle() {
@@ -337,6 +347,7 @@ class AdditionActivity : AppCompatActivity() {
         binding.layoutAdditionSituationClosed.visibility = View.GONE
         binding.layoutAdditionSituationOpened.visibility = View.VISIBLE
         isSituationToggleVisible = true
+        requestFocusWithShowingKeyboard(binding.etAdditionSituation)
     }
 
     private fun closeSituationToggle() {
@@ -355,6 +366,7 @@ class AdditionActivity : AppCompatActivity() {
         binding.layoutAdditionMissionClosed.visibility = View.GONE
         binding.layoutAdditionMissionOpened.visibility = View.VISIBLE
         isMissionToggleVisible = true
+        requestFocusWithShowingKeyboard(binding.etAdditionMission)
     }
 
     private fun initOpenedDesc() {

@@ -15,6 +15,7 @@ fun FlexboxLayout.addButtons(texts: List<String>, editText: EditText) {
         button.setOnClickListener {
             editText.setText(element)
             editText.requestFocus()
+            editText.setSelection(editText.length())
             it.context.showKeyboard(editText)
         }
 
