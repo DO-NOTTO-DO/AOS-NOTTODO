@@ -32,13 +32,13 @@ class AdditionAdapter(
 
     class AdditionViewHolder(
         private val binding: ItemAdditionMissionHistoryBinding,
-        val lamda: (String) -> Unit,
+        private val lambda: (String) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(missionHistory: List<String>, position: Int) {
             with(binding.tvAdditionMissionRvItem) {
                 text = missionHistory[position]
                 setOnClickListener {
-                    lamda.invoke(missionHistory[position])
+                    lambda.invoke(missionHistory[position])
                 }
             }
         }
