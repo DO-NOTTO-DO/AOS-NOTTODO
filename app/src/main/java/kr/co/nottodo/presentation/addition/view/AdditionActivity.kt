@@ -86,8 +86,8 @@ class AdditionActivity : AppCompatActivity() {
 
     private val setMissionName: (String) -> Unit = { missionName: String ->
         binding.etAdditionMission.setText(missionName)
-        this.showKeyboard(binding.root)
         binding.etAdditionMission.requestFocus()
+        this.showKeyboard(binding.etAdditionMission)
     }
 
     private fun setSituationRecommendations() {

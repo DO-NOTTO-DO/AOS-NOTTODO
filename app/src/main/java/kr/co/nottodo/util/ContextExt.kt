@@ -24,7 +24,7 @@ fun Context.hideKeyboard(view: View) {
 /** show keyboard from window */
 fun Context.showKeyboard(view: View) {
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputMethodManager.showSoftInput(view.rootView, 0)
+    inputMethodManager.showSoftInput(view, 0)
 }
 
 /** Make a Snackbar to display a message for 2 seconds */
