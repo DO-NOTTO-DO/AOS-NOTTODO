@@ -433,8 +433,8 @@ class AdditionActivity : AppCompatActivity() {
         binding.tvAdditionGoalOpenedDesc.text = goalOpenedDesc
     }
 
-    private fun initRecyclerView(lambda: (String) -> Unit) {
-        binding.rvAdditionMission.adapter = AdditionAdapter(this, lambda)
+    private fun initRecyclerView(setMissionName: (String) -> Unit) {
+        binding.rvAdditionMission.adapter = AdditionAdapter(this, setMissionName)
     }
 
     companion object {
