@@ -9,6 +9,7 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kr.co.nottodo.MainActivity
+import kr.co.nottodo.data.remote.model.RequestTokenDto
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
 import timber.log.Timber
@@ -28,6 +29,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         setKakaoLogin()
+        viewModel.getTokenResult.observe(this) {
+            Timber.e(it.data.accessToken)
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
     }
 
     private fun setKakaoLogin() {
@@ -38,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
                 Timber.i("로그인 성공 ${token.accessToken}")
                 Timber.i(token.accessToken)
                 // 서버에 토큰 달라고 요청
+                viewModel.getToken(RequestTokenDto(token.accessToken, KAKAO, "123"))
             }
         }
         binding.btnLoginKakao.setOnClickListener {
@@ -72,4 +79,9 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
+    companion object {
+        const val KAKAO: String = "kakao"
+    }
+
 }
