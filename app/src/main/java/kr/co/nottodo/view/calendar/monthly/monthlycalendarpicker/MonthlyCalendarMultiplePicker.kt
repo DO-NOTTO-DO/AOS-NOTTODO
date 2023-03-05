@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ViewCalendarWeekDescriptionBinding
-import kr.co.nottodo.util.extension.dpToPx
 import kr.co.nottodo.view.NoRippleRecyclerView
 import kr.co.nottodo.view.calendar.monthly.model.DAY_COLUMN_COUNT
 import kr.co.nottodo.view.calendar.monthly.model.DateType
@@ -29,6 +28,9 @@ import kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker.listener.Monthl
 import kr.co.nottodo.view.calendar.monthly.util.*
 import java.util.*
 
+// TODO 이론상 일단 여기가 다른 날도 할래요에서 사용하는 뷰!
+// TODO 여긴 1. 일주일 로직, 2. 디자인 변경하면 끝임!
+// TODO 같은 일자 2번 터치시 선택 해제, 날짜 다중 선택가능
 class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -37,11 +39,9 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
 
     private val timeZone = TimeZone.getDefault()
     private val locale = Locale.KOREA
-    val selectedDays = mutableListOf<Date>()
-    private var monthlyCalendarPickerClickListener: MonthlyCalendarPickerClickListener? = null
-    private val monthlyCalendarMultiplePickerDayAdapter =
-        MonthlyCalendarMultiplePickerDayAdapter(this)
     private val calendar = Calendar.getInstance(timeZone, locale)
+
+    val selectedDays = mutableListOf<Date>()
     private var calendarDataList: List<MonthlyCalendarDay> = listOf()
     private var currentDate = calendar.toPrettyMonthString(locale = locale)
         set(value) {
@@ -49,13 +49,20 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
             updateCurrentDateTextView()
         }
 
-    private val currentDateTextView = TextView(context, null, R.style.B18).apply {
+    /** Calendar Adapter **/
+    private val monthlyCalendarMultiplePickerDayAdapter =
+        MonthlyCalendarMultiplePickerDayAdapter(this)
+
+    /** Listener **/
+    private var monthlyCalendarPickerClickListener: MonthlyCalendarPickerClickListener? = null
+
+    private val currentDateTextView = TextView(context, null, R.style.M18).apply {
         id = ViewCompat.generateViewId()
         text = currentDate
         layoutParams =
             LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
-        setTextColor(ContextCompat.getColor(context, R.color.black_2a292d))
+        setTextColor(ContextCompat.getColor(context, R.color.black))
         typeface = ResourcesCompat.getFont(context, R.font.pretendard_semibold)
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18f)
     }
@@ -180,6 +187,7 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
         val totalDayInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
         val monthlyCalendarDayList = mutableListOf<MonthlyCalendarDay>()
         (1..totalDayInMonth).forEach { day ->
+            // TODO 여기서 일주일만 되는거 계산만 해주면 됩니다!!!
             proxyCalendar.set(Calendar.DAY_OF_MONTH, day)
             val dayOfWeek = proxyCalendar.get(Calendar.DAY_OF_WEEK)
             val dateType = if (proxyCalendar.isBeforeCalendar(todayCalendar)) {

@@ -39,7 +39,7 @@
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="@{day_item.label}"
-            android:textColor="@color/black_2a292d"
+            android:textColor="@color/black"
             android:textSize="12dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

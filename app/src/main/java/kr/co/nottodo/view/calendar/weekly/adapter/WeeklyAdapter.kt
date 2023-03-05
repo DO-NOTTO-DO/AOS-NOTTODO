@@ -1,21 +1,20 @@
-package kr.co.nottodo.view.calendar.weekly
+package kr.co.nottodo.view.calendar.weekly.adapter
 
 import android.annotation.SuppressLint
-import android.text.format.DateUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ViewWeeklyCalendarDayBinding
-import kr.co.nottodo.view.calendar.monthly.model.MonthlyCalendarDay
-import kr.co.nottodo.view.calendar.monthly.util.isTheSameDay
+import kr.co.nottodo.view.calendar.weekly.viewholder.WeeklyViewHolder
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyDayClickListener
-import java.math.RoundingMode.valueOf
 import java.time.LocalDate
 import java.util.*
 
+// TODO : 오늘 날짜는 . 으로 표시해줌
+// TODO : 선택 날짜는 라운딩 표시
+// 일단 ui적으로는 이렇고 더 봐야할 듯?
 class WeeklyAdapter(
     private val onWeeklyDayClickListener: OnWeeklyDayClickListener
 ) : RecyclerView.Adapter<WeeklyViewHolder>() {
@@ -42,12 +41,13 @@ class WeeklyAdapter(
     override fun onBindViewHolder(holder: WeeklyViewHolder, position: Int) {
         notToDoCountList.indexOfLast {
             it.first?.isEqual(weeklyDays[position]) == true
-        }.also {
-            if (it != -1) {
+        }.also { index ->
+            val isContainNotToDoCount = index != -1
+            if (isContainNotToDoCount) {
                 if (selectedDay.isEqual(weeklyDays[position])) {
-                    holder.onSelectedNotToDoBind(weeklyDays[position],notToDoCountList[it].second)
+                    holder.onSelectedNotToDoBind(weeklyDays[position],notToDoCountList[index].second)
                 } else {
-                    holder.onNotToDoBind(weeklyDays[position],notToDoCountList[it].second)
+                    holder.onNotToDoBind(weeklyDays[position],notToDoCountList[index].second)
                 }
             } else {
                 if (selectedDay.isEqual(weeklyDays[position])) {

@@ -24,4 +24,8 @@
     <color name="red_ff6464">#ff6464</color>
     <!--blue-->
     <color name="blue_5756ce">#5756ce</color>
+
+    <color name="yellow_mild_fbf8af">#fbf8af</color>
+    <color name="yellow_basic_fef652">#fef652</color>
+    <color name="yellow_deep_ffe600">#ffe600</color>
 </resources>

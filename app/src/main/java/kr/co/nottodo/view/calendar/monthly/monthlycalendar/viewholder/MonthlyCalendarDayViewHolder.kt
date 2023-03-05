@@ -18,7 +18,7 @@ class MonthlyCalendarDayViewHolder(
         if (data is MonthlyCalendarDay.DayMonthly) {
             dayData = data
             binding.apply {
-                ivToday.visibility =
+                ivSelectDay.visibility =
                     if (DateUtils.isToday(data.date.time)) View.VISIBLE else View.GONE
                 dayItem = data
                 executePendingBindings()
@@ -62,7 +62,7 @@ class MonthlyCalendarDayViewHolder(
                         ivNotToDo.visibility = View.GONE
                     }
                 }
-                ivToday.visibility =
+                ivSelectDay.visibility =
                     if (DateUtils.isToday(data.date.time)) View.VISIBLE else View.GONE
                 dayItem = data
             }

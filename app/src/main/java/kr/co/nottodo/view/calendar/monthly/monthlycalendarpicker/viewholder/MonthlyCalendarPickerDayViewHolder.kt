@@ -53,10 +53,10 @@ class MonthlyCalendarPickerDayViewHolder(
                 binding.root.context,
                 when (state) {
                     DateType.WEEKDAY, DateType.WEEKEND -> {
-                        R.color.black_2a292d
+                        R.color.black
                     }
                     DateType.DISABLED -> {
-                        R.color.gray_4_d7d7d8
+                        R.color.gray_7_8e8e93
                     }
                 }
             )

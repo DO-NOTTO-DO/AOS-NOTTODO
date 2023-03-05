@@ -62,7 +62,6 @@ class MonthlyCalendar @JvmOverloads constructor(
     private val borderColor = ContextCompat.getColor(context, R.color.gray_7_8e8e93)
     private val borderWidth = context.dpToPx(1)
 
-
     private var monthlyCalendarNextMonthListener: MonthlyCalendarNextMonthListener? = null
     private var monthlyCalendarPrevMonthListener: MonthlyCalendarPrevMonthListener? = null
 

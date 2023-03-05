@@ -10,50 +10,65 @@
             type="String" />
 
         <variable
-            name="day_string"
+            name="day_of_week"
             type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="wrap_content"
+        android:background="@color/gray_1_2a2a2e">
 
         <TextView
-            android:id="@+id/tv_weekly_calendar_day_text"
-            style="@style/B12"
+            android:id="@+id/tv_weekly_calendar_day_of_week"
+            style="@style/M14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{day_string}"
-            android:textSize="12sp"
+            android:text="@{day_of_week}"
+            android:textColor="@color/white"
             tools:text="월"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@id/tv_weekly_calendar_day"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/tv_weekly_calendar_day"
-            style="@style/B14"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginTop="2dp"
+            style="@style/M14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@{day}"
             android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_weekly_calendar_day_text"
+            app:layout_constraintTop_toBottomOf="@id/tv_weekly_calendar_day_of_week"
             tools:text="31" />
 
         <ImageView
-            android:id="@+id/iv_today"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@drawable/bg_monthly_calendar_today"
-            app:layout_constraintBottom_toBottomOf="@id/tv_weekly_calendar_day"
-            app:layout_constraintEnd_toEndOf="@id/tv_weekly_calendar_day"
-            app:layout_constraintStart_toStartOf="@id/tv_weekly_calendar_day"
-            app:layout_constraintTop_toTopOf="@id/tv_weekly_calendar_day"
-            tools:visibility="visible" />
+            android:id="@+id/iv_today_bullet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_weekly_today_bullet"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintStart_toStartOf="@id/tv_weekly_calendar_day_of_week"
+            app:layout_constraintEnd_toEndOf="@id/tv_weekly_calendar_day_of_week"
+            app:layout_constraintBottom_toTopOf="@id/tv_weekly_calendar_day_of_week"/>
 
+        <ImageView
+            android:id="@+id/iv_select_day_background"
+            android:layout_width="48dp"
+            android:layout_height="0dp"
+            android:src="@drawable/bg_weekly_calendar_selector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

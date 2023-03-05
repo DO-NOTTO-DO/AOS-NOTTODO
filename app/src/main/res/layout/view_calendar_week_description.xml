@@ -13,9 +13,9 @@
         android:includeFontPadding="false"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:text="@string/calendar_week_description_sun"
+        android:text="일"
         android:textAlignment="center"
-        android:textColor="@color/gray_2_8e8e93" />
+        android:textColor="@color/gray_7_8e8e93" />
 
     <TextView
         style="@style/M12"
@@ -25,9 +25,9 @@
         android:includeFontPadding="false"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:text="@string/calendar_week_description_mon"
+        android:text="월"
         android:textAlignment="center"
-        android:textColor="@color/gray_2_8e8e93" />
+        android:textColor="@color/gray_7_8e8e93" />
 
     <TextView
         style="@style/M12"
@@ -37,9 +37,9 @@
         android:includeFontPadding="false"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:text="@string/calendar_week_description_tue"
+        android:text="화"
         android:textAlignment="center"
-        android:textColor="@color/gray_2_8e8e93" />
+        android:textColor="@color/gray_7_8e8e93" />
 
     <TextView
         style="@style/M12"
@@ -49,9 +49,9 @@
         android:includeFontPadding="false"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:text="@string/calendar_week_description_wed"
+        android:text="수"
         android:textAlignment="center"
-        android:textColor="@color/gray_2_8e8e93" />
+        android:textColor="@color/gray_7_8e8e93" />
 
     <TextView
         style="@style/M12"
@@ -61,9 +61,9 @@
         android:includeFontPadding="false"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:text="@string/calendar_week_description_thu"
+        android:text="목"
         android:textAlignment="center"
-        android:textColor="@color/gray_2_8e8e93" />
+        android:textColor="@color/gray_7_8e8e93" />
 
     <TextView
         style="@style/M12"
@@ -73,9 +73,9 @@
         android:includeFontPadding="false"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:text="@string/calendar_week_description_fri"
+        android:text="금"
         android:textAlignment="center"
-        android:textColor="@color/gray_2_8e8e93" />
+        android:textColor="@color/gray_7_8e8e93" />
 
     <TextView
         style="@style/M12"
@@ -85,7 +85,7 @@
         android:includeFontPadding="false"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:text="@string/calendar_week_description_sat"
+        android:text="토"
         android:textAlignment="center"
-        android:textColor="@color/gray_2_8e8e93" />
+        android:textColor="@color/gray_7_8e8e93" />
 </LinearLayout>

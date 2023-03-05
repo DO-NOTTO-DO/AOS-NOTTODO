@@ -20,12 +20,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ViewCalendarWeekDescriptionBinding
-import kr.co.nottodo.util.extension.dpToPx
 import kr.co.nottodo.view.NoRippleRecyclerView
 import kr.co.nottodo.view.calendar.monthly.model.*
 import kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker.adapter.MonthlyCalendarPickerDayAdapter
 import kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker.listener.MonthlyCalendarPickerClickListener
-import kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker.type.CalendarPickerType
 import kr.co.nottodo.view.calendar.monthly.util.*
 import java.util.*
 
@@ -35,6 +33,9 @@ import java.util.*
  * No Swipe Effection MonthlyCalendar
  *
  * 생성 뷰에서 사용합니다.
+ *
+ * // TODO 여긴 1. 일주일 로직, 2. 디자인 변경하면 끝임!
+// TODO 같은 일자 2번 터치시 선택 해제, 날짜 다중 선택가능
  *
  *
  */
@@ -56,13 +57,13 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
             updateCurrentDateTextView()
         }
 
-    private val currentDateTextView = TextView(context, null, R.style.B18).apply {
+    private val currentDateTextView = TextView(context, null, R.style.M18).apply {
         id = ViewCompat.generateViewId()
         text = currentDate
         layoutParams =
             LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
-        setTextColor(ContextCompat.getColor(context, R.color.black_2a292d))
+        setTextColor(ContextCompat.getColor(context, R.color.black))
         typeface = ResourcesCompat.getFont(context,R.font.pretendard_semibold)
         setTextSize(TypedValue.COMPLEX_UNIT_DIP,18f)
     }

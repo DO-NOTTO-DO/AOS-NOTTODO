@@ -32,7 +32,7 @@
             tools:src="@drawable/bg_monthly_calendar_not_to_do_2" />
 
         <ImageView
-            android:id="@+id/iv_today"
+            android:id="@+id/iv_select_day"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/bg_monthly_calendar_today"
@@ -50,7 +50,7 @@
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="@{day_item.label}"
-            android:textColor="@color/black_2a292d"
+            android:textColor="@color/black"
             android:textSize="12dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
