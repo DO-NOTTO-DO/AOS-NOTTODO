@@ -6,6 +6,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface TokenService {
-    @POST
+    @POST("auth")
     suspend fun getToken(@Body request: RequestTokenDto): ResponseTokenDto
 }
