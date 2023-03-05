@@ -12,6 +12,7 @@ import kr.co.nottodo.MainActivity
 import kr.co.nottodo.data.remote.model.RequestTokenDto
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
+import kr.co.nottodo.util.showToast
 import timber.log.Timber
 
 class LoginActivity : AppCompatActivity() {
@@ -30,19 +31,20 @@ class LoginActivity : AppCompatActivity() {
 
         setKakaoLogin()
         viewModel.getTokenResult.observe(this) {
-            Timber.e(it.data.accessToken)
             startActivity(Intent(this, MainActivity::class.java))
             finish()
+        }
+        viewModel.getErrorResult.observe(this) {
+            UserApiClient.instance.logout { showToast(it.toString()) }
         }
     }
 
     private fun setKakaoLogin() {
         val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
-                Timber.e("로그인 실패", error)
+                Timber.e("로그인 실패 $error")
             } else if (token != null) {
                 Timber.i("로그인 성공 ${token.accessToken}")
-                Timber.i(token.accessToken)
                 // 서버에 토큰 달라고 요청
                 viewModel.getToken(RequestTokenDto(token.accessToken, KAKAO, "123"))
             }
@@ -68,6 +70,7 @@ class LoginActivity : AppCompatActivity() {
                     // 로그인 성공 부분
                     else if (token != null) {
                         Timber.e("로그인 성공 ${token.accessToken}")
+                        viewModel.getToken(RequestTokenDto(token.accessToken, KAKAO, "123"))
                     }
                 }
             } else {
