@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
         viewModel.getErrorResult.observe(this) {
-            UserApiClient.instance.logout { showToast(it.toString()) }
+            UserApiClient.instance.logout { showToast("오류 발생, 다시 로그인 해주세요. 사유: ${it.toString()}") }
         }
     }
 
