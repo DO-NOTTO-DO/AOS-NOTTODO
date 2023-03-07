@@ -14,7 +14,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ActivityAdditionBinding
-import kr.co.nottodo.presentation.addition.adapter.AdditionAdapter
+import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.hideKeyboard
@@ -434,7 +434,7 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView(setMissionName: (String) -> Unit) {
-        binding.rvAdditionMission.adapter = AdditionAdapter(this, setMissionName)
+        binding.rvAdditionMission.adapter = MissionHistoryAdapter(this, setMissionName)
     }
 
     companion object {
