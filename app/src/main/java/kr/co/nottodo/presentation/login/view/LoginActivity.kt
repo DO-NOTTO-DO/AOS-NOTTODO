@@ -30,6 +30,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
         setKakaoLogin()
+        observeGetTokenResult()
+    }
+
+    private fun observeGetTokenResult() {
         viewModel.getTokenResult.observe(this) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
