@@ -15,7 +15,6 @@ import androidx.databinding.DataBindingUtil
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ActivityModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
-import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 import kr.co.nottodo.presentation.modification.viewmodel.ModificationViewModel
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.hideKeyboard
@@ -47,7 +46,10 @@ class ModificationActivity : AppCompatActivity() {
 
         setAddButton()
         setFinishButton()
+        setEnterKey()
+    }
 
+    private fun setEnterKey() {
         binding.etModificationMission.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
                 closeMissionToggle()
@@ -95,7 +97,8 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun setSituationRecommendations() {
         binding.layoutModificationSituationRecommend.addButtons(
-            listOf("업무 시간 중", "작업 중", "기상 시간", "공부 시간", "취침 전", "출근 중"), binding.etModificationSituation
+            listOf("업무 시간 중", "작업 중", "기상 시간", "공부 시간", "취침 전", "출근 중"),
+            binding.etModificationSituation
         )
     }
 
@@ -110,7 +113,7 @@ class ModificationActivity : AppCompatActivity() {
         binding.tvModificationAdd.setOnClickListener {
             if (binding.tvModificationAdd.currentTextColor == getColor(R.color.white)) {
                 // 낫투두 추가
-                this.showToast("낫투두 추가 완료")
+                this.showToast("낫투두 수정 완료")
             }
         }
     }
@@ -175,9 +178,10 @@ class ModificationActivity : AppCompatActivity() {
         viewModel.situation.observe(this) {
             binding.tvModificationSituationTextCount.text = it.length.toString() + maxTextSize
             if (it.isNotBlank()) {
-                binding.layoutModificationSituationClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_solid_gray_1_radius_12
-                )
+                binding.layoutModificationSituationClosed.background =
+                    AppCompatResources.getDrawable(
+                        this, R.drawable.rectangle_solid_gray_1_radius_12
+                    )
                 binding.ivModificationSituationCheck.visibility = View.VISIBLE
                 with(binding.tvModificationSituationInput) {
                     text = viewModel.situation.value
@@ -185,9 +189,10 @@ class ModificationActivity : AppCompatActivity() {
                 }
 
             } else {
-                binding.layoutModificationSituationClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
-                )
+                binding.layoutModificationSituationClosed.background =
+                    AppCompatResources.getDrawable(
+                        this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    )
                 binding.ivModificationSituationCheck.visibility = View.GONE
                 with(binding.tvModificationSituationInput) {
                     text = getText(R.string.addition_input)

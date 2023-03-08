@@ -46,7 +46,10 @@ class AdditionActivity : AppCompatActivity() {
 
         setAddButton()
         setFinishButton()
+        setEnterKey()
+    }
 
+    private fun setEnterKey() {
         binding.etAdditionMission.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
                 closeMissionToggle()
