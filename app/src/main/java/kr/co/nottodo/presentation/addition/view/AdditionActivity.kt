@@ -113,6 +113,7 @@ class AdditionActivity : AppCompatActivity() {
             if (binding.tvAdditionAdd.currentTextColor == getColor(R.color.white)) {
                 // 낫투두 추가
                 this.showToast("낫투두 추가 완료")
+                finish()
             }
         }
     }
