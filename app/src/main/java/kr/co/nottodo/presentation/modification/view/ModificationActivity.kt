@@ -38,6 +38,7 @@ class ModificationActivity : AppCompatActivity() {
         setSituationRecommendations()
         initOpenedDesc()
         initToggles()
+        initData()
 
         observeMission()
         observeSituation()
@@ -47,6 +48,20 @@ class ModificationActivity : AppCompatActivity() {
         setAddButton()
         setFinishButton()
         setEnterKey()
+    }
+
+    private fun initData() {
+        viewModel.originDate = "2023.01.15"
+        viewModel.originMission = "배민 VIP 탈출하기"
+        viewModel.originSituation = "밥 먹을 때"
+        viewModel.originAction = "배달의 민족 앱 삭제하기"
+        viewModel.originGoal = "불필요한 지출 줄이기"
+
+        viewModel.date.value = "2023.01.15"
+        viewModel.mission.value = "배민 VIP 탈출하기"
+        viewModel.situation.value = "밥 먹을 때"
+        viewModel.action.value = "배달의 민족 앱 삭제하기"
+        viewModel.goal.value = "불필요한 지출 줄이기"
     }
 
     private fun setEnterKey() {
@@ -103,17 +118,18 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun setAddButton() {
-        viewModel.isAbleToAdd.observe(this) {
+        viewModel.isAbleToModify.observe(this) {
             if (it == true) {
-                binding.tvModificationAdd.setTextColor(getColor(R.color.white))
+                binding.tvModificationModify.setTextColor(getColor(R.color.white))
             } else {
-                binding.tvModificationAdd.setTextColor(getColor(R.color.gray_3_5d5d6b))
+                binding.tvModificationModify.setTextColor(getColor(R.color.gray_3_5d5d6b))
             }
         }
-        binding.tvModificationAdd.setOnClickListener {
-            if (binding.tvModificationAdd.currentTextColor == getColor(R.color.white)) {
+        binding.tvModificationModify.setOnClickListener {
+            if (binding.tvModificationModify.currentTextColor == getColor(R.color.white)) {
                 // 낫투두 추가
                 this.showToast("낫투두 수정 완료")
+                finish()
             }
         }
     }
