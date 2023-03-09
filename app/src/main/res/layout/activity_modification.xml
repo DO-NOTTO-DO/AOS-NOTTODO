@@ -115,7 +115,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="7dp"
-                        android:text="2023.02.02"
+                        android:text="@={vm.date}"
                         android:textAppearance="@style/M14"
                         android:textColor="@color/gray_4_9398aa"
                         app:layout_constraintBottom_toBottomOf="parent"
