@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="day"
+            type="String" />
+
+        <variable
+            name="day_of_week"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_1_2a2a2e">
+
+        <TextView
+            android:id="@+id/tv_weekly_calendar_day_of_week"
+            style="@style/M14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{day_of_week}"
+            android:textColor="@color/white"
+            tools:text="월"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@id/tv_weekly_calendar_day"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_weekly_calendar_day"
+            style="@style/M14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@{day}"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_weekly_calendar_day_of_week"
+            tools:text="31" />
+
+        <ImageView
+            android:id="@+id/iv_today_bullet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_weekly_today_bullet"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintStart_toStartOf="@id/tv_weekly_calendar_day_of_week"
+            app:layout_constraintEnd_toEndOf="@id/tv_weekly_calendar_day_of_week"
+            app:layout_constraintBottom_toTopOf="@id/tv_weekly_calendar_day_of_week"/>
+
+        <ImageView
+            android:id="@+id/iv_select_day_background"
+            android:layout_width="48dp"
+            android:layout_height="0dp"
+            android:src="@drawable/bg_weekly_calendar_selector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

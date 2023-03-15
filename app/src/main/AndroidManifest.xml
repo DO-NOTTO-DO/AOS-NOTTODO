@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.addition.view.AdditionActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.login.view.LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -27,5 +30,19 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth"
+                    android:scheme="${KAKAO_AOUTH_HOST_SCHEME}" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>
