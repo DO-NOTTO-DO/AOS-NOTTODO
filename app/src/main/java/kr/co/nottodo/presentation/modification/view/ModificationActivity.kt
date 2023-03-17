@@ -51,17 +51,11 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        viewModel.originDate = "2023.01.15"
-        viewModel.originMission = "배민 VIP 탈출하기"
-        viewModel.originSituation = "밥 먹을 때"
-        viewModel.originAction = "배달의 민족 앱 삭제하기"
-        viewModel.originGoal = "불필요한 지출 줄이기"
-
-        viewModel.date.value = "2023.01.15"
-        viewModel.mission.value = "배민 VIP 탈출하기"
-        viewModel.situation.value = "밥 먹을 때"
-        viewModel.action.value = "배달의 민족 앱 삭제하기"
-        viewModel.goal.value = "불필요한 지출 줄이기"
+        viewModel.setOriginalData(
+            NotTodoData(
+                "2023.01.15", "배민 VIP 탈출하기", "밥 먹을 때", listOf("배달의 민족 앱 삭제하기"), "불필요한 지출 줄이기"
+            )
+        )
     }
 
     private fun setEnterKey() {
@@ -465,5 +459,13 @@ class ModificationActivity : AppCompatActivity() {
         const val situationOpenedDesc = "어떤 상황에서\n낫투두를 실천하고 싶나요?"
         const val actionOpenedDesc = "낫투두를 이루기 위해서\n어떤 행동이 필요한가요?"
         const val goalOpenedDesc = "낫투두를 통해서\n어떤 목표를 이루려 하나요?"
+
+        data class NotTodoData(
+            val date: String,
+            val mission: String,
+            val situation: String,
+            val action: List<String>,
+            val goal: String,
+        )
     }
 }

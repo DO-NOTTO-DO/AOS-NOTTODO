@@ -1,14 +1,29 @@
 package kr.co.nottodo.presentation.modification.viewmodel
 
 import androidx.lifecycle.*
+import kr.co.nottodo.presentation.modification.view.ModificationActivity.Companion.NotTodoData
 
 class ModificationViewModel : ViewModel() {
 
-    var originDate: String? = null
-    var originMission: String? = null
-    var originSituation: String? = null
-    var originAction: String? = null
-    var originGoal: String? = null
+    private var originDate: String? = null
+    private var originMission: String? = null
+    private var originSituation: String? = null
+    private var originAction: String? = null
+    private var originGoal: String? = null
+
+    fun setOriginalData(data: NotTodoData) {
+        originDate = data.date
+        originMission = data.mission
+        originSituation = data.situation
+        originAction = data.action[0]
+        originGoal = data.goal
+
+        date.value = data.date
+        mission.value = data.mission
+        situation.value = data.situation
+        action.value = data.action[0]
+        goal.value = data.goal
+    }
 
     val date: MutableLiveData<String> = MutableLiveData()
     private val isDateChanged: LiveData<Boolean> = Transformations.map(date) {
