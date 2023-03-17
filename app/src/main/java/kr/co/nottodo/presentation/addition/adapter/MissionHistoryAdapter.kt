@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.databinding.ItemAdditionMissionHistoryBinding
 
-class AdditionAdapter(
+class MissionHistoryAdapter(
     private val context: Context, private val setMissionName: (String) -> Unit,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val missionHistory = listOf(

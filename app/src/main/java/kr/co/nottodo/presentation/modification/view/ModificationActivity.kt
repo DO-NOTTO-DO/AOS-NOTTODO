@@ -1,4 +1,4 @@
-package kr.co.nottodo.presentation.addition.view
+package kr.co.nottodo.presentation.modification.view
 
 import android.os.Bundle
 import android.text.Spannable
@@ -13,17 +13,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
 import kr.co.nottodo.R
-import kr.co.nottodo.databinding.ActivityAdditionBinding
+import kr.co.nottodo.databinding.ActivityModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
-import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
+import kr.co.nottodo.presentation.modification.viewmodel.ModificationViewModel
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showToast
 
-class AdditionActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityAdditionBinding
-    private val viewModel by viewModels<AdditionViewModel>()
+class ModificationActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityModificationBinding
+    private val viewModel by viewModels<ModificationViewModel>()
     private var isDateToggleVisible: Boolean = false
     private var isMissionToggleVisible: Boolean = false
     private var isSituationToggleVisible: Boolean = false
@@ -38,6 +38,7 @@ class AdditionActivity : AppCompatActivity() {
         setSituationRecommendations()
         initOpenedDesc()
         initToggles()
+        initData()
 
         observeMission()
         observeSituation()
@@ -49,8 +50,16 @@ class AdditionActivity : AppCompatActivity() {
         setEnterKey()
     }
 
+    private fun initData() {
+        viewModel.setOriginalData(
+            NotTodoData(
+                "2023.01.15", "배민 VIP 탈출하기", "밥 먹을 때", listOf("배달의 민족 앱 삭제하기"), "불필요한 지출 줄이기"
+            )
+        )
+    }
+
     private fun setEnterKey() {
-        binding.etAdditionMission.setOnKeyListener { _, keyCode, keyEvent ->
+        binding.etModificationMission.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
                 closeMissionToggle()
                 hideKeyboard(binding.root)
@@ -58,7 +67,7 @@ class AdditionActivity : AppCompatActivity() {
             return@setOnKeyListener false
         }
 
-        binding.etAdditionSituation.setOnKeyListener { _, keyCode, keyEvent ->
+        binding.etModificationSituation.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
                 closeSituationToggle()
                 hideKeyboard(binding.root)
@@ -66,7 +75,7 @@ class AdditionActivity : AppCompatActivity() {
             return@setOnKeyListener false
         }
 
-        binding.etAdditionAction.setOnKeyListener { _, keyCode, keyEvent ->
+        binding.etModificationAction.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
                 closeActionToggle()
                 hideKeyboard(binding.root)
@@ -74,7 +83,7 @@ class AdditionActivity : AppCompatActivity() {
             return@setOnKeyListener false
         }
 
-        binding.etAdditionGoal.setOnKeyListener { _, keyCode, keyEvent ->
+        binding.etModificationGoal.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
                 closeGoalToggle()
                 hideKeyboard(binding.root)
@@ -84,35 +93,36 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun setFinishButton() {
-        binding.ivAdditionDelete.setOnClickListener { finish() }
+        binding.ivModificationDelete.setOnClickListener { finish() }
 
     }
 
     private val setMissionName: (String) -> Unit = { missionName: String ->
-        binding.etAdditionMission.setText(missionName)
-        binding.etAdditionMission.requestFocus()
-        binding.etAdditionMission.setSelection(binding.etAdditionMission.length())
-        this.showKeyboard(binding.etAdditionMission)
+        binding.etModificationMission.setText(missionName)
+        binding.etModificationMission.requestFocus()
+        binding.etModificationMission.setSelection(binding.etModificationMission.length())
+        this.showKeyboard(binding.etModificationMission)
     }
 
     private fun setSituationRecommendations() {
-        binding.layoutAdditionSituationRecommend.addButtons(
-            listOf("업무 시간 중", "작업 중", "기상 시간", "공부 시간", "취침 전", "출근 중"), binding.etAdditionSituation
+        binding.layoutModificationSituationRecommend.addButtons(
+            listOf("업무 시간 중", "작업 중", "기상 시간", "공부 시간", "취침 전", "출근 중"),
+            binding.etModificationSituation
         )
     }
 
     private fun setAddButton() {
-        viewModel.isAbleToAdd.observe(this) {
+        viewModel.isAbleToModify.observe(this) {
             if (it == true) {
-                binding.tvAdditionAdd.setTextColor(getColor(R.color.white))
+                binding.tvModificationModify.setTextColor(getColor(R.color.white))
             } else {
-                binding.tvAdditionAdd.setTextColor(getColor(R.color.gray_3_5d5d6b))
+                binding.tvModificationModify.setTextColor(getColor(R.color.gray_3_5d5d6b))
             }
         }
-        binding.tvAdditionAdd.setOnClickListener {
-            if (binding.tvAdditionAdd.currentTextColor == getColor(R.color.white)) {
+        binding.tvModificationModify.setOnClickListener {
+            if (binding.tvModificationModify.currentTextColor == getColor(R.color.white)) {
                 // 낫투두 추가
-                this.showToast("낫투두 추가 완료")
+                this.showToast("낫투두 수정 완료")
                 finish()
             }
         }
@@ -120,25 +130,25 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun observeGoal() {
         viewModel.goal.observe(this) {
-            binding.tvAdditionGoalTextCount.text = it.length.toString() + maxTextSize
+            binding.tvModificationGoalTextCount.text = it.length.toString() + maxTextSize
             if (it.isNotBlank()) {
-                binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
+                binding.layoutModificationGoalClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
-                binding.ivAdditionGoalCheck.visibility = View.VISIBLE
-                binding.tvAdditionGoalClosedChoice.visibility = View.GONE
-                with(binding.tvAdditionGoalInput) {
+                binding.ivModificationGoalCheck.visibility = View.VISIBLE
+                binding.tvModificationGoalClosedChoice.visibility = View.GONE
+                with(binding.tvModificationGoalInput) {
                     text = viewModel.goal.value
                     setTextColor(getColor(R.color.white))
                 }
 
             } else {
-                binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
+                binding.layoutModificationGoalClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_stroke_gray3_1_radius_12
                 )
-                binding.ivAdditionGoalCheck.visibility = View.GONE
-                binding.tvAdditionGoalClosedChoice.visibility = View.VISIBLE
-                with(binding.tvAdditionGoalInput) {
+                binding.ivModificationGoalCheck.visibility = View.GONE
+                binding.tvModificationGoalClosedChoice.visibility = View.VISIBLE
+                with(binding.tvModificationGoalInput) {
                     text = getText(R.string.addition_input)
                     setTextColor(getColor(R.color.gray_3_5d5d6b))
                 }
@@ -148,25 +158,25 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun observeAction() {
         viewModel.action.observe(this) {
-            binding.tvAdditionActionTextCount.text = it.length.toString() + maxTextSize
+            binding.tvModificationActionTextCount.text = it.length.toString() + maxTextSize
             if (it.isNotBlank()) {
-                binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
+                binding.layoutModificationActionClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
-                binding.ivAdditionActionClosedCheck.visibility = View.VISIBLE
-                binding.tvAdditionActionClosedChoice.visibility = View.GONE
-                with(binding.tvAdditionActionClosedInput) {
+                binding.ivModificationActionClosedCheck.visibility = View.VISIBLE
+                binding.tvModificationActionClosedChoice.visibility = View.GONE
+                with(binding.tvModificationActionClosedInput) {
                     text = viewModel.action.value
                     setTextColor(getColor(R.color.white))
                 }
 
             } else {
-                binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
+                binding.layoutModificationActionClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_stroke_gray3_1_radius_12
                 )
-                binding.ivAdditionActionClosedCheck.visibility = View.GONE
-                binding.tvAdditionActionClosedChoice.visibility = View.VISIBLE
-                with(binding.tvAdditionActionClosedInput) {
+                binding.ivModificationActionClosedCheck.visibility = View.GONE
+                binding.tvModificationActionClosedChoice.visibility = View.VISIBLE
+                with(binding.tvModificationActionClosedInput) {
                     text = getText(R.string.addition_input)
                     setTextColor(getColor(R.color.gray_3_5d5d6b))
                 }
@@ -176,23 +186,25 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun observeSituation() {
         viewModel.situation.observe(this) {
-            binding.tvAdditionSituationTextCount.text = it.length.toString() + maxTextSize
+            binding.tvModificationSituationTextCount.text = it.length.toString() + maxTextSize
             if (it.isNotBlank()) {
-                binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_solid_gray_1_radius_12
-                )
-                binding.ivAdditionSituationCheck.visibility = View.VISIBLE
-                with(binding.tvAdditionSituationInput) {
+                binding.layoutModificationSituationClosed.background =
+                    AppCompatResources.getDrawable(
+                        this, R.drawable.rectangle_solid_gray_1_radius_12
+                    )
+                binding.ivModificationSituationCheck.visibility = View.VISIBLE
+                with(binding.tvModificationSituationInput) {
                     text = viewModel.situation.value
                     setTextColor(getColor(R.color.white))
                 }
 
             } else {
-                binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
-                )
-                binding.ivAdditionSituationCheck.visibility = View.GONE
-                with(binding.tvAdditionSituationInput) {
+                binding.layoutModificationSituationClosed.background =
+                    AppCompatResources.getDrawable(
+                        this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    )
+                binding.ivModificationSituationCheck.visibility = View.GONE
+                with(binding.tvModificationSituationInput) {
                     text = getText(R.string.addition_input)
                     setTextColor(getColor(R.color.gray_3_5d5d6b))
                 }
@@ -202,42 +214,42 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun observeMission() {
         viewModel.mission.observe(this) {
-            binding.tvAdditionMissionTextCount.text = it.length.toString() + maxTextSize
+            binding.tvModificationMissionTextCount.text = it.length.toString() + maxTextSize
             if (it.isNotBlank()) {
-                binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
+                binding.layoutModificationMissionClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
-                binding.ivAdditionMissionClosedCheck.visibility = View.VISIBLE
-                with(binding.tvAdditionMissionClosedName) {
+                binding.ivModificationMissionClosedCheck.visibility = View.VISIBLE
+                with(binding.tvModificationMissionClosedName) {
                     text = viewModel.mission.value
                     setTextColor(getColor(R.color.white))
                 }
-                binding.tvAdditionMissionRvTitle.visibility = View.GONE
-                binding.rvAdditionMission.visibility = View.GONE
+                binding.tvModificationMissionRvTitle.visibility = View.GONE
+                binding.rvModificationMission.visibility = View.GONE
 
             } else {
-                binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
+                binding.layoutModificationMissionClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_stroke_gray3_1_radius_12
                 )
-                binding.ivAdditionMissionClosedCheck.visibility = View.GONE
-                with(binding.tvAdditionMissionClosedName) {
+                binding.ivModificationMissionClosedCheck.visibility = View.GONE
+                with(binding.tvModificationMissionClosedName) {
                     text = getText(R.string.addition_input)
                     setTextColor(getColor(R.color.gray_3_5d5d6b))
                 }
-                binding.tvAdditionMissionRvTitle.visibility = View.VISIBLE
-                binding.rvAdditionMission.visibility = View.VISIBLE
+                binding.tvModificationMissionRvTitle.visibility = View.VISIBLE
+                binding.rvModificationMission.visibility = View.VISIBLE
             }
         }
     }
 
     private fun initDataBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_addition)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_modification)
         binding.vm = viewModel
         binding.lifecycleOwner = this
     }
 
     private fun initToggles() {
-        binding.layoutAdditionMissionClosed.setOnClickListener {
+        binding.layoutModificationMissionClosed.setOnClickListener {
             if (!isMissionToggleVisible) {
                 openMissionToggle()
                 closeDateToggle()
@@ -249,7 +261,7 @@ class AdditionActivity : AppCompatActivity() {
             }
         }
 
-        binding.layoutAdditionSituationClosed.setOnClickListener {
+        binding.layoutModificationSituationClosed.setOnClickListener {
             if (!isSituationToggleVisible) {
                 openSituationToggle()
                 closeDateToggle()
@@ -261,7 +273,7 @@ class AdditionActivity : AppCompatActivity() {
             }
         }
 
-        binding.layoutAdditionActionClosed.setOnClickListener {
+        binding.layoutModificationActionClosed.setOnClickListener {
             if (!isActionToggleVisible) {
                 openActionToggle()
                 closeDateToggle()
@@ -273,7 +285,7 @@ class AdditionActivity : AppCompatActivity() {
             }
         }
 
-        binding.layoutAdditionGoalClosed.setOnClickListener {
+        binding.layoutModificationGoalClosed.setOnClickListener {
             if (!isGoalToggleVisible) {
                 openGoalToggle()
                 closeDateToggle()
@@ -285,7 +297,7 @@ class AdditionActivity : AppCompatActivity() {
             }
         }
 
-        binding.layoutAdditionDateClosed.setOnClickListener {
+        binding.layoutModificationDateClosed.setOnClickListener {
             if (!isDateToggleVisible) {
                 openDateToggle()
                 closeMissionToggle()
@@ -298,26 +310,26 @@ class AdditionActivity : AppCompatActivity() {
             }
         }
 
-        binding.tvAdditionDateOpenedComplete.setOnClickListener {
+        binding.tvModificationDateOpenedComplete.setOnClickListener {
             closeDateToggle()
         }
     }
 
     private fun closeDateToggle() {
-        binding.layoutAdditionDateClosed.visibility = View.VISIBLE
-        binding.layoutAdditionDateOpened.visibility = View.GONE
+        binding.layoutModificationDateClosed.visibility = View.VISIBLE
+        binding.layoutModificationDateOpened.visibility = View.GONE
         isDateToggleVisible = false
     }
 
     private fun openDateToggle() {
-        binding.layoutAdditionDateClosed.visibility = View.GONE
-        binding.layoutAdditionDateOpened.visibility = View.VISIBLE
+        binding.layoutModificationDateClosed.visibility = View.GONE
+        binding.layoutModificationDateOpened.visibility = View.VISIBLE
         isDateToggleVisible = true
     }
 
     private fun closeGoalToggle() {
-        binding.layoutAdditionGoalClosed.visibility = View.VISIBLE
-        binding.layoutAdditionGoalOpened.visibility = View.GONE
+        binding.layoutModificationGoalClosed.visibility = View.VISIBLE
+        binding.layoutModificationGoalOpened.visibility = View.GONE
         isGoalToggleVisible = false
     }
 
@@ -328,49 +340,49 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun openGoalToggle() {
-        binding.layoutAdditionGoalClosed.visibility = View.GONE
-        binding.layoutAdditionGoalOpened.visibility = View.VISIBLE
+        binding.layoutModificationGoalClosed.visibility = View.GONE
+        binding.layoutModificationGoalOpened.visibility = View.VISIBLE
         isGoalToggleVisible = true
-        requestFocusWithShowingKeyboard(binding.etAdditionGoal)
+        requestFocusWithShowingKeyboard(binding.etModificationGoal)
     }
 
     private fun openActionToggle() {
-        binding.layoutAdditionActionClosed.visibility = View.GONE
-        binding.layoutAdditionActionOpened.visibility = View.VISIBLE
+        binding.layoutModificationActionClosed.visibility = View.GONE
+        binding.layoutModificationActionOpened.visibility = View.VISIBLE
         isActionToggleVisible = true
-        requestFocusWithShowingKeyboard(binding.etAdditionAction)
+        requestFocusWithShowingKeyboard(binding.etModificationAction)
     }
 
     private fun closeActionToggle() {
-        binding.layoutAdditionActionClosed.visibility = View.VISIBLE
-        binding.layoutAdditionActionOpened.visibility = View.GONE
+        binding.layoutModificationActionClosed.visibility = View.VISIBLE
+        binding.layoutModificationActionOpened.visibility = View.GONE
         isActionToggleVisible = false
     }
 
     private fun openSituationToggle() {
-        binding.layoutAdditionSituationClosed.visibility = View.GONE
-        binding.layoutAdditionSituationOpened.visibility = View.VISIBLE
+        binding.layoutModificationSituationClosed.visibility = View.GONE
+        binding.layoutModificationSituationOpened.visibility = View.VISIBLE
         isSituationToggleVisible = true
-        requestFocusWithShowingKeyboard(binding.etAdditionSituation)
+        requestFocusWithShowingKeyboard(binding.etModificationSituation)
     }
 
     private fun closeSituationToggle() {
-        binding.layoutAdditionSituationClosed.visibility = View.VISIBLE
-        binding.layoutAdditionSituationOpened.visibility = View.GONE
+        binding.layoutModificationSituationClosed.visibility = View.VISIBLE
+        binding.layoutModificationSituationOpened.visibility = View.GONE
         isSituationToggleVisible = false
     }
 
     private fun closeMissionToggle() {
-        binding.layoutAdditionMissionClosed.visibility = View.VISIBLE
-        binding.layoutAdditionMissionOpened.visibility = View.GONE
+        binding.layoutModificationMissionClosed.visibility = View.VISIBLE
+        binding.layoutModificationMissionOpened.visibility = View.GONE
         isMissionToggleVisible = false
     }
 
     private fun openMissionToggle() {
-        binding.layoutAdditionMissionClosed.visibility = View.GONE
-        binding.layoutAdditionMissionOpened.visibility = View.VISIBLE
+        binding.layoutModificationMissionClosed.visibility = View.GONE
+        binding.layoutModificationMissionOpened.visibility = View.VISIBLE
         isMissionToggleVisible = true
-        requestFocusWithShowingKeyboard(binding.etAdditionMission)
+        requestFocusWithShowingKeyboard(binding.etModificationMission)
     }
 
     private fun initOpenedDesc() {
@@ -387,7 +399,7 @@ class AdditionActivity : AppCompatActivity() {
         missionOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.white)), 6, 15, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        binding.tvAdditionMissionOpenedDesc.text = missionOpenedDesc
+        binding.tvModificationMissionOpenedDesc.text = missionOpenedDesc
 
         val situationOpenedDesc = SpannableStringBuilder(
             situationOpenedDesc
@@ -404,7 +416,7 @@ class AdditionActivity : AppCompatActivity() {
         situationOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.white)), 5, 22, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        binding.tvAdditionSituationOpenedDesc.text = situationOpenedDesc
+        binding.tvModificationSituationOpenedDesc.text = situationOpenedDesc
 
         val actionOpenedDesc = SpannableStringBuilder(actionOpenedDesc)
         actionOpenedDesc.setSpan(
@@ -419,7 +431,7 @@ class AdditionActivity : AppCompatActivity() {
         actionOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.white)), 18, 26, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        binding.tvAdditionActionOpenedDesc.text = actionOpenedDesc
+        binding.tvModificationActionOpenedDesc.text = actionOpenedDesc
 
         val goalOpenedDesc = SpannableStringBuilder(goalOpenedDesc)
         goalOpenedDesc.setSpan(
@@ -434,11 +446,11 @@ class AdditionActivity : AppCompatActivity() {
         goalOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.white)), 14, 24, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        binding.tvAdditionGoalOpenedDesc.text = goalOpenedDesc
+        binding.tvModificationGoalOpenedDesc.text = goalOpenedDesc
     }
 
     private fun initRecyclerView(setMissionName: (String) -> Unit) {
-        binding.rvAdditionMission.adapter = MissionHistoryAdapter(this, setMissionName)
+        binding.rvModificationMission.adapter = MissionHistoryAdapter(this, setMissionName)
     }
 
     companion object {
@@ -447,5 +459,13 @@ class AdditionActivity : AppCompatActivity() {
         const val situationOpenedDesc = "어떤 상황에서\n낫투두를 실천하고 싶나요?"
         const val actionOpenedDesc = "낫투두를 이루기 위해서\n어떤 행동이 필요한가요?"
         const val goalOpenedDesc = "낫투두를 통해서\n어떤 목표를 이루려 하나요?"
+
+        data class NotTodoData(
+            val date: String,
+            val mission: String,
+            val situation: String,
+            val action: List<String>,
+            val goal: String,
+        )
     }
 }
