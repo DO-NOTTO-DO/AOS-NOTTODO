@@ -313,6 +313,11 @@ class ModificationActivity : AppCompatActivity() {
         binding.tvModificationDateOpenedComplete.setOnClickListener {
             closeDateToggle()
         }
+
+        binding.tvModificationActionComplete.setOnClickListener {
+            closeActionToggle()
+            hideKeyboard(binding.root)
+        }
     }
 
     private fun closeDateToggle() {

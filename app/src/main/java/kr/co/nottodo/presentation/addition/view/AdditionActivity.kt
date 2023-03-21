@@ -67,9 +67,9 @@ class AdditionActivity : AppCompatActivity() {
         }
 
         binding.etAdditionAction.setOnKeyListener { _, keyCode, keyEvent ->
+            //상황 추가 입력창 키보드 엔터 오버라이딩 -> 텍스트뷰 추가
             if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
-                closeActionToggle()
-                hideKeyboard(binding.root)
+
             }
             return@setOnKeyListener false
         }
@@ -300,6 +300,11 @@ class AdditionActivity : AppCompatActivity() {
 
         binding.tvAdditionDateOpenedComplete.setOnClickListener {
             closeDateToggle()
+        }
+
+        binding.tvAdditionActionComplete.setOnClickListener {
+            closeActionToggle()
+            hideKeyboard(binding.root)
         }
     }
 

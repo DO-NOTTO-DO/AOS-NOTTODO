@@ -573,7 +573,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tv_addition_action_complete"
+                        android:id="@+id/tv_modification_action_complete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="완료"
