@@ -43,13 +43,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/tv_modification_modify"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="18dp"
-                android:text="완료"
-                android:textAppearance="@style/M16"
+                android:background="@drawable/rectangle_gray_2_radius_26"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="4dp"
+                android:text="추가"
+                android:textAppearance="@style/M15"
                 android:textColor="@color/gray_3_5d5d6b"
                 app:layout_constraintBottom_toBottomOf="@id/tv_modification_title"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -209,7 +214,7 @@
                     android:id="@+id/layout_modification_mission_closed"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rectangle_stroke_gray3_1_radius_12"
+                    android:background="@drawable/rectangle_stroke_1_gray_3_radius_12"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -347,7 +352,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/rectangle_stroke_gray3_1_radius_12"
+                android:background="@drawable/rectangle_stroke_1_gray_3_radius_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_modification_mission">
@@ -486,7 +491,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/rectangle_stroke_gray3_1_radius_12"
+                android:background="@drawable/rectangle_stroke_1_gray_3_radius_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_modification_situation">
@@ -662,7 +667,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/rectangle_stroke_gray3_1_radius_12"
+                android:background="@drawable/rectangle_stroke_1_gray_3_radius_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_modification_action">
