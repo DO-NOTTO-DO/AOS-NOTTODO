@@ -573,6 +573,16 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/tv_addition_action_complete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="완료"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/gray_4_9398aa"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_addition_action_opened_title" />
+
+                    <TextView
                         android:id="@+id/tv_addition_action_opened_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
