@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.view.KeyEvent
-import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
+import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
@@ -46,40 +46,54 @@ class AdditionActivity : AppCompatActivity() {
 
         setAddButton()
         setFinishButton()
+        setDeleteButtons()
         setEnterKey()
     }
 
+    private fun setDeleteButtons() {
+        binding.ivAdditionActionFirstDelete.setOnClickListener {
+            binding.tvAdditionActionFirst.text = (BLANK)
+            binding.tvAdditionActionFirst.visibility = View.GONE
+            binding.ivAdditionActionFirstDelete.visibility = View.GONE
+        }
+    }
+
     private fun setEnterKey() {
-        binding.etAdditionMission.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+        binding.etAdditionMission.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeMissionToggle()
                 hideKeyboard(binding.root)
             }
-            return@setOnKeyListener false
+            return@setOnEditorActionListener false
         }
 
-        binding.etAdditionSituation.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+        binding.etAdditionSituation.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeSituationToggle()
                 hideKeyboard(binding.root)
             }
-            return@setOnKeyListener false
+            return@setOnEditorActionListener false
         }
 
-        binding.etAdditionAction.setOnKeyListener { _, keyCode, keyEvent ->
+        binding.etAdditionAction.setOnEditorActionListener { _, actionId, event ->
             //상황 추가 입력창 키보드 엔터 오버라이딩 -> 텍스트뷰 추가
-            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
-
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                with(binding) {
+                    tvAdditionActionFirst.text = etAdditionAction.text
+                    etAdditionAction.setText(BLANK)
+                    tvAdditionActionFirst.visibility = View.VISIBLE
+                    ivAdditionActionFirstDelete.visibility = View.VISIBLE
+                }
             }
-            return@setOnKeyListener false
+            return@setOnEditorActionListener true
         }
 
-        binding.etAdditionGoal.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+        binding.etAdditionGoal.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeGoalToggle()
                 hideKeyboard(binding.root)
             }
-            return@setOnKeyListener false
+            return@setOnEditorActionListener false
         }
     }
 
