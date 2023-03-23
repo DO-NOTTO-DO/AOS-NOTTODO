@@ -45,7 +45,7 @@ class ModificationActivity : AppCompatActivity() {
         observeAction()
         observeGoal()
 
-        setAddButton()
+        setModifyButton()
         setFinishButton()
         setEnterKey()
     }
@@ -111,7 +111,7 @@ class ModificationActivity : AppCompatActivity() {
         )
     }
 
-    private fun setAddButton() {
+    private fun setModifyButton() {
         viewModel.isAbleToModify.observe(this) {
             if (it == true) {
                 binding.btnModificationModify.setTextColor(getColor(R.color.gray_1_2a2a2e))
@@ -122,7 +122,7 @@ class ModificationActivity : AppCompatActivity() {
             }
         }
         binding.btnModificationModify.setOnClickListener {
-            if (binding.btnModificationModify.currentTextColor == getColor(R.color.white)) {
+            if (binding.btnModificationModify.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
                 // 낫투두 추가
                 this.showToast("낫투두 수정 완료")
                 finish()

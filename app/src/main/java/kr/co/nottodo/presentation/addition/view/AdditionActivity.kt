@@ -112,7 +112,7 @@ class AdditionActivity : AppCompatActivity() {
             }
         }
         binding.btnAdditionAdd.setOnClickListener {
-            if (binding.btnAdditionAdd.currentTextColor == getColor(R.color.white)) {
+            if (binding.btnAdditionAdd.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
                 // 낫투두 추가
                 this.showToast("낫투두 추가 완료")
                 finish()
