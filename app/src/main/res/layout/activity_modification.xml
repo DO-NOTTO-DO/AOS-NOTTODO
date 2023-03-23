@@ -53,7 +53,7 @@
                 android:minHeight="0dp"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="4dp"
-                android:text="추가"
+                android:text="완료"
                 android:textAppearance="@style/M15"
                 android:textColor="@color/gray_3_5d5d6b"
                 app:layout_constraintBottom_toBottomOf="@id/tv_modification_title"

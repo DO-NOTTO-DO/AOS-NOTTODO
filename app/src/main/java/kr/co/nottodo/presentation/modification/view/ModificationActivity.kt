@@ -114,13 +114,15 @@ class ModificationActivity : AppCompatActivity() {
     private fun setAddButton() {
         viewModel.isAbleToModify.observe(this) {
             if (it == true) {
-                binding.tvModificationModify.setTextColor(getColor(R.color.white))
+                binding.btnModificationModify.setTextColor(getColor(R.color.gray_1_2a2a2e))
+                binding.btnModificationModify.setBackgroundResource(R.drawable.rectangle_green_2_radius_26)
             } else {
-                binding.tvModificationModify.setTextColor(getColor(R.color.gray_3_5d5d6b))
+                binding.btnModificationModify.setTextColor(getColor(R.color.gray_3_5d5d6b))
+                binding.btnModificationModify.setBackgroundResource(R.drawable.rectangle_gray_2_radius_26)
             }
         }
-        binding.tvModificationModify.setOnClickListener {
-            if (binding.tvModificationModify.currentTextColor == getColor(R.color.white)) {
+        binding.btnModificationModify.setOnClickListener {
+            if (binding.btnModificationModify.currentTextColor == getColor(R.color.white)) {
                 // 낫투두 추가
                 this.showToast("낫투두 수정 완료")
                 finish()
@@ -144,7 +146,7 @@ class ModificationActivity : AppCompatActivity() {
 
             } else {
                 binding.layoutModificationGoalClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivModificationGoalCheck.visibility = View.GONE
                 binding.tvModificationGoalClosedChoice.visibility = View.VISIBLE
@@ -172,7 +174,7 @@ class ModificationActivity : AppCompatActivity() {
 
             } else {
                 binding.layoutModificationActionClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivModificationActionClosedCheck.visibility = View.GONE
                 binding.tvModificationActionClosedChoice.visibility = View.VISIBLE
@@ -201,7 +203,7 @@ class ModificationActivity : AppCompatActivity() {
             } else {
                 binding.layoutModificationSituationClosed.background =
                     AppCompatResources.getDrawable(
-                        this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                        this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                     )
                 binding.ivModificationSituationCheck.visibility = View.GONE
                 with(binding.tvModificationSituationInput) {
@@ -229,7 +231,7 @@ class ModificationActivity : AppCompatActivity() {
 
             } else {
                 binding.layoutModificationMissionClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivModificationMissionClosedCheck.visibility = View.GONE
                 with(binding.tvModificationMissionClosedName) {

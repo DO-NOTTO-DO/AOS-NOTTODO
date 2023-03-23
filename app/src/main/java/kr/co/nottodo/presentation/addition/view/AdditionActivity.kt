@@ -104,13 +104,15 @@ class AdditionActivity : AppCompatActivity() {
     private fun setAddButton() {
         viewModel.isAbleToAdd.observe(this) {
             if (it == true) {
-                binding.tvAdditionAdd.setTextColor(getColor(R.color.white))
+                binding.btnAdditionAdd.setTextColor(getColor(R.color.gray_1_2a2a2e))
+                binding.btnAdditionAdd.setBackgroundResource(R.drawable.rectangle_green_2_radius_26)
             } else {
-                binding.tvAdditionAdd.setTextColor(getColor(R.color.gray_3_5d5d6b))
+                binding.btnAdditionAdd.setTextColor(getColor(R.color.gray_3_5d5d6b))
+                binding.btnAdditionAdd.setBackgroundResource(R.drawable.rectangle_gray_2_radius_26)
             }
         }
-        binding.tvAdditionAdd.setOnClickListener {
-            if (binding.tvAdditionAdd.currentTextColor == getColor(R.color.white)) {
+        binding.btnAdditionAdd.setOnClickListener {
+            if (binding.btnAdditionAdd.currentTextColor == getColor(R.color.white)) {
                 // 낫투두 추가
                 this.showToast("낫투두 추가 완료")
                 finish()
@@ -134,7 +136,7 @@ class AdditionActivity : AppCompatActivity() {
 
             } else {
                 binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivAdditionGoalCheck.visibility = View.GONE
                 binding.tvAdditionGoalClosedChoice.visibility = View.VISIBLE
@@ -162,7 +164,7 @@ class AdditionActivity : AppCompatActivity() {
 
             } else {
                 binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivAdditionActionClosedCheck.visibility = View.GONE
                 binding.tvAdditionActionClosedChoice.visibility = View.VISIBLE
@@ -189,7 +191,7 @@ class AdditionActivity : AppCompatActivity() {
 
             } else {
                 binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivAdditionSituationCheck.visibility = View.GONE
                 with(binding.tvAdditionSituationInput) {
@@ -217,7 +219,7 @@ class AdditionActivity : AppCompatActivity() {
 
             } else {
                 binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivAdditionMissionClosedCheck.visibility = View.GONE
                 with(binding.tvAdditionMissionClosedName) {
