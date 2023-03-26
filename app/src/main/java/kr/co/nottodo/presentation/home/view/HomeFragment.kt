@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
                 title = "어쩌구3",
                 completionStatus = "저쩌구3",
                 situation = "잉"
-            )
+            ),
         )
 
 
