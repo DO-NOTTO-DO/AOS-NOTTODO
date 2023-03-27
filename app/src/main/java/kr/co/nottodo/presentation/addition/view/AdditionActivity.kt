@@ -48,18 +48,54 @@ class AdditionActivity : AppCompatActivity() {
         setFinishButton()
         setDeleteButtons()
         setEnterKey()
+        setActions()
     }
 
-    private fun setDeleteButtons() {
-        binding.ivAdditionActionFirstDelete.setOnClickListener {
-            binding.tvAdditionActionFirst.text = (BLANK)
-            binding.tvAdditionActionFirst.visibility = View.GONE
-            binding.ivAdditionActionFirstDelete.visibility = View.GONE
+    private fun setActionBox(isActionFilled: Boolean) {
+        if (isActionFilled) {
+            binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
+                this, R.drawable.rectangle_solid_gray_1_radius_12
+            )
+            binding.ivAdditionActionClosedCheck.visibility = View.VISIBLE
+            binding.tvAdditionActionClosedChoice.visibility = View.GONE
+            binding.tvAdditionActionClosedInput.setTextColor(getColor(R.color.white))
+        } else {
+            binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
+                this, R.drawable.rectangle_stroke_1_gray_3_radius_12
+            )
+            binding.ivAdditionActionClosedCheck.visibility = View.GONE
+            binding.tvAdditionActionClosedChoice.visibility = View.VISIBLE
+            binding.tvAdditionActionClosedInput.setTextColor(getColor(R.color.gray_3_5d5d6b))
+            binding.tvAdditionActionClosedInput.text = getString(R.string.addition_input)
+        }
+    }
+
+    private fun setActions() {
+        viewModel.actionCount.observe(this) {
+            when (it) {
+                0 -> {
+                    setActionBox(isActionFilled = false)
+                }
+                1 -> {
+                    setActionBox(isActionFilled = true)
+                    binding.tvAdditionActionClosedInput.text = binding.tvAdditionActionFirst.text
+                }
+                2 -> {
+                    setActionBox(isActionFilled = true)
+                    binding.tvAdditionActionClosedInput.text =
+                        "${binding.tvAdditionActionFirst.text}\n${binding.tvAdditionActionSecond.text}"
+                }
+                3 -> {
+                    setActionBox(isActionFilled = true)
+                    binding.tvAdditionActionClosedInput.text =
+                        "${binding.tvAdditionActionFirst.text}\n${binding.tvAdditionActionSecond.text}\n${binding.tvAdditionActionThird.text}"
+                }
+            }
         }
     }
 
     private fun setEnterKey() {
-        binding.etAdditionMission.setOnEditorActionListener { _, actionId, event ->
+        binding.etAdditionMission.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeMissionToggle()
                 hideKeyboard(binding.root)
@@ -67,7 +103,7 @@ class AdditionActivity : AppCompatActivity() {
             return@setOnEditorActionListener false
         }
 
-        binding.etAdditionSituation.setOnEditorActionListener { _, actionId, event ->
+        binding.etAdditionSituation.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeSituationToggle()
                 hideKeyboard(binding.root)
@@ -75,26 +111,116 @@ class AdditionActivity : AppCompatActivity() {
             return@setOnEditorActionListener false
         }
 
-        binding.etAdditionAction.setOnEditorActionListener { _, actionId, event ->
+        binding.etAdditionAction.setOnEditorActionListener { _, actionId, _ ->
             //상황 추가 입력창 키보드 엔터 오버라이딩 -> 텍스트뷰 추가
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                with(binding) {
-                    tvAdditionActionFirst.text = etAdditionAction.text
-                    etAdditionAction.setText(BLANK)
-                    tvAdditionActionFirst.visibility = View.VISIBLE
-                    ivAdditionActionFirstDelete.visibility = View.VISIBLE
-                }
+                addAction()
             }
             return@setOnEditorActionListener true
         }
 
-        binding.etAdditionGoal.setOnEditorActionListener { _, actionId, event ->
+        binding.etAdditionGoal.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeGoalToggle()
                 hideKeyboard(binding.root)
             }
             return@setOnEditorActionListener false
         }
+    }
+
+    private fun addAction() {
+        when (viewModel.actionCount.value) {
+            0 -> {
+                with(binding) {
+                    tvAdditionActionFirst.text = viewModel.action.value
+                    viewModel.action.value = BLANK
+                    tvAdditionActionFirst.visibility = View.VISIBLE
+                    ivAdditionActionFirstDelete.visibility = View.VISIBLE
+                }
+                viewModel.actionCount.value = 1
+            }
+            1 -> {
+                with(binding) {
+                    tvAdditionActionSecond.text = viewModel.action.value
+                    viewModel.action.value = BLANK
+                    tvAdditionActionSecond.visibility = View.VISIBLE
+                    ivAdditionActionSecondDelete.visibility = View.VISIBLE
+                }
+                viewModel.actionCount.value = 2
+            }
+            2 -> {
+                with(binding) {
+                    tvAdditionActionThird.text = viewModel.action.value
+                    viewModel.action.value = BLANK
+                    tvAdditionActionThird.visibility = View.VISIBLE
+                    ivAdditionActionThirdDelete.visibility = View.VISIBLE
+                    etAdditionAction.visibility = View.GONE
+                    tvAdditionActionTextCount.visibility = View.GONE
+                    hideKeyboard(root)
+                }
+                viewModel.actionCount.value = 3
+            }
+        }
+    }
+
+    private fun setDeleteButtons() {
+        binding.ivAdditionActionFirstDelete.setOnClickListener {
+            when (viewModel.actionCount.value) {
+                1 -> {
+                    hideActionFirst()
+                    viewModel.actionCount.value = 0
+                }
+                2 -> {
+                    binding.tvAdditionActionFirst.text = binding.tvAdditionActionSecond.text
+                    hideActionSecond()
+                    viewModel.actionCount.value = 1
+                }
+                3 -> {
+                    binding.tvAdditionActionFirst.text = binding.tvAdditionActionSecond.text
+                    binding.tvAdditionActionSecond.text = binding.tvAdditionActionThird.text
+                    hideActionThird()
+                    viewModel.actionCount.value = 2
+                }
+            }
+        }
+        binding.ivAdditionActionSecondDelete.setOnClickListener {
+            when (viewModel.actionCount.value) {
+                2 -> {
+                    hideActionSecond()
+                    viewModel.actionCount.value = 1
+                }
+                3 -> {
+                    binding.tvAdditionActionSecond.text = binding.tvAdditionActionThird.text
+                    hideActionThird()
+                    viewModel.actionCount.value = 2
+                }
+            }
+        }
+        binding.ivAdditionActionThirdDelete.setOnClickListener {
+            hideActionThird()
+            viewModel.actionCount.value = 2
+        }
+    }
+
+    private fun hideActionFirst() {
+        binding.tvAdditionActionFirst.text = BLANK
+        binding.tvAdditionActionFirst.visibility = View.GONE
+        binding.ivAdditionActionFirstDelete.visibility = View.GONE
+    }
+
+    private fun hideActionSecond() {
+        binding.tvAdditionActionSecond.text = BLANK
+        binding.tvAdditionActionSecond.visibility = View.GONE
+        binding.ivAdditionActionSecondDelete.visibility = View.GONE
+    }
+
+    private fun hideActionThird() {
+        binding.tvAdditionActionThird.text = BLANK
+        binding.tvAdditionActionThird.visibility = View.GONE
+        binding.ivAdditionActionThirdDelete.visibility = View.GONE
+        binding.etAdditionAction.visibility = View.VISIBLE
+        binding.tvAdditionActionTextCount.visibility = View.VISIBLE
+        requestFocusWithShowingKeyboard(binding.etAdditionAction)
     }
 
     private fun setFinishButton() {
@@ -165,28 +291,6 @@ class AdditionActivity : AppCompatActivity() {
     private fun observeAction() {
         viewModel.action.observe(this) {
             binding.tvAdditionActionTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
-                binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_solid_gray_1_radius_12
-                )
-                binding.ivAdditionActionClosedCheck.visibility = View.VISIBLE
-                binding.tvAdditionActionClosedChoice.visibility = View.GONE
-                with(binding.tvAdditionActionClosedInput) {
-                    text = viewModel.action.value
-                    setTextColor(getColor(R.color.white))
-                }
-
-            } else {
-                binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_1_gray_3_radius_12
-                )
-                binding.ivAdditionActionClosedCheck.visibility = View.GONE
-                binding.tvAdditionActionClosedChoice.visibility = View.VISIBLE
-                with(binding.tvAdditionActionClosedInput) {
-                    text = getText(R.string.addition_input)
-                    setTextColor(getColor(R.color.gray_3_5d5d6b))
-                }
-            }
         }
     }
 
@@ -320,7 +424,6 @@ class AdditionActivity : AppCompatActivity() {
 
         binding.tvAdditionActionComplete.setOnClickListener {
             closeActionToggle()
-            hideKeyboard(binding.root)
         }
     }
 

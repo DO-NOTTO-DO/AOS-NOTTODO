@@ -526,6 +526,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="82dp"
                         android:text="@string/addition_input"
+                        android:layout_marginVertical="18dp"
                         android:textAppearance="@style/R14"
                         android:textColor="@color/gray_3_5d5d6b"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -599,6 +600,14 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_addition_action_opened_title" />
 
+                    <View
+                        android:id="@+id/view_addition_action"
+                        android:layout_width="0dp"
+                        android:layout_height="38dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_action_opened_desc" />
+
                     <TextView
                         android:id="@+id/tv_addition_action_first"
                         android:layout_width="wrap_content"
@@ -608,7 +617,7 @@
                         android:textColor="@color/white"
                         android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_addition_action_opened_desc" />
+                        app:layout_constraintTop_toBottomOf="@id/view_addition_action" />
 
                     <ImageView
                         android:id="@+id/iv_addition_action_first_delete"
@@ -621,20 +630,67 @@
                         app:layout_constraintStart_toEndOf="@id/tv_addition_action_first"
                         app:layout_constraintTop_toTopOf="@id/tv_addition_action_first" />
 
+                    <TextView
+                        android:id="@+id/tv_addition_action_second"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="6dp"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/white"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_action_first" />
+
+                    <ImageView
+                        android:id="@+id/iv_addition_action_second_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_delete"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_addition_action_second"
+                        app:layout_constraintStart_toEndOf="@id/tv_addition_action_second"
+                        app:layout_constraintTop_toTopOf="@id/tv_addition_action_second" />
+
+                    <TextView
+                        android:id="@+id/tv_addition_action_third"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="6dp"
+                        android:textAppearance="@style/M14"
+                        android:textColor="@color/white"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_action_second" />
+
+                    <ImageView
+                        android:id="@+id/iv_addition_action_third_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_delete"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_addition_action_third"
+                        app:layout_constraintStart_toEndOf="@id/tv_addition_action_third"
+                        app:layout_constraintTop_toTopOf="@id/tv_addition_action_third" />
+
                     <EditText
                         android:id="@+id/et_addition_action"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/gray_3_5d5d6b"
                         android:imeOptions="actionDone"
-                        android:inputType="text"
+                        android:inputType="textNoSuggestions"
+                        android:privateImeOptions="disablePredictions=true"
                         android:maxLength="20"
                         android:text="@={vm.action}"
                         android:textAppearance="@style/M14"
                         android:textColor="@color/white"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_addition_action_first" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_addition_action_third" />
 
                     <TextView
                         android:id="@+id/tv_addition_action_text_count"

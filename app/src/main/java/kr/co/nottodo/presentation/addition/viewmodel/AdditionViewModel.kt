@@ -16,6 +16,7 @@ class AdditionViewModel : ViewModel() {
 
     val isAbleToAdd: MediatorLiveData<Boolean> = MediatorLiveData()
 
+    val actionCount: MutableLiveData<Int> = MutableLiveData(0)
     init {
         isAbleToAdd.addSource(isMissionFilled) {
             isAbleToAdd.value = _isAbleToAdd()
