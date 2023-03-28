@@ -8,20 +8,21 @@ class ModificationViewModel : ViewModel() {
     private var originDate: String? = null
     private var originMission: String? = null
     private var originSituation: String? = null
-    private var originAction: String? = null
+    private var originalActionList: List<String>? = null
     private var originGoal: String? = null
 
     fun setOriginalData(data: NotTodoData) {
         originDate = data.date
         originMission = data.mission
         originSituation = data.situation
-        originAction = data.action[0]
+        originalActionList = data.action
         originGoal = data.goal
 
         date.value = data.date
         mission.value = data.mission
         situation.value = data.situation
-        action.value = data.action[0]
+        actionList.value = data.action
+        actionCount.value = data.action.size
         goal.value = data.goal
     }
 
@@ -41,10 +42,11 @@ class ModificationViewModel : ViewModel() {
     }
 
     val action: MutableLiveData<String> = MutableLiveData()
-    private val isActionChanged: LiveData<Boolean> = Transformations.map(action) {
-        originAction != it
+    val actionCount: MutableLiveData<Int> = MutableLiveData()
+    val actionList: MutableLiveData<List<String>> = MutableLiveData()
+    private val isActionListChanged: LiveData<Boolean> = Transformations.map(actionList) {
+        originalActionList != it
     }
-
     val goal: MutableLiveData<String> = MutableLiveData()
     private val isGoalChanged: LiveData<Boolean> = Transformations.map(goal) {
         originGoal != it
@@ -62,7 +64,7 @@ class ModificationViewModel : ViewModel() {
         isAbleToModify.addSource(isSituationChanged) {
             isAbleToModify.value = _isAbleToModify()
         }
-        isAbleToModify.addSource(isActionChanged) {
+        isAbleToModify.addSource(isActionListChanged) {
             isAbleToModify.value = _isAbleToModify()
         }
         isAbleToModify.addSource(isGoalChanged) {
@@ -74,7 +76,7 @@ class ModificationViewModel : ViewModel() {
         return (isDateChanged.value == true
                 || isMissionChanged.value == true
                 || isSituationChanged.value == true
-                || isActionChanged.value == true
+                || isActionListChanged.value == true
                 || isGoalChanged.value == true)
     }
 }
