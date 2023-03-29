@@ -4,12 +4,12 @@ import androidx.lifecycle.*
 
 class AdditionViewModel : ViewModel() {
     val mission: MutableLiveData<String> = MutableLiveData()
-    private val isMissionFilled: LiveData<Boolean> = Transformations.map(mission) {
-        it.isNotBlank()
+    private val isMissionFilled: LiveData<Boolean> = Transformations.map(mission) { mission ->
+        mission.isNotBlank()
     }
     val situation: MutableLiveData<String> = MutableLiveData()
-    private val isSituationFilled: LiveData<Boolean> = Transformations.map(situation) {
-        it.isNotBlank()
+    private val isSituationFilled: LiveData<Boolean> = Transformations.map(situation) { situation ->
+        situation.isNotBlank()
     }
     val action: MutableLiveData<String> = MutableLiveData()
     val goal: MutableLiveData<String> = MutableLiveData()
@@ -17,6 +17,7 @@ class AdditionViewModel : ViewModel() {
     val isAbleToAdd: MediatorLiveData<Boolean> = MediatorLiveData()
 
     val actionCount: MutableLiveData<Int> = MutableLiveData(0)
+
     init {
         isAbleToAdd.addSource(isMissionFilled) {
             isAbleToAdd.value = _isAbleToAdd()

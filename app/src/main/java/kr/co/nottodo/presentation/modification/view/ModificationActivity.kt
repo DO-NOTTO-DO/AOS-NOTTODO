@@ -243,8 +243,8 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun setModifyButton() {
-        viewModel.isAbleToModify.observe(this) {
-            if (it == true) {
+        viewModel.isAbleToModify.observe(this) { isAbleToModify ->
+            if (isAbleToModify == true) {
                 binding.btnModificationModify.setTextColor(getColor(R.color.gray_1_2a2a2e))
                 binding.btnModificationModify.setBackgroundResource(R.drawable.rectangle_green_2_radius_26)
             } else {
@@ -262,9 +262,9 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeGoal() {
-        viewModel.goal.observe(this) {
-            binding.tvModificationGoalTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
+        viewModel.goal.observe(this) { goal ->
+            binding.tvModificationGoalTextCount.text = goal.length.toString() + maxTextSize
+            if (goal.isNotBlank()) {
                 binding.layoutModificationGoalClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
@@ -290,8 +290,8 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeAction() {
-        viewModel.action.observe(this) {
-            binding.tvModificationActionTextCount.text = it.length.toString() + maxTextSize
+        viewModel.action.observe(this) { action ->
+            binding.tvModificationActionTextCount.text = action.length.toString() + maxTextSize
         }
     }
 
@@ -315,8 +315,8 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun setActions() {
-        viewModel.actionCount.observe(this) {
-            when (it) {
+        viewModel.actionCount.observe(this) { actionCount ->
+            when (actionCount) {
                 0 -> {
                     setActionBox(isActionFilled = false)
                     with(binding) {
@@ -372,9 +372,9 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeSituation() {
-        viewModel.situation.observe(this) {
-            binding.tvModificationSituationTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
+        viewModel.situation.observe(this) {situation ->
+            binding.tvModificationSituationTextCount.text = situation.length.toString() + maxTextSize
+            if (situation.isNotBlank()) {
                 binding.layoutModificationSituationClosed.background =
                     AppCompatResources.getDrawable(
                         this, R.drawable.rectangle_solid_gray_1_radius_12
@@ -400,9 +400,9 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeMission() {
-        viewModel.mission.observe(this) {
-            binding.tvModificationMissionTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
+        viewModel.mission.observe(this) { mission ->
+            binding.tvModificationMissionTextCount.text = mission.length.toString() + maxTextSize
+            if (mission.isNotBlank()) {
                 binding.layoutModificationMissionClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )

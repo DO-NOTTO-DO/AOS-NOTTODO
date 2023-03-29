@@ -27,29 +27,31 @@ class ModificationViewModel : ViewModel() {
     }
 
     val date: MutableLiveData<String> = MutableLiveData()
-    private val isDateChanged: LiveData<Boolean> = Transformations.map(date) {
-        originDate != it
+    private val isDateChanged: LiveData<Boolean> = Transformations.map(date) { newDate ->
+        originDate != newDate
     }
 
     val mission: MutableLiveData<String> = MutableLiveData()
-    private val isMissionChanged: LiveData<Boolean> = Transformations.map(mission) {
-        originMission != it
+    private val isMissionChanged: LiveData<Boolean> = Transformations.map(mission) { newMission ->
+        originMission != newMission
     }
 
     val situation: MutableLiveData<String> = MutableLiveData()
-    private val isSituationChanged: LiveData<Boolean> = Transformations.map(situation) {
-        originSituation != it
-    }
+    private val isSituationChanged: LiveData<Boolean> =
+        Transformations.map(situation) { newSituation ->
+            originSituation != newSituation
+        }
 
     val action: MutableLiveData<String> = MutableLiveData()
     val actionCount: MutableLiveData<Int> = MutableLiveData()
     val actionList: MutableLiveData<List<String>> = MutableLiveData()
-    private val isActionListChanged: LiveData<Boolean> = Transformations.map(actionList) {
-        originalActionList != it
-    }
+    private val isActionListChanged: LiveData<Boolean> =
+        Transformations.map(actionList) { newActionList ->
+            originalActionList != newActionList
+        }
     val goal: MutableLiveData<String> = MutableLiveData()
-    private val isGoalChanged: LiveData<Boolean> = Transformations.map(goal) {
-        originGoal != it
+    private val isGoalChanged: LiveData<Boolean> = Transformations.map(goal) { newGoal ->
+        originGoal != newGoal
     }
 
     val isAbleToModify: MediatorLiveData<Boolean> = MediatorLiveData()
@@ -73,10 +75,6 @@ class ModificationViewModel : ViewModel() {
     }
 
     private fun _isAbleToModify(): Boolean {
-        return (isDateChanged.value == true
-                || isMissionChanged.value == true
-                || isSituationChanged.value == true
-                || isActionListChanged.value == true
-                || isGoalChanged.value == true)
+        return (isDateChanged.value == true || isMissionChanged.value == true || isSituationChanged.value == true || isActionListChanged.value == true || isGoalChanged.value == true)
     }
 }

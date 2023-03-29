@@ -71,8 +71,8 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun setActions() {
-        viewModel.actionCount.observe(this) {
-            when (it) {
+        viewModel.actionCount.observe(this) { actionCount ->
+            when (actionCount) {
                 0 -> {
                     setActionBox(isActionFilled = false)
                 }
@@ -242,8 +242,8 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun setAddButton() {
-        viewModel.isAbleToAdd.observe(this) {
-            if (it == true) {
+        viewModel.isAbleToAdd.observe(this) { isAbleToAdd ->
+            if (isAbleToAdd == true) {
                 binding.btnAdditionAdd.setTextColor(getColor(R.color.gray_1_2a2a2e))
                 binding.btnAdditionAdd.setBackgroundResource(R.drawable.rectangle_green_2_radius_26)
             } else {
@@ -261,9 +261,9 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeGoal() {
-        viewModel.goal.observe(this) {
-            binding.tvAdditionGoalTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
+        viewModel.goal.observe(this) { goal ->
+            binding.tvAdditionGoalTextCount.text = goal.length.toString() + maxTextSize
+            if (goal.isNotBlank()) {
                 binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
@@ -289,15 +289,15 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeAction() {
-        viewModel.action.observe(this) {
-            binding.tvAdditionActionTextCount.text = it.length.toString() + maxTextSize
+        viewModel.action.observe(this) { action ->
+            binding.tvAdditionActionTextCount.text = action.length.toString() + maxTextSize
         }
     }
 
     private fun observeSituation() {
-        viewModel.situation.observe(this) {
-            binding.tvAdditionSituationTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
+        viewModel.situation.observe(this) { situation ->
+            binding.tvAdditionSituationTextCount.text = situation.length.toString() + maxTextSize
+            if (situation.isNotBlank()) {
                 binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
@@ -321,9 +321,9 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeMission() {
-        viewModel.mission.observe(this) {
-            binding.tvAdditionMissionTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
+        viewModel.mission.observe(this) { mission ->
+            binding.tvAdditionMissionTextCount.text = mission.length.toString() + maxTextSize
+            if (mission.isNotBlank()) {
                 binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
