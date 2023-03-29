@@ -21,11 +21,12 @@
     <string name="home_dialog_do_another">다른 날도 할래요</string>
     <string name="home_dialog_add_day">날짜 선택</string>
     <string name="home_dialog_delete_btn">삭제하기</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--Addition View-->
     <string name="addition_input">입력하세요…</string>
     <string name="addition_choice">*선택</string>
+    <string name="login_terms_policy"><u>이용약관</u> 및 <u>개인정보 처리방침</u></string>
+    <!--Login View-->
+
 
     <!--acheive-->
     <string name="achieve_achieve">성취</string>

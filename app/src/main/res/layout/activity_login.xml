@@ -41,26 +41,34 @@
         app:layout_constraintBottom_toTopOf="@id/btn_login_kakao"
         app:layout_constraintStart_toStartOf="@id/btn_login_kakao" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <ImageView
         android:id="@+id/btn_login_kakao"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="9dp"
         android:layout_marginBottom="12dp"
-        android:background="@color/white"
-        android:text="kakao login"
+        android:src="@drawable/img_login_for_kakao"
         app:layout_constraintBottom_toTopOf="@id/btn_login_google"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <ImageView
         android:id="@+id/btn_login_google"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="9dp"
-        android:layout_marginBottom="76dp"
-        android:background="@color/white"
-        android:text="google login"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/img_login_for_google"
+        app:layout_constraintBottom_toTopOf="@id/tv_login_terms_policy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_login_terms_policy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="52dp"
+        android:text="@string/login_terms_policy"
+        android:textAppearance="@style/R12"
+        android:textColor="@color/gray_4_9398aa"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
