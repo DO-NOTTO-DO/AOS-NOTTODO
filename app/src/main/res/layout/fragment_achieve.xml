@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".presentation.achieve.AchieveFragment">
+
+    <TextView
+        android:id="@+id/tv_achieve_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="42dp"
+        android:text="@string/achieve_achieve"
+        android:textAppearance="@style/Sb18"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/achieve_calender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/achieve_achieve"
+        app:layout_constraintTop_toBottomOf="@id/tv_achieve_title" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_achieve_wait_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:background="@drawable/ic_achieve_total"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/achieve_calender">
+
+        <ImageView
+            android:id="@+id/tv_achieve_cone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:src="@drawable/ic_achieve_total_triangle"
+            app:layout_constraintEnd_toEndOf="@id/cl_achieve_wait_description"
+            app:layout_constraintStart_toStartOf="@id/cl_achieve_wait_description"
+            app:layout_constraintTop_toTopOf="@id/cl_achieve_wait_description" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="65dp"
+            android:gravity="center"
+            android:text="@string/achieve_description"
+            android:textAppearance="@style/R14"
+            android:textColor="@color/gray_5_d8d8e5"
+            app:layout_constraintBottom_toBottomOf="@id/cl_achieve_wait_description"
+            app:layout_constraintEnd_toEndOf="@id/cl_achieve_wait_description"
+            app:layout_constraintStart_toStartOf="@id/cl_achieve_wait_description"
+            app:layout_constraintTop_toBottomOf="@id/tv_achieve_cone" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
