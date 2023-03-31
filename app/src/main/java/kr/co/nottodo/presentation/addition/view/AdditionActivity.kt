@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.view.KeyEvent
-import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
+import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
@@ -46,41 +46,181 @@ class AdditionActivity : AppCompatActivity() {
 
         setAddButton()
         setFinishButton()
+        setDeleteButtons()
         setEnterKey()
+        setActions()
+    }
+
+    private fun setActionBox(isActionFilled: Boolean) {
+        if (isActionFilled) {
+            binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
+                this, R.drawable.rectangle_solid_gray_1_radius_12
+            )
+            binding.ivAdditionActionClosedCheck.visibility = View.VISIBLE
+            binding.tvAdditionActionClosedChoice.visibility = View.GONE
+            binding.tvAdditionActionClosedInput.setTextColor(getColor(R.color.white))
+        } else {
+            binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
+                this, R.drawable.rectangle_stroke_1_gray_3_radius_12
+            )
+            binding.ivAdditionActionClosedCheck.visibility = View.GONE
+            binding.tvAdditionActionClosedChoice.visibility = View.VISIBLE
+            binding.tvAdditionActionClosedInput.setTextColor(getColor(R.color.gray_3_5d5d6b))
+            binding.tvAdditionActionClosedInput.text = getString(R.string.addition_input)
+        }
+    }
+
+    private fun setActions() {
+        viewModel.actionCount.observe(this) { actionCount ->
+            when (actionCount) {
+                0 -> {
+                    setActionBox(isActionFilled = false)
+                }
+                1 -> {
+                    setActionBox(isActionFilled = true)
+                    binding.tvAdditionActionClosedInput.text = binding.tvAdditionActionFirst.text
+                }
+                2 -> {
+                    setActionBox(isActionFilled = true)
+                    binding.tvAdditionActionClosedInput.text =
+                        "${binding.tvAdditionActionFirst.text}\n${binding.tvAdditionActionSecond.text}"
+                }
+                3 -> {
+                    setActionBox(isActionFilled = true)
+                    binding.tvAdditionActionClosedInput.text =
+                        "${binding.tvAdditionActionFirst.text}\n${binding.tvAdditionActionSecond.text}\n${binding.tvAdditionActionThird.text}"
+                }
+            }
+        }
     }
 
     private fun setEnterKey() {
-        binding.etAdditionMission.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+        binding.etAdditionMission.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeMissionToggle()
                 hideKeyboard(binding.root)
             }
-            return@setOnKeyListener false
+            return@setOnEditorActionListener false
         }
 
-        binding.etAdditionSituation.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+        binding.etAdditionSituation.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeSituationToggle()
                 hideKeyboard(binding.root)
             }
-            return@setOnKeyListener false
+            return@setOnEditorActionListener false
         }
 
-        binding.etAdditionAction.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
-                closeActionToggle()
-                hideKeyboard(binding.root)
+        binding.etAdditionAction.setOnEditorActionListener { _, actionId, _ ->
+            //상황 추가 입력창 키보드 엔터 오버라이딩 -> 텍스트뷰 추가
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                viewModel.actionCount.value?.let { addAction(it) }
             }
-            return@setOnKeyListener false
+            return@setOnEditorActionListener true
         }
 
-        binding.etAdditionGoal.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+        binding.etAdditionGoal.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeGoalToggle()
                 hideKeyboard(binding.root)
             }
-            return@setOnKeyListener false
+            return@setOnEditorActionListener false
         }
+    }
+
+    private fun addAction(actionCount: Int) {
+        when (actionCount) {
+            0 -> {
+                with(binding) {
+                    tvAdditionActionFirst.text = viewModel.action.value
+                    viewModel.action.value = BLANK
+                    tvAdditionActionFirst.visibility = View.VISIBLE
+                    ivAdditionActionFirstDelete.visibility = View.VISIBLE
+                }
+                viewModel.actionCount.value = 1
+            }
+            1 -> {
+                with(binding) {
+                    tvAdditionActionSecond.text = viewModel.action.value
+                    viewModel.action.value = BLANK
+                    tvAdditionActionSecond.visibility = View.VISIBLE
+                    ivAdditionActionSecondDelete.visibility = View.VISIBLE
+                }
+                viewModel.actionCount.value = 2
+            }
+            2 -> {
+                with(binding) {
+                    tvAdditionActionThird.text = viewModel.action.value
+                    viewModel.action.value = BLANK
+                    tvAdditionActionThird.visibility = View.VISIBLE
+                    ivAdditionActionThirdDelete.visibility = View.VISIBLE
+                    etAdditionAction.visibility = View.GONE
+                    tvAdditionActionTextCount.visibility = View.GONE
+                    hideKeyboard(root)
+                }
+                viewModel.actionCount.value = 3
+            }
+        }
+    }
+
+    private fun setDeleteButtons() {
+        binding.ivAdditionActionFirstDelete.setOnClickListener {
+            when (viewModel.actionCount.value) {
+                1 -> {
+                    hideActionFirst()
+                    viewModel.actionCount.value = 0
+                }
+                2 -> {
+                    binding.tvAdditionActionFirst.text = binding.tvAdditionActionSecond.text
+                    hideActionSecond()
+                    viewModel.actionCount.value = 1
+                }
+                3 -> {
+                    binding.tvAdditionActionFirst.text = binding.tvAdditionActionSecond.text
+                    binding.tvAdditionActionSecond.text = binding.tvAdditionActionThird.text
+                    hideActionThird()
+                    viewModel.actionCount.value = 2
+                }
+            }
+        }
+        binding.ivAdditionActionSecondDelete.setOnClickListener {
+            when (viewModel.actionCount.value) {
+                2 -> {
+                    hideActionSecond()
+                    viewModel.actionCount.value = 1
+                }
+                3 -> {
+                    binding.tvAdditionActionSecond.text = binding.tvAdditionActionThird.text
+                    hideActionThird()
+                    viewModel.actionCount.value = 2
+                }
+            }
+        }
+        binding.ivAdditionActionThirdDelete.setOnClickListener {
+            hideActionThird()
+            viewModel.actionCount.value = 2
+        }
+    }
+
+    private fun hideActionFirst() {
+        binding.tvAdditionActionFirst.text = BLANK
+        binding.tvAdditionActionFirst.visibility = View.GONE
+        binding.ivAdditionActionFirstDelete.visibility = View.GONE
+    }
+
+    private fun hideActionSecond() {
+        binding.tvAdditionActionSecond.text = BLANK
+        binding.tvAdditionActionSecond.visibility = View.GONE
+        binding.ivAdditionActionSecondDelete.visibility = View.GONE
+    }
+
+    private fun hideActionThird() {
+        binding.tvAdditionActionThird.text = BLANK
+        binding.tvAdditionActionThird.visibility = View.GONE
+        binding.ivAdditionActionThirdDelete.visibility = View.GONE
+        binding.etAdditionAction.visibility = View.VISIBLE
+        binding.tvAdditionActionTextCount.visibility = View.VISIBLE
+        requestFocusWithShowingKeyboard(binding.etAdditionAction)
     }
 
     private fun setFinishButton() {
@@ -102,15 +242,17 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun setAddButton() {
-        viewModel.isAbleToAdd.observe(this) {
-            if (it == true) {
-                binding.tvAdditionAdd.setTextColor(getColor(R.color.white))
+        viewModel.isAbleToAdd.observe(this) { isAbleToAdd ->
+            if (isAbleToAdd == true) {
+                binding.btnAdditionAdd.setTextColor(getColor(R.color.gray_1_2a2a2e))
+                binding.btnAdditionAdd.setBackgroundResource(R.drawable.rectangle_green_2_radius_26)
             } else {
-                binding.tvAdditionAdd.setTextColor(getColor(R.color.gray_3_5d5d6b))
+                binding.btnAdditionAdd.setTextColor(getColor(R.color.gray_3_5d5d6b))
+                binding.btnAdditionAdd.setBackgroundResource(R.drawable.rectangle_gray_2_radius_26)
             }
         }
-        binding.tvAdditionAdd.setOnClickListener {
-            if (binding.tvAdditionAdd.currentTextColor == getColor(R.color.white)) {
+        binding.btnAdditionAdd.setOnClickListener {
+            if (binding.btnAdditionAdd.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
                 // 낫투두 추가
                 this.showToast("낫투두 추가 완료")
                 finish()
@@ -119,9 +261,9 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeGoal() {
-        viewModel.goal.observe(this) {
-            binding.tvAdditionGoalTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
+        viewModel.goal.observe(this) { goal ->
+            binding.tvAdditionGoalTextCount.text = goal.length.toString() + maxTextSize
+            if (goal.isNotBlank()) {
                 binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
@@ -134,7 +276,7 @@ class AdditionActivity : AppCompatActivity() {
 
             } else {
                 binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivAdditionGoalCheck.visibility = View.GONE
                 binding.tvAdditionGoalClosedChoice.visibility = View.VISIBLE
@@ -147,37 +289,15 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeAction() {
-        viewModel.action.observe(this) {
-            binding.tvAdditionActionTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
-                binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_solid_gray_1_radius_12
-                )
-                binding.ivAdditionActionClosedCheck.visibility = View.VISIBLE
-                binding.tvAdditionActionClosedChoice.visibility = View.GONE
-                with(binding.tvAdditionActionClosedInput) {
-                    text = viewModel.action.value
-                    setTextColor(getColor(R.color.white))
-                }
-
-            } else {
-                binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
-                )
-                binding.ivAdditionActionClosedCheck.visibility = View.GONE
-                binding.tvAdditionActionClosedChoice.visibility = View.VISIBLE
-                with(binding.tvAdditionActionClosedInput) {
-                    text = getText(R.string.addition_input)
-                    setTextColor(getColor(R.color.gray_3_5d5d6b))
-                }
-            }
+        viewModel.action.observe(this) { action ->
+            binding.tvAdditionActionTextCount.text = action.length.toString() + maxTextSize
         }
     }
 
     private fun observeSituation() {
-        viewModel.situation.observe(this) {
-            binding.tvAdditionSituationTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
+        viewModel.situation.observe(this) { situation ->
+            binding.tvAdditionSituationTextCount.text = situation.length.toString() + maxTextSize
+            if (situation.isNotBlank()) {
                 binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
@@ -189,7 +309,7 @@ class AdditionActivity : AppCompatActivity() {
 
             } else {
                 binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivAdditionSituationCheck.visibility = View.GONE
                 with(binding.tvAdditionSituationInput) {
@@ -201,9 +321,9 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeMission() {
-        viewModel.mission.observe(this) {
-            binding.tvAdditionMissionTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
+        viewModel.mission.observe(this) { mission ->
+            binding.tvAdditionMissionTextCount.text = mission.length.toString() + maxTextSize
+            if (mission.isNotBlank()) {
                 binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
@@ -217,7 +337,7 @@ class AdditionActivity : AppCompatActivity() {
 
             } else {
                 binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivAdditionMissionClosedCheck.visibility = View.GONE
                 with(binding.tvAdditionMissionClosedName) {
@@ -300,6 +420,10 @@ class AdditionActivity : AppCompatActivity() {
 
         binding.tvAdditionDateOpenedComplete.setOnClickListener {
             closeDateToggle()
+        }
+
+        binding.tvAdditionActionComplete.setOnClickListener {
+            closeActionToggle()
         }
     }
 

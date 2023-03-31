@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.view.KeyEvent
-import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
+import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ActivityModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
@@ -38,58 +38,189 @@ class ModificationActivity : AppCompatActivity() {
         setSituationRecommendations()
         initOpenedDesc()
         initToggles()
-        initData()
+        initData(viewModel.actionCount.value)
 
         observeMission()
         observeSituation()
         observeAction()
         observeGoal()
+        setActions()
 
-        setAddButton()
+        setModifyButton()
+        setDeleteButtons()
         setFinishButton()
         setEnterKey()
     }
 
-    private fun initData() {
+    private fun initData(actionCount: Int?) {
         viewModel.setOriginalData(
             NotTodoData(
-                "2023.01.15", "배민 VIP 탈출하기", "밥 먹을 때", listOf("배달의 민족 앱 삭제하기"), "불필요한 지출 줄이기"
+                "2023.01.15",
+                "배민 VIP 탈출하기",
+                "밥 먹을 때",
+                listOf("배달의 민족 앱 삭제하기", "배달의 민족 앱 삭제하기", "배달의 민족 앱 삭제하기"),
+                "불필요한 지출 줄이기"
             )
         )
+        when (actionCount) {
+            1 -> {
+                setFirstAction()
+            }
+            2 -> {
+                setFirstAction()
+                setSecondAction()
+            }
+            3 -> {
+                setFirstAction()
+                setSecondAction()
+                setThirdAction()
+            }
+        }
+    }
+
+    private fun setThirdAction() {
+        binding.tvModificationActionThird.text = viewModel.actionList.value?.get(2) ?: BLANK
+        binding.tvModificationActionThird.visibility = View.VISIBLE
+        binding.ivModificationActionThirdDelete.visibility = View.VISIBLE
+    }
+
+    private fun setSecondAction() {
+        binding.tvModificationActionSecond.text = viewModel.actionList.value?.get(1) ?: BLANK
+        binding.tvModificationActionSecond.visibility = View.VISIBLE
+        binding.ivModificationActionSecondDelete.visibility = View.VISIBLE
+    }
+
+    private fun setFirstAction() {
+        binding.tvModificationActionFirst.text = viewModel.actionList.value?.get(0) ?: BLANK
+        binding.tvModificationActionFirst.visibility = View.VISIBLE
+        binding.ivModificationActionFirstDelete.visibility = View.VISIBLE
     }
 
     private fun setEnterKey() {
-        binding.etModificationMission.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+        binding.etModificationMission.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeMissionToggle()
                 hideKeyboard(binding.root)
             }
-            return@setOnKeyListener false
+            return@setOnEditorActionListener false
         }
 
-        binding.etModificationSituation.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+        binding.etModificationSituation.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeSituationToggle()
                 hideKeyboard(binding.root)
             }
-            return@setOnKeyListener false
+            return@setOnEditorActionListener false
         }
 
-        binding.etModificationAction.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
-                closeActionToggle()
-                hideKeyboard(binding.root)
+
+        binding.etModificationAction.setOnEditorActionListener { _, actionId, _ ->
+            //상황 추가 입력창 키보드 엔터 오버라이딩 -> 텍스트뷰 추가
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                addAction(viewModel.actionCount.value)
             }
-            return@setOnKeyListener false
+            return@setOnEditorActionListener true
         }
 
-        binding.etModificationGoal.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyCode == KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+        binding.etModificationGoal.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeGoalToggle()
                 hideKeyboard(binding.root)
             }
-            return@setOnKeyListener false
+            return@setOnEditorActionListener false
         }
+    }
+
+    private fun addAction(actionCount: Int?) {
+        when (actionCount) {
+            0 -> {
+                with(binding) {
+                    tvModificationActionFirst.text = viewModel.action.value
+                    viewModel.action.value = BLANK
+                    tvModificationActionFirst.visibility = View.VISIBLE
+                    ivModificationActionFirstDelete.visibility = View.VISIBLE
+                }
+                viewModel.actionCount.value = 1
+            }
+            1 -> {
+                with(binding) {
+                    tvModificationActionSecond.text = viewModel.action.value
+                    viewModel.action.value = BLANK
+                    tvModificationActionSecond.visibility = View.VISIBLE
+                    ivModificationActionSecondDelete.visibility = View.VISIBLE
+                }
+                viewModel.actionCount.value = 2
+            }
+            2 -> {
+                with(binding) {
+                    tvModificationActionThird.text = viewModel.action.value
+                    viewModel.action.value = BLANK
+                    tvModificationActionThird.visibility = View.VISIBLE
+                    ivModificationActionThirdDelete.visibility = View.VISIBLE
+                }
+                viewModel.actionCount.value = 3
+            }
+        }
+    }
+
+    private fun setDeleteButtons() {
+        binding.ivModificationActionFirstDelete.setOnClickListener {
+            when (viewModel.actionCount.value) {
+                1 -> {
+                    hideActionFirst()
+                    viewModel.actionCount.value = 0
+                }
+                2 -> {
+                    binding.tvModificationActionFirst.text = binding.tvModificationActionSecond.text
+                    hideActionSecond()
+                    viewModel.actionCount.value = 1
+                }
+                3 -> {
+                    binding.tvModificationActionFirst.text = binding.tvModificationActionSecond.text
+                    binding.tvModificationActionSecond.text = binding.tvModificationActionThird.text
+                    hideActionThird()
+                    viewModel.actionCount.value = 2
+                }
+            }
+        }
+        binding.ivModificationActionSecondDelete.setOnClickListener {
+            when (viewModel.actionCount.value) {
+                2 -> {
+                    hideActionSecond()
+                    viewModel.actionCount.value = 1
+                }
+                3 -> {
+                    binding.tvModificationActionSecond.text = binding.tvModificationActionThird.text
+                    hideActionThird()
+                    viewModel.actionCount.value = 2
+                }
+            }
+        }
+        binding.ivModificationActionThirdDelete.setOnClickListener {
+            hideActionThird()
+            viewModel.actionCount.value = 2
+        }
+    }
+
+    private fun hideActionFirst() {
+        binding.tvModificationActionFirst.text = BLANK
+        binding.tvModificationActionFirst.visibility = View.GONE
+        binding.ivModificationActionFirstDelete.visibility = View.GONE
+    }
+
+    private fun hideActionSecond() {
+        binding.tvModificationActionSecond.text = BLANK
+        binding.tvModificationActionSecond.visibility = View.GONE
+        binding.ivModificationActionSecondDelete.visibility = View.GONE
+    }
+
+    private fun hideActionThird() {
+        binding.tvModificationActionThird.text = BLANK
+        binding.tvModificationActionThird.visibility = View.GONE
+        binding.ivModificationActionThirdDelete.visibility = View.GONE
+        binding.etModificationAction.visibility = View.VISIBLE
+        binding.tvModificationActionTextCount.visibility = View.VISIBLE
+        requestFocusWithShowingKeyboard(binding.etModificationAction)
     }
 
     private fun setFinishButton() {
@@ -111,16 +242,18 @@ class ModificationActivity : AppCompatActivity() {
         )
     }
 
-    private fun setAddButton() {
-        viewModel.isAbleToModify.observe(this) {
-            if (it == true) {
-                binding.tvModificationModify.setTextColor(getColor(R.color.white))
+    private fun setModifyButton() {
+        viewModel.isAbleToModify.observe(this) { isAbleToModify ->
+            if (isAbleToModify == true) {
+                binding.btnModificationModify.setTextColor(getColor(R.color.gray_1_2a2a2e))
+                binding.btnModificationModify.setBackgroundResource(R.drawable.rectangle_green_2_radius_26)
             } else {
-                binding.tvModificationModify.setTextColor(getColor(R.color.gray_3_5d5d6b))
+                binding.btnModificationModify.setTextColor(getColor(R.color.gray_3_5d5d6b))
+                binding.btnModificationModify.setBackgroundResource(R.drawable.rectangle_gray_2_radius_26)
             }
         }
-        binding.tvModificationModify.setOnClickListener {
-            if (binding.tvModificationModify.currentTextColor == getColor(R.color.white)) {
+        binding.btnModificationModify.setOnClickListener {
+            if (binding.btnModificationModify.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
                 // 낫투두 추가
                 this.showToast("낫투두 수정 완료")
                 finish()
@@ -129,9 +262,9 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeGoal() {
-        viewModel.goal.observe(this) {
-            binding.tvModificationGoalTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
+        viewModel.goal.observe(this) { goal ->
+            binding.tvModificationGoalTextCount.text = goal.length.toString() + maxTextSize
+            if (goal.isNotBlank()) {
                 binding.layoutModificationGoalClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
@@ -144,7 +277,7 @@ class ModificationActivity : AppCompatActivity() {
 
             } else {
                 binding.layoutModificationGoalClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivModificationGoalCheck.visibility = View.GONE
                 binding.tvModificationGoalClosedChoice.visibility = View.VISIBLE
@@ -157,37 +290,92 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeAction() {
-        viewModel.action.observe(this) {
-            binding.tvModificationActionTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
-                binding.layoutModificationActionClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_solid_gray_1_radius_12
-                )
-                binding.ivModificationActionClosedCheck.visibility = View.VISIBLE
-                binding.tvModificationActionClosedChoice.visibility = View.GONE
-                with(binding.tvModificationActionClosedInput) {
-                    text = viewModel.action.value
-                    setTextColor(getColor(R.color.white))
-                }
+        viewModel.action.observe(this) { action ->
+            binding.tvModificationActionTextCount.text = action.length.toString() + maxTextSize
+        }
+    }
 
-            } else {
-                binding.layoutModificationActionClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
-                )
-                binding.ivModificationActionClosedCheck.visibility = View.GONE
-                binding.tvModificationActionClosedChoice.visibility = View.VISIBLE
-                with(binding.tvModificationActionClosedInput) {
-                    text = getText(R.string.addition_input)
-                    setTextColor(getColor(R.color.gray_3_5d5d6b))
+    private fun setActionBox(isActionFilled: Boolean) {
+        if (isActionFilled) {
+            binding.layoutModificationActionClosed.background = AppCompatResources.getDrawable(
+                this, R.drawable.rectangle_solid_gray_1_radius_12
+            )
+            binding.ivModificationActionClosedCheck.visibility = View.VISIBLE
+            binding.tvModificationActionClosedChoice.visibility = View.GONE
+            binding.tvModificationActionClosedInput.setTextColor(getColor(R.color.white))
+        } else {
+            binding.layoutModificationActionClosed.background = AppCompatResources.getDrawable(
+                this, R.drawable.rectangle_stroke_1_gray_3_radius_12
+            )
+            binding.ivModificationActionClosedCheck.visibility = View.GONE
+            binding.tvModificationActionClosedChoice.visibility = View.VISIBLE
+            binding.tvModificationActionClosedInput.setTextColor(getColor(R.color.gray_3_5d5d6b))
+            binding.tvModificationActionClosedInput.text = getString(R.string.addition_input)
+        }
+    }
+
+    private fun setActions() {
+        viewModel.actionCount.observe(this) { actionCount ->
+            when (actionCount) {
+                0 -> {
+                    setActionBox(isActionFilled = false)
+                    with(binding) {
+                        etModificationAction.visibility = View.VISIBLE
+                        tvModificationActionTextCount.visibility = View.VISIBLE
+                        requestFocusWithShowingKeyboard(binding.etModificationAction)
+                    }
+                    viewModel.actionList.value = listOf()
+                }
+                1 -> {
+                    setActionBox(isActionFilled = true)
+                    binding.tvModificationActionClosedInput.text =
+                        binding.tvModificationActionFirst.text
+                    with(binding) {
+                        etModificationAction.visibility = View.VISIBLE
+                        tvModificationActionTextCount.visibility = View.VISIBLE
+                        requestFocusWithShowingKeyboard(binding.etModificationAction)
+                        viewModel.actionList.value =
+                            listOf(binding.tvModificationActionFirst.text.toString())
+                    }
+                }
+                2 -> {
+                    setActionBox(isActionFilled = true)
+                    binding.tvModificationActionClosedInput.text =
+                        "${binding.tvModificationActionFirst.text}\n${binding.tvModificationActionSecond.text}"
+                    with(binding) {
+                        etModificationAction.visibility = View.VISIBLE
+                        tvModificationActionTextCount.visibility = View.VISIBLE
+                        requestFocusWithShowingKeyboard(binding.etModificationAction)
+                        viewModel.actionList.value = listOf(
+                            binding.tvModificationActionFirst.text.toString(),
+                            binding.tvModificationActionSecond.text.toString()
+                        )
+                    }
+                }
+                3 -> {
+                    setActionBox(isActionFilled = true)
+                    binding.tvModificationActionClosedInput.text =
+                        "${binding.tvModificationActionFirst.text}\n${binding.tvModificationActionSecond.text}\n${binding.tvModificationActionThird.text}"
+                    with(binding) {
+                        etModificationAction.visibility = View.GONE
+                        tvModificationActionTextCount.visibility = View.GONE
+                        hideKeyboard(root)
+                        viewModel.actionList.value = listOf(
+                            binding.tvModificationActionFirst.text.toString(),
+                            binding.tvModificationActionSecond.text.toString(),
+                            binding.tvModificationActionThird.text.toString()
+                        )
+                    }
                 }
             }
         }
     }
 
     private fun observeSituation() {
-        viewModel.situation.observe(this) {
-            binding.tvModificationSituationTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
+        viewModel.situation.observe(this) { situation ->
+            binding.tvModificationSituationTextCount.text =
+                situation.length.toString() + maxTextSize
+            if (situation.isNotBlank()) {
                 binding.layoutModificationSituationClosed.background =
                     AppCompatResources.getDrawable(
                         this, R.drawable.rectangle_solid_gray_1_radius_12
@@ -201,7 +389,7 @@ class ModificationActivity : AppCompatActivity() {
             } else {
                 binding.layoutModificationSituationClosed.background =
                     AppCompatResources.getDrawable(
-                        this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                        this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                     )
                 binding.ivModificationSituationCheck.visibility = View.GONE
                 with(binding.tvModificationSituationInput) {
@@ -213,9 +401,9 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeMission() {
-        viewModel.mission.observe(this) {
-            binding.tvModificationMissionTextCount.text = it.length.toString() + maxTextSize
-            if (it.isNotBlank()) {
+        viewModel.mission.observe(this) { mission ->
+            binding.tvModificationMissionTextCount.text = mission.length.toString() + maxTextSize
+            if (mission.isNotBlank()) {
                 binding.layoutModificationMissionClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
@@ -229,7 +417,7 @@ class ModificationActivity : AppCompatActivity() {
 
             } else {
                 binding.layoutModificationMissionClosed.background = AppCompatResources.getDrawable(
-                    this, R.drawable.rectangle_stroke_gray3_1_radius_12
+                    this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivModificationMissionClosedCheck.visibility = View.GONE
                 with(binding.tvModificationMissionClosedName) {
@@ -312,6 +500,11 @@ class ModificationActivity : AppCompatActivity() {
 
         binding.tvModificationDateOpenedComplete.setOnClickListener {
             closeDateToggle()
+        }
+
+        binding.tvModificationActionComplete.setOnClickListener {
+            closeActionToggle()
+            hideKeyboard(binding.root)
         }
     }
 
