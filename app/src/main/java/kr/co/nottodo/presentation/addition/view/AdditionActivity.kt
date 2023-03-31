@@ -114,7 +114,7 @@ class AdditionActivity : AppCompatActivity() {
         binding.etAdditionAction.setOnEditorActionListener { _, actionId, _ ->
             //상황 추가 입력창 키보드 엔터 오버라이딩 -> 텍스트뷰 추가
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                addAction()
+                viewModel.actionCount.value?.let { addAction(it) }
             }
             return@setOnEditorActionListener true
         }
@@ -128,8 +128,8 @@ class AdditionActivity : AppCompatActivity() {
         }
     }
 
-    private fun addAction() {
-        when (viewModel.actionCount.value) {
+    private fun addAction(actionCount: Int) {
+        when (actionCount) {
             0 -> {
                 with(binding) {
                     tvAdditionActionFirst.text = viewModel.action.value

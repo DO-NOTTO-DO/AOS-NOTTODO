@@ -38,7 +38,7 @@ class ModificationActivity : AppCompatActivity() {
         setSituationRecommendations()
         initOpenedDesc()
         initToggles()
-        initData()
+        initData(viewModel.actionCount.value)
 
         observeMission()
         observeSituation()
@@ -52,7 +52,7 @@ class ModificationActivity : AppCompatActivity() {
         setEnterKey()
     }
 
-    private fun initData() {
+    private fun initData(actionCount: Int?) {
         viewModel.setOriginalData(
             NotTodoData(
                 "2023.01.15",
@@ -62,7 +62,7 @@ class ModificationActivity : AppCompatActivity() {
                 "불필요한 지출 줄이기"
             )
         )
-        when (viewModel.actionCount.value) {
+        when (actionCount) {
             1 -> {
                 setFirstAction()
             }
@@ -117,7 +117,7 @@ class ModificationActivity : AppCompatActivity() {
         binding.etModificationAction.setOnEditorActionListener { _, actionId, _ ->
             //상황 추가 입력창 키보드 엔터 오버라이딩 -> 텍스트뷰 추가
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                addAction()
+                addAction(viewModel.actionCount.value)
             }
             return@setOnEditorActionListener true
         }
@@ -131,8 +131,8 @@ class ModificationActivity : AppCompatActivity() {
         }
     }
 
-    private fun addAction() {
-        when (viewModel.actionCount.value) {
+    private fun addAction(actionCount: Int?) {
+        when (actionCount) {
             0 -> {
                 with(binding) {
                     tvModificationActionFirst.text = viewModel.action.value
@@ -372,8 +372,9 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeSituation() {
-        viewModel.situation.observe(this) {situation ->
-            binding.tvModificationSituationTextCount.text = situation.length.toString() + maxTextSize
+        viewModel.situation.observe(this) { situation ->
+            binding.tvModificationSituationTextCount.text =
+                situation.length.toString() + maxTextSize
             if (situation.isNotBlank()) {
                 binding.layoutModificationSituationClosed.background =
                     AppCompatResources.getDrawable(
