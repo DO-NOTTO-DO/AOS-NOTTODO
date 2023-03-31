@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import kr.co.nottodo.databinding.ActivityMainBinding
-import kr.co.nottodo.presentation.calendar.view.CalendarFragment
+import kr.co.nottodo.presentation.achieve.AchieveFragment
 import kr.co.nottodo.presentation.home.view.HomeFragment
 import kr.co.nottodo.presentation.mypage.view.MyPageFragment
 
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             changeFragment(
                 when (it.itemId) {
                     R.id.menu_home -> HomeFragment()
-                    R.id.menu_calendar -> CalendarFragment()
+                    R.id.menu_calendar -> AchieveFragment()
                     else -> MyPageFragment()
                 }
             )
