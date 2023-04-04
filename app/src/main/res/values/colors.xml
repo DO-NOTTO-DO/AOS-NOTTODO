@@ -7,6 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#1f1f23</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="black_000000">#000000</color>
     <!--gray-->
     <color name="gray_1_2a2a2e">#2a2a2e</color>
     <color name="gray_2_34343a">#34343a</color>
@@ -25,8 +26,9 @@
     <color name="red_ff6464">#ff6464</color>
     <!--blue-->
     <color name="blue_5756ce">#5756ce</color>
-
+    <!--yellow-->
     <color name="yellow_mild_fbf8af">#fbf8af</color>
     <color name="yellow_basic_fef652">#fef652</color>
     <color name="yellow_deep_ffe600">#ffe600</color>
+    <color name="yellow1_ffe500">#ffe500</color>
 </resources>
