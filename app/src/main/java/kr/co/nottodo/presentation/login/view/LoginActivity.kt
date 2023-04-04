@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.getToken(RequestTokenDto(token.accessToken, KAKAO, "123"))
             }
         }
-        binding.btnLoginKakao.setOnClickListener {
+        binding.layoutLoginKakao.setOnClickListener {
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                 // 카카오톡 로그인
                 UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
