@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/iv_recommendation_action_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="21dp"
+        android:src="@drawable/ic_recommendation_action_arrow_back"
+        app:layout_constraintBottom_toTopOf="@id/layout_recommendation_category"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title_recommendation_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="낫투두 생성"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:theme="@style/Sb18"
+        app:layout_constraintBottom_toTopOf="@id/layout_recommendation_category"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_recommendation_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/gray_1_2a2a2e"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_recommendation_action">
+
+
+        <TextView
+            android:id="@+id/tv_when_youtube"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="34dp"
+            android:background="@drawable/rectangle_solid_gray_2_radius_50"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="4dp"
+            android:text="업무 시간 중"
+            android:textAppearance="@style/M14"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/layout_recommendation_category"
+            app:layout_constraintTop_toTopOf="@id/layout_recommendation_category" />
+
+
+        <TextView
+            android:id="@+id/tv_recommendation_youtube"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="6dp"
+            android:text="유튜브 보지 않기"
+            android:textAppearance="@style/M18"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/layout_recommendation_category"
+            app:layout_constraintTop_toBottomOf="@id/tv_when_youtube" />
+
+        <ImageView
+            android:id="@+id/iv_recommendation_category_youtube"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:layout_marginEnd="27dp"
+            android:layout_marginBottom="26dp"
+            android:src="@drawable/ic_recommendation_action_youtube"
+            app:layout_constraintBottom_toBottomOf="@id/layout_recommendation_category"
+            app:layout_constraintEnd_toEndOf="@id/layout_recommendation_category"
+            app:layout_constraintTop_toTopOf="@id/layout_recommendation_category" />
+
+        <ImageView
+            android:id="@+id/iv_recommendation_action_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="29dp"
+            android:src="@drawable/ic_recommendation_action_arrow"
+            app:layout_constraintStart_toEndOf="@id/tv_recommendation_youtube"
+            app:layout_constraintTop_toBottomOf="@id/tv_recommendation_youtube" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/tv_recommendation_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="47dp"
+        android:text="실천행동 추천"
+        android:textAppearance="@style/M18"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/layout_recommendation_category"
+        app:layout_constraintTop_toBottomOf="@id/layout_recommendation_category" />
+
+    <ImageView
+        android:id="@+id/iv_recommendation_action_infor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="53dp"
+        android:src="@drawable/ic_recommendation_action_infor"
+        app:layout_constraintStart_toEndOf="@id/tv_recommendation_action"
+        app:layout_constraintTop_toBottomOf="@id/layout_recommendation_category" />
+
+    <TextView
+        android:id="@+id/tv_recommendation_action_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:text="아래 추천 항목을 선택해 실천행동을 추가하세요"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_recommendation_action" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_recommendation_action_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_recommendation_action_add">
+
+        <TextView
+            android:id="@+id/tv_youtube_unsubscribe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_solid_gray_1_radius_12"
+            android:paddingHorizontal="28dp"
+            android:paddingVertical="16dp"
+            android:text="유튜브 프리미엄 해제하기"
+            android:textAppearance="@style/R14"
+            android:textColor="@color/gray_4_9398aa"
+            app:layout_constraintStart_toStartOf="@id/layout_recommendation_action_category"
+            app:layout_constraintTop_toTopOf="@id/layout_recommendation_action_category" />
+
+
+        <TextView
+            android:id="@+id/tv_phone_away"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rectangle_solid_gray_1_radius_12"
+            android:paddingHorizontal="28dp"
+            android:paddingVertical="16dp"
+            android:text="핸드폰 최대한 멀리두기"
+            android:textAppearance="@style/R14"
+            android:textColor="@color/gray_4_9398aa"
+            app:layout_constraintStart_toStartOf="@id/layout_recommendation_action_category"
+            app:layout_constraintTop_toBottomOf="@id/tv_youtube_unsubscribe" />
+
+
+        <TextView
+            android:id="@+id/tv_recommendation_action_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rectangle_solid_gray_1_radius_12"
+            android:paddingHorizontal="28dp"
+            android:paddingVertical="16dp"
+            android:text="실천행동추천"
+            android:textAppearance="@style/R14"
+            android:textColor="@color/gray_4_9398aa"
+            app:layout_constraintStart_toStartOf="@id/layout_recommendation_action_category"
+            app:layout_constraintTop_toBottomOf="@id/tv_phone_away" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_recommendation_action_write_direct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="필요없어dy or 직접 입력할게요!"
+        android:textAppearance="@style/R14"
+        android:textColor="@color/gray_4_9398aa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_recommendation_action_category" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
