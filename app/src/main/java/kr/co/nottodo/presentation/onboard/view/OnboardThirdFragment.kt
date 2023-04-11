@@ -25,6 +25,11 @@ class OnboardThirdFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initAdapter()
+    }
+
+    private fun initAdapter() {
         binding.rvOnboardThird.adapter = OnboardPainAdapter(
             requireContext(),
             ViewModelProvider(requireActivity())[OnboardViewModel::class.java].painList,
