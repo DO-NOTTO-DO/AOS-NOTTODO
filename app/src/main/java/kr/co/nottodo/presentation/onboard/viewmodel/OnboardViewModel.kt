@@ -11,4 +11,17 @@ class OnboardViewModel : ViewModel() {
             "불필요한 행위로 시간을 뺏겨요",
             "불편함은 없지만 낫투두를 시도하고 싶어요"
         )
+
+    val situationList: List<String> =
+        listOf(
+            "언제나",
+            "업무할 때",
+            "공부할 때",
+            "출근할 때",
+            "퇴근할 때",
+            "일어나자마자",
+            "잠깐 쉴 때",
+            "잠들기 직전",
+            "기타"
+        )
 }
