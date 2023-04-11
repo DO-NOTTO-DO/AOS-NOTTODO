@@ -29,7 +29,7 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
             addFragment(OnboardFirstFragment())
         }
         Timer().schedule(12500) {
-            viewModel.changeFragment(supportFragmentManager, OnboardThirdFragment())
+            changeFragment(OnboardThirdFragment())
             runOnUiThread {
                 binding.layoutOnboardIndicator.visibility = View.VISIBLE
             }
@@ -46,6 +46,7 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
     override fun changeFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
+            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
             .add(R.id.fcv_onboard, fragment)
             .commit()
     }
