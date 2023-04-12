@@ -46,10 +46,10 @@ class OnboardPainAdapter(
             position: Int,
             onboardInterface: OnboardInterface,
         ) {
-            binding.tvItemOnboard.text = itemList[position]
-            binding.layoutItemOnboard.setOnClickListener {
+            binding.tvItemOnboardThird.text = itemList[position]
+            binding.layoutItemOnboardThird.setOnClickListener {
                 it.setBackgroundResource(R.drawable.rectangle_solid_gray_1_stroke_green1_1_radius_10)
-                Timer().schedule(1000) {
+                Timer().schedule(500) {
                     onboardInterface.changeFragment(OnboardFourthFragment())
                 }
             }
