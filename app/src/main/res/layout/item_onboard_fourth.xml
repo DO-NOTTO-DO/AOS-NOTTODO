@@ -11,16 +11,17 @@
 
     <TextView
         android:id="@+id/tv_item_onboard_fourth"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
+        android:gravity="center"
         android:paddingVertical="16dp"
         android:textAppearance="@style/R15"
         android:textColor="@color/white"
+        android:tooltipText="unclicked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="언제나"
-        android:tooltipText="unclicked" />
+        tools:text="언제나" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
