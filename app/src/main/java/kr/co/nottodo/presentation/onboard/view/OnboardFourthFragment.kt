@@ -74,6 +74,7 @@ class OnboardFourthFragment : Fragment() {
                 )
             ) {
                 onboardInterface.changeFragment(OnboardFifthFragment())
+                onboardInterface.setIndicatorNext()
             }
         }
     }
