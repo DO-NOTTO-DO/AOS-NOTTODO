@@ -47,7 +47,7 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
         supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-            .add(R.id.fcv_onboard, fragment)
+            .replace(R.id.fcv_onboard, fragment)
             .commit()
     }
 }
