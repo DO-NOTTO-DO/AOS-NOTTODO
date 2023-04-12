@@ -50,4 +50,11 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
             .replace(R.id.fcv_onboard, fragment)
             .commit()
     }
+
+    override fun setIndicatorNext() {
+        with(binding) {
+            ivOnboardIndicator.setImageResource(R.drawable.ic_tutorial_second)
+            tvOnboardIndicator.text = "사용 방법"
+        }
+    }
 }
