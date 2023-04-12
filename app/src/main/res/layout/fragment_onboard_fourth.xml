@@ -30,17 +30,31 @@
         app:layout_constraintTop_toBottomOf="@id/tv_onboard_fourth_title" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_onboard_fourth"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="48dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_onboard_fourth_complete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_onboard_fourth_desc"
         app:spanCount="2"
         tools:listitem="@layout/item_onboard_fourth" />
 
-
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_onboard_fourth_complete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rectangle_solid_gray_2_radius_50"
+        android:paddingVertical="14dp"
+        android:text="사용법이 궁금해요"
+        android:textAppearance="@style/Sb16"
+        android:textColor="@color/gray_4_9398aa"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
