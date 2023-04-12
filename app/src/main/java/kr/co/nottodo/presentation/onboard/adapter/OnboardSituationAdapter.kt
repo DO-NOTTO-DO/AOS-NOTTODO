@@ -2,29 +2,27 @@ package kr.co.nottodo.presentation.onboard.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
-import kr.co.nottodo.databinding.ItemOnboardThirdBinding
+import kr.co.nottodo.databinding.ItemOnboardFourthBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
-import kr.co.nottodo.presentation.onboard.view.OnboardFourthFragment
-import java.util.*
-import kotlin.concurrent.schedule
 
 class OnboardSituationAdapter(
     private val context: Context,
     private val itemList: List<String>,
+    private val plusSituationCount: () -> Unit,
+    private val minusSituationCount: () -> Unit,
 ) :
     RecyclerView.Adapter<OnboardSituationAdapter.OnboardSituationViewHolder>() {
-    lateinit var binding: ItemOnboardThirdBinding
+    lateinit var binding: ItemOnboardFourthBinding
     private val inflater by lazy { LayoutInflater.from(context) }
     lateinit var onboardInterface: OnboardInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnboardSituationViewHolder {
-        binding = ItemOnboardThirdBinding.inflate(inflater, parent, false)
-        if (context is OnboardInterface) {
-            onboardInterface = context
-        }
+        binding = ItemOnboardFourthBinding.inflate(inflater, parent, false)
+        onboardInterface = context as OnboardInterface
         return OnboardSituationViewHolder(binding, itemList)
     }
 
@@ -33,26 +31,40 @@ class OnboardSituationAdapter(
     }
 
     override fun onBindViewHolder(holder: OnboardSituationViewHolder, position: Int) {
-        holder.onBind(binding, position, onboardInterface)
+        holder.onBind(binding, position, onboardInterface, plusSituationCount, minusSituationCount)
     }
 
     class OnboardSituationViewHolder(
-        binding: ItemOnboardThirdBinding,
+        binding: ItemOnboardFourthBinding,
         private val itemList: List<String>,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(
-            binding: ItemOnboardThirdBinding,
+            binding: ItemOnboardFourthBinding,
             position: Int,
             onboardInterface: OnboardInterface,
+            plusSituationCount: () -> Unit,
+            minusSituationCount: () -> Unit,
         ) {
-            binding.tvItemOnboard.text = itemList[position]
-            binding.layoutItemOnboard.setOnClickListener {
-                it.setBackgroundResource(R.drawable.rectangle_solid_gray_1_stroke_green1_1_radius_10)
-                Timer().schedule(1000) {
-                    onboardInterface.changeFragment(OnboardFourthFragment())
+            with(binding) {
+                tvItemOnboardFourth.text = itemList[position]
+                tvItemOnboardFourth.setOnClickListener {
+                    if (isClicked(tvItemOnboardFourth)) {
+                        tvItemOnboardFourth.tooltipText = "unclicked"
+                        layoutItemOnboardFourth.setBackgroundResource(R.drawable.rectangle_solid_gray_1_radius_10)
+                        minusSituationCount.invoke()
+                    } else {
+                        tvItemOnboardFourth.tooltipText = "clicked"
+                        layoutItemOnboardFourth.setBackgroundResource(R.drawable.rectangle_solid_gray_1_stroke_green1_1_radius_10)
+                        plusSituationCount.invoke()
+                    }
                 }
             }
+        }
+
+        private fun isClicked(view: View): Boolean {
+            return view.tooltipText != "unclicked"
+
         }
     }
 }
