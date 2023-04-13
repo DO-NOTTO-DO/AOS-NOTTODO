@@ -1,9 +1,11 @@
 package kr.co.nottodo.presentation.onboard.viewmodel
 
+import androidx.annotation.DrawableRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import kr.co.nottodo.R
 
 class OnboardViewModel : ViewModel() {
     val painList: List<String> = listOf(
@@ -30,4 +32,18 @@ class OnboardViewModel : ViewModel() {
     val minusOneInSituationCount: () -> Unit = {
         _situationCount.value = _situationCount.value?.minus(1)
     }
+
+    val missionList: List<Mission> = listOf(
+        Mission(R.drawable.ic_youtube, "취침 전", "유튜브 추천 영상 생각없이 보지 않기"),
+        Mission(R.drawable.ic_delivery, "항상", "배민 VIP 탈출하기"),
+        Mission(R.drawable.ic_coffee, "기상 직후", "공복에 커피 마시지 않기"),
+        Mission(R.drawable.ic_kakao, "업무 중", "불필요한 PC 카톡 하지 않기"),
+        Mission(R.drawable.ic_night_meal, "취침 전", "자기 2시간 전 야식 먹지 않기")
+    )
+
+    data class Mission(
+        @DrawableRes val image: Int,
+        val situation: String,
+        val mission: String,
+    )
 }
