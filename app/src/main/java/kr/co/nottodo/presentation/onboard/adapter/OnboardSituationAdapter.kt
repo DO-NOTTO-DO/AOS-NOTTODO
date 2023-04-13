@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ItemOnboardFourthBinding
-import kr.co.nottodo.presentation.onboard.OnboardInterface
 
 class OnboardSituationAdapter(
     private val context: Context,
@@ -18,11 +17,9 @@ class OnboardSituationAdapter(
     RecyclerView.Adapter<OnboardSituationAdapter.OnboardSituationViewHolder>() {
     lateinit var binding: ItemOnboardFourthBinding
     private val inflater by lazy { LayoutInflater.from(context) }
-    lateinit var onboardInterface: OnboardInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnboardSituationViewHolder {
         binding = ItemOnboardFourthBinding.inflate(inflater, parent, false)
-        onboardInterface = context as OnboardInterface
         return OnboardSituationViewHolder(binding, itemList)
     }
 
@@ -31,7 +28,7 @@ class OnboardSituationAdapter(
     }
 
     override fun onBindViewHolder(holder: OnboardSituationViewHolder, position: Int) {
-        holder.onBind(binding, position, onboardInterface, plusSituationCount, minusSituationCount)
+        holder.onBind(binding, position, plusSituationCount, minusSituationCount)
     }
 
     class OnboardSituationViewHolder(
@@ -42,7 +39,6 @@ class OnboardSituationAdapter(
         fun onBind(
             binding: ItemOnboardFourthBinding,
             position: Int,
-            onboardInterface: OnboardInterface,
             plusSituationCount: () -> Unit,
             minusSituationCount: () -> Unit,
         ) {
@@ -64,7 +60,6 @@ class OnboardSituationAdapter(
 
         private fun isClicked(view: View): Boolean {
             return view.tooltipText != "unclicked"
-
         }
     }
 }
