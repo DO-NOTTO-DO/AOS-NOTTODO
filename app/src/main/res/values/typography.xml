@@ -107,4 +107,9 @@
         <item name="android:fontFamily">@font/pretendard_light</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="L13">
+        <item name="android:fontFamily">@font/pretendard_light</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>
