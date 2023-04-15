@@ -41,6 +41,12 @@ class OnboardViewModel : ViewModel() {
         Mission(R.drawable.ic_night_meal, "취침 전", "자기 2시간 전 야식 먹지 않기")
     )
 
+    val actionList: List<String> = listOf(
+        "배고플 때마다 양치하기",
+        "삶은 계란으로 대신하기",
+        "집에 간식 사두지 않기"
+    )
+
     data class Mission(
         @DrawableRes val image: Int,
         val situation: String,
