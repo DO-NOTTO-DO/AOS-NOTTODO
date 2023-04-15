@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.nottodo.databinding.FragmentOnboardFifthBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
 import kr.co.nottodo.presentation.onboard.adapter.OnboardMissionAdapter
@@ -34,14 +35,19 @@ class OnboardFifthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initAdapter()
+        initRecyclerView()
     }
 
-    private fun initAdapter() {
+    private fun initRecyclerView() {
         binding.rvOnboardFifth.adapter = OnboardMissionAdapter(
             requireContext(),
             ViewModelProvider(requireActivity())[OnboardViewModel::class.java].missionList
         )
+        binding.rvOnboardFifth.layoutManager = object : LinearLayoutManager(context) {
+            override fun canScrollVertically(): Boolean {
+                return false
+            }
+        }
         binding.layoutOnboardFifthNext.setOnClickListener {
             onboardInterface.changeFragment(OnboardSixthFragment())
         }
