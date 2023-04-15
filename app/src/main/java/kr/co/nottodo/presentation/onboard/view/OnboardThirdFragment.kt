@@ -27,10 +27,10 @@ class OnboardThirdFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initAdapter()
+        initRecyclerView()
     }
 
-    private fun initAdapter() {
+    private fun initRecyclerView() {
         binding.rvOnboardThird.adapter = OnboardPainAdapter(
             requireContext(),
             ViewModelProvider(requireActivity())[OnboardViewModel::class.java].painList,
