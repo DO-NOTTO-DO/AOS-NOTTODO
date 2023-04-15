@@ -2,19 +2,16 @@ package kr.co.nottodo.presentation.onboard.view
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ActivityOnboardBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
-import kr.co.nottodo.presentation.onboard.viewmodel.OnboardViewModel
 import java.util.*
 import kotlin.concurrent.schedule
 
 class OnboardActivity : AppCompatActivity(), OnboardInterface {
     lateinit var binding: ActivityOnboardBinding
-    private val viewModel: OnboardViewModel by viewModels<OnboardViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
