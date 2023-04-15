@@ -33,6 +33,17 @@
         app:layout_constraintTop_toBottomOf="@id/tv_onboard_fifth_title"
         tools:listitem="@layout/item_onboard_fifth" />
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="-94dp"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/bg_gradient_opacity_0_to_100"
+        app:layout_constraintBottom_toTopOf="@id/layout_onboard_fifth_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_onboard_fifth" />
+
     <LinearLayout
         android:id="@+id/layout_onboard_fifth_next"
         android:layout_width="wrap_content"
