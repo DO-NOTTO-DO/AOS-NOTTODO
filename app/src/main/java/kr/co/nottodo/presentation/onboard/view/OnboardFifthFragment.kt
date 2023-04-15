@@ -36,6 +36,13 @@ class OnboardFifthFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRecyclerView()
+        initNextLayoutClickListener()
+    }
+
+    private fun initNextLayoutClickListener() {
+        binding.layoutOnboardFifthNext.setOnClickListener {
+            onboardInterface.changeFragment(OnboardSixthFragment())
+        }
     }
 
     private fun initRecyclerView() {
@@ -47,9 +54,6 @@ class OnboardFifthFragment : Fragment() {
             override fun canScrollVertically(): Boolean {
                 return false
             }
-        }
-        binding.layoutOnboardFifthNext.setOnClickListener {
-            onboardInterface.changeFragment(OnboardSixthFragment())
         }
     }
 
