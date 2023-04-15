@@ -23,6 +23,10 @@ class OnboardFourthFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        initInterface()
+    }
+
+    private fun initInterface() {
         onboardInterface = context as OnboardInterface
     }
 
