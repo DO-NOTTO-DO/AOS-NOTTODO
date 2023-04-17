@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentOnboardFourthBinding
@@ -20,6 +20,7 @@ class OnboardFourthFragment : Fragment() {
     private val binding: FragmentOnboardFourthBinding
         get() = requireNotNull(_binding)
     private lateinit var onboardInterface: OnboardInterface
+    private val viewModel by activityViewModels<OnboardViewModel>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -61,7 +62,7 @@ class OnboardFourthFragment : Fragment() {
     }
 
     private fun observeIsBtnClickable() {
-        ViewModelProvider(requireActivity())[OnboardViewModel::class.java].isBtnClickable.observe(
+        viewModel.isBtnClickable.observe(
             viewLifecycleOwner
         ) { isBtnClickable ->
             if (isBtnClickable) {
@@ -95,9 +96,9 @@ class OnboardFourthFragment : Fragment() {
     private fun initRecyclerView() {
         binding.rvOnboardFourth.adapter = OnboardSituationAdapter(
             requireContext(),
-            ViewModelProvider(requireActivity())[OnboardViewModel::class.java].situationList,
-            ViewModelProvider(requireActivity())[OnboardViewModel::class.java].plusOneInSituationCount,
-            ViewModelProvider(requireActivity())[OnboardViewModel::class.java].minusOneInSituationCount
+            viewModel.situationList,
+            viewModel.plusOneInSituationCount,
+            viewModel.minusOneInSituationCount
         )
         binding.rvOnboardFourth.layoutManager = object : GridLayoutManager(context, 2) {
             override fun canScrollVertically(): Boolean {

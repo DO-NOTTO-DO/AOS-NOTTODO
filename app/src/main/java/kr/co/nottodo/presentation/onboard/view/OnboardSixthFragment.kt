@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.nottodo.databinding.FragmentOnboardSixthBinding
 import kr.co.nottodo.presentation.login.view.LoginActivity
@@ -17,6 +17,7 @@ class OnboardSixthFragment : Fragment() {
     private var _binding: FragmentOnboardSixthBinding? = null
     private val binding: FragmentOnboardSixthBinding
         get() = requireNotNull(_binding)
+    private val viewModel by activityViewModels<OnboardViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +54,7 @@ class OnboardSixthFragment : Fragment() {
             }
             adapter = OnboardActionAdapter(
                 requireContext(),
-                ViewModelProvider(requireActivity())[OnboardViewModel::class.java].actionList
+                viewModel.actionList
             )
         }
     }

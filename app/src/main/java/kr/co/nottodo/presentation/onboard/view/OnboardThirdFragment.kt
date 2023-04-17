@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.nottodo.databinding.FragmentOnboardThirdBinding
 import kr.co.nottodo.presentation.onboard.adapter.OnboardPainAdapter
@@ -15,6 +15,7 @@ class OnboardThirdFragment : Fragment() {
     private var _binding: FragmentOnboardThirdBinding? = null
     private val binding: FragmentOnboardThirdBinding
         get() = requireNotNull(_binding)
+    private val viewModel by activityViewModels<OnboardViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +34,7 @@ class OnboardThirdFragment : Fragment() {
     private fun initRecyclerView() {
         binding.rvOnboardThird.adapter = OnboardPainAdapter(
             requireContext(),
-            ViewModelProvider(requireActivity())[OnboardViewModel::class.java].painList,
+            viewModel.painList,
         )
         binding.rvOnboardThird.layoutManager = object : LinearLayoutManager(context) {
             override fun canScrollVertically(): Boolean {
