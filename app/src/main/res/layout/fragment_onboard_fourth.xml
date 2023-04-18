@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <TextView
+        android:id="@+id/tv_onboard_fourth_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="49dp"
+        android:text="하루 중 어느 순간을\n가장 개선하고 싶으세요?"
+        android:textAppearance="@style/M20"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_onboard_fourth_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="여러 개 선택할 수 있어요"
+        android:textAppearance="@style/R14"
+        android:textColor="@color/gray_4_9398aa"
+        app:layout_constraintStart_toStartOf="@id/tv_onboard_fourth_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_onboard_fourth_title" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_onboard_fourth"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="48dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/btn_onboard_fourth_complete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_onboard_fourth_desc"
+        app:spanCount="2"
+        tools:listitem="@layout/item_onboard_fourth" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_onboard_fourth_complete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rectangle_solid_gray_2_radius_50"
+        android:paddingVertical="14dp"
+        android:text="사용법이 궁금해요"
+        android:textAppearance="@style/Sb16"
+        android:textColor="@color/gray_4_9398aa"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
