@@ -25,7 +25,7 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
         if (savedInstanceState == null) {
             addFragment(OnboardFirstFragment())
         }
-        Timer().schedule(12500) {
+        Timer().schedule(12000) {
             changeFragment(OnboardThirdFragment())
             runOnUiThread {
                 binding.layoutOnboardIndicator.visibility = View.VISIBLE
