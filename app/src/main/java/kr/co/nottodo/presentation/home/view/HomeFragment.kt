@@ -53,8 +53,6 @@ class HomeFragment : Fragment() {
                 situation = "잉"
             ),
         )
-
-
         homeAdpater.submitList(todoList)
     }
 
