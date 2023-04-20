@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.data.model.ResponseHomeDaily
 import kr.co.nottodo.databinding.ItemListHomeTodoBinding
 import kr.co.nottodo.util.DiffUtilItemCallback
+import timber.log.Timber
 
 class HomeAdpater() :
     ListAdapter<ResponseHomeDaily, HomeAdpater.HomeViewHolder>(diffUtil) {
@@ -38,11 +39,11 @@ class HomeAdpater() :
         private fun isCheckTodo(isCheck: String): Boolean = when (isCheck) {
             CHECKED -> {
                 binding.clCheckTodo.visibility = View.VISIBLE
-                Log.d("gma", "isCheckTodo: ")
+                Timber.d("gma", "isCheckTodo: ")
                 true
             }
             else -> {
-                Log.d("gma", "isCheckTodo:e ")
+                Timber.d("gma", "isCheckTodo:e ")
                 false
             }
         }
