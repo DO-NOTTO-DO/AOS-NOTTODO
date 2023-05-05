@@ -1,23 +1,26 @@
 package kr.co.nottodo.presentation.home.view
 
-import android.util.Log
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kr.co.nottodo.R
 import kr.co.nottodo.data.model.ResponseHomeDaily
 import kr.co.nottodo.databinding.ItemListHomeTodoBinding
 import kr.co.nottodo.util.DiffUtilItemCallback
-import timber.log.Timber
 
-class HomeAdpater() :
+class HomeAdpater(
+    private val menuItemClick: (Long) -> Unit,
+    private val todoItemClick: (Long, Boolean) -> Unit,
+) :
     ListAdapter<ResponseHomeDaily, HomeAdpater.HomeViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val binding =
             ItemListHomeTodoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return HomeViewHolder(binding)
+        return HomeViewHolder(binding, menuItemClick, todoItemClick)
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
@@ -25,28 +28,46 @@ class HomeAdpater() :
     }
 
     class HomeViewHolder(
-        private val binding: ItemListHomeTodoBinding
+        private val binding: ItemListHomeTodoBinding,
+        private val menuItemClick: (Long) -> Unit,
+        private val todoItemClick: (Long, Boolean) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ResponseHomeDaily) {
             binding.ivHomeTodoCheck.isSelected = isCheckTodo(data.completionStatus)
             binding.tvHomeTodoSituation.text = data.situation
             binding.tvHomeTodo.text = data.title
-            binding.ivHomeTodoCheck.setOnClickListener { absoluteAdapterPosition }
-            binding.ivHomeMetalBall.setOnClickListener {
+            binding.ivHomeTodoCheck.setOnClickListener {
+                todoItemClick(
+                    data.id,
+                    binding.ivHomeTodoCheck.isSelected
+                )
             }
+            binding.ivHomeMetalBall.setOnClickListener { menuItemClick(data.id) }
         }
 
         private fun isCheckTodo(isCheck: String): Boolean = when (isCheck) {
             CHECKED -> {
-                binding.clCheckTodo.visibility = View.VISIBLE
-                Timber.d("gma", "isCheckTodo: ")
+                setCompleteTodo()
                 true
             }
             else -> {
-                Timber.d("gma", "isCheckTodo:e ")
+                setUncompleteTodo()
                 false
             }
         }
+
+        private fun setCompleteTodo() {
+            binding.clHomeCheckTodo.visibility = View.VISIBLE
+            binding.tvHomeTodo!!.setPaintFlags(binding.tvHomeTodo!!.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+            binding.ivHomeTodoCheck.isChecked = true
+            binding.tvHomeTodoSituation.setBackgroundResource(R.drawable.rectangle_border_gray6_50)
+            binding.clHomeMain.setBackgroundResource(R.drawable.rectangle_border_grey5_10)
+        }
+
+        private fun setUncompleteTodo() {
+            binding.clHomeCheckTodo.visibility = View.INVISIBLE
+        }
+
     }
 
     companion object {
