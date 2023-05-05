@@ -9,24 +9,19 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
 object ApiFactory {
-    private val client by lazy {
-        OkHttpClient.Builder().addInterceptor(TokenInterceptor())
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }).build()
-    }
-
-    private val okHttpClient by lazy {
-        OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }).build()
-    }
 
     private val json by lazy {
         Json {
             coerceInputValues = true
         }
+    }
+
+    private val client by lazy {
+        OkHttpClient.Builder().addInterceptor(TokenInterceptor())
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }).authenticator(TokenAuthenticator())
+            .build()
     }
 
     val retrofit: Retrofit by lazy {
@@ -37,10 +32,17 @@ object ApiFactory {
             .build()
     }
 
+    private val clientForLogin by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }).build()
+    }
+
     val retrofitForSocialLogin: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
-            .client(okHttpClient)
+            .client(clientForLogin)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
