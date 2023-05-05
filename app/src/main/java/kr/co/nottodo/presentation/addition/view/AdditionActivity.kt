@@ -13,6 +13,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
+import kr.co.nottodo.data.remote.model.RequestAdditionDto
 import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
@@ -43,12 +44,26 @@ class AdditionActivity : AppCompatActivity() {
         observeSituation()
         observeAction()
         observeGoal()
+        observeSuccessResponse()
+        observeFailureResponse()
 
         setAddButton()
         setFinishButton()
         setDeleteButtons()
         setEnterKey()
         setActions()
+    }
+
+    private fun observeFailureResponse() {
+        viewModel.errorResponse.observe(this) {
+            showToast(it)
+        }
+    }
+
+    private fun observeSuccessResponse() {
+        viewModel.additionResponse.observe(this) {
+            showToast("추가 성공")
+        }
     }
 
     private fun setActionBox(isActionFilled: Boolean) {
@@ -76,15 +91,18 @@ class AdditionActivity : AppCompatActivity() {
                 0 -> {
                     setActionBox(isActionFilled = false)
                 }
+
                 1 -> {
                     setActionBox(isActionFilled = true)
                     binding.tvAdditionActionClosedInput.text = binding.tvAdditionActionFirst.text
                 }
+
                 2 -> {
                     setActionBox(isActionFilled = true)
                     binding.tvAdditionActionClosedInput.text =
                         "${binding.tvAdditionActionFirst.text}\n${binding.tvAdditionActionSecond.text}"
                 }
+
                 3 -> {
                     setActionBox(isActionFilled = true)
                     binding.tvAdditionActionClosedInput.text =
@@ -139,6 +157,7 @@ class AdditionActivity : AppCompatActivity() {
                 }
                 viewModel.actionCount.value = 1
             }
+
             1 -> {
                 with(binding) {
                     tvAdditionActionSecond.text = viewModel.action.value
@@ -148,6 +167,7 @@ class AdditionActivity : AppCompatActivity() {
                 }
                 viewModel.actionCount.value = 2
             }
+
             2 -> {
                 with(binding) {
                     tvAdditionActionThird.text = viewModel.action.value
@@ -170,11 +190,13 @@ class AdditionActivity : AppCompatActivity() {
                     hideActionFirst()
                     viewModel.actionCount.value = 0
                 }
+
                 2 -> {
                     binding.tvAdditionActionFirst.text = binding.tvAdditionActionSecond.text
                     hideActionSecond()
                     viewModel.actionCount.value = 1
                 }
+
                 3 -> {
                     binding.tvAdditionActionFirst.text = binding.tvAdditionActionSecond.text
                     binding.tvAdditionActionSecond.text = binding.tvAdditionActionThird.text
@@ -189,6 +211,7 @@ class AdditionActivity : AppCompatActivity() {
                     hideActionSecond()
                     viewModel.actionCount.value = 1
                 }
+
                 3 -> {
                     binding.tvAdditionActionSecond.text = binding.tvAdditionActionThird.text
                     hideActionThird()
@@ -254,8 +277,32 @@ class AdditionActivity : AppCompatActivity() {
         binding.btnAdditionAdd.setOnClickListener {
             if (binding.btnAdditionAdd.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
                 // 낫투두 추가
-                this.showToast("낫투두 추가 완료")
-                finish()
+                // 액션 리스트 생성
+                var actionList: List<String>? = listOf()
+                if (binding.tvAdditionActionFirst.visibility == View.GONE)
+                    actionList?.plus(binding.tvAdditionActionFirst.text)
+                if (binding.tvAdditionActionSecond.visibility == View.GONE)
+                    actionList?.plus(binding.tvAdditionActionSecond.text)
+                if (binding.tvAdditionActionThird.visibility == View.GONE)
+                    actionList?.plus(binding.tvAdditionActionThird.text)
+                if (actionList.isNullOrEmpty()) actionList = null
+
+                viewModel.postAddition(
+//                    RequestAdditionDto(
+//                        title = binding.tvAdditionMissionClosedName.text.toString(),
+//                        situation = binding.tvAdditionSituationName.text.toString(),
+//                        actions = actionList,
+//                        goal = null,
+//                        dates = listOf("2020.12.12")
+//                    )
+                    RequestAdditionDto(
+                        title = "123",
+                        situation = "123",
+                        actions = null,
+                        goal = null,
+                        dates = listOf("2002.12.12")
+                    )
+                )
             }
         }
     }
@@ -302,7 +349,7 @@ class AdditionActivity : AppCompatActivity() {
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
                 binding.ivAdditionSituationCheck.visibility = View.VISIBLE
-                with(binding.tvAdditionSituationInput) {
+                with(binding.tvAdditionSituationName) {
                     text = viewModel.situation.value
                     setTextColor(getColor(R.color.white))
                 }
@@ -312,7 +359,7 @@ class AdditionActivity : AppCompatActivity() {
                     this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivAdditionSituationCheck.visibility = View.GONE
-                with(binding.tvAdditionSituationInput) {
+                with(binding.tvAdditionSituationName) {
                     text = getText(R.string.addition_input)
                     setTextColor(getColor(R.color.gray_3_5d5d6b))
                 }
