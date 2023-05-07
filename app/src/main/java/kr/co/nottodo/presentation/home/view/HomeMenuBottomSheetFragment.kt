@@ -7,21 +7,25 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kr.co.nottodo.R
+import kr.co.nottodo.databinding.FragmentHomeMenuBottomSheetBinding
 
 class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
+    private var _binding: FragmentHomeMenuBottomSheetBinding? = null
+    private val binding: FragmentHomeMenuBottomSheetBinding
+        get() = requireNotNull(_binding)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_menu_bottom_sheet, container, false)
+        _binding = FragmentHomeMenuBottomSheetBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initDialog()
+        clickBack()
     }
 
     private fun initDialog() {
@@ -30,6 +34,10 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_COLLAPSED
         bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         bottomSheetDialog.behavior.saveFlags = BottomSheetBehavior.SAVE_FIT_TO_CONTENTS
+    }
+
+    private fun clickBack() {
+        binding.ivHomeDialogCancle.setOnClickListener { dismiss() }
     }
 
     override fun onDestroyView() {

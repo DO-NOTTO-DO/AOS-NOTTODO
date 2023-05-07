@@ -7,7 +7,7 @@
     tools:context=".presentation.home.view.HomeMenuBottomSheetFragment">
 
     <ImageView
-        android:id="@+id/iv_home_dialog_cacle"
+        android:id="@+id/iv_home_dialog_cancle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
@@ -39,8 +39,8 @@
         android:paddingVertical="4dp"
         android:text="@string/home_item_list_situation"
         android:textColor="@color/gray_1_2a2a2e"
-        app:layout_constraintStart_toStartOf="@id/iv_home_dialog_cacle"
-        app:layout_constraintTop_toBottomOf="@id/iv_home_dialog_cacle" />
+        app:layout_constraintStart_toStartOf="@id/iv_home_dialog_cancle"
+        app:layout_constraintTop_toBottomOf="@id/iv_home_dialog_cancle" />
 
     <TextView
         android:id="@+id/tv_home_dialog_notodo"
