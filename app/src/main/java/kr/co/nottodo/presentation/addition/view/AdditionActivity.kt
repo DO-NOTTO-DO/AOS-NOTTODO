@@ -63,6 +63,7 @@ class AdditionActivity : AppCompatActivity() {
     private fun observeSuccessResponse() {
         viewModel.additionResponse.observe(this) {
             showToast("낫투두 생성 완료 !")
+            if(!isFinishing) finish()
         }
     }
 
