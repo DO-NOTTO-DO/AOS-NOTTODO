@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ActivityOnboardBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
-import java.util.*
-import kotlin.concurrent.schedule
 
 class OnboardActivity : AppCompatActivity(), OnboardInterface {
     lateinit var binding: ActivityOnboardBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -19,17 +22,22 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
         setContentView(binding.root)
 
         initFragments(savedInstanceState)
+        setTimer()
     }
 
     private fun initFragments(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             addFragment(OnboardFirstFragment())
         }
-        Timer().schedule(12000) {
+    }
+
+    private fun setTimer() {
+        lifecycleScope.launch {
+            delay(12000) // 12 seconds delay
+            changeFragment(OnboardSecondFragment())
+            delay(7000) // additional 6 seconds delay
             changeFragment(OnboardThirdFragment())
-            runOnUiThread {
-                binding.layoutOnboardIndicator.visibility = View.VISIBLE
-            }
+            binding.layoutOnboardIndicator.visibility = View.VISIBLE
         }
     }
 
@@ -41,11 +49,10 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
     }
 
     override fun changeFragment(fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-            .replace(R.id.fcv_onboard, fragment)
-            .commit()
+        supportFragmentManager.commit {
+            setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+            replace(R.id.fcv_onboard, fragment)
+        }
     }
 
     override fun setIndicatorNext() {
