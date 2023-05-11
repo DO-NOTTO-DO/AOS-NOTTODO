@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/gray_1_2a2a2e">
 
     <!-- TODO fontFamily 적용해야합니다 -->
     <TextView
@@ -15,7 +15,7 @@
         android:paddingBottom="12dp"
         android:text="일"
         android:textAlignment="center"
-        android:textColor="@color/gray_7_8e8e93" />
+        android:textColor="@color/gray_4_9398aa" />
 
     <TextView
         style="@style/M12"
@@ -27,7 +27,7 @@
         android:paddingBottom="12dp"
         android:text="월"
         android:textAlignment="center"
-        android:textColor="@color/gray_7_8e8e93" />
+        android:textColor="@color/gray_4_9398aa" />
 
     <TextView
         style="@style/M12"
@@ -39,7 +39,7 @@
         android:paddingBottom="12dp"
         android:text="화"
         android:textAlignment="center"
-        android:textColor="@color/gray_7_8e8e93" />
+        android:textColor="@color/gray_4_9398aa" />
 
     <TextView
         style="@style/M12"
@@ -51,7 +51,7 @@
         android:paddingBottom="12dp"
         android:text="수"
         android:textAlignment="center"
-        android:textColor="@color/gray_7_8e8e93" />
+        android:textColor="@color/gray_4_9398aa" />
 
     <TextView
         style="@style/M12"
@@ -63,7 +63,7 @@
         android:paddingBottom="12dp"
         android:text="목"
         android:textAlignment="center"
-        android:textColor="@color/gray_7_8e8e93" />
+        android:textColor="@color/gray_4_9398aa" />
 
     <TextView
         style="@style/M12"
@@ -75,7 +75,7 @@
         android:paddingBottom="12dp"
         android:text="금"
         android:textAlignment="center"
-        android:textColor="@color/gray_7_8e8e93" />
+        android:textColor="@color/gray_4_9398aa" />
 
     <TextView
         style="@style/M12"
@@ -87,5 +87,5 @@
         android:paddingBottom="12dp"
         android:text="토"
         android:textAlignment="center"
-        android:textColor="@color/gray_7_8e8e93" />
+        android:textColor="@color/gray_4_9398aa" />
 </LinearLayout>

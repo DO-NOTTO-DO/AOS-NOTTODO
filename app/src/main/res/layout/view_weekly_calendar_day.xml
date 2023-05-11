@@ -54,7 +54,7 @@
             android:id="@+id/iv_today_bullet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_weekly_today_bullet"
+            android:src="@drawable/ic_today_bullet"
             android:layout_marginBottom="4dp"
             app:layout_constraintStart_toStartOf="@id/tv_weekly_calendar_day_of_week"
             app:layout_constraintEnd_toEndOf="@id/tv_weekly_calendar_day_of_week"

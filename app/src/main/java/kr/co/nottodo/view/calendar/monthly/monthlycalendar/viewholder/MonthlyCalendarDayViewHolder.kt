@@ -1,6 +1,5 @@
 package kr.co.nottodo.view.calendar.monthly.monthlycalendar.viewholder
 
-import android.text.format.DateUtils
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -18,9 +17,7 @@ class MonthlyCalendarDayViewHolder(
         if (data is MonthlyCalendarDay.DayMonthly) {
             dayData = data
             binding.apply {
-                ivSelectDay.visibility =
-                    if (DateUtils.isToday(data.date.time)) View.VISIBLE else View.GONE
-                dayItem = data
+                day = data
                 executePendingBindings()
             }
         }
@@ -33,19 +30,13 @@ class MonthlyCalendarDayViewHolder(
                 when (notToDoCount) {
                     1 -> {
                         ivNotToDo.visibility = View.VISIBLE
-                        ivNotToDo.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                binding.root.context,
-                                R.drawable.bg_monthly_calendar_not_to_do_1
-                            )
-                        )
                     }
                     2 -> {
                         ivNotToDo.visibility = View.VISIBLE
                         ivNotToDo.setImageDrawable(
                             ContextCompat.getDrawable(
                                 binding.root.context,
-                                R.drawable.bg_monthly_calendar_not_to_do_2
+                                R.drawable.half_circle_solid_gray
                             )
                         )
                     }
@@ -54,7 +45,7 @@ class MonthlyCalendarDayViewHolder(
                         ivNotToDo.setImageDrawable(
                             ContextCompat.getDrawable(
                                 binding.root.context,
-                                R.drawable.bg_monthly_calendar_not_to_do_3
+                                R.drawable.circle_solid_white_width_38dp
                             )
                         )
                     }
@@ -62,9 +53,7 @@ class MonthlyCalendarDayViewHolder(
                         ivNotToDo.visibility = View.GONE
                     }
                 }
-                ivSelectDay.visibility =
-                    if (DateUtils.isToday(data.date.time)) View.VISIBLE else View.GONE
-                dayItem = data
+                day = data
             }
         }
     }

@@ -108,20 +108,18 @@ class WeeklyViewHolder(
     }
 
     private fun ViewWeeklyCalendarDayBinding.bindNotToDoLevel1AchievementBackground() {
-        tvWeeklyCalendarDay.setBackgroundResource(
-            R.drawable.bg_weekly_calendar_achieve_1
-        )
+
     }
 
     private fun ViewWeeklyCalendarDayBinding.bindNotToDoLevel2AchievementBackground() {
         tvWeeklyCalendarDay.setBackgroundResource(
-            R.drawable.bg_weekly_calendar_achieve_2
+            R.drawable.half_circle_solid_gray
         )
     }
 
     private fun ViewWeeklyCalendarDayBinding.bindNotToDoLevel3AchievementBackground() {
         tvWeeklyCalendarDay.setBackgroundResource(
-            R.drawable.bg_weekly_calendar_achieve_3
+            R.drawable.circle_solid_white_width_38dp
         )
     }
 
@@ -145,6 +143,4 @@ class WeeklyViewHolder(
             }
         }
     }
-
-
 }

@@ -19,8 +19,6 @@ import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyDayClickListener
 import java.time.DayOfWeek
 import java.time.LocalDate
 
-// TODO 오늘인 날은 점으로 표현
-// TODO 선택한 날은 라운드 된 박스로 처리
 class WeeklyCalendar @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
