@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/rectangle_border_top_10"
     tools:context=".presentation.home.view.HomeMenuBottomSheetFragment">
 
     <ImageView
-        android:id="@+id/iv_home_dialog_cacle"
+        android:id="@+id/iv_home_dialog_cancle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
@@ -38,9 +39,10 @@
         android:paddingHorizontal="12dp"
         android:paddingVertical="4dp"
         android:text="@string/home_item_list_situation"
+        android:textAppearance="@style/M13"
         android:textColor="@color/gray_1_2a2a2e"
-        app:layout_constraintStart_toStartOf="@id/iv_home_dialog_cacle"
-        app:layout_constraintTop_toBottomOf="@id/iv_home_dialog_cacle" />
+        app:layout_constraintStart_toStartOf="@id/iv_home_dialog_cancle"
+        app:layout_constraintTop_toBottomOf="@id/iv_home_dialog_cancle" />
 
     <TextView
         android:id="@+id/tv_home_dialog_notodo"
@@ -76,26 +78,36 @@
         app:layout_constraintStart_toStartOf="@id/iv_home_dialog_statics"
         app:layout_constraintTop_toTopOf="@id/iv_home_dialog_statics" />
 
+    <View
+        android:id="@+id/v_home_dialog_divider_top"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="34dp"
+        android:background="@color/gray_6_e6e6f2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_home_dialog_notodo" />
+
     <TextView
         android:id="@+id/tv_home_dialog_do_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="32dp"
         android:text="@string/home_dialog_do_action"
         android:textAppearance="@style/M15"
         android:textColor="@color/gray_4_9398aa"
         app:layout_constraintStart_toStartOf="@id/tv_home_dialog_notodo"
-        app:layout_constraintTop_toBottomOf="@id/tv_home_dialog_notodo" />
+        app:layout_constraintTop_toBottomOf="@id/v_home_dialog_divider_top" />
 
     <TextView
         android:id="@+id/tv_home_dialog_action_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
         android:layout_marginTop="12dp"
         android:lineSpacingMultiplier="1.6"
         android:textAppearance="@style/M15"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_home_dialog_do_action"
         app:layout_constraintTop_toBottomOf="@id/tv_home_dialog_do_action"
         tools:text="@string/home_dialog_do_action_description" />
 
@@ -121,10 +133,10 @@
     <View
         android:id="@+id/v_home_dialog_divider"
         android:layout_width="0dp"
-        android:layout_height="0.5dp"
-        android:layout_marginHorizontal="21dp"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="15dp"
         android:layout_marginTop="41dp"
-        android:background="@color/black"
+        android:background="@color/gray_6_e6e6f2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_home_dialog_goal_description" />
@@ -161,17 +173,20 @@
         app:layout_constraintEnd_toStartOf="@id/iv_home_dailog_right_stroke"
         app:layout_constraintTop_toTopOf="@id/tv_home_dialog_do_another" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_home_delete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="149dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rectangle_border_black_50"
         android:text="@string/home_dialog_delete_btn"
         android:textAppearance="@style/Sb16"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_home_dialog_add_day" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

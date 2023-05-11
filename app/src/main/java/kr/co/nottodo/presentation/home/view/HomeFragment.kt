@@ -28,14 +28,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        homeAdpater = HomeAdpater()
+        homeAdpater = HomeAdpater(::menuItemClick, ::todoItemClick)
         binding.rvHomeTodoList.adapter = homeAdpater
         val todoList = listOf(
             ResponseHomeDaily(
                 missions = 1,
                 id = 1,
                 title = "어쩌구",
-                completionStatus = "저쩌구",
+                completionStatus = "CHECKED",
                 situation = "잉"
             ),
             ResponseHomeDaily(
@@ -56,9 +56,14 @@ class HomeFragment : Fragment() {
         homeAdpater.submitList(todoList)
     }
 
-//    private fun menuclick(index:Int) {
-//return ind
-//    }
+    private fun menuItemClick(index: Long) {
+        val bottomSheetFragment = HomeMenuBottomSheetFragment()
+        bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
+    }
+
+    private fun todoItemClick(id: Long, check: Boolean) {
+
+    }
 
     override fun onDestroyView() {
         _binding = null
