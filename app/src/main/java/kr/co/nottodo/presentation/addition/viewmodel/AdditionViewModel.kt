@@ -7,9 +7,13 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import kr.co.nottodo.data.remote.api.ServicePool
+import kr.co.nottodo.data.remote.model.FailureResponseDto
 import kr.co.nottodo.data.remote.model.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.ResponseAdditionDto
+import retrofit2.HttpException
 
 class AdditionViewModel : ViewModel() {
     private val additionService by lazy { ServicePool.additionService }
@@ -56,7 +60,25 @@ class AdditionViewModel : ViewModel() {
             kotlin.runCatching {
                 additionService.postMission(requestAdditionDto)
             }.fold(onSuccess = { _additionResponse.value = it.data },
-                onFailure = { _errorResponse.value = it.message })
+                onFailure = {
+                    _errorResponse.value = getErrorMessage(it)
+                })
+        }
+    }
+
+    private fun getErrorMessage(result: Throwable): String {
+        when (result) {
+            is HttpException -> {
+                val data =
+                    Json.decodeFromString<FailureResponseDto>(
+                        result.response()?.errorBody()?.string() ?: return "예기치 못한 에러 발생2"
+                    )
+                return data.message
+            }
+
+            else -> {
+                return result.toString()
+            }
         }
     }
 }
