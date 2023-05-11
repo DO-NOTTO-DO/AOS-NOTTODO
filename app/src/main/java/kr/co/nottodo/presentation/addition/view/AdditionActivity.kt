@@ -21,7 +21,6 @@ import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showToast
-import timber.log.Timber
 
 class AdditionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdditionBinding
@@ -132,7 +131,9 @@ class AdditionActivity : AppCompatActivity() {
 
         binding.etAdditionAction.setOnEditorActionListener { _, actionId, _ ->
             //상황 추가 입력창 키보드 엔터 오버라이딩 -> 텍스트뷰 추가
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
+            if (actionId == EditorInfo.IME_ACTION_DONE
+                && binding.etAdditionAction.text.isNotBlank()
+            ) {
                 viewModel.actionCount.value?.let { addAction(it) }
             }
             return@setOnEditorActionListener true
@@ -275,10 +276,9 @@ class AdditionActivity : AppCompatActivity() {
                 binding.btnAdditionAdd.setBackgroundResource(R.drawable.rectangle_gray_2_radius_26)
             }
         }
+
         binding.btnAdditionAdd.setOnClickListener {
             if (binding.btnAdditionAdd.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
-                // 낫투두 추가
-                // 액션 리스트 생성
                 var actionList: MutableList<String>? = mutableListOf()
                 if (!binding.tvAdditionActionFirst.text.isNullOrBlank())
                     actionList?.add(binding.tvAdditionActionFirst.text.toString())
@@ -290,24 +290,14 @@ class AdditionActivity : AppCompatActivity() {
 
                 var goal: String? = viewModel.goal.value
                 if (goal?.isBlank() == true) goal = null
-
-//                viewModel.postAddition(
-//                    RequestAdditionDto(
-//                        title = binding.tvAdditionMissionClosedName.text.toString(),
-//                        situation = binding.tvAdditionSituationName.text.toString(),
-//                        actions = actionList,
-//                        goal = goal,
-//                        dates = listOf("2008.8.12")
-//                    )
-//                )
-                Timber.tag("Gio").e(
+                viewModel.postAddition(
                     RequestAdditionDto(
                         title = binding.tvAdditionMissionClosedName.text.toString(),
                         situation = binding.tvAdditionSituationName.text.toString(),
                         actions = actionList,
                         goal = goal,
-                        dates = listOf("2008.8.12")
-                    ).toString()
+                        dates = listOf("2011.1.15")
+                    )
                 )
             }
         }
