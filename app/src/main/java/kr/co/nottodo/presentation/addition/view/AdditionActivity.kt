@@ -13,6 +13,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
+import kr.co.nottodo.data.remote.model.RequestAdditionDto
 import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
@@ -43,12 +44,27 @@ class AdditionActivity : AppCompatActivity() {
         observeSituation()
         observeAction()
         observeGoal()
+        observeSuccessResponse()
+        observeFailureResponse()
 
         setAddButton()
         setFinishButton()
         setDeleteButtons()
         setEnterKey()
         setActions()
+    }
+
+    private fun observeFailureResponse() {
+        viewModel.errorResponse.observe(this) {
+            showToast(it)
+        }
+    }
+
+    private fun observeSuccessResponse() {
+        viewModel.additionResponse.observe(this) {
+            showToast("낫투두 생성 완료 !")
+            if(!isFinishing) finish()
+        }
     }
 
     private fun setActionBox(isActionFilled: Boolean) {
@@ -76,15 +92,18 @@ class AdditionActivity : AppCompatActivity() {
                 0 -> {
                     setActionBox(isActionFilled = false)
                 }
+
                 1 -> {
                     setActionBox(isActionFilled = true)
                     binding.tvAdditionActionClosedInput.text = binding.tvAdditionActionFirst.text
                 }
+
                 2 -> {
                     setActionBox(isActionFilled = true)
                     binding.tvAdditionActionClosedInput.text =
                         "${binding.tvAdditionActionFirst.text}\n${binding.tvAdditionActionSecond.text}"
                 }
+
                 3 -> {
                     setActionBox(isActionFilled = true)
                     binding.tvAdditionActionClosedInput.text =
@@ -113,7 +132,9 @@ class AdditionActivity : AppCompatActivity() {
 
         binding.etAdditionAction.setOnEditorActionListener { _, actionId, _ ->
             //상황 추가 입력창 키보드 엔터 오버라이딩 -> 텍스트뷰 추가
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
+            if (actionId == EditorInfo.IME_ACTION_DONE
+                && binding.etAdditionAction.text.isNotBlank()
+            ) {
                 viewModel.actionCount.value?.let { addAction(it) }
             }
             return@setOnEditorActionListener true
@@ -139,6 +160,7 @@ class AdditionActivity : AppCompatActivity() {
                 }
                 viewModel.actionCount.value = 1
             }
+
             1 -> {
                 with(binding) {
                     tvAdditionActionSecond.text = viewModel.action.value
@@ -148,6 +170,7 @@ class AdditionActivity : AppCompatActivity() {
                 }
                 viewModel.actionCount.value = 2
             }
+
             2 -> {
                 with(binding) {
                     tvAdditionActionThird.text = viewModel.action.value
@@ -170,11 +193,13 @@ class AdditionActivity : AppCompatActivity() {
                     hideActionFirst()
                     viewModel.actionCount.value = 0
                 }
+
                 2 -> {
                     binding.tvAdditionActionFirst.text = binding.tvAdditionActionSecond.text
                     hideActionSecond()
                     viewModel.actionCount.value = 1
                 }
+
                 3 -> {
                     binding.tvAdditionActionFirst.text = binding.tvAdditionActionSecond.text
                     binding.tvAdditionActionSecond.text = binding.tvAdditionActionThird.text
@@ -189,6 +214,7 @@ class AdditionActivity : AppCompatActivity() {
                     hideActionSecond()
                     viewModel.actionCount.value = 1
                 }
+
                 3 -> {
                     binding.tvAdditionActionSecond.text = binding.tvAdditionActionThird.text
                     hideActionThird()
@@ -251,11 +277,29 @@ class AdditionActivity : AppCompatActivity() {
                 binding.btnAdditionAdd.setBackgroundResource(R.drawable.rectangle_gray_2_radius_26)
             }
         }
+
         binding.btnAdditionAdd.setOnClickListener {
             if (binding.btnAdditionAdd.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
-                // 낫투두 추가
-                this.showToast("낫투두 추가 완료")
-                finish()
+                var actionList: MutableList<String>? = mutableListOf()
+                if (!binding.tvAdditionActionFirst.text.isNullOrBlank())
+                    actionList?.add(binding.tvAdditionActionFirst.text.toString())
+                if (!binding.tvAdditionActionSecond.text.isNullOrBlank())
+                    actionList?.add(binding.tvAdditionActionSecond.text.toString())
+                if (!binding.tvAdditionActionThird.text.isNullOrBlank())
+                    actionList?.add(binding.tvAdditionActionThird.text.toString())
+                if (actionList?.isEmpty() == true) actionList = null
+
+                var goal: String? = viewModel.goal.value
+                if (goal?.isBlank() == true) goal = null
+                viewModel.postAddition(
+                    RequestAdditionDto(
+                        title = binding.tvAdditionMissionClosedName.text.toString(),
+                        situation = binding.tvAdditionSituationName.text.toString(),
+                        actions = actionList,
+                        goal = goal,
+                        dates = listOf("2011.1.15")
+                    )
+                )
             }
         }
     }
@@ -302,7 +346,7 @@ class AdditionActivity : AppCompatActivity() {
                     this, R.drawable.rectangle_solid_gray_1_radius_12
                 )
                 binding.ivAdditionSituationCheck.visibility = View.VISIBLE
-                with(binding.tvAdditionSituationInput) {
+                with(binding.tvAdditionSituationName) {
                     text = viewModel.situation.value
                     setTextColor(getColor(R.color.white))
                 }
@@ -312,7 +356,7 @@ class AdditionActivity : AppCompatActivity() {
                     this, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivAdditionSituationCheck.visibility = View.GONE
-                with(binding.tvAdditionSituationInput) {
+                with(binding.tvAdditionSituationName) {
                     text = getText(R.string.addition_input)
                     setTextColor(getColor(R.color.gray_3_5d5d6b))
                 }
