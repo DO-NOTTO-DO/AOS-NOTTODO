@@ -21,6 +21,7 @@ import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showToast
+import timber.log.Timber
 
 class AdditionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdditionBinding
@@ -62,7 +63,7 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun observeSuccessResponse() {
         viewModel.additionResponse.observe(this) {
-            showToast("추가 성공")
+            showToast("낫투두 생성 완료 !")
         }
     }
 
@@ -278,30 +279,35 @@ class AdditionActivity : AppCompatActivity() {
             if (binding.btnAdditionAdd.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
                 // 낫투두 추가
                 // 액션 리스트 생성
-                var actionList: List<String>? = listOf()
-                if (binding.tvAdditionActionFirst.visibility == View.GONE)
-                    actionList?.plus(binding.tvAdditionActionFirst.text)
-                if (binding.tvAdditionActionSecond.visibility == View.GONE)
-                    actionList?.plus(binding.tvAdditionActionSecond.text)
-                if (binding.tvAdditionActionThird.visibility == View.GONE)
-                    actionList?.plus(binding.tvAdditionActionThird.text)
-                if (actionList.isNullOrEmpty()) actionList = null
+                var actionList: MutableList<String>? = mutableListOf()
+                if (!binding.tvAdditionActionFirst.text.isNullOrBlank())
+                    actionList?.add(binding.tvAdditionActionFirst.text.toString())
+                if (!binding.tvAdditionActionSecond.text.isNullOrBlank())
+                    actionList?.add(binding.tvAdditionActionSecond.text.toString())
+                if (!binding.tvAdditionActionThird.text.isNullOrBlank())
+                    actionList?.add(binding.tvAdditionActionThird.text.toString())
+                if (actionList?.isEmpty() == true) actionList = null
 
-                viewModel.postAddition(
+                var goal: String? = viewModel.goal.value
+                if (goal?.isBlank() == true) goal = null
+
+//                viewModel.postAddition(
 //                    RequestAdditionDto(
 //                        title = binding.tvAdditionMissionClosedName.text.toString(),
 //                        situation = binding.tvAdditionSituationName.text.toString(),
 //                        actions = actionList,
-//                        goal = null,
-//                        dates = listOf("2020.12.12")
+//                        goal = goal,
+//                        dates = listOf("2008.8.12")
 //                    )
+//                )
+                Timber.tag("Gio").e(
                     RequestAdditionDto(
-                        title = "123",
-                        situation = "123",
-                        actions = null,
-                        goal = null,
-                        dates = listOf("2002.12.12")
-                    )
+                        title = binding.tvAdditionMissionClosedName.text.toString(),
+                        situation = binding.tvAdditionSituationName.text.toString(),
+                        actions = actionList,
+                        goal = goal,
+                        dates = listOf("2008.8.12")
+                    ).toString()
                 )
             }
         }
