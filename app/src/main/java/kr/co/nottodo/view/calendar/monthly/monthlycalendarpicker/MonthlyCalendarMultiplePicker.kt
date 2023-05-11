@@ -28,9 +28,10 @@ import kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker.listener.Monthl
 import kr.co.nottodo.view.calendar.monthly.util.*
 import java.util.*
 
+/**
+ * 2번 작업물
+ */
 // TODO 이론상 일단 여기가 다른 날도 할래요에서 사용하는 뷰!
-// TODO 여긴 1. 일주일 로직, 2. 디자인 변경하면 끝임!
-// TODO 같은 일자 2번 터치시 선택 해제, 날짜 다중 선택가능
 class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -62,22 +63,27 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
         layoutParams =
             LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
-        setTextColor(ContextCompat.getColor(context, R.color.black))
-        typeface = ResourcesCompat.getFont(context, R.font.pretendard_semibold)
-        setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18f)
+        setTextColor(ContextCompat.getColor(context, R.color.white))
+        typeface = ResourcesCompat.getFont(context, R.font.pretendard)
+        setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
     }
 
     private val calendarPickerHeaderLinearLayout = LinearLayout(context).apply {
         id = ViewCompat.generateViewId()
         orientation = HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
-        setPadding(context.dpToPx(6), context.dpToPx(4), context.dpToPx(6), context.dpToPx(32))
-
-        addView(currentDateTextView)
+        layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        setBackgroundColor(ContextCompat.getColor(context, R.color.gray_1_2a2a2e))
+        setPadding(
+            context.dpToPx(20f),
+            context.dpToPx(8f),
+            context.dpToPx(20f),
+            context.dpToPx(8f)
+        )
 
         addView(
-            View(context).apply {
-                layoutParams = LinearLayout.LayoutParams(0, 0, 1f)
+            View(this.context).apply {
+                layoutParams = LayoutParams(context.dpToPx(80), 0, 0f)
             }
         )
 
@@ -105,6 +111,20 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
         )
 
         addView(
+            View(this.context).apply {
+                layoutParams = LayoutParams(context.dpToPx(8), 0, 0f)
+            }
+        )
+
+        addView(currentDateTextView)
+
+        addView(
+            View(this.context).apply {
+                layoutParams = LayoutParams(context.dpToPx(8), 0, 0f)
+            }
+        )
+
+        addView(
             ImageView(this.context).apply {
                 setImageDrawable(
                     ContextCompat.getDrawable(
@@ -124,6 +144,12 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
                     context.dpToPx(6)
                 )
                 addCircleRipple()
+            }
+        )
+
+        addView(
+            View(this.context).apply {
+                layoutParams = LayoutParams(context.dpToPx(80), 0, 0f)
             }
         )
     }

@@ -20,6 +20,12 @@ import java.time.LocalDate
 import java.time.YearMonth
 import kotlin.properties.Delegates
 
+/**
+ * 년 월       오늘
+ *      달력뷰
+ *
+ * 이렇게 표현되는 뷰, 이친구를 써야합니다
+ */
 class WeeklyCalendarView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
