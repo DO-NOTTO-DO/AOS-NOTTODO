@@ -76,7 +76,7 @@ dependencies {
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
     // Architecture Components
     // Room
     implementation "androidx.room:room-ktx:2.4.3"
@@ -87,8 +87,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    implementation "androidx.fragment:fragment-ktx:1.5.5"
-    implementation "androidx.activity:activity-ktx:1.6.1"
+    implementation "androidx.fragment:fragment-ktx:1.5.7"
     // Coroutine
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     // balloon
