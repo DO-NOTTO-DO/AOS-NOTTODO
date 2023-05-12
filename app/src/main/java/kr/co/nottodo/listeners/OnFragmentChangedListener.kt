@@ -1,7 +1,7 @@
-package kr.co.nottodo.interfaces
+package kr.co.nottodo.listeners
 
 import androidx.fragment.app.Fragment
 
-interface MainInterface {
+interface OnFragmentChangedListener {
     fun setActivityBackgroundColorBasedOnFragment(thisFragment: Fragment)
 }

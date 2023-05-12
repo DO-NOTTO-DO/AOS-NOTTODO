@@ -7,12 +7,12 @@ import androidx.fragment.app.commit
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import kr.co.nottodo.databinding.ActivityMainBinding
-import kr.co.nottodo.interfaces.MainInterface
+import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.achieve.AchieveFragment
 import kr.co.nottodo.presentation.home.view.HomeFragment
 import kr.co.nottodo.presentation.mypage.view.MyPageFragment
 
-class MainActivity : AppCompatActivity(), MainInterface {
+class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
