@@ -76,7 +76,7 @@ dependencies {
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
     // Architecture Components
     // Room
     implementation "androidx.room:room-ktx:2.4.3"
