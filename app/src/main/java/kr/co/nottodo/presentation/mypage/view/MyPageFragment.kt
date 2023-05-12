@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kr.co.nottodo.databinding.FragmentMyPageBinding
+import kr.co.nottodo.interfaces.MainInterface
 
 class MyPageFragment : Fragment() {
     private var _binding: FragmentMyPageBinding? = null
@@ -16,8 +17,13 @@ class MyPageFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        setActivityBackgroundColor()
         _binding = FragmentMyPageBinding.inflate(layoutInflater, container, false)
         return binding.root
+    }
+
+    private fun setActivityBackgroundColor() {
+        (context as MainInterface).setActivityBackgroundColorBasedOnFragment(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
