@@ -8,7 +8,7 @@ import androidx.security.crypto.MasterKey
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
 
-object SharedPreference {
+object SharedPreferences {
     private lateinit var preferences: SharedPreferences
 
     fun init(context: Context) {
