@@ -3,6 +3,7 @@ package kr.co.nottodo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import kr.co.nottodo.databinding.ActivityMainBinding
@@ -49,10 +50,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeFragment(fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fcv_main, fragment)
-            .commit()
+        supportFragmentManager.commit {
+            replace(R.id.fcv_main, fragment)
+        }
     }
 
     companion object {
