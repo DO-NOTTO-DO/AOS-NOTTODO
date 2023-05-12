@@ -53,6 +53,12 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.commit {
             replace(R.id.fcv_main, fragment)
         }
+
+        when (fragment) {
+            is HomeFragment -> binding.root.setBackgroundColor(getColor(R.color.bg_f2f2f7))
+            is AchieveFragment -> binding.root.setBackgroundColor(getColor(R.color.black))
+            is MyPageFragment -> binding.root.setBackgroundColor(getColor(R.color.black))
+        }
     }
 
     companion object {
