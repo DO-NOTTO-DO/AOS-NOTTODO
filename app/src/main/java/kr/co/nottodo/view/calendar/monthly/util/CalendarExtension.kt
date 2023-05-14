@@ -10,7 +10,9 @@ fun Date.isTheSameDay(comparedDate: Date): Boolean {
     val comparedCalendarDate = Calendar.getInstance()
     comparedCalendarDate.withTime(comparedDate)
     return calendar.get(Calendar.DAY_OF_YEAR) == comparedCalendarDate.get(Calendar.DAY_OF_YEAR) &&
-            calendar.get(Calendar.YEAR) == comparedCalendarDate.get(Calendar.YEAR)
+            calendar.get(Calendar.YEAR) == comparedCalendarDate.get(Calendar.YEAR) &&
+            calendar.get(Calendar.MONTH) == comparedCalendarDate.get(Calendar.MONTH) &&
+            calendar.get(Calendar.DAY_OF_MONTH) == comparedCalendarDate.get(Calendar.DAY_OF_MONTH)
 }
 
 fun Date.isToday(): Boolean {

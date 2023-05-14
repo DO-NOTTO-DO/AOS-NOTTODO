@@ -3,6 +3,7 @@ package kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker.viewholder
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ViewMonthlyCalendarPickerDayBinding
@@ -32,7 +33,16 @@ class MonthlyCalendarPickerDayViewHolder(
 
                 // ui
                 ivMonthlyCalendarPickerDayIndicator.visibility = View.GONE
-                tvDay.setTextColor(Color.parseColor("#ffffff"))
+                tvDay.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        when (data.state) {
+                            DateType.WEEKDAY,
+                            DateType.WEEKEND -> R.color.white
+                            DateType.DISABLED -> R.color.gray_7_8e8e93
+                        }
+                    )
+                )
             }
         }
     }
@@ -47,7 +57,18 @@ class MonthlyCalendarPickerDayViewHolder(
 
                 // ui
                 ivMonthlyCalendarPickerDayIndicator.visibility = View.VISIBLE
-                tvDay.setTextColor(Color.parseColor("#000000"))
+                tvDay.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        when (data.state) {
+                            DateType.WEEKDAY,
+                            DateType.WEEKEND -> R.color.black_000000
+                            DateType.DISABLED -> {
+                                throw IllegalStateException("check day state")
+                            }
+                        }
+                    )
+                )
             }
         }
     }
