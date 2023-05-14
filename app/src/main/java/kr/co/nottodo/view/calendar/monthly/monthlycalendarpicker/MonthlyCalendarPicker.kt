@@ -3,7 +3,6 @@ package kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -28,7 +27,7 @@ import kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker.adapter.Monthly
 import kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker.listener.MonthlyCalendarPickerClickListener
 import kr.co.nottodo.view.calendar.monthly.util.addCircleRipple
 import kr.co.nottodo.view.calendar.monthly.util.dpToPx
-import kr.co.nottodo.view.calendar.monthly.util.isTheSameDay
+import kr.co.nottodo.view.calendar.monthly.util.isBefore
 import kr.co.nottodo.view.calendar.monthly.util.isWeekend
 import kr.co.nottodo.view.calendar.monthly.util.toPrettyDateString
 import kr.co.nottodo.view.calendar.monthly.util.toPrettyMonthString
@@ -45,8 +44,6 @@ import java.util.TimeZone
  * 생성 뷰에서 사용합니다.
  *
  * 1번 작업물
- *
- * // TODO 같은 일자 2번 터치시 선택 해제, 날짜 다중 선택가능
  *
  */
 class MonthlyCalendarPicker @JvmOverloads constructor(
@@ -77,26 +74,12 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
         setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
     }
 
-    private val calendarPickerHeaderLinearLayout = LinearLayout(context).apply {
+    private val calendarPickerHeaderContentView = LinearLayout(context).apply {
         id = ViewCompat.generateViewId()
         orientation = HORIZONTAL
-        gravity = Gravity.CENTER_VERTICAL
+        gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
         layoutParams =
-            LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        setBackgroundColor(ContextCompat.getColor(context, R.color.gray_1_2a2a2e))
-        setPadding(
-            context.dpToPx(20f),
-            context.dpToPx(8f),
-            context.dpToPx(20f),
-            context.dpToPx(8f)
-        )
-
-        addView(
-            View(this.context).apply {
-                layoutParams = LayoutParams(context.dpToPx(80), 0, 0f)
-            }
-        )
-
+            LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         addView(
             ImageView(this.context).apply {
                 setImageDrawable(
@@ -156,12 +139,22 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
                 addCircleRipple()
             }
         )
+    }
 
-        addView(
-            View(this.context).apply {
-                layoutParams = LayoutParams(context.dpToPx(80), 0, 0f)
-            }
+    private val calendarPickerHeaderLinearLayout = LinearLayout(context).apply {
+        id = ViewCompat.generateViewId()
+        orientation = HORIZONTAL
+        gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
+        layoutParams =
+            LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        setBackgroundColor(ContextCompat.getColor(context, R.color.gray_1_2a2a2e))
+        setPadding(
+            context.dpToPx(20f),
+            context.dpToPx(8f),
+            context.dpToPx(20f),
+            context.dpToPx(8f)
         )
+        addView(calendarPickerHeaderContentView)
     }
 
     private val calendarWeekDescriptionView = ViewCalendarWeekDescriptionBinding.inflate(
@@ -218,22 +211,21 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
             set(Calendar.MONTH, calendar.get(Calendar.MONTH))
             set(Calendar.DAY_OF_MONTH, 1)
         }
-        // 이번 주의 일~토가 담긴 인스턴스
-        val currentWeekDays = getCurrentWeekDays()
+
+        val todayCalendar = Calendar.getInstance()
 
         val totalDayInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
         val monthlyCalendarDayList = mutableListOf<MonthlyCalendarDay>()
         (1..totalDayInMonth).forEach { day ->
             proxyCalendar.set(Calendar.DAY_OF_MONTH, day)
-            val dayOfWeek = proxyCalendar.get(Calendar.DAY_OF_WEEK)
-            val dateType = if (proxyCalendar.isWeekend()) {
-                DateType.WEEKEND
+            val proxyCalendarDayOfWeek = proxyCalendar.get(Calendar.DAY_OF_WEEK)
+            val dateType = if (proxyCalendar.isBefore(todayCalendar)) {
+                DateType.DISABLED
             } else {
-                // 이번주 한주에 걸리는지 안걸리는 체크하는 조건문
-                if (currentWeekDays.any { it.isTheSameDay(proxyCalendar.time) }) {
-                    DateType.WEEKDAY
+                if (proxyCalendar.isWeekend()) {
+                    DateType.WEEKEND
                 } else {
-                    DateType.DISABLED
+                    DateType.WEEKDAY
                 }
             }
 
@@ -241,7 +233,7 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
                 1 -> {
                     monthlyCalendarDayList.addAll(
                         createStartEmptyView(
-                            dayOfWeek,
+                            proxyCalendarDayOfWeek,
                             proxyCalendar
                         )
                     )
@@ -266,7 +258,7 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
                     )
                     monthlyCalendarDayList.addAll(
                         createEndEmptyView(
-                            dayOfWeek,
+                            proxyCalendarDayOfWeek,
                             proxyCalendar
                         )
                     )
@@ -362,28 +354,6 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
     }
 
     private fun getStyleableAttrs(attrs: AttributeSet) {}
-
-    /**
-     * 이번주의 시작, 끝을 반환하는 함수
-     */
-    private fun getCurrentWeekDays(): MutableList<Date> {
-        val currentWeekDays = mutableListOf<Date>()
-        val calendar = Calendar.getInstance()
-        val today = calendar.get(Calendar.DAY_OF_WEEK) // 오늘 요일
-        val firstDay = calendar.firstDayOfWeek // 이번주 첫번째 요일
-        var offset = firstDay - today
-        if (offset > 0) {
-            offset -= 7
-        }
-        calendar.add(Calendar.DAY_OF_MONTH, offset)
-
-        repeat(7) {
-            val date = calendar.time
-            currentWeekDays.add(date)
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
-        }
-        return currentWeekDays
-    }
 
     fun setOnMonthlyCalendarPickerClickListener(monthlyCalendarPickerClickListener: MonthlyCalendarPickerClickListener) {
         this.monthlyCalendarPickerClickListener = monthlyCalendarPickerClickListener
