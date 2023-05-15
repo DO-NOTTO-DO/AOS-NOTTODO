@@ -71,85 +71,90 @@ class MonthlyCalendar @JvmOverloads constructor(
         layoutParams =
             LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
-        typeface = ResourcesCompat.getFont(context, R.font.pretendard_semibold)
-        setTextColor(ContextCompat.getColor(context, R.color.black))
-        setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14f)
-        setBackgroundResource(R.drawable.bg_monthly_calendar_current_month)
+        typeface = ResourcesCompat.getFont(context, R.font.pretendard_bold)
+        setTextColor(ContextCompat.getColor(context, R.color.white))
+        setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
+    }
+
+    private val prevMonthImageView = ImageView(this.context).apply {
+        setImageDrawable(
+            ContextCompat.getDrawable(
+                this.context,
+                R.drawable.ic_left_arrow_monthly_calendar
+            )
+        )
+        setOnClickListener {
+            calendar.add(Calendar.MONTH, -1)
+            currentDate = calendar.toPrettyMonthString(locale = locale)
+            initCalendarData()
+            monthlyCalendarPrevMonthListener?.onShowPrevMonth(
+                this,
+                calendar.toApiDateString()
+            )
+        }
+
+        setPadding(
+            context.dpToPx(6),
+            context.dpToPx(6),
+            context.dpToPx(6),
+            context.dpToPx(6)
+        )
+        addCircleRipple()
+    }
+
+    private val nextMonthImageView = ImageView(this.context).apply {
+        setImageDrawable(
+            ContextCompat.getDrawable(
+                this.context,
+                R.drawable.ic_right_arrow_monthly_calendar
+            )
+        )
+        setOnClickListener {
+            calendar.add(Calendar.MONTH, 1)
+            currentDate = calendar.toPrettyMonthString(locale = locale)
+            initCalendarData()
+            monthlyCalendarNextMonthListener?.onShowNextMonth(
+                this,
+                calendar.toApiDateString()
+            )
+        }
+
+        setPadding(
+            context.dpToPx(6),
+            context.dpToPx(6),
+            context.dpToPx(6),
+            context.dpToPx(6)
+        )
+        addCircleRipple()
     }
 
     private val calendarHeaderLinearLayout = LinearLayout(context).apply {
         id = ViewCompat.generateViewId()
         orientation = HORIZONTAL
-        gravity = Gravity.CENTER_VERTICAL
+        gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
         layoutParams = LayoutParams(
             LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT
         )
         setPadding(context.dpToPx(6), context.dpToPx(24), 0, context.dpToPx(24))
 
+        addView(prevMonthImageView)
+
+        addView(
+            View(context).apply {
+                layoutParams = LinearLayout.LayoutParams(context.dpToPx(12f), 0)
+            }
+        )
+
         addView(currentDateTextView)
 
         addView(
             View(context).apply {
-                layoutParams = LinearLayout.LayoutParams(0, 0, 1f)
+                layoutParams = LinearLayout.LayoutParams(context.dpToPx(12f), 0)
             }
         )
 
-        addView(
-            ImageView(this.context).apply {
-                setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this.context,
-                        R.drawable.ic_left_arrow_monthly_calendar
-                    )
-                )
-                setOnClickListener {
-                    calendar.add(Calendar.MONTH, -1)
-                    currentDate = calendar.toPrettyMonthString(locale = locale)
-                    initCalendarData()
-                    monthlyCalendarPrevMonthListener?.onShowPrevMonth(
-                        this,
-                        calendar.toApiDateString()
-                    )
-                }
-
-                setPadding(
-                    context.dpToPx(6),
-                    context.dpToPx(6),
-                    context.dpToPx(6),
-                    context.dpToPx(6)
-                )
-                addCircleRipple()
-            }
-        )
-
-        addView(
-            ImageView(this.context).apply {
-                setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this.context,
-                        R.drawable.ic_right_arrow_monthly_calendar
-                    )
-                )
-                setOnClickListener {
-                    calendar.add(Calendar.MONTH, 1)
-                    currentDate = calendar.toPrettyMonthString(locale = locale)
-                    initCalendarData()
-                    monthlyCalendarNextMonthListener?.onShowNextMonth(
-                        this,
-                        calendar.toApiDateString()
-                    )
-                }
-
-                setPadding(
-                    context.dpToPx(6),
-                    context.dpToPx(6),
-                    context.dpToPx(6),
-                    context.dpToPx(6)
-                )
-                addCircleRipple()
-            }
-        )
+        addView(nextMonthImageView)
     }
 
     private val calendarWeekDescriptionView = ViewCalendarWeekDescriptionBinding.inflate(
@@ -171,6 +176,8 @@ class MonthlyCalendar @JvmOverloads constructor(
         (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         overScrollMode = OVER_SCROLL_NEVER
         setHasFixedSize(true)
+
+        setBackgroundColor(ContextCompat.getColor(context,R.color.gray_4_9398aa))
     }
 
     init {
@@ -360,7 +367,7 @@ class MonthlyCalendar @JvmOverloads constructor(
     }
 
     private fun initBackgroundColor() {
-        setBackgroundColor(Color.parseColor("#ffffff"))
+        setBackgroundColor(ContextCompat.getColor(context,R.color.gray_1_2a2a2e))
     }
 
     private fun getStyleableAttrs(attrs: AttributeSet) {

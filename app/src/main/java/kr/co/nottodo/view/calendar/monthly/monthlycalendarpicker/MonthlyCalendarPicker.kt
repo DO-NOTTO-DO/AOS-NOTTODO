@@ -2,9 +2,7 @@ package kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Typeface
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -21,11 +19,22 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ViewCalendarWeekDescriptionBinding
 import kr.co.nottodo.view.NoRippleRecyclerView
-import kr.co.nottodo.view.calendar.monthly.model.*
+import kr.co.nottodo.view.calendar.monthly.model.DAY_COLUMN_COUNT
+import kr.co.nottodo.view.calendar.monthly.model.DateType
+import kr.co.nottodo.view.calendar.monthly.model.MonthlyCalendarDay
+import kr.co.nottodo.view.calendar.monthly.model.TOTAL_COLUMN_COUNT
 import kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker.adapter.MonthlyCalendarPickerDayAdapter
 import kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker.listener.MonthlyCalendarPickerClickListener
-import kr.co.nottodo.view.calendar.monthly.util.*
-import java.util.*
+import kr.co.nottodo.view.calendar.monthly.util.addCircleRipple
+import kr.co.nottodo.view.calendar.monthly.util.dpToPx
+import kr.co.nottodo.view.calendar.monthly.util.isBefore
+import kr.co.nottodo.view.calendar.monthly.util.isWeekend
+import kr.co.nottodo.view.calendar.monthly.util.toPrettyDateString
+import kr.co.nottodo.view.calendar.monthly.util.toPrettyMonthString
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 /**
  * created by ssong-develop on 2022.12.31
@@ -34,9 +43,7 @@ import java.util.*
  *
  * 생성 뷰에서 사용합니다.
  *
- * // TODO 여긴 1. 일주일 로직, 2. 디자인 변경하면 끝임!
-// TODO 같은 일자 2번 터치시 선택 해제, 날짜 다중 선택가능
- *
+ * 1번 작업물
  *
  */
 class MonthlyCalendarPicker @JvmOverloads constructor(
@@ -47,7 +54,7 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
     private val timeZone = TimeZone.getDefault()
     private val locale = Locale.KOREA
     var selectedDate: Date = Calendar.getInstance().time
-    private var monthlyCalendarPickerClickListener : MonthlyCalendarPickerClickListener? = null
+    private var monthlyCalendarPickerClickListener: MonthlyCalendarPickerClickListener? = null
     private val monthlyCalendarPickerDayAdapter = MonthlyCalendarPickerDayAdapter(this)
     private val calendar = Calendar.getInstance(timeZone, locale)
     private var calendarDataList: List<MonthlyCalendarDay> = listOf()
@@ -62,26 +69,17 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
         text = currentDate
         layoutParams =
             LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
-        setTextColor(ContextCompat.getColor(context, R.color.black))
-        typeface = ResourcesCompat.getFont(context,R.font.pretendard_semibold)
-        setTextSize(TypedValue.COMPLEX_UNIT_DIP,18f)
+        typeface = ResourcesCompat.getFont(context, R.font.pretendard)
+        setTextColor(ContextCompat.getColor(context, R.color.white))
+        setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
     }
 
-    private val calendarPickerHeaderLinearLayout = LinearLayout(context).apply {
+    private val calendarPickerHeaderContentView = LinearLayout(context).apply {
         id = ViewCompat.generateViewId()
         orientation = HORIZONTAL
-        gravity = Gravity.CENTER_VERTICAL
-        setPadding(context.dpToPx(6), context.dpToPx(4), context.dpToPx(6), context.dpToPx(32))
-
-        addView(currentDateTextView)
-
-        addView(
-            View(context).apply {
-                layoutParams = LinearLayout.LayoutParams(0, 0, 1f)
-            }
-        )
-
+        gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
+        layoutParams =
+            LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         addView(
             ImageView(this.context).apply {
                 setImageDrawable(
@@ -95,8 +93,27 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
                     currentDate = calendar.toPrettyMonthString(locale = locale)
                     initCalendarData()
                 }
-                setPadding(context.dpToPx(6),context.dpToPx(6),context.dpToPx(6),context.dpToPx(6))
+                setPadding(
+                    context.dpToPx(6),
+                    context.dpToPx(6),
+                    context.dpToPx(6),
+                    context.dpToPx(6)
+                )
                 addCircleRipple()
+            }
+        )
+
+        addView(
+            View(this.context).apply {
+                layoutParams = LayoutParams(context.dpToPx(8), 0, 0f)
+            }
+        )
+
+        addView(currentDateTextView)
+
+        addView(
+            View(this.context).apply {
+                layoutParams = LayoutParams(context.dpToPx(8), 0, 0f)
             }
         )
 
@@ -113,10 +130,31 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
                     currentDate = calendar.toPrettyMonthString(locale = locale)
                     initCalendarData()
                 }
-                setPadding(context.dpToPx(6),context.dpToPx(6),context.dpToPx(6),context.dpToPx(6))
+                setPadding(
+                    context.dpToPx(6),
+                    context.dpToPx(6),
+                    context.dpToPx(6),
+                    context.dpToPx(6)
+                )
                 addCircleRipple()
             }
         )
+    }
+
+    private val calendarPickerHeaderLinearLayout = LinearLayout(context).apply {
+        id = ViewCompat.generateViewId()
+        orientation = HORIZONTAL
+        gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
+        layoutParams =
+            LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        setBackgroundColor(ContextCompat.getColor(context, R.color.gray_1_2a2a2e))
+        setPadding(
+            context.dpToPx(20f),
+            context.dpToPx(8f),
+            context.dpToPx(20f),
+            context.dpToPx(8f)
+        )
+        addView(calendarPickerHeaderContentView)
     }
 
     private val calendarWeekDescriptionView = ViewCalendarWeekDescriptionBinding.inflate(
@@ -173,24 +211,29 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
             set(Calendar.MONTH, calendar.get(Calendar.MONTH))
             set(Calendar.DAY_OF_MONTH, 1)
         }
+
         val todayCalendar = Calendar.getInstance()
 
         val totalDayInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
         val monthlyCalendarDayList = mutableListOf<MonthlyCalendarDay>()
         (1..totalDayInMonth).forEach { day ->
             proxyCalendar.set(Calendar.DAY_OF_MONTH, day)
-            val dayOfWeek = proxyCalendar.get(Calendar.DAY_OF_WEEK)
-            val dateType = if (proxyCalendar.isWeekend()) {
-                DateType.WEEKEND
+            val proxyCalendarDayOfWeek = proxyCalendar.get(Calendar.DAY_OF_WEEK)
+            val dateType = if (proxyCalendar.isBefore(todayCalendar)) {
+                DateType.DISABLED
             } else {
-                DateType.WEEKDAY
+                if (proxyCalendar.isWeekend()) {
+                    DateType.WEEKEND
+                } else {
+                    DateType.WEEKDAY
+                }
             }
 
             when (day) {
                 1 -> {
                     monthlyCalendarDayList.addAll(
                         createStartEmptyView(
-                            dayOfWeek,
+                            proxyCalendarDayOfWeek,
                             proxyCalendar
                         )
                     )
@@ -203,6 +246,7 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
                         )
                     )
                 }
+
                 totalDayInMonth -> {
                     monthlyCalendarDayList.add(
                         MonthlyCalendarDay.DayMonthly(
@@ -214,11 +258,12 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
                     )
                     monthlyCalendarDayList.addAll(
                         createEndEmptyView(
-                            dayOfWeek,
+                            proxyCalendarDayOfWeek,
                             proxyCalendar
                         )
                     )
                 }
+
                 else -> {
                     monthlyCalendarDayList.add(
                         MonthlyCalendarDay.DayMonthly(
@@ -290,7 +335,8 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
             else -> 0
         }
 
-        var startDayInPreviousMonth = previousCalendar.getActualMaximum(Calendar.DAY_OF_MONTH) - numberOfEmptyView + 1
+        var startDayInPreviousMonth =
+            previousCalendar.getActualMaximum(Calendar.DAY_OF_MONTH) - numberOfEmptyView + 1
 
         val listEmpty = mutableListOf<MonthlyCalendarDay.Empty>()
         repeat((0 until numberOfEmptyView).count()) {

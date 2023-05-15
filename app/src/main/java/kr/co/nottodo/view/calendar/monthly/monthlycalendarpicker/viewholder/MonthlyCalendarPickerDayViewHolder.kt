@@ -1,5 +1,7 @@
 package kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker.viewholder
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -21,46 +23,54 @@ class MonthlyCalendarPickerDayViewHolder(
         itemView.setOnLongClickListener(this)
     }
 
+    @SuppressLint("ResourceType")
     fun onBind(data: MonthlyCalendarDay) {
         if (data is MonthlyCalendarDay.DayMonthly) {
             dayData = data
-            binding.apply {
-                dayItem = data
-                ivMonthlyCalendarPickerSelect.visibility = View.GONE
-                setPickerDayColor(this, data.state)
+            with(binding) {
+                day = data
                 executePendingBindings()
+
+                // ui
+                ivMonthlyCalendarPickerDayIndicator.visibility = View.GONE
+                tvDay.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        when (data.state) {
+                            DateType.WEEKDAY,
+                            DateType.WEEKEND -> R.color.white
+                            DateType.DISABLED -> R.color.gray_7_8e8e93
+                        }
+                    )
+                )
             }
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     fun onBindSelectedState(data: MonthlyCalendarDay) {
         if (data is MonthlyCalendarDay.DayMonthly) {
             dayData = data
-            binding.apply {
-                dayItem = data
-                ivMonthlyCalendarPickerSelect.visibility = View.VISIBLE
+            with(binding) {
+                day = data
                 executePendingBindings()
+
+                // ui
+                ivMonthlyCalendarPickerDayIndicator.visibility = View.VISIBLE
+                tvDay.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        when (data.state) {
+                            DateType.WEEKDAY,
+                            DateType.WEEKEND -> R.color.black_000000
+                            DateType.DISABLED -> {
+                                throw IllegalStateException("check day state")
+                            }
+                        }
+                    )
+                )
             }
         }
-    }
-
-    private fun setPickerDayColor(
-        binding: ViewMonthlyCalendarPickerDayBinding,
-        state: DateType
-    ) {
-        binding.tvDayName.setTextColor(
-            ContextCompat.getColor(
-                binding.root.context,
-                when (state) {
-                    DateType.WEEKDAY, DateType.WEEKEND -> {
-                        R.color.black
-                    }
-                    DateType.DISABLED -> {
-                        R.color.gray_7_8e8e93
-                    }
-                }
-            )
-        )
     }
 
     override fun onClick(view: View) {
