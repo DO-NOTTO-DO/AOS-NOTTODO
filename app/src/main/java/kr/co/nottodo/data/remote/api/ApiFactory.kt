@@ -3,6 +3,7 @@ package kr.co.nottodo.data.remote.api
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import kr.co.nottodo.BuildConfig
+import kr.co.nottodo.data.remote.api.home.HomeService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -49,9 +50,11 @@ object ApiFactory {
 
     inline fun <reified T> create(): T = retrofit.create<T>(T::class.java)
     inline fun <reified T> createForToken(): T = retrofitForSocialLogin.create<T>(T::class.java)
+
 }
 
 object ServicePool {
     val tokenService = ApiFactory.createForToken<TokenService>()
     val additionService = ApiFactory.create<AdditionService>()
+    val HomeService = ApiFactory.create<HomeService>()
 }
