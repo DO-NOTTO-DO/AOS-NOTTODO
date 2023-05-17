@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
-import kr.co.nottodo.data.model.ResponseHomeDaily
+import kr.co.nottodo.data.model.Home.HomeDailyResponse
 import kr.co.nottodo.databinding.ItemListHomeTodoBinding
 import kr.co.nottodo.util.DiffUtilItemCallback
 
@@ -15,7 +15,7 @@ class HomeAdpater(
     private val menuItemClick: (Long) -> Unit,
     private val todoItemClick: (Long, Boolean) -> Unit,
 ) :
-    ListAdapter<ResponseHomeDaily, HomeAdpater.HomeViewHolder>(diffUtil) {
+    ListAdapter<HomeDailyResponse.HomeDaily, HomeAdpater.HomeViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val binding =
@@ -32,9 +32,9 @@ class HomeAdpater(
         private val menuItemClick: (Long) -> Unit,
         private val todoItemClick: (Long, Boolean) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ResponseHomeDaily) {
+        fun onBind(data: HomeDailyResponse.HomeDaily) {
             binding.ivHomeTodoCheck.isSelected = isCheckTodo(data.completionStatus)
-            binding.tvHomeTodoSituation.text = data.situation
+            binding.tvHomeTodoSituation.text = data.situationName
             binding.tvHomeTodo.text = data.title
             binding.ivHomeTodoCheck.setOnClickListener {
                 todoItemClick(
@@ -71,7 +71,7 @@ class HomeAdpater(
     }
 
     companion object {
-        val diffUtil = DiffUtilItemCallback<ResponseHomeDaily>(
+        val diffUtil = DiffUtilItemCallback<HomeDailyResponse.HomeDaily>(
             onItemsTheSame = { old, new -> old.id == new.id },
             onContentsTheSame = { old, new -> old == new }
         )

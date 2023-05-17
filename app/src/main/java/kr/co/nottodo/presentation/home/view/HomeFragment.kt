@@ -6,7 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kr.co.nottodo.data.model.ResponseHomeDaily
+import androidx.fragment.app.viewModels
+import kr.co.nottodo.data.model.Home.HomeDailyResponse
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 
@@ -16,6 +17,7 @@ class HomeFragment : Fragment() {
         get() = requireNotNull(_binding)
     private lateinit var homeAdapter: HomeAdpater
     private var onFragmentChangedListener: OnFragmentChangedListener? = null
+    private val homeViewModel by viewModels<HomeViewModel>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -34,6 +36,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
+        homeViewModel.initHome("2023-05-17")
         setActivityBackgroundColor()
     }
 
@@ -41,26 +44,23 @@ class HomeFragment : Fragment() {
         homeAdapter = HomeAdpater(::menuItemClick, ::todoItemClick)
         binding.rvHomeTodoList.adapter = homeAdapter
         val todoList = listOf(
-            ResponseHomeDaily(
-                missions = 1,
+            HomeDailyResponse.HomeDaily(
                 id = 1,
                 title = "어쩌구",
                 completionStatus = "CHECKED",
-                situation = "잉"
+                situationName = "잉"
             ),
-            ResponseHomeDaily(
-                missions = 1,
+            HomeDailyResponse.HomeDaily(
                 id = 2,
                 title = "어쩌구2",
                 completionStatus = "저쩌구2",
-                situation = "잉"
+                situationName = "잉"
             ),
-            ResponseHomeDaily(
-                missions = 1,
+            HomeDailyResponse.HomeDaily(
                 id = 3,
                 title = "어쩌구3",
                 completionStatus = "저쩌구3",
-                situation = "잉"
+                situationName = "잉"
             ),
         )
         homeAdapter.submitList(todoList)

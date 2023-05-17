@@ -1,9 +1,20 @@
 package kr.co.nottodo.data.model.Home
 
-data class ResponseHomeDaily(
-//    val missions: Int,
-    val id: Long,
-    val title: String,
-    val completionStatus: String,
-    val situation: String
-)
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class HomeDailyResponse(
+    val status: Int,
+    val success: Boolean,
+    val message: String,
+    val data: List<HomeDaily>
+) {
+    @Serializable
+    data class HomeDaily(
+        @SerialName("id") val id: Long,
+        @SerialName("title") val title: String,
+        @SerialName("completionStatus") val completionStatus: String,
+        @SerialName("situationName") val situationName: String
+    )
+}
