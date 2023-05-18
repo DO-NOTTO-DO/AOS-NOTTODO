@@ -1,7 +1,20 @@
 package kr.co.nottodo.presentation.modification.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import kr.co.nottodo.data.remote.api.ServicePool.modificationService
+import kr.co.nottodo.data.remote.model.FailureResponseDto
+import kr.co.nottodo.data.remote.model.RequestModificationDto
+import kr.co.nottodo.data.remote.model.ResponseModificationDto
 import kr.co.nottodo.presentation.modification.view.ModificationActivity.Companion.NotTodoData
+import retrofit2.HttpException
 
 class ModificationViewModel : ViewModel() {
 
@@ -74,7 +87,50 @@ class ModificationViewModel : ViewModel() {
         }
     }
 
-    private fun _isAbleToModify(): Boolean {
-        return (isDateChanged.value == true || isMissionChanged.value == true || isSituationChanged.value == true || isActionListChanged.value == true || isGoalChanged.value == true)
+    private fun _isAbleToModify(): Boolean =
+        isDateChanged.value == true || isMissionChanged.value == true || isSituationChanged.value == true || isActionListChanged.value == true || isGoalChanged.value == true
+
+    private val _modificationResponse: MutableLiveData<ResponseModificationDto.Modification> =
+        MutableLiveData()
+    val modificationResponse: LiveData<ResponseModificationDto.Modification>
+        get() = _modificationResponse
+
+    private val _errorResponse: MutableLiveData<String> = MutableLiveData()
+    val errorResponse: LiveData<String>
+        get() = _errorResponse
+
+    fun putModifyMission() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                modificationService.modifyMission(
+                    1,
+                    RequestModificationDto(
+                        title = requireNotNull(mission.value),
+                        situation = requireNotNull(situation.value),
+                        actions = actionList.value,
+                        goal = goal.value
+                    )
+                )
+            }.fold(onSuccess = { response -> _modificationResponse.value = response.data },
+                onFailure = { errorResponse ->
+                    _errorResponse.value = getErrorMessage(errorResponse)
+                })
+        }
+    }
+
+    private fun getErrorMessage(result: Throwable): String {
+        when (result) {
+            is HttpException -> {
+                val data =
+                    Json.decodeFromString<FailureResponseDto>(
+                        result.response()?.errorBody()?.string() ?: return "예기치 못한 에러 발생2"
+                    )
+                return data.message
+            }
+
+            else -> {
+                return result.toString()
+            }
+        }
     }
 }

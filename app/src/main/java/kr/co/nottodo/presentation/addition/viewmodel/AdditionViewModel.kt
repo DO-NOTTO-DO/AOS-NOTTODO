@@ -9,15 +9,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import kr.co.nottodo.data.remote.api.ServicePool
+import kr.co.nottodo.data.remote.api.ServicePool.additionService
 import kr.co.nottodo.data.remote.model.FailureResponseDto
 import kr.co.nottodo.data.remote.model.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.ResponseAdditionDto
 import retrofit2.HttpException
 
 class AdditionViewModel : ViewModel() {
-    private val additionService by lazy { ServicePool.additionService }
-
     val mission: MutableLiveData<String> = MutableLiveData()
     private val isMissionFilled: LiveData<Boolean> = Transformations.map(mission) { mission ->
         mission.isNotBlank()

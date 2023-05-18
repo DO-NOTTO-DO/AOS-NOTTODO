@@ -38,12 +38,15 @@ class ModificationActivity : AppCompatActivity() {
         setSituationRecommendations()
         initOpenedDesc()
         initToggles()
-        initData(viewModel.actionCount.value)
+        initData()
+        initActionList(viewModel.actionCount.value)
 
         observeMission()
         observeSituation()
         observeAction()
         observeGoal()
+        observeSuccessResponse()
+        observeFailureResponse()
         setActions()
 
         setModifyButton()
@@ -52,7 +55,39 @@ class ModificationActivity : AppCompatActivity() {
         setEnterKey()
     }
 
-    private fun initData(actionCount: Int?) {
+    private fun initActionList(actionCount: Int?) {
+        when (actionCount) {
+            1 -> {
+                setFirstAction()
+            }
+
+            2 -> {
+                setFirstAction()
+                setSecondAction()
+            }
+
+            3 -> {
+                setFirstAction()
+                setSecondAction()
+                setThirdAction()
+            }
+        }
+    }
+
+    private fun observeSuccessResponse() {
+        viewModel.modificationResponse.observe(this) { response ->
+            showToast("낫투두 수정 완료")
+            if (!isFinishing) finish()
+        }
+    }
+
+    private fun observeFailureResponse() {
+        viewModel.errorResponse.observe(this) { errorMessage ->
+            showToast(errorMessage)
+        }
+    }
+
+    private fun initData() {
         viewModel.setOriginalData(
             NotTodoData(
                 "2023.01.15",
@@ -62,38 +97,30 @@ class ModificationActivity : AppCompatActivity() {
                 "불필요한 지출 줄이기"
             )
         )
-        when (actionCount) {
-            1 -> {
-                setFirstAction()
-            }
-            2 -> {
-                setFirstAction()
-                setSecondAction()
-            }
-            3 -> {
-                setFirstAction()
-                setSecondAction()
-                setThirdAction()
-            }
-        }
     }
 
     private fun setThirdAction() {
-        binding.tvModificationActionThird.text = viewModel.actionList.value?.get(2) ?: BLANK
-        binding.tvModificationActionThird.visibility = View.VISIBLE
-        binding.ivModificationActionThirdDelete.visibility = View.VISIBLE
+        if (viewModel.actionList.value?.get(2) != null) {
+            binding.tvModificationActionThird.text = viewModel.actionList.value?.get(2) ?: BLANK
+            binding.tvModificationActionThird.visibility = View.VISIBLE
+            binding.ivModificationActionThirdDelete.visibility = View.VISIBLE
+        }
     }
 
     private fun setSecondAction() {
-        binding.tvModificationActionSecond.text = viewModel.actionList.value?.get(1) ?: BLANK
-        binding.tvModificationActionSecond.visibility = View.VISIBLE
-        binding.ivModificationActionSecondDelete.visibility = View.VISIBLE
+        if (viewModel.actionList.value?.get(1) != null) {
+            binding.tvModificationActionSecond.text = viewModel.actionList.value?.get(1) ?: BLANK
+            binding.tvModificationActionSecond.visibility = View.VISIBLE
+            binding.ivModificationActionSecondDelete.visibility = View.VISIBLE
+        }
     }
 
     private fun setFirstAction() {
-        binding.tvModificationActionFirst.text = viewModel.actionList.value?.get(0) ?: BLANK
-        binding.tvModificationActionFirst.visibility = View.VISIBLE
-        binding.ivModificationActionFirstDelete.visibility = View.VISIBLE
+        if (viewModel.actionList.value?.get(0) != null) {
+            binding.tvModificationActionFirst.text = viewModel.actionList.value?.get(0) ?: BLANK
+            binding.tvModificationActionFirst.visibility = View.VISIBLE
+            binding.ivModificationActionFirstDelete.visibility = View.VISIBLE
+        }
     }
 
     private fun setEnterKey() {
@@ -142,6 +169,7 @@ class ModificationActivity : AppCompatActivity() {
                 }
                 viewModel.actionCount.value = 1
             }
+
             1 -> {
                 with(binding) {
                     tvModificationActionSecond.text = viewModel.action.value
@@ -151,6 +179,7 @@ class ModificationActivity : AppCompatActivity() {
                 }
                 viewModel.actionCount.value = 2
             }
+
             2 -> {
                 with(binding) {
                     tvModificationActionThird.text = viewModel.action.value
@@ -170,11 +199,13 @@ class ModificationActivity : AppCompatActivity() {
                     hideActionFirst()
                     viewModel.actionCount.value = 0
                 }
+
                 2 -> {
                     binding.tvModificationActionFirst.text = binding.tvModificationActionSecond.text
                     hideActionSecond()
                     viewModel.actionCount.value = 1
                 }
+
                 3 -> {
                     binding.tvModificationActionFirst.text = binding.tvModificationActionSecond.text
                     binding.tvModificationActionSecond.text = binding.tvModificationActionThird.text
@@ -189,6 +220,7 @@ class ModificationActivity : AppCompatActivity() {
                     hideActionSecond()
                     viewModel.actionCount.value = 1
                 }
+
                 3 -> {
                     binding.tvModificationActionSecond.text = binding.tvModificationActionThird.text
                     hideActionThird()
@@ -255,8 +287,7 @@ class ModificationActivity : AppCompatActivity() {
         binding.btnModificationModify.setOnClickListener {
             if (binding.btnModificationModify.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
                 // 낫투두 추가
-                this.showToast("낫투두 수정 완료")
-                finish()
+                viewModel.putModifyMission()
             }
         }
     }
@@ -326,6 +357,7 @@ class ModificationActivity : AppCompatActivity() {
                     }
                     viewModel.actionList.value = listOf()
                 }
+
                 1 -> {
                     setActionBox(isActionFilled = true)
                     binding.tvModificationActionClosedInput.text =
@@ -338,6 +370,7 @@ class ModificationActivity : AppCompatActivity() {
                             listOf(binding.tvModificationActionFirst.text.toString())
                     }
                 }
+
                 2 -> {
                     setActionBox(isActionFilled = true)
                     binding.tvModificationActionClosedInput.text =
@@ -352,6 +385,7 @@ class ModificationActivity : AppCompatActivity() {
                         )
                     }
                 }
+
                 3 -> {
                     setActionBox(isActionFilled = true)
                     binding.tvModificationActionClosedInput.text =
