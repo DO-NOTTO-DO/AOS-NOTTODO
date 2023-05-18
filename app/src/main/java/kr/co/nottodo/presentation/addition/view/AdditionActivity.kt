@@ -21,6 +21,9 @@ import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showToast
+import timber.log.Timber
+import java.util.Calendar
+import java.util.Date
 
 class AdditionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdditionBinding
@@ -30,6 +33,12 @@ class AdditionActivity : AppCompatActivity() {
     private var isSituationToggleVisible: Boolean = false
     private var isActionToggleVisible: Boolean = false
     private var isGoalToggleVisible: Boolean = false
+    private val today: Date by lazy { Date() }
+    private val tomorrow: Date by lazy {
+        Calendar.getInstance().apply {
+            add(Calendar.DAY_OF_YEAR, 1)
+        }.time
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +72,7 @@ class AdditionActivity : AppCompatActivity() {
     private fun observeSuccessResponse() {
         viewModel.additionResponse.observe(this) {
             showToast("낫투두 생성 완료 !")
-            if(!isFinishing) finish()
+            if (!isFinishing) finish()
         }
     }
 
@@ -463,6 +472,28 @@ class AdditionActivity : AppCompatActivity() {
         }
 
         binding.tvAdditionDateOpenedComplete.setOnClickListener {
+            Timber.e(binding.calendarAdditionDateOpened.selectedDays.toString())
+            val selectedDays: MutableList<Date> = binding.calendarAdditionDateOpened.selectedDays
+            Timber.e(selectedDays.toString())
+            Timber.e(today.toString())
+            Timber.e(tomorrow.toString())
+            if (selectedDays.contains(today)) {
+                binding.tvAdditionDateStartDesc.apply {
+                    visibility = View.VISIBLE
+                    text = getString(R.string.today)
+                }
+
+
+            } else if (selectedDays.contains(tomorrow)) {
+                binding.tvAdditionDateStartDesc.apply {
+                    visibility = View.VISIBLE
+                    text = getString(R.string.tomorrow)
+                }
+
+
+            } else {
+                binding.tvAdditionDateStartDesc.visibility = View.GONE
+            }
             closeDateToggle()
         }
 
