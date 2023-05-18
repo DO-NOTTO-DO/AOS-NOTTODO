@@ -10,10 +10,11 @@ import kr.co.nottodo.R
 import kr.co.nottodo.data.model.Home.HomeDailyResponse
 import kr.co.nottodo.databinding.ItemListHomeTodoBinding
 import kr.co.nottodo.util.DiffUtilItemCallback
+import timber.log.Timber
 
 class HomeAdpater(
     private val menuItemClick: (Long) -> Unit,
-    private val todoItemClick: (Long, Boolean) -> Unit,
+    private val todoItemClick: (Long, String) -> Unit,
 ) :
     ListAdapter<HomeDailyResponse.HomeDaily, HomeAdpater.HomeViewHolder>(diffUtil) {
 
@@ -30,7 +31,7 @@ class HomeAdpater(
     class HomeViewHolder(
         private val binding: ItemListHomeTodoBinding,
         private val menuItemClick: (Long) -> Unit,
-        private val todoItemClick: (Long, Boolean) -> Unit,
+        private val todoItemClick: (Long, String) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: HomeDailyResponse.HomeDaily) {
             binding.ivHomeTodoCheck.isSelected = isCheckTodo(data.completionStatus)
@@ -39,7 +40,7 @@ class HomeAdpater(
             binding.ivHomeTodoCheck.setOnClickListener {
                 todoItemClick(
                     data.id,
-                    binding.ivHomeTodoCheck.isSelected
+                    parseCheckTodo(binding.ivHomeTodoCheck.isChecked)
                 )
             }
             binding.ivHomeMetalBall.setOnClickListener { menuItemClick(data.id) }
@@ -64,6 +65,16 @@ class HomeAdpater(
             binding.clHomeMain.setBackgroundResource(R.drawable.rectangle_border_grey5_10)
         }
 
+        private fun parseCheckTodo(bindingCheck: Boolean): String {
+            Timber.tag("dpd${bindingCheck}")
+            val check = if (bindingCheck) {
+                CHECKED
+            } else {
+                UNCHECKED
+            }
+            return check
+        }
+
         private fun setUncompleteTodo() {
             binding.clHomeCheckTodo.visibility = View.INVISIBLE
         }
@@ -76,5 +87,6 @@ class HomeAdpater(
             onContentsTheSame = { old, new -> old == new }
         )
         const val CHECKED = "CHECKED"
+        const val UNCHECKED = "UNCHECKED"
     }
 }

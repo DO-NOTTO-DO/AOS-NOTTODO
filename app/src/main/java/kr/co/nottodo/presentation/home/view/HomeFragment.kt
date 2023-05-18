@@ -35,13 +35,14 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
+        //todo 더미 바꿔야 됨
         homeViewModel.initHome("2023-05-17")
         setActivityBackgroundColor()
         observerData()
     }
 
     private fun observerData() {
-        homeViewModel.responseHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
+        homeViewModel.getHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
             homeAdapter.submitList(homeDaily)
         }
     }
@@ -49,27 +50,6 @@ class HomeFragment : Fragment() {
     private fun initAdapter() {
         homeAdapter = HomeAdpater(::menuItemClick, ::todoItemClick)
         binding.rvHomeTodoList.adapter = homeAdapter
-//        val todoList = listOf(
-//            HomeDailyResponse.HomeDaily(
-//                id = 1,
-//                title = "어쩌구",
-//                completionStatus = "CHECKED",
-//                situationName = "잉"
-//            ),
-//            HomeDailyResponse.HomeDaily(
-//                id = 2,
-//                title = "어쩌구2",
-//                completionStatus = "저쩌구2",
-//                situationName = "잉"
-//            ),
-//            HomeDailyResponse.HomeDaily(
-//                id = 3,
-//                title = "어쩌구3",
-//                completionStatus = "저쩌구3",
-//                situationName = "잉"
-//            ),
-//        )
-//        homeAdapter.submitList(todoList)
     }
 
     private fun setActivityBackgroundColor() {
@@ -82,8 +62,8 @@ class HomeFragment : Fragment() {
         bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
     }
 
-    private fun todoItemClick(id: Long, check: Boolean) {
-
+    private fun todoItemClick(id: Long, check: String) {
+        homeViewModel.patchTodo(id, check)
     }
 
     override fun onDestroyView() {
