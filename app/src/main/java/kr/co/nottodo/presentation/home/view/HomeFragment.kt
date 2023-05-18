@@ -1,6 +1,7 @@
 package kr.co.nottodo.presentation.home.view
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
+import kr.co.nottodo.presentation.addition.view.AdditionActivity
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -36,14 +38,18 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
         //todo 더미 바꿔야 됨
-        homeViewModel.initHome("2023-05-17")
+        homeViewModel.getHomeDaily("2023-05-17")
         setActivityBackgroundColor()
         observerData()
+        clickFloatingBtn()
     }
 
     private fun observerData() {
         homeViewModel.getHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
             homeAdapter.submitList(homeDaily)
+        }
+        homeViewModel.patchCheckResult.observe(viewLifecycleOwner) { isCheck ->
+            homeViewModel.getHomeDaily("2023-05-17")
         }
     }
 
@@ -64,6 +70,11 @@ class HomeFragment : Fragment() {
 
     private fun todoItemClick(id: Long, check: String) {
         homeViewModel.patchTodo(id, check)
+    }
+
+    private fun clickFloatingBtn() {
+        val intent = Intent(context, AdditionActivity::class.java)
+        binding.ftbHomeAdd.setOnClickListener { startActivity(intent) }
     }
 
     override fun onDestroyView() {
