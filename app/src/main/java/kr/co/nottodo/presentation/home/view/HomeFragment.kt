@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import kr.co.nottodo.data.model.Home.HomeDailyResponse
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 
@@ -38,32 +37,39 @@ class HomeFragment : Fragment() {
         initAdapter()
         homeViewModel.initHome("2023-05-17")
         setActivityBackgroundColor()
+        observerData()
+    }
+
+    private fun observerData() {
+        homeViewModel.responseHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
+            homeAdapter.submitList(homeDaily)
+        }
     }
 
     private fun initAdapter() {
         homeAdapter = HomeAdpater(::menuItemClick, ::todoItemClick)
         binding.rvHomeTodoList.adapter = homeAdapter
-        val todoList = listOf(
-            HomeDailyResponse.HomeDaily(
-                id = 1,
-                title = "어쩌구",
-                completionStatus = "CHECKED",
-                situationName = "잉"
-            ),
-            HomeDailyResponse.HomeDaily(
-                id = 2,
-                title = "어쩌구2",
-                completionStatus = "저쩌구2",
-                situationName = "잉"
-            ),
-            HomeDailyResponse.HomeDaily(
-                id = 3,
-                title = "어쩌구3",
-                completionStatus = "저쩌구3",
-                situationName = "잉"
-            ),
-        )
-        homeAdapter.submitList(todoList)
+//        val todoList = listOf(
+//            HomeDailyResponse.HomeDaily(
+//                id = 1,
+//                title = "어쩌구",
+//                completionStatus = "CHECKED",
+//                situationName = "잉"
+//            ),
+//            HomeDailyResponse.HomeDaily(
+//                id = 2,
+//                title = "어쩌구2",
+//                completionStatus = "저쩌구2",
+//                situationName = "잉"
+//            ),
+//            HomeDailyResponse.HomeDaily(
+//                id = 3,
+//                title = "어쩌구3",
+//                completionStatus = "저쩌구3",
+//                situationName = "잉"
+//            ),
+//        )
+//        homeAdapter.submitList(todoList)
     }
 
     private fun setActivityBackgroundColor() {
