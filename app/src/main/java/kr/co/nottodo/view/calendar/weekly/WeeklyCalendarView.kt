@@ -7,6 +7,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -73,14 +74,12 @@ class WeeklyCalendarView @JvmOverloads constructor(
     }
 
     /** 오늘 날짜로 돌아오는 버튼 위젯 **/
-    private val returnToTodayButton = TextView(context).apply {
+    private val returnToTodayButton = ImageView(context).apply {
         id = ViewCompat.generateViewId()
-        text = "오늘"
         layoutParams =
             LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
-        setTextColor(ContextCompat.getColor(context, R.color.white))
-        setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14f)
+        background = ContextCompat.getDrawable(context, R.drawable.ic_weekly_calendar_today_btn)
+            ?: throw IllegalStateException("[${TAG}] ic_weekly_calendar_today_btn resource id is null")
 
         setOnClickListener {
             weeklyCalendar.refresh()
@@ -165,5 +164,9 @@ class WeeklyCalendarView @JvmOverloads constructor(
         weeklyCalendar.setOnWeeklyCalendarSwipeListener(
             onWeeklyCalendarSwipeListener = onWeeklyCalendarSwipeListener
         )
+    }
+
+    companion object {
+        private const val TAG = "WeeklyCalendarView"
     }
 }
