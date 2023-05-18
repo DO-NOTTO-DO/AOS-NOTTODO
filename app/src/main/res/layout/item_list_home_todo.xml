@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_home_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -30,21 +31,32 @@
         android:background="@drawable/rectangle_border_bg_50"
         android:paddingHorizontal="12dp"
         android:paddingVertical="4dp"
-        android:text="@string/home_item_list_situation"
         android:textAppearance="@style/M13"
         app:layout_constraintStart_toEndOf="@id/iv_home_todo_check"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/home_item_list_situation" />
 
     <TextView
         android:id="@+id/tv_home_todo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
         android:layout_marginTop="8dp"
-        android:text="@string/home_item_list_natodo"
+        android:paddingStart="5dp"
+        android:paddingEnd="8dp"
         android:textAppearance="@style/Sb18"
         app:layout_constraintStart_toStartOf="@id/tv_home_todo_situation"
-        app:layout_constraintTop_toBottomOf="@id/tv_home_todo_situation" />
+        app:layout_constraintTop_toBottomOf="@id/tv_home_todo_situation"
+        tools:text="@string/home_item_list_natodo" />
+
+    <View
+        android:id="@+id/v_home_complete_todo"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/gray_4_9398aa"
+        app:layout_constraintBottom_toBottomOf="@id/tv_home_todo"
+        app:layout_constraintEnd_toEndOf="@id/tv_home_todo"
+        app:layout_constraintStart_toStartOf="@id/tv_home_todo"
+        app:layout_constraintTop_toTopOf="@id/tv_home_todo" />
 
     <ImageView
         android:id="@+id/iv_home_metal_ball"
@@ -58,7 +70,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_home_check_todo"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="@color/bg_80F2F2F7"
         app:layout_constraintBottom_toBottomOf="@id/cl_home_main"

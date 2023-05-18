@@ -1,6 +1,6 @@
 package kr.co.nottodo.presentation.home.view
 
-import android.graphics.Paint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +48,7 @@ class HomeAdpater(
 
         private fun isCheckTodo(isCheck: String): Boolean = when (isCheck) {
             CHECKED -> {
-                setCompleteTodo()
+                showCompleteTodoView()
                 true
             }
             else -> {
@@ -57,16 +57,20 @@ class HomeAdpater(
             }
         }
 
-        private fun setCompleteTodo() {
-            binding.clHomeCheckTodo.visibility = View.VISIBLE
-            binding.tvHomeTodo!!.setPaintFlags(binding.tvHomeTodo!!.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
-            binding.ivHomeTodoCheck.isChecked = true
-            binding.tvHomeTodoSituation.setBackgroundResource(R.drawable.rectangle_border_gray6_50)
-            binding.clHomeMain.setBackgroundResource(R.drawable.rectangle_border_grey5_10)
+        private fun showCompleteTodoView() {
+            with(binding) {
+                clHomeCheckTodo.visibility = View.VISIBLE
+                vHomeCompleteTodo.visibility = View.VISIBLE
+                ivHomeTodoCheck.isChecked = true
+                tvHomeTodoSituation.setTextColor(Color.parseColor("#9398aa"))
+                tvHomeTodo.setTextColor(Color.parseColor("#9398aa"))
+                tvHomeTodoSituation.setBackgroundResource(R.drawable.rectangle_border_gray6_50)
+                clHomeMain.setBackgroundResource(R.drawable.rectangle_border_grey5_10)
+            }
         }
 
         private fun parseCheckTodo(bindingCheck: Boolean): String {
-            Timber.tag("dpd${bindingCheck}")
+            Timber.tag("todo 잘 보내지니?${bindingCheck}")
             val check = if (bindingCheck) {
                 CHECKED
             } else {
@@ -77,13 +81,14 @@ class HomeAdpater(
 
         private fun setUncompleteTodo() {
             binding.clHomeCheckTodo.visibility = View.INVISIBLE
+            binding.vHomeCompleteTodo.visibility = View.INVISIBLE
         }
 
     }
 
     companion object {
         val diffUtil = DiffUtilItemCallback<HomeDailyResponse.HomeDaily>(
-            onItemsTheSame = { old, new -> old.id == new.id },
+            onItemsTheSame = { old, new -> old.completionStatus == new.completionStatus },
             onContentsTheSame = { old, new -> old == new }
         )
         const val CHECKED = "CHECKED"
