@@ -28,6 +28,7 @@
     <string name="addition_choice">*선택</string>
     <string name="today">오늘</string>
     <string name="tomorrow">내일</string>
+    <string name="other_days">그 외 %d일</string>
 
     <!--acheive-->
     <string name="achieve_achieve">성취</string>
