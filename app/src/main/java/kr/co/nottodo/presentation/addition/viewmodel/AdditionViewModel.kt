@@ -18,7 +18,6 @@ import retrofit2.HttpException
 import java.util.Date
 
 class AdditionViewModel : ViewModel() {
-    private val additionService by lazy { ServicePool.additionService }
 
     val date: MutableLiveData<String> = MutableLiveData(Date().convertDateToString())
 
