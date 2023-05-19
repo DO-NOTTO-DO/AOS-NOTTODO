@@ -22,11 +22,11 @@ class HomeViewModel() : ViewModel() {
     val getHomeDaily: LiveData<List<HomeDailyResponse.HomeDaily>> get() = _getHomeDaily
 
     //투두 patch
-    private val _responseCheckResult: MutableLiveData<ResponseHomeMissionCheckDto.HomeMissionCheckDto> =
+    private val _patchCheckResult: MutableLiveData<ResponseHomeMissionCheckDto.HomeMissionCheckDto> =
         MutableLiveData()
-    val responseCheckResult: LiveData<ResponseHomeMissionCheckDto.HomeMissionCheckDto> get() = _responseCheckResult
+    val patchCheckResult: LiveData<ResponseHomeMissionCheckDto.HomeMissionCheckDto> get() = _patchCheckResult
 
-    fun initHome(date: String) {
+    fun getHomeDaily(date: String) {
         viewModelScope.launch {
             runCatching {
                 homeService.getHomeDaily(date)
@@ -41,7 +41,7 @@ class HomeViewModel() : ViewModel() {
         viewModelScope.launch {
             runCatching {
                 homeService.patchTodo(missionId, RequestHomeMissionCheck(isCheck))
-            }.fold(onSuccess = { _responseCheckResult.value = it.data
+            }.fold(onSuccess = { _patchCheckResult.value = it.data
                 Timber.d("todo 성공이이롱 ${it.message}")},
                 onFailure = {
                     Timber.d("todo error지롱 ${it.message}")

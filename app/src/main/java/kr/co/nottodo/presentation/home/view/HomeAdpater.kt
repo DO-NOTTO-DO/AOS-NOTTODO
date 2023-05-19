@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
@@ -80,10 +81,10 @@ class HomeAdpater(
         }
 
         private fun setUncompleteTodo() {
+            binding.ivHomeTodoCheck.isChecked = false
             binding.clHomeCheckTodo.visibility = View.INVISIBLE
             binding.vHomeCompleteTodo.visibility = View.INVISIBLE
         }
-
     }
 
     companion object {
