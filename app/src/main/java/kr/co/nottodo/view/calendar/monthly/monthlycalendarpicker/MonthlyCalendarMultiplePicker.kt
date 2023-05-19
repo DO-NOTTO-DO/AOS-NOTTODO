@@ -200,6 +200,8 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
     }
 
     private fun initializeNotToDoMonthCalendar() {
+        monthlyCalendarMultiplePickerDayAdapter.setSelectedDay(Calendar.getInstance().time)
+        selectedDays.add(Calendar.getInstance().time)
         initCalendarData()
     }
 

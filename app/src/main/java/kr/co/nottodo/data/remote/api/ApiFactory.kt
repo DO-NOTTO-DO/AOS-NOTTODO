@@ -57,4 +57,5 @@ object ServicePool {
     val tokenService = ApiFactory.createForToken<TokenService>()
     val additionService = ApiFactory.create<AdditionService>()
     val homeService = ApiFactory.create<HomeService>()
+    val modificationService = ApiFactory.create<ModificationService>()
 }
