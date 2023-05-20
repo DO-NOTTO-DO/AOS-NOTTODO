@@ -35,12 +35,6 @@ class AdditionActivity : AppCompatActivity() {
     private var isSituationToggleVisible: Boolean = false
     private var isActionToggleVisible: Boolean = false
     private var isGoalToggleVisible: Boolean = false
-    private val today: Date by lazy { Date() }
-    private val tomorrow: Date by lazy {
-        Calendar.getInstance().apply {
-            add(Calendar.DAY_OF_YEAR, 1)
-        }.time
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
