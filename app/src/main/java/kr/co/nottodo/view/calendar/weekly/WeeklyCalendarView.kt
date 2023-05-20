@@ -2,7 +2,6 @@ package kr.co.nottodo.view.calendar.weekly
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -19,7 +18,6 @@ import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyDayClickListener
 import java.time.LocalDate
 import java.time.YearMonth
-import kotlin.properties.Delegates
 
 /**
  * 년 월       오늘

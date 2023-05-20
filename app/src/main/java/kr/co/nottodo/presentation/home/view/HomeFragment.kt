@@ -11,6 +11,10 @@ import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
+import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
+import timber.log.Timber
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -19,6 +23,9 @@ class HomeFragment : Fragment() {
     private lateinit var homeAdapter: HomeAdpater
     private var onFragmentChangedListener: OnFragmentChangedListener? = null
     private val homeViewModel by viewModels<HomeViewModel>()
+    private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    private var weeklyData = todayData
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -37,19 +44,26 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
-        //todo 더미 바꿔야 됨
-        homeViewModel.getHomeDaily("2023-05-17")
+        //todo 더미 바꿔야 됨, weeklyTodo로..?
+        homeViewModel.getHomeDaily("2023-05-21")
         setActivityBackgroundColor()
         observerData()
         clickFloatingBtn()
+        setWeeklyDate()
     }
 
     private fun observerData() {
+
         homeViewModel.getHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
             homeAdapter.submitList(homeDaily)
         }
         homeViewModel.patchCheckResult.observe(viewLifecycleOwner) { isCheck ->
-            homeViewModel.getHomeDaily("2023-05-17")
+            homeViewModel.getHomeDaily("2023-05-21")
+        }
+        homeViewModel.getHomeWeeklyResult.observe(viewLifecycleOwner) { weeklyCount ->
+            var list = weeklyCount
+            Timber.tag("상언오빠 미안$weeklyData")
+//            binding.weeklyCalendar.setNotToDoCount(list)
         }
     }
 
@@ -66,6 +80,7 @@ class HomeFragment : Fragment() {
     private fun menuItemClick(index: Long) {
         val bottomSheetFragment = HomeMenuBottomSheetFragment()
         bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
+        homeViewModel.getHomeBottomDetail(index.toInt())
     }
 
     private fun todoItemClick(id: Long, check: String) {
@@ -77,6 +92,19 @@ class HomeFragment : Fragment() {
         binding.ftbHomeAdd.setOnClickListener { startActivity(intent) }
     }
 
+    private fun setWeeklyDate() {
+        binding.weeklyCalendar.setOnWeeklyCalendarSwipeListener(object :
+            OnWeeklyCalendarSwipeListener {
+            override fun onSwipe(mondayDate: LocalDate?) {
+                if (mondayDate != null) {
+                    // Monday 에 따라서 주간 캘린더에 보여줄 낫투두 리스트 값 갱신
+                    homeViewModel.getHomeWeekly(mondayDate.toString())
+                }
+            }
+        })
+
+    }
+
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
@@ -85,5 +113,10 @@ class HomeFragment : Fragment() {
     override fun onDetach() {
         onFragmentChangedListener = null
         super.onDetach()
+    }
+
+    companion object {
+        const val MONTH_PATTERN = "yyyy.MM"
+        const val YEAR_PATTERN = "yyyy-MM-dd"
     }
 }

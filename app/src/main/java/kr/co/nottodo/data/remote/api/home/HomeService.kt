@@ -4,6 +4,7 @@ import kr.co.nottodo.data.model.Home.HomeDailyResponse
 import kr.co.nottodo.data.model.Home.RequestHomeMissionCheck
 import kr.co.nottodo.data.model.Home.ResponseHomeMissionCheckDto
 import kr.co.nottodo.data.remote.model.home.ResponHomeMissionDetail
+import kr.co.nottodo.data.remote.model.home.ResponseHomeWeekly
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -22,8 +23,13 @@ interface HomeService {
     ): ResponseHomeMissionCheckDto
 
     @GET("mission/{missionId}")
-    suspend fun getDetail(
-        @Path("missionId") missionId:Int
+    suspend fun getHomeBottomDetail(
+        @Path("missionId") missionId: Int
     ): ResponHomeMissionDetail
+
+    @GET("mission/week/{startDate}")
+    suspend fun getHomeWeekly(
+        @Path("startDate") startDate: String
+    ): ResponseHomeWeekly
 
 }

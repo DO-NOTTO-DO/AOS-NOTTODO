@@ -10,6 +10,8 @@ import kr.co.nottodo.data.model.Home.RequestHomeMissionCheck
 import kr.co.nottodo.data.model.Home.ResponseHomeMissionCheckDto
 import kr.co.nottodo.data.remote.api.ServicePool
 import kr.co.nottodo.data.remote.api.home.HomeService
+import kr.co.nottodo.data.remote.model.home.ResponHomeMissionDetail
+import kr.co.nottodo.data.remote.model.home.ResponseHomeWeekly
 import timber.log.Timber
 
 class HomeViewModel() : ViewModel() {
@@ -26,6 +28,24 @@ class HomeViewModel() : ViewModel() {
         MutableLiveData()
     val patchCheckResult: LiveData<ResponseHomeMissionCheckDto.HomeMissionCheckDto> get() = _patchCheckResult
 
+    //위클리 투두 개수 확인
+    private val _getHomeWeeklyResult: MutableLiveData<List<ResponseHomeWeekly.HomeMissionPercent>> =
+        MutableLiveData()
+    val getHomeWeeklyResult: LiveData<List<ResponseHomeWeekly.HomeMissionPercent>> get() = _getHomeWeeklyResult
+
+    //투두 바텀시트 상세보기
+    private val _getHomeBottomDetail: MutableLiveData<ResponHomeMissionDetail.HomeMissionDetail> =
+        MutableLiveData()
+    val getHomeBottomDetail: LiveData<ResponHomeMissionDetail.HomeMissionDetail> get() = _getHomeBottomDetail
+
+    lateinit var checkTodo: HomeDailyResponse.HomeDaily
+//    val list: List<Pair<LocalDate?, Double>> =
+
+
+    fun checkTodo() {
+
+    }
+
     fun getHomeDaily(date: String) {
         viewModelScope.launch {
             runCatching {
@@ -41,13 +61,42 @@ class HomeViewModel() : ViewModel() {
         viewModelScope.launch {
             runCatching {
                 homeService.patchTodo(missionId, RequestHomeMissionCheck(isCheck))
-            }.fold(onSuccess = { _patchCheckResult.value = it.data
-                Timber.d("todo 성공이이롱 ${it.message}")},
+            }.fold(onSuccess = {
+                _patchCheckResult.value = it.data
+                Timber.d("todo 성공이이롱 ${it.message}")
+            },
                 onFailure = {
                     Timber.d("todo error지롱 ${it.message}")
                 })
         }
     }
 
+    fun getHomeWeekly(startDate: String) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                homeService.getHomeWeekly(startDate)
+            }.fold(onSuccess = {
+                _getHomeWeeklyResult.value = it.data
+                Timber.d("weekly 성공이이롱 ${it.data}")
+            },
+                onFailure = {
+                    Timber.d("weekly error지롱 ${it.message}")
+                })
+        }
+    }
+
+    fun getHomeBottomDetail(missionId: Int) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                homeService.getHomeBottomDetail(missionId)
+            }.fold(onSuccess = {
+                _getHomeBottomDetail.value = it.data
+                Timber.d("bottom 성공이이롱 ${it.data}")
+            },
+                onFailure = {
+                    Timber.d("bottom error지롱 ${it.message}")
+                })
+        }
+    }
 
 }
