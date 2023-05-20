@@ -297,13 +297,18 @@ class AdditionActivity : AppCompatActivity() {
 
                 var goal: String? = viewModel.goal.value
                 if (goal?.isBlank() == true) goal = null
+
+                val dateList: MutableList<String> = mutableListOf()
+                binding.calendarAdditionDateOpened.selectedDays.forEach {
+                    it.convertDateToString()?.let { date -> dateList.add(date) }
+                }
                 viewModel.postAddition(
                     RequestAdditionDto(
                         title = binding.tvAdditionMissionClosedName.text.toString(),
                         situation = binding.tvAdditionSituationName.text.toString(),
                         actions = actionList,
                         goal = goal,
-                        dates = listOf("2011.1.15")
+                        dates = dateList
                     )
                 )
             }
