@@ -473,7 +473,6 @@ class ModificationActivity : AppCompatActivity() {
         binding.layoutModificationMissionClosed.setOnClickListener {
             if (!isMissionToggleVisible) {
                 openMissionToggle()
-                closeDateToggle()
                 closeSituationToggle()
                 closeActionToggle()
                 closeGoalToggle()
@@ -485,7 +484,6 @@ class ModificationActivity : AppCompatActivity() {
         binding.layoutModificationSituationClosed.setOnClickListener {
             if (!isSituationToggleVisible) {
                 openSituationToggle()
-                closeDateToggle()
                 closeMissionToggle()
                 closeActionToggle()
                 closeGoalToggle()
@@ -497,7 +495,6 @@ class ModificationActivity : AppCompatActivity() {
         binding.layoutModificationActionClosed.setOnClickListener {
             if (!isActionToggleVisible) {
                 openActionToggle()
-                closeDateToggle()
                 closeMissionToggle()
                 closeSituationToggle()
                 closeGoalToggle()
@@ -509,7 +506,6 @@ class ModificationActivity : AppCompatActivity() {
         binding.layoutModificationGoalClosed.setOnClickListener {
             if (!isGoalToggleVisible) {
                 openGoalToggle()
-                closeDateToggle()
                 closeMissionToggle()
                 closeSituationToggle()
                 closeActionToggle()
@@ -518,20 +514,10 @@ class ModificationActivity : AppCompatActivity() {
             }
         }
 
-        binding.tvModificationDateOpenedComplete.setOnClickListener {
-            closeDateToggle()
-        }
-
         binding.tvModificationActionComplete.setOnClickListener {
             closeActionToggle()
             hideKeyboard(binding.root)
         }
-    }
-
-    private fun closeDateToggle() {
-        binding.layoutModificationDateClosed.visibility = View.VISIBLE
-        binding.layoutModificationDateOpened.visibility = View.GONE
-        isDateToggleVisible = false
     }
 
     private fun closeGoalToggle() {
