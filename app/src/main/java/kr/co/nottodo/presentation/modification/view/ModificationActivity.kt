@@ -140,7 +140,6 @@ class ModificationActivity : AppCompatActivity() {
             return@setOnEditorActionListener false
         }
 
-
         binding.etModificationAction.setOnEditorActionListener { _, actionId, _ ->
             //상황 추가 입력창 키보드 엔터 오버라이딩 -> 텍스트뷰 추가
             if (actionId == EditorInfo.IME_ACTION_DONE) {
