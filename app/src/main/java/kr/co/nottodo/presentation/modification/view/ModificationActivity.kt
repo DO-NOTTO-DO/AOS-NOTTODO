@@ -140,7 +140,6 @@ class ModificationActivity : AppCompatActivity() {
             return@setOnEditorActionListener false
         }
 
-
         binding.etModificationAction.setOnEditorActionListener { _, actionId, _ ->
             //상황 추가 입력창 키보드 엔터 오버라이딩 -> 텍스트뷰 추가
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -474,7 +473,6 @@ class ModificationActivity : AppCompatActivity() {
         binding.layoutModificationMissionClosed.setOnClickListener {
             if (!isMissionToggleVisible) {
                 openMissionToggle()
-                closeDateToggle()
                 closeSituationToggle()
                 closeActionToggle()
                 closeGoalToggle()
@@ -486,7 +484,6 @@ class ModificationActivity : AppCompatActivity() {
         binding.layoutModificationSituationClosed.setOnClickListener {
             if (!isSituationToggleVisible) {
                 openSituationToggle()
-                closeDateToggle()
                 closeMissionToggle()
                 closeActionToggle()
                 closeGoalToggle()
@@ -498,7 +495,6 @@ class ModificationActivity : AppCompatActivity() {
         binding.layoutModificationActionClosed.setOnClickListener {
             if (!isActionToggleVisible) {
                 openActionToggle()
-                closeDateToggle()
                 closeMissionToggle()
                 closeSituationToggle()
                 closeGoalToggle()
@@ -510,48 +506,18 @@ class ModificationActivity : AppCompatActivity() {
         binding.layoutModificationGoalClosed.setOnClickListener {
             if (!isGoalToggleVisible) {
                 openGoalToggle()
-                closeDateToggle()
                 closeMissionToggle()
                 closeSituationToggle()
                 closeActionToggle()
             } else {
                 closeGoalToggle()
             }
-        }
-
-        binding.layoutModificationDateClosed.setOnClickListener {
-            if (!isDateToggleVisible) {
-                openDateToggle()
-                closeMissionToggle()
-                closeSituationToggle()
-                closeActionToggle()
-                closeGoalToggle()
-
-            } else {
-                closeDateToggle()
-            }
-        }
-
-        binding.tvModificationDateOpenedComplete.setOnClickListener {
-            closeDateToggle()
         }
 
         binding.tvModificationActionComplete.setOnClickListener {
             closeActionToggle()
             hideKeyboard(binding.root)
         }
-    }
-
-    private fun closeDateToggle() {
-        binding.layoutModificationDateClosed.visibility = View.VISIBLE
-        binding.layoutModificationDateOpened.visibility = View.GONE
-        isDateToggleVisible = false
-    }
-
-    private fun openDateToggle() {
-        binding.layoutModificationDateClosed.visibility = View.GONE
-        binding.layoutModificationDateOpened.visibility = View.VISIBLE
-        isDateToggleVisible = true
     }
 
     private fun closeGoalToggle() {
