@@ -24,7 +24,6 @@ import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showToast
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
-import java.util.Calendar
 import java.util.Date
 
 class AdditionActivity : AppCompatActivity() {
@@ -292,10 +291,10 @@ class AdditionActivity : AppCompatActivity() {
                 var goal: String? = viewModel.goal.value
                 if (goal?.isBlank() == true) goal = null
 
-                val dateList: MutableList<String> = mutableListOf()
-                binding.calendarAdditionDateOpened.selectedDays.forEach {
-                    it.convertDateToString()?.let { date -> dateList.add(date) }
-                }
+                val dateList: List<String> =
+                    binding.calendarAdditionDateOpened.selectedDays.mapNotNull { selectedDay ->
+                        selectedDay.convertDateToString()
+                    }
                 viewModel.postAddition(
                     RequestAdditionDto(
                         title = binding.tvAdditionMissionClosedName.text.toString(),
@@ -469,8 +468,7 @@ class AdditionActivity : AppCompatActivity() {
 
         binding.tvAdditionDateOpenedComplete.setOnClickListener {
             val selectedDays: MutableList<Date> = binding.calendarAdditionDateOpened.selectedDays
-            if (selectedDays.isEmpty())
-                return@setOnClickListener
+            if (selectedDays.isEmpty()) return@setOnClickListener
 
             if (selectedDays.containToday()) {
                 binding.tvAdditionDateStartDesc.apply {
