@@ -26,9 +26,13 @@
     <!--Addition View-->
     <string name="addition_input">입력하세요…</string>
     <string name="addition_choice">*선택</string>
+    <string name="today">오늘</string>
+    <string name="tomorrow">내일</string>
+    <string name="other_days">그 외 %d일</string>
 
     <!--acheive-->
     <string name="achieve_achieve">성취</string>
     <string name="achieve_description">더욱 나은 낫투두를 위해\n노력중에 있어요, 기다려주세요.</string>
+
 
 </resources>
