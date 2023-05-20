@@ -519,19 +519,6 @@ class ModificationActivity : AppCompatActivity() {
             }
         }
 
-        binding.layoutModificationDateClosed.setOnClickListener {
-            if (!isDateToggleVisible) {
-                openDateToggle()
-                closeMissionToggle()
-                closeSituationToggle()
-                closeActionToggle()
-                closeGoalToggle()
-
-            } else {
-                closeDateToggle()
-            }
-        }
-
         binding.tvModificationDateOpenedComplete.setOnClickListener {
             closeDateToggle()
         }
@@ -546,12 +533,6 @@ class ModificationActivity : AppCompatActivity() {
         binding.layoutModificationDateClosed.visibility = View.VISIBLE
         binding.layoutModificationDateOpened.visibility = View.GONE
         isDateToggleVisible = false
-    }
-
-    private fun openDateToggle() {
-        binding.layoutModificationDateClosed.visibility = View.GONE
-        binding.layoutModificationDateOpened.visibility = View.VISIBLE
-        isDateToggleVisible = true
     }
 
     private fun closeGoalToggle() {
