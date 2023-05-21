@@ -85,7 +85,7 @@ class HomeViewModel() : ViewModel() {
         }
     }
 
-    fun getHomeBottomDetail(missionId: Int) {
+    fun getHomeBottomDetail(missionId: Long) {
         viewModelScope.launch {
             kotlin.runCatching {
                 homeService.getHomeBottomDetail(missionId)

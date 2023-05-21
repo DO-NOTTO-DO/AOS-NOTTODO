@@ -24,7 +24,7 @@ interface HomeService {
 
     @GET("mission/{missionId}")
     suspend fun getHomeBottomDetail(
-        @Path("missionId") missionId: Int
+        @Path("missionId") missionId: Long
     ): ResponHomeMissionDetail
 
     @GET("mission/week/{startDate}")

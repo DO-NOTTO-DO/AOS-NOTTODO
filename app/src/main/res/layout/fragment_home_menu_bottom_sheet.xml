@@ -38,11 +38,11 @@
         android:background="@drawable/rectangle_border_bg_50"
         android:paddingHorizontal="12dp"
         android:paddingVertical="4dp"
-        android:text="@string/home_item_list_situation"
         android:textAppearance="@style/M13"
         android:textColor="@color/gray_1_2a2a2e"
         app:layout_constraintStart_toStartOf="@id/iv_home_dialog_cancle"
-        app:layout_constraintTop_toBottomOf="@id/iv_home_dialog_cancle" />
+        app:layout_constraintTop_toBottomOf="@id/iv_home_dialog_cancle"
+        tools:text="@string/home_item_list_situation" />
 
     <TextView
         android:id="@+id/tv_home_dialog_notodo"
@@ -50,10 +50,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:layout_marginTop="9dp"
-        android:text="@string/home_item_list_natodo"
         android:textAppearance="@style/Sb20"
         app:layout_constraintStart_toStartOf="@id/tv_home_dialog_situation"
-        app:layout_constraintTop_toBottomOf="@id/tv_home_dialog_situation" />
+        app:layout_constraintTop_toBottomOf="@id/tv_home_dialog_situation"
+        tools:text="@string/home_item_list_natodo" />
 
     <ImageView
         android:id="@+id/iv_home_dialog_statics"
@@ -100,11 +100,13 @@
         app:layout_constraintStart_toStartOf="@id/tv_home_dialog_notodo"
         app:layout_constraintTop_toBottomOf="@id/v_home_dialog_divider_top" />
 
+    <!--    Linear로 바꾸기-->
+
     <TextView
         android:id="@+id/tv_home_dialog_action_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="6dp"
         android:lineSpacingMultiplier="1.6"
         android:textAppearance="@style/M15"
         app:layout_constraintStart_toStartOf="@id/tv_home_dialog_do_action"
@@ -125,10 +127,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="@string/home_dialog_goal_description"
         android:textAppearance="@style/M15"
         app:layout_constraintStart_toStartOf="@id/tv_home_dialog_goal"
-        app:layout_constraintTop_toBottomOf="@id/tv_home_dialog_goal" />
+        app:layout_constraintTop_toBottomOf="@id/tv_home_dialog_goal"
+        tools:text="@string/home_dialog_goal_description" />
 
     <View
         android:id="@+id/v_home_dialog_divider"

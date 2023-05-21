@@ -78,9 +78,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun menuItemClick(index: Long) {
+        val bundle = Bundle()
+        bundle.putLong(MISSION_ID, index)
         val bottomSheetFragment = HomeMenuBottomSheetFragment()
+        bottomSheetFragment.arguments = bundle
         bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
-        homeViewModel.getHomeBottomDetail(index.toInt())
     }
 
     private fun todoItemClick(id: Long, check: String) {
@@ -118,5 +120,6 @@ class HomeFragment : Fragment() {
     companion object {
         const val MONTH_PATTERN = "yyyy.MM"
         const val YEAR_PATTERN = "yyyy-MM-dd"
+        const val MISSION_ID = "MISSION_ID"
     }
 }
