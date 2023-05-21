@@ -50,7 +50,7 @@ class HomeViewModel() : ViewModel() {
         viewModelScope.launch {
             runCatching {
                 homeService.getHomeDaily(date)
-            }.fold(onSuccess = { _getHomeDaily.value = it.data },
+            }.fold(onSuccess = { _getHomeDaily.value = it.data.toMutableList() },
                 onFailure = {
                     Timber.d("error지롱 ${it.message}")
                 })
@@ -62,6 +62,17 @@ class HomeViewModel() : ViewModel() {
             runCatching {
                 homeService.patchTodo(missionId, RequestHomeMissionCheck(isCheck))
             }.fold(onSuccess = {
+                _getHomeDaily.value = getHomeDaily.value?.map { homeDaily ->
+                    if (homeDaily.id == missionId) {
+                        return@map homeDaily.copy(
+                            completionStatus = HomeDailyResponse.HomeDaily.Checked.reverseCheck(
+                                homeDaily.isChecked
+                            )
+                        )
+                    } else {
+                        return@map homeDaily
+                    }
+                }
                 _patchCheckResult.value = it.data
                 Timber.d("todo 성공이이롱 ${it.message}")
             },

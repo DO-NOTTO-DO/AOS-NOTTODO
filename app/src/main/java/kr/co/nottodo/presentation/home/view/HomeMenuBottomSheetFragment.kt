@@ -66,7 +66,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
                 tvHomeDialogNotodo.text = it.title
                 tvHomeDialogGoalDescription.text = it.goal
                 tvHomeDialogStatics.text = completeCount
-                tvHomeDialogActionDescription.text = it.actions
+//                tvHomeDialogActionDescription.text = it.actions
             }
 
         }

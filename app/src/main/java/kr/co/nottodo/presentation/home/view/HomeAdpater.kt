@@ -88,7 +88,7 @@ class HomeAdpater(
 
     companion object {
         val diffUtil = DiffUtilItemCallback<HomeDailyResponse.HomeDaily>(
-            onItemsTheSame = { old, new -> old.completionStatus == new.completionStatus },
+            onItemsTheSame = { old, new -> old.id == new.id },
             onContentsTheSame = { old, new -> old == new }
         )
         const val CHECKED = "CHECKED"

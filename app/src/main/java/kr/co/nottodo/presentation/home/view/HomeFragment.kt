@@ -55,11 +55,10 @@ class HomeFragment : Fragment() {
     private fun observerData() {
 
         homeViewModel.getHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
-            homeAdapter.submitList(homeDaily)
+            homeAdapter.submitList(homeDaily.toList())
+            Timber.tag("observe1").e("$homeDaily")
         }
-        homeViewModel.patchCheckResult.observe(viewLifecycleOwner) { isCheck ->
-            homeViewModel.getHomeDaily("2023-05-21")
-        }
+
         homeViewModel.getHomeWeeklyResult.observe(viewLifecycleOwner) { weeklyCount ->
             var list = weeklyCount
             Timber.tag("상언오빠 미안$weeklyData")
