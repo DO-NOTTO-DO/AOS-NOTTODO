@@ -64,6 +64,11 @@ class HomeFragment : Fragment() {
             Timber.tag("상언오빠 미안$weeklyData")
 //            binding.weeklyCalendar.setNotToDoCount(list)
         }
+        homeViewModel.deleteTodo.observe(viewLifecycleOwner) {
+            Timber.tag("deleteTodo").e("$it")
+            homeViewModel.getHomeDaily("2023-05-21")
+            homeAdapter.submitList(homeViewModel.getHomeDaily.value)
+        }
     }
 
     private fun initAdapter() {

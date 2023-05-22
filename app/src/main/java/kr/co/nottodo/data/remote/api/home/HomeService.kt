@@ -3,12 +3,10 @@ package kr.co.nottodo.data.remote.api.home
 import kr.co.nottodo.data.model.Home.HomeDailyResponse
 import kr.co.nottodo.data.model.Home.RequestHomeMissionCheck
 import kr.co.nottodo.data.model.Home.ResponseHomeMissionCheckDto
+import kr.co.nottodo.data.remote.model.NoDataResponse
 import kr.co.nottodo.data.remote.model.home.ResponHomeMissionDetail
 import kr.co.nottodo.data.remote.model.home.ResponseHomeWeekly
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.PATCH
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface HomeService {
     @GET("mission/daily/{date}")
@@ -32,4 +30,8 @@ interface HomeService {
         @Path("startDate") startDate: String
     ): ResponseHomeWeekly
 
+    @DELETE("mission/{missionId}")
+    suspend fun deleteTodo(
+        @Path("missionId") missionId: Long
+    ): NoDataResponse
 }

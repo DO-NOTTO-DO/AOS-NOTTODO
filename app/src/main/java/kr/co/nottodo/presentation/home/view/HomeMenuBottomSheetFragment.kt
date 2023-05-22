@@ -1,6 +1,7 @@
 package kr.co.nottodo.presentation.home.view
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,16 +11,19 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kr.co.nottodo.R
+import kr.co.nottodo.data.local.ParcelizeBottomDetail
+import kr.co.nottodo.data.remote.model.home.ResponHomeMissionDetail
 import kr.co.nottodo.databinding.FragmentHomeMenuBottomSheetBinding
 import kr.co.nottodo.databinding.ItemHomeBottomActionsBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
+import kr.co.nottodo.presentation.modification.view.ModificationActivity
 
 class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentHomeMenuBottomSheetBinding? = null
     private val binding: FragmentHomeMenuBottomSheetBinding
         get() = requireNotNull(_binding)
     private val viewModel by activityViewModels<HomeViewModel>()
-
+    private lateinit var detailData: ParcelizeBottomDetail
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,9 +55,17 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         binding.ivHomeDialogCancle.setOnClickListener { dismiss() }
         binding.tvHomeDialogEdit.setOnClickListener {
             //todo 파셀라블 적용
+            val intent = Intent(context, ModificationActivity::class.java)
+            intent.putExtra(DETAIL, detailData)
+            startActivity(intent)
         }
         binding.tvHomeDialogAddDay.setOnClickListener {
             //todo calender 넣어야됨
+        }
+        binding.btnHomeDelete.setOnClickListener {
+            clickDelete(requireArguments().getLong(MISSION_ID))
+            viewModel.getHomeDaily("2023-05-21")
+            dismiss()
         }
     }
 
@@ -81,11 +93,26 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
                     addView(it.root)
                 }
             }
+            parcelizeData(it)
         }
 
     }
 
+    private fun parcelizeData(it: ResponHomeMissionDetail.HomeMissionDetail) {
+        detailData =
+            ParcelizeBottomDetail(it.id, it.title, it.situation, it.count, it.goal)
+    }
+
+    private fun clickDelete(missionId: Long) {
+        viewModel.deleteTodo(missionId)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+    }
+
+    companion object {
+        const val DETAIL = "DETAIL"
+        const val ACTIONS = "ACTIONS"
     }
 }
