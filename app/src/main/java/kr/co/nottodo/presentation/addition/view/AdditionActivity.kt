@@ -18,9 +18,13 @@ import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 import kr.co.nottodo.util.addButtons
+import kr.co.nottodo.util.containToday
+import kr.co.nottodo.util.containTomorrow
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showToast
+import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
+import java.util.Date
 
 class AdditionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdditionBinding
@@ -63,7 +67,7 @@ class AdditionActivity : AppCompatActivity() {
     private fun observeSuccessResponse() {
         viewModel.additionResponse.observe(this) {
             showToast("낫투두 생성 완료 !")
-            if(!isFinishing) finish()
+            if (!isFinishing) finish()
         }
     }
 
@@ -132,9 +136,7 @@ class AdditionActivity : AppCompatActivity() {
 
         binding.etAdditionAction.setOnEditorActionListener { _, actionId, _ ->
             //상황 추가 입력창 키보드 엔터 오버라이딩 -> 텍스트뷰 추가
-            if (actionId == EditorInfo.IME_ACTION_DONE
-                && binding.etAdditionAction.text.isNotBlank()
-            ) {
+            if (actionId == EditorInfo.IME_ACTION_DONE && binding.etAdditionAction.text.isNotBlank()) {
                 viewModel.actionCount.value?.let { addAction(it) }
             }
             return@setOnEditorActionListener true
@@ -281,23 +283,25 @@ class AdditionActivity : AppCompatActivity() {
         binding.btnAdditionAdd.setOnClickListener {
             if (binding.btnAdditionAdd.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
                 var actionList: MutableList<String>? = mutableListOf()
-                if (!binding.tvAdditionActionFirst.text.isNullOrBlank())
-                    actionList?.add(binding.tvAdditionActionFirst.text.toString())
-                if (!binding.tvAdditionActionSecond.text.isNullOrBlank())
-                    actionList?.add(binding.tvAdditionActionSecond.text.toString())
-                if (!binding.tvAdditionActionThird.text.isNullOrBlank())
-                    actionList?.add(binding.tvAdditionActionThird.text.toString())
+                if (!binding.tvAdditionActionFirst.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionFirst.text.toString())
+                if (!binding.tvAdditionActionSecond.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionSecond.text.toString())
+                if (!binding.tvAdditionActionThird.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionThird.text.toString())
                 if (actionList?.isEmpty() == true) actionList = null
 
                 var goal: String? = viewModel.goal.value
                 if (goal?.isBlank() == true) goal = null
+
+                val dateList: List<String> =
+                    binding.calendarAdditionDateOpened.selectedDays.mapNotNull { selectedDay ->
+                        selectedDay.convertDateToString()
+                    }
                 viewModel.postAddition(
                     RequestAdditionDto(
                         title = binding.tvAdditionMissionClosedName.text.toString(),
                         situation = binding.tvAdditionSituationName.text.toString(),
                         actions = actionList,
                         goal = goal,
-                        dates = listOf("2011.1.15")
+                        dates = dateList
                     )
                 )
             }
@@ -463,6 +467,37 @@ class AdditionActivity : AppCompatActivity() {
         }
 
         binding.tvAdditionDateOpenedComplete.setOnClickListener {
+            val selectedDays: MutableList<Date> = binding.calendarAdditionDateOpened.selectedDays
+            if (selectedDays.isEmpty()) return@setOnClickListener
+
+            if (selectedDays.containToday()) {
+                binding.tvAdditionDateStartDesc.apply {
+                    visibility = View.VISIBLE
+                    text = getString(R.string.today)
+                }
+            } else if (selectedDays.containTomorrow()) {
+                binding.tvAdditionDateStartDesc.apply {
+                    visibility = View.VISIBLE
+                    text = getString(R.string.tomorrow)
+                }
+            } else {
+                binding.tvAdditionDateStartDesc.visibility = View.GONE
+            }
+
+            if (selectedDays.size > 1) {
+                binding.tvAdditionDateEndDesc.apply {
+                    visibility = View.VISIBLE
+                    text = getString(R.string.other_days, selectedDays.size - 1)
+                }
+            } else {
+                binding.tvAdditionDateEndDesc.apply {
+                    visibility = View.GONE
+                }
+            }
+
+            selectedDays.sortDescending()
+            binding.tvAdditionDate.text = selectedDays.last().convertDateToString()
+
             closeDateToggle()
         }
 

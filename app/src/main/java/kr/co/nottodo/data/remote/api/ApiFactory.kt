@@ -20,7 +20,7 @@ object ApiFactory {
     private val client by lazy {
         OkHttpClient.Builder().addInterceptor(TokenInterceptor())
             .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
+                level = if(BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
             }).authenticator(TokenAuthenticator())
             .build()
     }
@@ -36,7 +36,7 @@ object ApiFactory {
     private val clientForLogin by lazy {
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
+                level = if(BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
             }).build()
     }
 

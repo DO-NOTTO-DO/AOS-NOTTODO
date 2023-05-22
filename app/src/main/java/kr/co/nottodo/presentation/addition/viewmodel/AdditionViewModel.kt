@@ -13,9 +13,14 @@ import kr.co.nottodo.data.remote.api.ServicePool.additionService
 import kr.co.nottodo.data.remote.model.FailureResponseDto
 import kr.co.nottodo.data.remote.model.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.ResponseAdditionDto
+import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import retrofit2.HttpException
+import java.util.Date
 
 class AdditionViewModel : ViewModel() {
+
+    val date: MutableLiveData<String> = MutableLiveData(Date().convertDateToString())
+
     val mission: MutableLiveData<String> = MutableLiveData()
     private val isMissionFilled: LiveData<Boolean> = Transformations.map(mission) { mission ->
         mission.isNotBlank()
