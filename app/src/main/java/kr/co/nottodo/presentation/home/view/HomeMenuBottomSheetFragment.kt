@@ -24,6 +24,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         get() = requireNotNull(_binding)
     private val viewModel by activityViewModels<HomeViewModel>()
     private lateinit var detailData: ParcelizeBottomDetail
+    private lateinit var detailActionData: ParcelizeBottomDetail.Action
+    private lateinit var changeParcle: List<ParcelizeBottomDetail.Action>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,6 +59,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
             //todo 파셀라블 적용
             val intent = Intent(context, ModificationActivity::class.java)
             intent.putExtra(DETAIL, detailData)
+            intent.putParcelableArrayListExtra(ACTIONS, ArrayList(changeParcle))
             startActivity(intent)
         }
         binding.tvHomeDialogAddDay.setOnClickListener {
@@ -95,12 +98,17 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
             }
             parcelizeData(it)
         }
-
     }
 
-    private fun parcelizeData(it: ResponHomeMissionDetail.HomeMissionDetail) {
+    private fun parcelizeData(item: ResponHomeMissionDetail.HomeMissionDetail) {
+        //todo 뭔가 여기 전역변수 쓰면 안될거 같은데.. 나중에 바꿔라 윤둉아
         detailData =
-            ParcelizeBottomDetail(it.id, it.title, it.situation, it.count, it.goal)
+            ParcelizeBottomDetail(item.id, item.title, item.situation, item.count, item.goal)
+
+        val actionHome = item.actions
+        changeParcle =
+            actionHome?.map { ParcelizeBottomDetail.Action(it.name) }
+                ?: throw IllegalArgumentException()
     }
 
     private fun clickDelete(missionId: Long) {
