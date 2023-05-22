@@ -11,8 +11,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentHomeMenuBottomSheetBinding
+import kr.co.nottodo.databinding.ItemHomeBottomActionsBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
-import timber.log.Timber
 
 class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentHomeMenuBottomSheetBinding? = null
@@ -30,8 +30,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnClick()
         initData(requireArguments().getLong(MISSION_ID))
+        setOnClick()
         getMissionData()
     }
 
@@ -44,7 +44,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun initData(index: Long) {
         viewModel.getHomeBottomDetail(index)
-        Timber.tag("bottomFragment")
+
     }
 
     private fun setOnClick() {
@@ -66,10 +66,23 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
                 tvHomeDialogNotodo.text = it.title
                 tvHomeDialogGoalDescription.text = it.goal
                 tvHomeDialogStatics.text = completeCount
-//                tvHomeDialogActionDescription.text = it.actions
             }
-
+            //동적추가
+            binding.linearHomeAction.run {
+                val createLinearBindinding = {
+                    ItemHomeBottomActionsBinding.inflate(LayoutInflater.from(binding.root.context))
+                }
+                removeAllViews()
+                it.actions?.map { actions ->
+                    createLinearBindinding().apply {
+                        tvHomeBottomActionItem.text = actions.name.toString()
+                    }
+                }?.forEach {
+                    addView(it.root)
+                }
+            }
         }
+
     }
 
     override fun onDestroyView() {
