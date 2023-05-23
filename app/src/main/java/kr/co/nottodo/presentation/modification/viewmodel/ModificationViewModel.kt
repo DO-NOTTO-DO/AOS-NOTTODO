@@ -15,6 +15,7 @@ import kr.co.nottodo.data.remote.model.RequestModificationDto
 import kr.co.nottodo.data.remote.model.ResponseModificationDto
 import kr.co.nottodo.presentation.modification.view.ModificationActivity.Companion.NotTodoData
 import retrofit2.HttpException
+import timber.log.Timber
 
 class ModificationViewModel : ViewModel() {
 
@@ -28,15 +29,15 @@ class ModificationViewModel : ViewModel() {
         originDate = data.date
         originMission = data.mission
         originSituation = data.situation
-        originalActionList = data.action
+        originalActionList = data.actions
         originGoal = data.goal
 
         date.value = data.date
         mission.value = data.mission
         situation.value = data.situation
-        actionList.value = data.action
-        actionCount.value = data.action.size
-        goal.value = data.goal
+        actionList.value = data.actions ?: emptyList()
+        actionCount.value = data.actions?.size ?: 0
+        goal.value = data.goal ?: ""
     }
 
     val date: MutableLiveData<String> = MutableLiveData()
@@ -103,8 +104,7 @@ class ModificationViewModel : ViewModel() {
         viewModelScope.launch {
             kotlin.runCatching {
                 modificationService.modifyMission(
-                    1,
-                    RequestModificationDto(
+                    1, RequestModificationDto(
                         title = requireNotNull(mission.value),
                         situation = requireNotNull(situation.value),
                         actions = actionList.value,
@@ -121,15 +121,15 @@ class ModificationViewModel : ViewModel() {
     private fun getErrorMessage(result: Throwable): String {
         when (result) {
             is HttpException -> {
-                val data =
-                    Json.decodeFromString<FailureResponseDto>(
-                        result.response()?.errorBody()?.string() ?: return "예기치 못한 에러 발생2"
-                    )
+                val data = Json.decodeFromString<FailureResponseDto>(
+                    result.response()?.errorBody()?.string() ?: return "예기치 못한 에러 발생2"
+                )
                 return data.message
             }
 
             else -> {
-                return result.toString()
+                Timber.e(result.message.toString())
+                return result.message.toString()
             }
         }
     }
