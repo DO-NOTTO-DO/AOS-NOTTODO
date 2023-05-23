@@ -15,6 +15,7 @@ import kr.co.nottodo.data.remote.model.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.ResponseAdditionDto
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import retrofit2.HttpException
+import timber.log.Timber
 import java.util.Date
 
 class AdditionViewModel : ViewModel() {
@@ -80,7 +81,8 @@ class AdditionViewModel : ViewModel() {
             }
 
             else -> {
-                return result.toString()
+                Timber.e(result.message.toString())
+                return "예기치 못한 에러가 발생했습니다"
             }
         }
     }
