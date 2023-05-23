@@ -80,9 +80,9 @@ class HomeAdpater(
         }
 
         private fun setUncompleteTodo() {
-            binding.ivHomeTodoCheck.isChecked = false
             binding.clHomeCheckTodo.visibility = View.INVISIBLE
             binding.vHomeCompleteTodo.visibility = View.INVISIBLE
+            binding.ivHomeTodoCheck.isChecked = false
         }
     }
 

@@ -1,5 +1,6 @@
 package kr.co.nottodo.data.model.Home
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -14,10 +15,10 @@ data class ResponseHomeMissionCheckDto(
 ) {
     @Serializable
     data class HomeMissionCheckDto(
-        val completionStatus: String,
-        val id: Long,
-        val title: String,
-        val situationName: String,
+        @SerialName("completionStatus") val completionStatus: String,
+        @SerialName("id") val id: Long,
+        @SerialName("title") val title: String,
+        @SerialName("situationName") val situationName: String,
 
-    )
+        )
 }

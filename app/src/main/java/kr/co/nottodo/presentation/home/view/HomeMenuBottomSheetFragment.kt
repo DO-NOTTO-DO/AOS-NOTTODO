@@ -116,6 +116,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     override fun onDestroyView() {
+        _binding = null
         super.onDestroyView()
     }
 

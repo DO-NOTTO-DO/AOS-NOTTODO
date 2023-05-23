@@ -3,7 +3,7 @@ package kr.co.nottodo.data.remote.api.home
 import kr.co.nottodo.data.model.Home.HomeDailyResponse
 import kr.co.nottodo.data.model.Home.RequestHomeMissionCheck
 import kr.co.nottodo.data.model.Home.ResponseHomeMissionCheckDto
-import kr.co.nottodo.data.remote.model.NoDataResponse
+import kr.co.nottodo.data.remote.model.FailureResponseDto
 import kr.co.nottodo.data.remote.model.home.ResponHomeMissionDetail
 import kr.co.nottodo.data.remote.model.home.ResponseHomeWeekly
 import retrofit2.http.*
@@ -33,5 +33,5 @@ interface HomeService {
     @DELETE("mission/{missionId}")
     suspend fun deleteTodo(
         @Path("missionId") missionId: Long
-    ): NoDataResponse
+    ): FailureResponseDto
 }
