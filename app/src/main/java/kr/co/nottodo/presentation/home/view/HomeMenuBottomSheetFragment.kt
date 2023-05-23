@@ -25,7 +25,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private val viewModel by activityViewModels<HomeViewModel>()
     private lateinit var detailData: ParcelizeBottomDetail
     private lateinit var detailActionData: ParcelizeBottomDetail.Action
-    private lateinit var changeParcle: List<ParcelizeBottomDetail.Action>
+//    private lateinit var changeParcle: List<ParcelizeBottomDetail.Action>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -37,8 +37,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData(requireArguments().getLong(MISSION_ID))
-        setOnClick()
         getMissionData()
+        setOnClick()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -59,7 +59,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
             //todo 파셀라블 적용
             val intent = Intent(context, ModificationActivity::class.java)
             intent.putExtra(DETAIL, detailData)
-            intent.putParcelableArrayListExtra(ACTIONS, ArrayList(changeParcle))
+//            intent.putParcelableArrayListExtra(ACTIONS, ArrayList(changeParcle))
             startActivity(intent)
         }
         binding.tvHomeDialogAddDay.setOnClickListener {
