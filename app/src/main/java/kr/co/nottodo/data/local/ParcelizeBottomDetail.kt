@@ -8,7 +8,7 @@ data class ParcelizeBottomDetail(
     val id: Long,
     val title: String,
     val situation: String,
-//    val actions: List<Action>?,
+    val actions: List<Action>?,
     val count: Int,
     val goal: String?,
 ) : Parcelable

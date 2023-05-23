@@ -41,7 +41,7 @@ class HomeViewModel() : ViewModel() {
     //투두 바텀시트 삭제하기
     private val _deleteTodo: MutableLiveData<String> =
         MutableLiveData()
-    val deleteTodo: LiveData<String> = _deleteTodo
+    val deleteTodo: LiveData<String> get() = _deleteTodo
 
     lateinit var checkTodo: HomeDailyResponse.HomeDaily
 //    val list: List<Pair<LocalDate?, Double>> =
