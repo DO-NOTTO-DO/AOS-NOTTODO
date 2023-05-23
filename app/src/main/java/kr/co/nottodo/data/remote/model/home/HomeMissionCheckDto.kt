@@ -19,6 +19,5 @@ data class ResponseHomeMissionCheckDto(
         @SerialName("id") val id: Long,
         @SerialName("title") val title: String,
         @SerialName("situationName") val situationName: String,
-
         )
 }

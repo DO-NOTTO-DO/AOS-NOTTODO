@@ -23,6 +23,6 @@ data class ResponHomeMissionDetail(
 
     @Serializable
     data class Action(
-        val name: String?
+        @SerialName("name") val name: String?
     )
 }
