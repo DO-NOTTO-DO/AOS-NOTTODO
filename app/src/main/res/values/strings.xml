@@ -21,6 +21,9 @@
     <string name="home_dialog_do_another">다른 날도 할래요</string>
     <string name="home_dialog_add_day">날짜 선택</string>
     <string name="home_dialog_delete_btn">삭제하기</string>
+    <string name="home_bottom_action_null">구체적인 실천 방법을 추가한\n유저의 성공률이 약 10% 더 높아요:)</string>
+    <string name="home_bottom_goal_null">목표만큼 강력한 동기는 없어요!\n무엇을 위해 낫투두를 도전하시나요?</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--Addition View-->

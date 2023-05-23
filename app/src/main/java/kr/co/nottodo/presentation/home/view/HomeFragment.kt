@@ -1,14 +1,20 @@
 package kr.co.nottodo.presentation.home.view
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kr.co.nottodo.data.model.ResponseHomeDaily
+import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
+import kr.co.nottodo.presentation.addition.view.AdditionActivity
+import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
+import timber.log.Timber
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -16,6 +22,10 @@ class HomeFragment : Fragment() {
         get() = requireNotNull(_binding)
     private lateinit var homeAdapter: HomeAdpater
     private var onFragmentChangedListener: OnFragmentChangedListener? = null
+    private val homeViewModel by viewModels<HomeViewModel>()
+    private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    private var weeklyData = todayData
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -34,36 +44,36 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
+        //todo 더미 바꿔야 됨, weeklyTodo로..?
+        homeViewModel.getHomeDaily("2023-05-21")
         setActivityBackgroundColor()
+        observerData()
+        clickFloatingBtn()
+        setWeeklyDate()
+    }
+
+    private fun observerData() {
+
+        homeViewModel.getHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
+            homeAdapter.submitList(homeDaily.toList())
+            Timber.tag("observe1").e("$homeDaily")
+        }
+
+        homeViewModel.getHomeWeeklyResult.observe(viewLifecycleOwner) { weeklyCount ->
+            var list = weeklyCount
+            Timber.tag("상언오빠 미안$weeklyData")
+//            binding.weeklyCalendar.setNotToDoCount(list)
+        }
+        homeViewModel.deleteTodo.observe(viewLifecycleOwner) {
+            Timber.tag("deleteTodo").e("$it")
+            homeViewModel.getHomeDaily("2023-05-21")
+            homeAdapter.submitList(homeViewModel.getHomeDaily.value)
+        }
     }
 
     private fun initAdapter() {
         homeAdapter = HomeAdpater(::menuItemClick, ::todoItemClick)
         binding.rvHomeTodoList.adapter = homeAdapter
-        val todoList = listOf(
-            ResponseHomeDaily(
-                missions = 1,
-                id = 1,
-                title = "어쩌구",
-                completionStatus = "CHECKED",
-                situation = "잉"
-            ),
-            ResponseHomeDaily(
-                missions = 1,
-                id = 2,
-                title = "어쩌구2",
-                completionStatus = "저쩌구2",
-                situation = "잉"
-            ),
-            ResponseHomeDaily(
-                missions = 1,
-                id = 3,
-                title = "어쩌구3",
-                completionStatus = "저쩌구3",
-                situation = "잉"
-            ),
-        )
-        homeAdapter.submitList(todoList)
     }
 
     private fun setActivityBackgroundColor() {
@@ -72,11 +82,32 @@ class HomeFragment : Fragment() {
     }
 
     private fun menuItemClick(index: Long) {
+        val bundle = Bundle()
+        bundle.putLong(MISSION_ID, index)
         val bottomSheetFragment = HomeMenuBottomSheetFragment()
+        bottomSheetFragment.arguments = bundle
         bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
     }
 
-    private fun todoItemClick(id: Long, check: Boolean) {
+    private fun todoItemClick(id: Long, check: String) {
+        homeViewModel.patchTodo(id, check)
+    }
+
+    private fun clickFloatingBtn() {
+        val intent = Intent(context, AdditionActivity::class.java)
+        binding.ftbHomeAdd.setOnClickListener { startActivity(intent) }
+    }
+
+    private fun setWeeklyDate() {
+        binding.weeklyCalendar.setOnWeeklyCalendarSwipeListener(object :
+            OnWeeklyCalendarSwipeListener {
+            override fun onSwipe(mondayDate: LocalDate?) {
+                if (mondayDate != null) {
+                    // Monday 에 따라서 주간 캘린더에 보여줄 낫투두 리스트 값 갱신
+                    homeViewModel.getHomeWeekly(mondayDate.toString())
+                }
+            }
+        })
 
     }
 
@@ -88,5 +119,11 @@ class HomeFragment : Fragment() {
     override fun onDetach() {
         onFragmentChangedListener = null
         super.onDetach()
+    }
+
+    companion object {
+        const val MONTH_PATTERN = "yyyy.MM"
+        const val YEAR_PATTERN = "yyyy-MM-dd"
+        const val MISSION_ID = "MISSION_ID"
     }
 }

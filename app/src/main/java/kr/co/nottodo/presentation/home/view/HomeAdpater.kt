@@ -1,21 +1,22 @@
 package kr.co.nottodo.presentation.home.view
 
-import android.graphics.Paint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
-import kr.co.nottodo.data.model.ResponseHomeDaily
+import kr.co.nottodo.data.model.Home.HomeDailyResponse
 import kr.co.nottodo.databinding.ItemListHomeTodoBinding
 import kr.co.nottodo.util.DiffUtilItemCallback
+import timber.log.Timber
 
 class HomeAdpater(
     private val menuItemClick: (Long) -> Unit,
-    private val todoItemClick: (Long, Boolean) -> Unit,
+    private val todoItemClick: (Long, String) -> Unit,
 ) :
-    ListAdapter<ResponseHomeDaily, HomeAdpater.HomeViewHolder>(diffUtil) {
+    ListAdapter<HomeDailyResponse.HomeDaily, HomeAdpater.HomeViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val binding =
@@ -30,16 +31,16 @@ class HomeAdpater(
     class HomeViewHolder(
         private val binding: ItemListHomeTodoBinding,
         private val menuItemClick: (Long) -> Unit,
-        private val todoItemClick: (Long, Boolean) -> Unit,
+        private val todoItemClick: (Long, String) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ResponseHomeDaily) {
+        fun onBind(data: HomeDailyResponse.HomeDaily) {
             binding.ivHomeTodoCheck.isSelected = isCheckTodo(data.completionStatus)
-            binding.tvHomeTodoSituation.text = data.situation
+            binding.tvHomeTodoSituation.text = data.situationName
             binding.tvHomeTodo.text = data.title
             binding.ivHomeTodoCheck.setOnClickListener {
                 todoItemClick(
                     data.id,
-                    binding.ivHomeTodoCheck.isSelected
+                    parseCheckTodo(binding.ivHomeTodoCheck.isChecked)
                 )
             }
             binding.ivHomeMetalBall.setOnClickListener { menuItemClick(data.id) }
@@ -47,7 +48,7 @@ class HomeAdpater(
 
         private fun isCheckTodo(isCheck: String): Boolean = when (isCheck) {
             CHECKED -> {
-                setCompleteTodo()
+                showCompleteTodoView()
                 true
             }
             else -> {
@@ -56,25 +57,41 @@ class HomeAdpater(
             }
         }
 
-        private fun setCompleteTodo() {
-            binding.clHomeCheckTodo.visibility = View.VISIBLE
-            binding.tvHomeTodo!!.setPaintFlags(binding.tvHomeTodo!!.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
-            binding.ivHomeTodoCheck.isChecked = true
-            binding.tvHomeTodoSituation.setBackgroundResource(R.drawable.rectangle_border_gray6_50)
-            binding.clHomeMain.setBackgroundResource(R.drawable.rectangle_border_grey5_10)
+        private fun showCompleteTodoView() {
+            with(binding) {
+                clHomeCheckTodo.visibility = View.VISIBLE
+                vHomeCompleteTodo.visibility = View.VISIBLE
+                ivHomeTodoCheck.isChecked = true
+                tvHomeTodoSituation.setTextColor(Color.parseColor("#9398aa"))
+                tvHomeTodo.setTextColor(Color.parseColor("#9398aa"))
+                tvHomeTodoSituation.setBackgroundResource(R.drawable.rectangle_border_gray6_50)
+                clHomeMain.setBackgroundResource(R.drawable.rectangle_border_grey5_10)
+            }
+        }
+
+        private fun parseCheckTodo(bindingCheck: Boolean): String {
+            Timber.tag("todo 잘 보내지니?${bindingCheck}")
+            val check = if (bindingCheck) {
+                CHECKED
+            } else {
+                UNCHECKED
+            }
+            return check
         }
 
         private fun setUncompleteTodo() {
             binding.clHomeCheckTodo.visibility = View.INVISIBLE
+            binding.vHomeCompleteTodo.visibility = View.INVISIBLE
+            binding.ivHomeTodoCheck.isChecked = false
         }
-
     }
 
     companion object {
-        val diffUtil = DiffUtilItemCallback<ResponseHomeDaily>(
+        val diffUtil = DiffUtilItemCallback<HomeDailyResponse.HomeDaily>(
             onItemsTheSame = { old, new -> old.id == new.id },
             onContentsTheSame = { old, new -> old == new }
         )
         const val CHECKED = "CHECKED"
+        const val UNCHECKED = "UNCHECKED"
     }
 }
