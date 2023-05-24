@@ -28,7 +28,8 @@
             android:exported="false" />
         <activity
             android:name=".presentation.addition.view.AdditionActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".presentation.login.view.LoginActivity"
             android:exported="true">
@@ -43,7 +44,8 @@
             android:exported="false" />
         <activity
             android:name=".presentation.modification.view.ModificationActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">

@@ -13,10 +13,13 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
+import kr.co.nottodo.data.local.ParcelizeBottomDetail
 import kr.co.nottodo.databinding.ActivityModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
+import kr.co.nottodo.presentation.home.view.HomeMenuBottomSheetFragment
 import kr.co.nottodo.presentation.modification.viewmodel.ModificationViewModel
 import kr.co.nottodo.util.addButtons
+import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showToast
@@ -24,7 +27,6 @@ import kr.co.nottodo.util.showToast
 class ModificationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityModificationBinding
     private val viewModel by viewModels<ModificationViewModel>()
-    private var isDateToggleVisible: Boolean = false
     private var isMissionToggleVisible: Boolean = false
     private var isSituationToggleVisible: Boolean = false
     private var isActionToggleVisible: Boolean = false
@@ -88,15 +90,26 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        viewModel.setOriginalData(
-            NotTodoData(
-                "2023.01.15",
-                "배민 VIP 탈출하기",
-                "밥 먹을 때",
-                listOf("배달의 민족 앱 삭제하기", "배달의 민족 앱 삭제하기", "배달의 민족 앱 삭제하기"),
-                "불필요한 지출 줄이기"
-            )
+        val dataFromHome = intent.getParcelable(
+            HomeMenuBottomSheetFragment.DETAIL,
+            ParcelizeBottomDetail::class.java
         )
+
+        if (dataFromHome != null) {
+            viewModel.setOriginalData(
+                NotTodoData(
+                    "2023.01.15",
+                    dataFromHome.title,
+                    dataFromHome.situation,
+                    dataFromHome.actions?.map { action -> action.name.toString() },
+                    dataFromHome.goal,
+                    dataFromHome.id
+                )
+            )
+        } else {
+            showToast("오류로 인해 해당 낫투두를 수정할 수 없습니다.")
+            if (!isFinishing) finish()
+        }
     }
 
     private fun setThirdAction() {
@@ -657,8 +670,9 @@ class ModificationActivity : AppCompatActivity() {
             val date: String,
             val mission: String,
             val situation: String,
-            val action: List<String>,
-            val goal: String,
+            val actions: List<String>?,
+            val goal: String?,
+            val missionId: Long,
         )
     }
 }
