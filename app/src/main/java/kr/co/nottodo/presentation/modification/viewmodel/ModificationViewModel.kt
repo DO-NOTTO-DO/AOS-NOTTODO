@@ -24,6 +24,7 @@ class ModificationViewModel : ViewModel() {
     private var originSituation: String? = null
     private var originalActionList: List<String>? = null
     private var originGoal: String? = null
+    private var missionId: Long? = null
 
     fun setOriginalData(data: NotTodoData) {
         originDate = data.date
@@ -38,6 +39,7 @@ class ModificationViewModel : ViewModel() {
         actionList.value = data.actions ?: emptyList()
         actionCount.value = data.actions?.size ?: 0
         goal.value = data.goal ?: ""
+        missionId = data.missionId
     }
 
     val date: MutableLiveData<String> = MutableLiveData()
@@ -104,7 +106,8 @@ class ModificationViewModel : ViewModel() {
         viewModelScope.launch {
             kotlin.runCatching {
                 modificationService.modifyMission(
-                    1, RequestModificationDto(
+                    missionId ?: throw NullPointerException("mission Id is null"),
+                    RequestModificationDto(
                         title = requireNotNull(mission.value),
                         situation = requireNotNull(situation.value),
                         actions = actionList.value,
@@ -122,14 +125,14 @@ class ModificationViewModel : ViewModel() {
         when (result) {
             is HttpException -> {
                 val data = Json.decodeFromString<FailureResponseDto>(
-                    result.response()?.errorBody()?.string() ?: return "예기치 못한 에러 발생2"
+                    result.response()?.errorBody()?.string() ?: return "예기치 못한 에러 발생"
                 )
                 return data.message
             }
 
             else -> {
                 Timber.e(result.message.toString())
-                return result.message.toString()
+                return "예기치 못한 에러 발생"
             }
         }
     }
