@@ -102,7 +102,8 @@ class ModificationActivity : AppCompatActivity() {
                     dataFromHome.title,
                     dataFromHome.situation,
                     dataFromHome.actions?.map { action -> action.name.toString() },
-                    dataFromHome.goal
+                    dataFromHome.goal,
+                    dataFromHome.id
                 )
             )
         } else {
@@ -671,6 +672,7 @@ class ModificationActivity : AppCompatActivity() {
             val situation: String,
             val actions: List<String>?,
             val goal: String?,
+            val missionId: Long,
         )
     }
 }
