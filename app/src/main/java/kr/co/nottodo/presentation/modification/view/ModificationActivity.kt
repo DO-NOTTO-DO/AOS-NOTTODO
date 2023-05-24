@@ -101,7 +101,7 @@ class ModificationActivity : AppCompatActivity() {
                     "2023.01.15",
                     dataFromHome.title,
                     dataFromHome.situation,
-                    dataFromHome.actions?.map { action -> action.toString() },
+                    dataFromHome.actions?.map { action -> action.name.toString() },
                     dataFromHome.goal
                 )
             )
