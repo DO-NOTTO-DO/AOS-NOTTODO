@@ -9,6 +9,7 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kr.co.nottodo.MainActivity
+import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
 import kr.co.nottodo.util.showToast
@@ -35,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
     private fun observeGetTokenResult() {
         viewModel.getTokenResult.observe(this) {
             startActivity(Intent(this, MainActivity::class.java))
+            SharedPreferences.setString(USER_TOKEN, it.data.accessToken)
             if (!isFinishing) finish()
         }
         viewModel.getErrorResult.observe(this) {
@@ -88,5 +90,6 @@ class LoginActivity : AppCompatActivity() {
 
     companion object {
         const val KAKAO: String = "KAKAO"
+        const val USER_TOKEN = "USER_TOKEN"
     }
 }
