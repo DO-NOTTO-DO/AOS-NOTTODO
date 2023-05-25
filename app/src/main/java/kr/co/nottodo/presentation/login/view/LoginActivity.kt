@@ -91,5 +91,6 @@ class LoginActivity : AppCompatActivity() {
     companion object {
         const val KAKAO: String = "KAKAO"
         const val USER_TOKEN = "USER_TOKEN"
+        const val FCM_TOKEN = "FCM_TOKEN"
     }
 }
