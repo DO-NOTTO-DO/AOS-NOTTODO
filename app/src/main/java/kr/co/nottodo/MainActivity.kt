@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
                 when (it.itemId) {
                     R.id.menu_home -> HomeFragment()
                     R.id.menu_calendar -> AchieveFragment()
+                    R.id.menu_my_page -> MyPageFragment()
                     else -> MyPageFragment()
                 }
             )

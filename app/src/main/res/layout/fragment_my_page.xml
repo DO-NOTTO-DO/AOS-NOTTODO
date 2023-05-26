@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_1_2a2a2e">
+
+    <TextView
+        android:id="@+id/tv_title_mypage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="20dp"
+        android:text="내 정보"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:theme="@style/Sb18"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="31dp"
+        android:background="@drawable/rectangle_solid_gray_1_radius_12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_mypage">
+
+        <ImageView
+            android:id="@+id/iv_my_page_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_my_page_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layout_name" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginBottom="43dp"
+            android:text="닉네임"
+            android:textAppearance="@style/R15"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/layout_name"
+            app:layout_constraintStart_toEndOf="@id/iv_my_page_name"
+            app:layout_constraintTop_toTopOf="@id/layout_name" />
+
+        <TextView
+            android:id="@+id/tv_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="ghdtjgus123@kakao.com"
+            android:textAppearance="@style/R12"
+            android:textColor="@color/gray_4_9398aa"
+            app:layout_constraintStart_toEndOf="@id/iv_my_page_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_name" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_nottodo_guide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="23dp"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/rectangle_solid_gray_2_radius_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_name">
+
+        <ImageView
+            android:id="@+id/iv_my_page_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_my_page_tag"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layout_nottodo_guide" />
+
+        <TextView
+            android:id="@+id/tv_nottodo_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:paddingVertical="17dp"
+            android:text="낫투두 가이드"
+            android:textAppearance="@style/R14"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/iv_my_page_tag"
+            app:layout_constraintTop_toTopOf="@id/layout_nottodo_guide" />
+
+        <!--        <View-->
+        <!--            android:id="@+id/view_my_page_divider_first"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0.5dp"-->
+        <!--            android:background="@color/gray_4_9398aa"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/tv_nottodo_guide" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_question"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="44dp"-->
+        <!--            android:paddingVertical="17dp"-->
+        <!--            android:text="자주 묻는 질문"-->
+        <!--            android:textAppearance="@style/R14"-->
+        <!--            android:textColor="@color/white"-->
+        <!--            app:layout_constraintStart_toStartOf="@id/layout_first"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/tv_nottodo_guide" />-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="23dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rectangle_solid_gray_2_radius_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_nottodo_guide">
+
+        <ImageView
+            android:id="@+id/iv_my_page_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_my_page_question"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layout_question" />
+
+        <TextView
+            android:id="@+id/tv_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:paddingVertical="17dp"
+            android:text="자주 묻는 질문"
+            android:textAppearance="@style/R14"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/iv_my_page_question"
+            app:layout_constraintTop_toTopOf="@id/layout_question" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_notice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="23dp"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/rectangle_solid_gray_2_radius_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_question">
+
+        <TextView
+            android:id="@+id/tv_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:paddingVertical="17dp"
+            android:text="공지사항"
+            android:textAppearance="@style/R14"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/layout_notice"
+            app:layout_constraintTop_toTopOf="@id/layout_notice" />
+
+        <ImageView
+            android:id="@+id/iv_arrow_right1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="13dp"
+            android:layout_marginEnd="13dp"
+            android:src="@drawable/ic_my_page_arrow_right"
+            app:layout_constraintEnd_toEndOf="@id/layout_notice"
+            app:layout_constraintTop_toTopOf="@id/layout_notice" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="23dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rectangle_solid_gray_2_radius_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_notice">
+
+        <TextView
+            android:id="@+id/tv_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:paddingVertical="17dp"
+            android:text="문의하기"
+            android:textAppearance="@style/R14"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/layout_contact"
+            app:layout_constraintTop_toTopOf="@id/layout_contact" />
+
+        <ImageView
+            android:id="@+id/iv_arrow_right2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="13dp"
+            android:layout_marginEnd="13dp"
+            android:src="@drawable/ic_my_page_arrow_right"
+            app:layout_constraintEnd_toEndOf="@id/layout_contact"
+            app:layout_constraintTop_toTopOf="@id/layout_contact" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_policies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="23dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rectangle_solid_gray_2_radius_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_contact">
+
+        <TextView
+            android:id="@+id/tv_policies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:paddingVertical="17dp"
+            android:text="약관 및 정책"
+            android:textAppearance="@style/R14"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/layout_policies"
+            app:layout_constraintTop_toTopOf="@id/layout_policies" />
+
+        <ImageView
+            android:id="@+id/iv_arrow_right3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="13dp"
+            android:layout_marginEnd="13dp"
+            android:src="@drawable/ic_my_page_arrow_right"
+            app:layout_constraintEnd_toEndOf="@id/layout_policies"
+            app:layout_constraintTop_toTopOf="@id/layout_policies" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/layout_version"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginHorizontal="23dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:background="@drawable/rectangle_solid_gray_2_radius_10"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/layout_policies">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_version"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="20dp"-->
+<!--            android:paddingVertical="17dp"-->
+<!--            android:text="버전 정보 0.0.1"-->
+<!--            android:textAppearance="@style/R14"-->
+<!--            android:textColor="@color/white"-->
+<!--            app:layout_constraintStart_toStartOf="@id/layout_version"-->
+<!--            app:layout_constraintTop_toTopOf="@id/layout_version" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_arrow_right4"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginVertical="13dp"-->
+<!--            android:layout_marginEnd="13dp"-->
+<!--            android:src="@drawable/ic_my_page_arrow_right"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/layout_version"-->
+<!--            app:layout_constraintTop_toTopOf="@id/layout_version" />-->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+

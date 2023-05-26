@@ -133,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="17dp"
             android:paddingVertical="17dp"
-            android:text="카카오"
+            android:text="카카오톡"
             android:textColor="@color/gray_6_e6e6f2"
             android:theme="@style/R14"
             app:layout_constraintEnd_toEndOf="@id/layout_second"
@@ -160,23 +160,20 @@
             app:layout_constraintStart_toStartOf="@id/layout_second"
             app:layout_constraintTop_toBottomOf="@id/view_my_page_divider_fourth" />
 
-        <TextView
-            android:id="@+id/tv_push_alarm_settings_button"
+        <Switch
+            android:id="@+id/colorSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="17dp"
             android:paddingVertical="17dp"
-            android:text="ghdtjgus1234@naver.com"
-            android:textColor="@color/gray_6_e6e6f2"
-            android:theme="@style/R14"
+            android:switchMinWidth="55dp"
             app:layout_constraintEnd_toEndOf="@id/layout_second"
-            app:layout_constraintTop_toBottomOf="@id/view_my_page_divider_fourth" />
+            app:layout_constraintTop_toTopOf="@id/view_my_page_divider_fourth" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_third"
+        android:id="@+id/layout_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="17dp"
@@ -194,22 +191,23 @@
             android:text="로그아웃"
             android:textAppearance="@style/M14"
             android:textColor="@color/red_ff6464"
-            app:layout_constraintStart_toStartOf="@id/layout_third"
-            app:layout_constraintTop_toTopOf="@id/layout_third" />
+            app:layout_constraintStart_toStartOf="@id/layout_logout"
+            app:layout_constraintTop_toTopOf="@id/layout_logout" />
 
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_push_alarm_settings_button"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginEnd="17dp"-->
+        <!--            android:paddingVertical="17dp"-->
+        <!--            android:text="ghdtjgus1234@naver.com"-->
+        <!--            android:textColor="@color/gray_6_e6e6f2"-->
+        <!--            android:theme="@style/R14"-->
+        <!--            app:layout_constraintEnd_toEndOf="@id/layout_third"-->
+        <!--            app:layout_constraintTop_toTopOf="@id/layout_third" />-->
 
-        <Switch
-            android:id="@+id/colorSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingVertical="17dp"
-            android:switchMinWidth="55dp"
-            app:layout_constraintEnd_toEndOf="@id/layout_third"
-            app:layout_constraintTop_toTopOf="@id/layout_third" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

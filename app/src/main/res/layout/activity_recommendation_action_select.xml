@@ -213,7 +213,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
-       android:paddingTop="22dp"
+        android:paddingTop="22dp"
         android:paddingBottom="33dp"
         android:text="계속하기"
         android:textColor="@color/black"

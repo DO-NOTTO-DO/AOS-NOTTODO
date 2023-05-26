@@ -47,6 +47,10 @@
             android:exported="false"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:name=".presentation.mypage.view.MyPageInformationActivity"
+            android:exported="false" />
+
+        <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>
@@ -60,6 +64,7 @@
                     android:scheme="${KAKAO_AOUTH_HOST_SCHEME}" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
