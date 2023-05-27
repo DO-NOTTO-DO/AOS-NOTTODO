@@ -82,6 +82,7 @@ class HomeFragment : Fragment() {
             homeAdapter.submitList(homeViewModel.getHomeDaily.value)
         }
         homeViewModel.patchCheckResult.observe(viewLifecycleOwner) {
+            Log.d("homefragment todo성공", "observerData: ")
             homeViewModel.getHomeDaily(weeklyData)
         }
     }

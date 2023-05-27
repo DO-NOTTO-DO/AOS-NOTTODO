@@ -79,7 +79,7 @@ class HomeViewModel() : ViewModel() {
                     }
                 }
                 _patchCheckResult.value = it.data
-                Timber.d("todo 성공이이롱 ${it.message}")
+                Timber.d("todo 성공이이롱 ${it.data}")
             },
                 onFailure = {
                     Timber.d("todo error지롱 ${it.message}")
