@@ -9,7 +9,7 @@ import retrofit2.http.Path
 interface ModificationService {
     @PUT("mission/{missionId}")
     suspend fun modifyMission(
-        @Path("missionId") missionId: Int,
+        @Path("missionId") missionId: Long,
         @Body request: RequestModificationDto,
     ): ResponseModificationDto
 }

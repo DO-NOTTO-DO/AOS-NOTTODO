@@ -25,10 +25,10 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private val viewModel by activityViewModels<HomeViewModel>()
     private lateinit var detailData: ParcelizeBottomDetail
     private lateinit var detailActionData: ParcelizeBottomDetail.Action
-    private lateinit var changeParcle: List<ParcelizeBottomDetail.Action>
+    //    private lateinit var changeParcle: List<ParcelizeBottomDetail.Action>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeMenuBottomSheetBinding.inflate(layoutInflater, container, false)
         return binding.root
