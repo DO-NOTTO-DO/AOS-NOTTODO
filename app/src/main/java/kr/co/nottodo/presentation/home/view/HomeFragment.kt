@@ -3,6 +3,7 @@ package kr.co.nottodo.presentation.home.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,18 +46,26 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
         //todo 더미 바꿔야 됨, weeklyTodo로..?
-        homeViewModel.getHomeDaily("2023-05-21")
+        homeViewModel.getHomeDaily(weeklyData)
         setActivityBackgroundColor()
         observerData()
         clickFloatingBtn()
         setWeeklyDate()
+        initMonth()
     }
 
     private fun observerData() {
 
         homeViewModel.getHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
+            if (homeDaily.isEmpty()) {
+                binding.clHomeMain.visibility = View.VISIBLE
+                binding.rvHomeTodoList.visibility = View.INVISIBLE
+                return@observe
+            }
+            binding.rvHomeTodoList.visibility = View.VISIBLE
+            binding.clHomeMain.visibility = View.INVISIBLE
             homeAdapter.submitList(homeDaily.toList())
-            Timber.tag("observe1").e("$homeDaily")
+
         }
 
         homeViewModel.getHomeWeeklyResult.observe(viewLifecycleOwner) { weeklyCount ->
@@ -65,8 +74,9 @@ class HomeFragment : Fragment() {
 //            binding.weeklyCalendar.setNotToDoCount(list)
         }
         homeViewModel.deleteTodo.observe(viewLifecycleOwner) {
+            //todo 왜 observer안돼 끄흡이다
             Timber.tag("deleteTodo").e("$it")
-            homeViewModel.getHomeDaily("2023-05-21")
+            homeViewModel.getHomeDaily(weeklyData)
             homeAdapter.submitList(homeViewModel.getHomeDaily.value)
         }
     }
@@ -108,6 +118,14 @@ class HomeFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun initMonth() {
+        binding.weeklyCalendar.setOnWeeklyDayClickListener { view, date ->
+            Log.d("calender", "initMonth: $date")
+            weeklyData = date.toString()
+            homeViewModel.getHomeDaily(weeklyData)
+        }
 
     }
 
