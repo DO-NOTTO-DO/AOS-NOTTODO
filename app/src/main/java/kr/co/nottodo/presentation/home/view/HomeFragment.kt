@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
+import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import timber.log.Timber
 import java.time.LocalDate
@@ -26,7 +27,6 @@ class HomeFragment : Fragment() {
     private val homeViewModel by viewModels<HomeViewModel>()
     private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     private var weeklyData = todayData
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -44,6 +44,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        homeViewModel.getHomeWeekly(todayData)
         initAdapter()
         //todo 더미 바꿔야 됨, weeklyTodo로..?
         homeViewModel.getHomeDaily(weeklyData)
@@ -69,15 +70,19 @@ class HomeFragment : Fragment() {
         }
 
         homeViewModel.getHomeWeeklyResult.observe(viewLifecycleOwner) { weeklyCount ->
-            var list = weeklyCount
-            Timber.tag("상언오빠 미안$weeklyData")
-//            binding.weeklyCalendar.setNotToDoCount(list)
+            val notToDoCountList = weeklyCount.map {
+                it.actionDate.convertToLocalDate() to it.percentage
+            }
+            binding.weeklyCalendar.setNotToDoCount(notToDoCountList)
         }
         homeViewModel.deleteTodo.observe(viewLifecycleOwner) {
             //todo 왜 observer안돼 끄흡이다
             Timber.tag("deleteTodo").e("$it")
             homeViewModel.getHomeDaily(weeklyData)
             homeAdapter.submitList(homeViewModel.getHomeDaily.value)
+        }
+        homeViewModel.patchCheckResult.observe(viewLifecycleOwner) {
+            homeViewModel.getHomeDaily(weeklyData)
         }
     }
 
@@ -114,7 +119,8 @@ class HomeFragment : Fragment() {
             override fun onSwipe(mondayDate: LocalDate?) {
                 if (mondayDate != null) {
                     // Monday 에 따라서 주간 캘린더에 보여줄 낫투두 리스트 값 갱신
-                    homeViewModel.getHomeWeekly(mondayDate.toString())
+                    weeklyData = mondayDate.toString()
+                    homeViewModel.getHomeWeekly(weeklyData)
                 }
             }
         })
