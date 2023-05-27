@@ -1,28 +1,40 @@
 package kr.co.nottodo.presentation.recommendation.main
+
+import RecommendationMainListViewHolder
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kr.co.nottodo.presentation.recommendation.main.RecommendationMainListViewHolder
-
+import kr.co.nottodo.R
 
 class RecommendationMainListViewAdapter : RecyclerView.Adapter<RecommendationMainListViewHolder>() {
+    private var dataList: List<RecommendationMainListDTO.MainList> = emptyList()
 
-    private val recommendationList = listOf("Item 1", "Item 2", "Item 3") // 아이템 리스트를 고정된 순서로 초기화
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendationMainListViewHolder {
-        // ViewHolder 객체 생성 로직 추가
-        return TODO("Provide the return value")
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecommendationMainListViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_recommendation_category, parent, false)
+        return RecommendationMainListViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: RecommendationMainListViewHolder, position: Int) {
-        val recommendationItem = recommendationList[position] // 고정된 순서의 아이템을 가져옴
-
-        // 아이템을 화면에 표시하는 로직 추가
+        val data = dataList[position]
+        holder.bindData(data)
     }
 
     override fun getItemCount(): Int {
-        return recommendationList.size
+        return dataList.size
     }
 
-    // 기타 어댑터 클래스 구현 내용...
+    fun setData(dataList: List<RecommendationMainListDTO.MainList>) {
+        this.dataList = dataList
+        notifyDataSetChanged()
+    }
 }
 
+class RecommendationMainListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    // ViewHolder 구현
+    // ...
+}

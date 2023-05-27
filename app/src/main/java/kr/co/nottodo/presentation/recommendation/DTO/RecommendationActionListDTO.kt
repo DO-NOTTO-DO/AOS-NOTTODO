@@ -1,8 +1,5 @@
-package kr.co.nottodo.presentation.recommendation.DTO
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-
 
 @Serializable
 data class RecommendationActionListDTO(
@@ -13,23 +10,21 @@ data class RecommendationActionListDTO(
     @SerialName("message")
     val message: String,
     @SerialName("data")
-    val data: List<CategorySituation>
+    val data: List<ActionList>,
 ) {
-
-
     @Serializable
-    data class CategorySituation(
+    data class ActionList(
         @SerialName("id")
         val id: Int,
         @SerialName("title")
         val title: String,
-        @SerialName("situation")
-        val situation: String,
-        @SerialName("description")
-        val description: String,
-        @SerialName("image")
-        val image: String,
-
+        @SerialName("recommendActions")
+        val recommendActions: List<Category>
+    ) {
+        @Serializable
+        data class Category(
+            @SerialName("name")
+            val name: String
         )
+    }
 }
-

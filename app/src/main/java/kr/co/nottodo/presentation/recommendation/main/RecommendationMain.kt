@@ -9,6 +9,7 @@ import kr.co.nottodo.presentation.recommendation.Action.RecommedationAction
 
 class RecommendationMain : Activity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recommendation_main)

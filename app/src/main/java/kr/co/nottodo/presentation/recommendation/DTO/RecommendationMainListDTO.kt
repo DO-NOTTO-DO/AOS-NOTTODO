@@ -1,8 +1,11 @@
+
+
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+
 @Serializable
-data class RecommendationActionDTO(
+data class RecommendationMainListDTO(
     @SerialName("status")
     val status: Int,
     @SerialName("success")
@@ -10,21 +13,24 @@ data class RecommendationActionDTO(
     @SerialName("message")
     val message: String,
     @SerialName("data")
-    val data: RecommendationActionData
+    val data: List<MainList>
 ) {
+
+
     @Serializable
-    data class RecommendationActionData(
+    data class MainList(
         @SerialName("id")
         val id: Int,
         @SerialName("title")
         val title: String,
-        @SerialName("recommendActions")
-        val recommendActions: List<Action>
-    ) {
-        @Serializable
-        data class Action(
-            @SerialName("name")
-            val name: String
+        @SerialName("situation")
+        val situation: String,
+        @SerialName("description")
+        val description: String,
+        @SerialName("image")
+        val image: String,
+
         )
-    }
 }
+
+
