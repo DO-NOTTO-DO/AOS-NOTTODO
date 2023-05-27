@@ -1,4 +1,4 @@
-package kr.co.nottodo.presentation.recommendation
+package kr.co.nottodo.presentation.recommendation.Action
 
 import android.app.Activity
 import android.content.Intent

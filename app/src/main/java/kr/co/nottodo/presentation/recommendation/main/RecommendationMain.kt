@@ -1,10 +1,11 @@
-package kr.co.nottodo.presentation.recommendation
+package kr.co.nottodo.presentation.recommendation.main
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import kr.co.nottodo.R
+import kr.co.nottodo.presentation.recommendation.Action.RecommedationAction
 
 class RecommendationMain : Activity() {
 

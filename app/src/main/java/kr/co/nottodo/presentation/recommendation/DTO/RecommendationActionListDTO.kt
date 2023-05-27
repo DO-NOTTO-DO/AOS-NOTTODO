@@ -1,11 +1,11 @@
-package kr.co.nottodo.presentation.recommendation.recommendationlist
+package kr.co.nottodo.presentation.recommendation.DTO
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class RecommendationListDTO(
+data class RecommendationActionListDTO(
     @SerialName("status")
     val status: Int,
     @SerialName("success")

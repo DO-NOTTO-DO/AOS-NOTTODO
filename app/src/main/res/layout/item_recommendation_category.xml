@@ -9,7 +9,7 @@
     android:paddingVertical="21dp">
 
     <TextView
-        android:id="@+id/iv_when_youtube"
+        android:id="@+id/tv_when"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle_solid_gray_2_radius_50"
@@ -22,18 +22,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_recommendation_category_youtube"
+        android:id="@+id/tv_recommendation_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="유튜브 보지 않기"
         android:textAppearance="@style/Sb18"
         android:textColor="@color/white"
-        app:layout_constraintStart_toEndOf="@id/iv_when_youtube"
+        app:layout_constraintStart_toEndOf="@id/tv_when"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_recommendation_category_youtube"
+        android:id="@+id/iv_recommendation_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -44,7 +44,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/tv_recommendation_category_youtube_explain"
+        android:id="@+id/tv_recommendation_category_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -52,6 +52,6 @@
         android:textAppearance="@style/L14"
         android:textColor="@color/gray_4_9398aa"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_when_youtube" />
+        app:layout_constraintTop_toBottomOf="@id/tv_when" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
