@@ -2,6 +2,7 @@ package kr.co.nottodo.view.calendar.weekly
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -61,6 +62,7 @@ class WeeklyCalendar @JvmOverloads constructor(
 
     override fun onWeeklyDayClick(view: View, date: LocalDate) {
         selectedDate = date
+        Log.d("selectedDate", "onWeeklyDayClick: $selectedDate")
         weeklyAdapter.setSelectedDay(date)
         // TODO 여기서 뭔가 CalendarView와 인터랙션이 일어날 수 있도록 해야할 것만 같은디....
         onWeeklyCalendarViewChangeYearMonthTextListener?.changeYearMonthText()
@@ -78,7 +80,7 @@ class WeeklyCalendar @JvmOverloads constructor(
     }
 
     /** 서버 통신된 NotToDo 갯수 갱신 **/
-    fun setNotToDoCount(list: List<Pair<LocalDate?, Double>>) {
+    fun setNotToDoCount(list: List<Pair<LocalDate?, Float>>) {
         weeklyAdapter.submitNotTodoCountList(list)
     }
 

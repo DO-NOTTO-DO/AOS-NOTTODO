@@ -44,9 +44,9 @@ fun String.convertStringToDate(): Date? {
 }
 
 fun String.convertToLocalDate(): LocalDate? {
-    val format = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+    val format = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     return runCatching {
-        LocalDate.parse(this,format)
+        LocalDate.parse(this, format)
     }.getOrNull()
 }
 
@@ -104,7 +104,7 @@ fun Calendar.totalMonthDifference(startCalendar: Calendar): Int {
     return monthDiff + (yearDiff * 12)
 }
 
-fun String.dayNameParseToKorea(): String = when(this) {
+fun String.dayNameParseToKorea(): String = when (this) {
     "SUNDAY" -> "일"
     "MONDAY" -> "월"
     "TUESDAY" -> "화"
