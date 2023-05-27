@@ -20,4 +20,6 @@ class RecommendationMainListViewHolder (item_recommendation_category: View) : Re
 //        descriptionTextView.text = recommendation.description
 //        imageView.setImageResource(recommendation.imageResId)
 //    }
+
+
 }
