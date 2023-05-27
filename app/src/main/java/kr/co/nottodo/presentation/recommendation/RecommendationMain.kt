@@ -13,23 +13,23 @@ class RecommendationMain : Activity() {
         setContentView(R.layout.activity_recommendation_main)
 
 
-        val categoryYoutubeLayout = findViewById<View>(R.id.layout_recommendation_category_youtube)
+        val categoryYoutubeLayout = findViewById<View>(R.id.rv_recommendation)
         categoryYoutubeLayout.setOnClickListener {
             val intent = Intent(this, RecommedationAction::class.java)
             startActivity(intent)
         }
 
-        val categoryCoffeeLayout = findViewById<View>(R.id.layout_recommendation_category_coffee)
-        categoryCoffeeLayout.setOnClickListener {
-            val intent = Intent(this, RecommedationAction::class.java)
-            startActivity(intent)
-        }
-
-        val categoryPhoneLayout = findViewById<View>(R.id.layout_recommendation_category_phone)
-        categoryPhoneLayout.setOnClickListener {
-            val intent = Intent(this, RecommedationAction::class.java)
-            startActivity(intent)
-        }
+//        val categoryCoffeeLayout = findViewById<View>(R.id.layout_recommendation_category_coffee)
+//        categoryCoffeeLayout.setOnClickListener {
+//            val intent = Intent(this, RecommedationAction::class.java)
+//            startActivity(intent)
+//        }
+//
+//        val categoryPhoneLayout = findViewById<View>(R.id.layout_recommendation_category_phone)
+//        categoryPhoneLayout.setOnClickListener {
+//            val intent = Intent(this, RecommedationAction::class.java)
+//            startActivity(intent)
+//        }
 
 
     }

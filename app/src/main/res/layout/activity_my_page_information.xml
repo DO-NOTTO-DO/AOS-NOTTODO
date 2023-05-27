@@ -209,6 +209,16 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/tv_member_withdrawal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="165dp"
+        android:layout_marginTop="263dp"
+        android:text="회원탈퇴"
+        android:textColor="@color/gray_4_9398aa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_logout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

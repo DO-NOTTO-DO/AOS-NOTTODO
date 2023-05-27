@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/black">
 
     <ImageView
@@ -39,188 +40,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title_my_page_information" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_recommendation_category_youtube"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recommendation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/item_my_page_rectangle_gray2_radius10"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="21dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_my_page_divider_first">
+        app:layout_constraintTop_toBottomOf="@id/view_my_page_divider_first"
+        tools:listitem="@layout/fragment_item_recommendation_category" />
 
-
-        <TextView
-            android:id="@+id/iv_when_youtube"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_solid_gray_2_radius_50"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="4dp"
-            android:text="업무 시간 중"
-            android:textAppearance="@style/M14"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@id/layout_recommendation_category_youtube"
-            app:layout_constraintTop_toTopOf="@id/layout_recommendation_category_youtube" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="유튜브 보지 않기"
-            android:textAppearance="@style/Sb18"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@id/iv_when_youtube"
-            app:layout_constraintTop_toTopOf="@id/layout_recommendation_category_youtube" />
-
-        <ImageView
-            android:id="@+id/iv_recommendation_category_youtube"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="3dp"
-            android:src="@drawable/ic_recommendation_main_youtube"
-            app:layout_constraintBottom_toBottomOf="@id/layout_recommendation_category_youtube"
-            app:layout_constraintEnd_toEndOf="@id/layout_recommendation_category_youtube" />
-
-        <TextView
-            android:id="@+id/tv_recommendation_category_youtube_explain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="유튜브를 보지 않는 것이 당신의 일상에\n 어떠한 변화를 일으킬까요?\n행복한 중독해소를 위해 제안해요!"
-            android:textAppearance="@style/L14"
-            android:textColor="@color/gray_4_9398aa"
-            app:layout_constraintStart_toStartOf="@id/layout_recommendation_category_youtube"
-            app:layout_constraintTop_toBottomOf="@id/iv_when_youtube" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_recommendation_category_coffee"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="11dp"
-        android:background="@drawable/item_my_page_rectangle_gray2_radius10"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="21dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_recommendation_category_youtube">
-
-
-        <TextView
-            android:id="@+id/iv_when_coffee"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_solid_gray_2_radius_50"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="4dp"
-            android:text="취침 전"
-            android:textAppearance="@style/M14"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@id/layout_recommendation_category_coffee"
-            app:layout_constraintTop_toTopOf="@id/layout_recommendation_category_coffee" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="커피 마시지 않기"
-            android:textAppearance="@style/Sb18"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@id/iv_when_coffee"
-            app:layout_constraintTop_toTopOf="@id/layout_recommendation_category_coffee" />
-
-        <ImageView
-            android:id="@+id/iv_recommendation_category_coffee"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="3dp"
-            android:src="@drawable/ic_recommendation_main_coffee"
-            app:layout_constraintBottom_toBottomOf="@id/layout_recommendation_category_coffee"
-            app:layout_constraintEnd_toEndOf="@id/layout_recommendation_category_coffee" />
-
-        <TextView
-            android:id="@+id/tv_recommendation_category_coffee_explain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="한국인들은 평균 2잔의 커피를 마신대요.\n적당한 섭취를 위해 제안해요!"
-            android:textAppearance="@style/L14"
-            android:textColor="@color/gray_4_9398aa"
-            app:layout_constraintStart_toStartOf="@id/layout_recommendation_category_coffee"
-            app:layout_constraintTop_toBottomOf="@id/iv_when_coffee" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_recommendation_category_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="11dp"
-        android:background="@drawable/item_my_page_rectangle_gray2_radius10"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="21dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_recommendation_category_coffee">
-
-
-        <TextView
-            android:id="@+id/iv_when_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_solid_gray_2_radius_50"
-            android:paddingHorizontal="17dp"
-            android:paddingVertical="4dp"
-            android:text="기상 직후"
-            android:textAppearance="@style/M14"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@id/layout_recommendation_category_phone"
-            app:layout_constraintTop_toTopOf="@id/layout_recommendation_category_phone" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="sns 접속하지 않도록 하기"
-            android:textAppearance="@style/Sb18"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@id/iv_when_phone"
-            app:layout_constraintTop_toTopOf="@id/layout_recommendation_category_phone" />
-
-        <ImageView
-            android:id="@+id/iv_recommendation_category_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="3dp"
-            android:src="@drawable/ic_recommendation_main_coffee"
-            app:layout_constraintBottom_toBottomOf="@id/layout_recommendation_category_phone"
-            app:layout_constraintEnd_toEndOf="@id/layout_recommendation_category_phone" />
-
-        <TextView
-            android:id="@+id/tv_recommendation_category_phone_explain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="도파민 중독에서 벗어나지 못하는 당신,\n이제는 건강한 삶을 위해 절제해봐요.\n중독해소를 위한 건강한 제안!"
-            android:textAppearance="@style/L14"
-            android:textColor="@color/gray_4_9398aa"
-            app:layout_constraintStart_toStartOf="@id/layout_recommendation_category_phone"
-            app:layout_constraintTop_toBottomOf="@id/iv_when_phone" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

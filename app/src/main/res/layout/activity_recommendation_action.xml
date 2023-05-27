@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
@@ -131,60 +132,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_recommendation_action" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_recommendation_action_category"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recommendation_action_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="12dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_recommendation_action_add">
+        app:layout_constraintTop_toBottomOf="@id/tv_recommendation_action_add"
+        tools:listitem="@layout/fragment_recommendation_action_category" />
 
-        <TextView
-            android:id="@+id/tv_youtube_unsubscribe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_solid_gray_1_radius_12"
-            android:paddingHorizontal="28dp"
-            android:paddingVertical="16dp"
-            android:text="유튜브 프리미엄 해제하기"
-            android:textAppearance="@style/R14"
-            android:textColor="@color/gray_4_9398aa"
-            app:layout_constraintStart_toStartOf="@id/layout_recommendation_action_category"
-            app:layout_constraintTop_toTopOf="@id/layout_recommendation_action_category" />
-
-
-        <TextView
-            android:id="@+id/tv_phone_away"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/rectangle_solid_gray_1_radius_12"
-            android:paddingHorizontal="28dp"
-            android:paddingVertical="16dp"
-            android:text="핸드폰 최대한 멀리두기"
-            android:textAppearance="@style/R14"
-            android:textColor="@color/gray_4_9398aa"
-            app:layout_constraintStart_toStartOf="@id/layout_recommendation_action_category"
-            app:layout_constraintTop_toBottomOf="@id/tv_youtube_unsubscribe" />
-
-
-        <TextView
-            android:id="@+id/tv_recommendation_action_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/rectangle_solid_gray_1_radius_12"
-            android:paddingHorizontal="28dp"
-            android:paddingVertical="16dp"
-            android:text="실천행동추천"
-            android:textAppearance="@style/R14"
-            android:textColor="@color/gray_4_9398aa"
-            app:layout_constraintStart_toStartOf="@id/layout_recommendation_action_category"
-            app:layout_constraintTop_toBottomOf="@id/tv_phone_away" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tv_recommendation_action_write_direct"
@@ -193,7 +153,7 @@
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="12dp"
         android:gravity="center"
-        android:text="필요없어dy or 직접 입력할게요!"
+        android:text="필요없어요 or 직접 입력할게요!"
         android:textAppearance="@style/R14"
         android:textColor="@color/gray_4_9398aa"
         app:layout_constraintStart_toStartOf="parent"
