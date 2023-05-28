@@ -1,12 +1,9 @@
 package kr.co.nottodo.presentation.mypage.view
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ActivityMyPageInformationBinding
@@ -28,7 +25,7 @@ class MyPageInformationActivity : AppCompatActivity() {
         val arrow =
             findViewById<ImageView>(R.id.iv_my_page_information_arrow)
         arrow.setOnClickListener {
-            val intent = Intent(this, MyPageFragment::class.java).apply {
+            val intent = Intent(this, MyPageActivity::class.java).apply {
                 putExtra("mypage", "fragment")
             }
             startActivity(intent)

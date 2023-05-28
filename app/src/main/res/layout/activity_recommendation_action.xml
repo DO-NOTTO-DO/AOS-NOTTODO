@@ -14,7 +14,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginBottom="21dp"
         android:src="@drawable/ic_recommendation_action_arrow_back"
-        app:layout_constraintBottom_toTopOf="@id/layout_recommendation_category"
+        app:layout_constraintBottom_toTopOf="@id/layout_recommendation_action_category"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,14 +29,14 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         android:theme="@style/Sb18"
-        app:layout_constraintBottom_toTopOf="@id/layout_recommendation_category"
+        app:layout_constraintBottom_toTopOf="@id/layout_recommendation_action_category"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_recommendation_category"
+        android:id="@+id/layout_recommendation_action_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -57,8 +57,8 @@
             android:text="업무 시간 중"
             android:textAppearance="@style/M14"
             android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@id/layout_recommendation_category"
-            app:layout_constraintTop_toTopOf="@id/layout_recommendation_category" />
+            app:layout_constraintStart_toStartOf="@id/layout_recommendation_action_category"
+            app:layout_constraintTop_toTopOf="@id/layout_recommendation_action_category" />
 
 
         <TextView
@@ -70,7 +70,7 @@
             android:text="유튜브 보지 않기"
             android:textAppearance="@style/M18"
             android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@id/layout_recommendation_category"
+            app:layout_constraintStart_toStartOf="@id/layout_recommendation_action_category"
             app:layout_constraintTop_toBottomOf="@id/tv_when_youtube" />
 
         <ImageView
@@ -81,9 +81,9 @@
             android:layout_marginEnd="27dp"
             android:layout_marginBottom="26dp"
             android:src="@drawable/ic_recommendation_action_youtube"
-            app:layout_constraintBottom_toBottomOf="@id/layout_recommendation_category"
-            app:layout_constraintEnd_toEndOf="@id/layout_recommendation_category"
-            app:layout_constraintTop_toTopOf="@id/layout_recommendation_category" />
+            app:layout_constraintBottom_toBottomOf="@id/layout_recommendation_action_category"
+            app:layout_constraintEnd_toEndOf="@id/layout_recommendation_action_category"
+            app:layout_constraintTop_toTopOf="@id/layout_recommendation_action_category" />
 
         <ImageView
             android:id="@+id/iv_recommendation_action_arrow"
@@ -108,8 +108,8 @@
         android:text="실천행동 추천"
         android:textAppearance="@style/M18"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@id/layout_recommendation_category"
-        app:layout_constraintTop_toBottomOf="@id/layout_recommendation_category" />
+        app:layout_constraintStart_toStartOf="@id/layout_recommendation_action_category"
+        app:layout_constraintTop_toBottomOf="@id/layout_recommendation_action_category" />
 
     <ImageView
         android:id="@+id/iv_recommendation_action_infor"
@@ -119,7 +119,7 @@
         android:layout_marginTop="53dp"
         android:src="@drawable/ic_recommendation_action_infor"
         app:layout_constraintStart_toEndOf="@id/tv_recommendation_action"
-        app:layout_constraintTop_toBottomOf="@id/layout_recommendation_category" />
+        app:layout_constraintTop_toBottomOf="@id/layout_recommendation_action_category" />
 
     <TextView
         android:id="@+id/tv_recommendation_action_add"

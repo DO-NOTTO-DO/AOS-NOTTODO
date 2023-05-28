@@ -7,13 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kr.co.nottodo.databinding.FragmentMyPageBinding
+import kr.co.nottodo.databinding.ActivityMyPageBinding
 
 
-class MyPageFragment : Fragment() {
 
-    private var _binding: FragmentMyPageBinding? = null
-    private val binding: FragmentMyPageBinding get() = requireNotNull(_binding)
+class MyPageActivity : Fragment() {
+
+    private var _binding: ActivityMyPageBinding? = null
+    private val binding: ActivityMyPageBinding get() = requireNotNull(_binding)
 
 
     //    override fun onCreateView(
@@ -24,7 +25,7 @@ class MyPageFragment : Fragment() {
     ): View {
 
 
-        _binding = FragmentMyPageBinding.inflate(inflater, container, false)
+        _binding = ActivityMyPageBinding.inflate(inflater, container, false)
 
 
 

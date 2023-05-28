@@ -1,40 +1,73 @@
-package kr.co.nottodo.presentation.recommendation.main
-
-import RecommendationMainListViewHolder
+import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kr.co.nottodo.R
+import kr.co.nottodo.databinding.ActivityRecommendationActionBinding
+import kr.co.nottodo.databinding.ItemRecommendationCategoryBinding
+import kr.co.nottodo.presentation.home.view.HomeAdpater.Companion.diffUtil
+import kr.co.nottodo.presentation.recommendation.Action.RecommendationAction
 
-class RecommendationMainListViewAdapter : RecyclerView.Adapter<RecommendationMainListViewHolder>() {
-    private var dataList: List<RecommendationMainListDTO.MainList> = emptyList()
+class RecommendationMainListViewAdapter :
+    ListAdapter<RecommendationMainListDTO.MainList, RecommendationMainListViewAdapter.RecommendationMainListViewHolder>(
+        diffUtil
+    ) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): RecommendationMainListViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_recommendation_category, parent, false)
-        return RecommendationMainListViewHolder(view)
+        val binding = ItemRecommendationCategoryBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return RecommendationMainListViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: RecommendationMainListViewHolder, position: Int) {
-        val data = dataList[position]
-        holder.bindData(data)
+        holder.onBind(currentList[position])
     }
 
-    override fun getItemCount(): Int {
-        return dataList.size
+
+    class RecommendationMainListViewHolder(private val binding: ItemRecommendationCategoryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        // 데이터를 아이템 뷰에 바인딩하는 메소드
+        fun onBind(data: RecommendationMainListDTO.MainList) {
+            binding.tvWhen.text = data.situation
+            binding.tvRecommendationCategory.text = data.title
+            binding.tvRecommendationCategoryDescription.text = data.description
+
+            // layout_recommendation_category 클릭 이벤트 처리
+            binding.layoutRecommendationCategory.setOnClickListener {
+                val intent =
+                    Intent(binding.root.context, ActivityRecommendationActionBinding::class.java)
+                intent.putExtra("situation", data.situation)
+                intent.putExtra("title", data.title)
+                binding.root.context.startActivity(intent)
+            }
+        }
     }
 
-    fun setData(dataList: List<RecommendationMainListDTO.MainList>) {
-        this.dataList = dataList
-        notifyDataSetChanged()
-    }
-}
 
-class RecommendationMainListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    // ViewHolder 구현
-    // ...
+    companion object {
+        private val diffUtil =
+            object : DiffUtil.ItemCallback<RecommendationMainListDTO.MainList>() {
+                override fun areItemsTheSame(
+                    oldItem: RecommendationMainListDTO.MainList,
+                    newItem: RecommendationMainListDTO.MainList
+                ): Boolean {
+                    return oldItem.id == newItem.id
+                }
+
+                override fun areContentsTheSame(
+                    oldItem: RecommendationMainListDTO.MainList,
+                    newItem: RecommendationMainListDTO.MainList
+                ): Boolean {
+                    return oldItem == newItem
+                }
+            }
+    }
 }
