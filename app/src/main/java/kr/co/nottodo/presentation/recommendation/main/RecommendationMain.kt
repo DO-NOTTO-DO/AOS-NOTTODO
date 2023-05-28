@@ -40,6 +40,7 @@ class RecommendationMain : Activity() {
             startActivity(intent)
         }
     }
+
 }
 
 //        val categoryCoffeeLayout = findViewById<View>(R.id.layout_recommendation_category_coffee)
