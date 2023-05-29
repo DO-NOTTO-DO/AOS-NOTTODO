@@ -20,8 +20,10 @@ class Application : Application() {
     }
 
     private fun setFCMToken() {
-        FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
-            SharedPreferences.setString(FCM_TOKEN, token)
+        if (SharedPreferences.getString(FCM_TOKEN).isNullOrBlank()) {
+            FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                SharedPreferences.setString(FCM_TOKEN, token)
+            }
         }
     }
 
