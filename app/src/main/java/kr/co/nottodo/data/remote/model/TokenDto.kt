@@ -11,8 +11,8 @@ data class RequestTokenDto(
 
 @Serializable
 data class ResponseTokenDto(
-    @SerialName("status") val status: String,
-    @SerialName("success") val success: String,
+    @SerialName("status") val status: Int,
+    @SerialName("success") val success: Boolean,
     @SerialName("message") val message: String,
     @SerialName("data") val data: AccessToken,
 ) {
