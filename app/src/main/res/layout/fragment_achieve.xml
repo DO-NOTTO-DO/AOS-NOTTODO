@@ -19,11 +19,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <kr.co.nottodo.view.calendar.monthly.monthlycalendar.MonthlyCalendar
         android:id="@+id/achieve_calender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/achieve_achieve"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="23dp"
+        app:layout_constraintBottom_toTopOf="@id/cl_achieve_wait_description"
         app:layout_constraintTop_toBottomOf="@id/tv_achieve_title" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="18dp"
         android:background="@drawable/ic_achieve_total"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/achieve_calender">
