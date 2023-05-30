@@ -8,7 +8,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
-import kr.co.nottodo.presentation.recommendation.Action.RecommendationAction
+import kr.co.nottodo.presentation.recommendation.action.RecommendationAction
 
 
 class RecommendationMain : Activity() {

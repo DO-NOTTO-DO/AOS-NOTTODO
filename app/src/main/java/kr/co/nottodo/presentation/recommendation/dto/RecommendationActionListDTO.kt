@@ -19,10 +19,10 @@ data class RecommendationActionListDTO(
         @SerialName("title")
         val title: String,
         @SerialName("recommendActions")
-        val recommendActions: List<Category>
+        val recommendActions: List<CategoryList>
     ) {
         @Serializable
-        data class Category(
+        data class CategoryList(
             @SerialName("name")
             val name: String
         )

@@ -51,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_my_page_divider_first"
-        tools:listitem="@layout/item_recommendation_category" />
+        tools:listitem="@layout/item_recommendation_main" />
 
 
 

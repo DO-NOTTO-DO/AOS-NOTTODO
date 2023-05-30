@@ -4,10 +4,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kr.co.nottodo.databinding.ActivityRecommendationActionBinding
-import kr.co.nottodo.databinding.ItemRecommendationCategoryBinding
-import kr.co.nottodo.presentation.home.view.HomeAdpater.Companion.diffUtil
-import kr.co.nottodo.presentation.recommendation.Action.RecommendationAction
+import kr.co.nottodo.databinding.ItemRecommendationMainBinding
+import kr.co.nottodo.presentation.recommendation.action.RecommendationAction
+
 
 class RecommendationMainListViewAdapter :
     ListAdapter<RecommendationMainListDTO.MainList, RecommendationMainListViewAdapter.RecommendationMainListViewHolder>(
@@ -18,7 +17,7 @@ class RecommendationMainListViewAdapter :
         parent: ViewGroup,
         viewType: Int
     ): RecommendationMainListViewHolder {
-        val binding = ItemRecommendationCategoryBinding.inflate(
+        val binding = ItemRecommendationMainBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -31,7 +30,7 @@ class RecommendationMainListViewAdapter :
     }
 
 
-    class RecommendationMainListViewHolder(private val binding: ItemRecommendationCategoryBinding) :
+    class RecommendationMainListViewHolder(private val binding: ItemRecommendationMainBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         // 데이터를 아이템 뷰에 바인딩하는 메소드
@@ -43,7 +42,7 @@ class RecommendationMainListViewAdapter :
             // layout_recommendation_category 클릭 이벤트 처리
             binding.layoutRecommendationCategory.setOnClickListener {
                 val intent =
-                    Intent(binding.root.context, ActivityRecommendationActionBinding::class.java)
+                    Intent(binding.root.context, RecommendationAction::class.java)
                 intent.putExtra("situation", data.situation)
                 intent.putExtra("title", data.title)
                 binding.root.context.startActivity(intent)
