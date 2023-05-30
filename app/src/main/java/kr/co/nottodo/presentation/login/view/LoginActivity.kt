@@ -24,13 +24,16 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.ivLoginLabelKakao.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
-
+        setAutoLogin()
         setKakaoLogin()
         observeGetTokenResult()
+    }
+
+    private fun setAutoLogin() {
+        if (!SharedPreferences.getString(USER_TOKEN).isNullOrBlank()) {
+            startActivity(Intent(this, MainActivity::class.java))
+            if (!isFinishing) finish()
+        }
     }
 
     private fun observeGetTokenResult() {
