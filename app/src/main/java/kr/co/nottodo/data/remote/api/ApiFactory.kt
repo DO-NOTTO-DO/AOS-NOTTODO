@@ -3,6 +3,7 @@ package kr.co.nottodo.data.remote.api
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import kr.co.nottodo.BuildConfig
+import kr.co.nottodo.data.remote.api.home.AchieveService
 import kr.co.nottodo.data.remote.api.home.HomeService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -57,5 +58,6 @@ object ServicePool {
     val tokenService = ApiFactory.createForToken<TokenService>()
     val additionService = ApiFactory.create<AdditionService>()
     val homeService = ApiFactory.create<HomeService>()
+    val achieveService = ApiFactory.create<AchieveService>()
     val modificationService = ApiFactory.create<ModificationService>()
 }
