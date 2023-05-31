@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import kr.co.nottodo.BuildConfig
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
 
@@ -17,7 +18,11 @@ object SharedPreferences {
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
 
-        preferences = EncryptedSharedPreferences.create(
+        preferences = if (BuildConfig.DEBUG) context.getSharedPreferences(
+            context.getString(R.string.preference_file_name),
+            Context.MODE_PRIVATE
+        )
+        else EncryptedSharedPreferences.create(
             context,
             context.getString(R.string.preference_file_name),
             masterKeyAlias,
