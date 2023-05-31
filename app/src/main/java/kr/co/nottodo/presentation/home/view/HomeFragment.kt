@@ -10,8 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
+
+import kr.co.nottodo.presentation.recommendation.main.RecommendationMain
+
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
+
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import timber.log.Timber
 import java.time.LocalDate
@@ -109,7 +113,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun clickFloatingBtn() {
-        val intent = Intent(context, AdditionActivity::class.java)
+        val intent = Intent(context, RecommendationMain::class.java)
         binding.ftbHomeAdd.setOnClickListener { startActivity(intent) }
     }
 
