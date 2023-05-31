@@ -29,7 +29,7 @@
             android:id="@+id/iv_home_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="149dp"
+            android:layout_marginTop="79dp"
             android:src="@drawable/img_home_logo"
             app:layout_constraintEnd_toEndOf="@id/cl_home_main"
             app:layout_constraintStart_toStartOf="@id/cl_home_main"

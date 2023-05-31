@@ -52,7 +52,7 @@ class WeeklyViewHolder(
         }
     }
 
-    fun onNotToDoBind(localDate: LocalDate, notToDoCount: Double) {
+    fun onNotToDoBind(localDate: LocalDate, notToDoCount: Float) {
         val date: Date = Date.valueOf(localDate.toString()) as Date
         this.weeklyDate = localDate
         with(binding) {
@@ -64,7 +64,7 @@ class WeeklyViewHolder(
         }
     }
 
-    fun onSelectedNotToDoBind(localDate: LocalDate, notToDoCount: Double) {
+    fun onSelectedNotToDoBind(localDate: LocalDate, notToDoCount: Float) {
         val date: Date = Date.valueOf(localDate.toString()) as Date
         this.weeklyDate = localDate
         with(binding) {
@@ -123,7 +123,7 @@ class WeeklyViewHolder(
         )
     }
 
-    private fun ViewWeeklyCalendarDayBinding.bindNotToDoCountIndicator(notToDoCount: Double) {
+    private fun ViewWeeklyCalendarDayBinding.bindNotToDoCountIndicator(notToDoCount: Float) {
         when (notToDoCount) {
             in 0f..0.15f -> {
                 /** no - options **/
