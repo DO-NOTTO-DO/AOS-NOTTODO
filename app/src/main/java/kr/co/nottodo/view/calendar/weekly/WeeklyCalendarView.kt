@@ -164,6 +164,9 @@ class WeeklyCalendarView @JvmOverloads constructor(
         )
     }
 
+    /** 한 주의 일요일 Date를 가져오는 함수 **/
+    fun getCurrentSundayDate() = weeklyCalendar.sundayDate
+
     companion object {
         private const val TAG = "WeeklyCalendarView"
     }
