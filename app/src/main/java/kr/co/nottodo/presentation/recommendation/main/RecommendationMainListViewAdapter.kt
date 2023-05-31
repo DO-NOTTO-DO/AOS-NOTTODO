@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.databinding.ItemRecommendationMainBinding
 import kr.co.nottodo.presentation.recommendation.action.RecommendationAction
 
-
 class RecommendationMainListViewAdapter :
     ListAdapter<RecommendationMainListDTO.MainList, RecommendationMainListViewAdapter.RecommendationMainListViewHolder>(
         diffUtil
     ) {
+
+    private var itemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,30 +27,34 @@ class RecommendationMainListViewAdapter :
     }
 
     override fun onBindViewHolder(holder: RecommendationMainListViewHolder, position: Int) {
-        holder.onBind(currentList[position])
+        holder.onBind(currentList[position], itemClickListener)
     }
 
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.itemClickListener = listener
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
+
+    fun getItemAtPosition(position: Int): RecommendationMainListDTO.MainList {
+        return currentList[position]
+    }
 
     class RecommendationMainListViewHolder(private val binding: ItemRecommendationMainBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        // 데이터를 아이템 뷰에 바인딩하는 메소드
-        fun onBind(data: RecommendationMainListDTO.MainList) {
+        fun onBind(data: RecommendationMainListDTO.MainList, listener: OnItemClickListener?) {
             binding.tvWhen.text = data.situation
             binding.tvRecommendationCategory.text = data.title
             binding.tvRecommendationCategoryDescription.text = data.description
 
-            // layout_recommendation_category 클릭 이벤트 처리
             binding.layoutRecommendationCategory.setOnClickListener {
-                val intent =
-                    Intent(binding.root.context, RecommendationAction::class.java)
-                intent.putExtra("situation", data.situation)
-                intent.putExtra("title", data.title)
-                binding.root.context.startActivity(intent)
+                listener?.onItemClick(adapterPosition)
             }
         }
     }
-
 
     companion object {
         private val diffUtil =

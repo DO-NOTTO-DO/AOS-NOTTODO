@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
 import kr.co.nottodo.presentation.recommendation.action.RecommendationAction
 
-
 class RecommendationMain : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +31,21 @@ class RecommendationMain : Activity() {
         val exitButton = findViewById<View>(R.id.iv_recommendation_main_exit)
         exitButton.setOnClickListener { finish() }
 
-//        val categoryYoutubeLayout = findViewById<View>(R.id.rv_recommendation)
-        val categoryYoutubeLayout = findViewById<View>(R.id.rv_recommendation)
+        // RecyclerView 아이템 클릭 이벤트 처리
+        // RecyclerView 아이템 클릭 이벤트 처리
+        adapter.setOnItemClickListener(object : RecommendationMainListViewAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                val item = adapter.getItemAtPosition(position)
+                val intent = Intent(this@RecommendationMain, RecommendationAction::class.java)
+                intent.putExtra("situation", item.situation)
+                intent.putExtra("title", item.title)
+                startActivity(intent)
+            }
+        })
 
-        categoryYoutubeLayout.setOnClickListener {
-            val intent = Intent(this, RecommendationAction::class.java)
-            startActivity(intent)
-        }
     }
-
 }
+
 
 //        val categoryCoffeeLayout = findViewById<View>(R.id.layout_recommendation_category_coffee)
 //        categoryCoffeeLayout.setOnClickListener {

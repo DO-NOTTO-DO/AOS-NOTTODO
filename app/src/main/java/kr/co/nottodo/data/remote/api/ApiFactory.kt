@@ -1,16 +1,18 @@
 package kr.co.nottodo.data.remote.api
 
+import RecommendationMainListDTO
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import kr.co.nottodo.BuildConfig
 import kr.co.nottodo.data.remote.api.home.HomeService
+import kr.co.nottodo.presentation.recommendation.dto.RecommendationActionListService
+import kr.co.nottodo.presentation.recommendation.dto.RecommendationActionTitleService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
 object ApiFactory {
-
     private val json by lazy {
         Json {
             coerceInputValues = true
@@ -20,7 +22,7 @@ object ApiFactory {
     private val client by lazy {
         OkHttpClient.Builder().addInterceptor(TokenInterceptor())
             .addInterceptor(HttpLoggingInterceptor().apply {
-                level = if(BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+                level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
             }).authenticator(TokenAuthenticator())
             .build()
     }
@@ -36,7 +38,7 @@ object ApiFactory {
     private val clientForLogin by lazy {
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
-                level = if(BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+                level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
             }).build()
     }
 
@@ -48,9 +50,8 @@ object ApiFactory {
             .build()
     }
 
-    inline fun <reified T> create(): T = retrofit.create<T>(T::class.java)
-    inline fun <reified T> createForToken(): T = retrofitForSocialLogin.create<T>(T::class.java)
-
+    inline fun <reified T> create(): T = retrofit.create(T::class.java)
+    inline fun <reified T> createForToken(): T = retrofitForSocialLogin.create(T::class.java)
 }
 
 object ServicePool {
@@ -58,4 +59,6 @@ object ServicePool {
     val additionService = ApiFactory.create<AdditionService>()
     val homeService = ApiFactory.create<HomeService>()
     val modificationService = ApiFactory.create<ModificationService>()
+    val recommendationActionListService = ApiFactory.create<RecommendationActionListService>()
+    val recommendationActionTitleService = ApiFactory.create<RecommendationActionTitleService>()
 }
