@@ -64,7 +64,7 @@ class AchieveFragment : Fragment() {
             val returnDate = todoList.map {
                 it.first?.convertStringToDate() to it.second
             }
-            binding.achieveCalender.setNotToDoCountList(returnDate)
+            binding.achieveCalender.setNotToDoPercentages(notTodoRate)
         }
     }
 
