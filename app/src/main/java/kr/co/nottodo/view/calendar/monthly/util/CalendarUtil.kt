@@ -50,7 +50,6 @@ fun String.convertToLocalDate(): LocalDate? {
     }.getOrNull()
 }
 
-
 fun Date.convertDateToString(): String? {
     val dateFormat = SimpleDateFormat("yyyy.MM.dd")
     return runCatching {
