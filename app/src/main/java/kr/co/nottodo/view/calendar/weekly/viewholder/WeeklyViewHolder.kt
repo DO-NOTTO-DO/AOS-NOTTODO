@@ -135,7 +135,7 @@ class WeeklyViewHolder(
             }
             in 0.5f..0.75f -> {
                 bindNotToDoLevel2AchievementBackground()
-                bindDayTextColor(R.color.black)
+                bindDayTextColor(R.color.white)
             }
             in 0.75f..1f -> {
                 bindNotToDoLevel3AchievementBackground()

@@ -23,7 +23,7 @@ data class ResponseAdditionDto(
     data class Addition(
         @SerialName("title") val title: String,
         @SerialName("situation") val situation: String,
-        @SerialName("actions") val actions: List<String>?,
+        @SerialName("actions") val actions: List<ResponseModificationDto.Modification.Action>?,
         @SerialName("goal") val goal: String?,
         @SerialName("dates") val dates: List<String>,
     )

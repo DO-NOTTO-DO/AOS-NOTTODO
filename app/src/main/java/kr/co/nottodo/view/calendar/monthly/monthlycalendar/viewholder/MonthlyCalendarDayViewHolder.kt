@@ -23,15 +23,16 @@ class MonthlyCalendarDayViewHolder(
         }
     }
 
-    fun onNotToDoBind(data: MonthlyCalendarDay, notToDoCount: Int) {
+    fun onNotToDoBind(data: MonthlyCalendarDay, notToDoPercentage: Float) {
         if (data is MonthlyCalendarDay.DayMonthly) {
             dayData = data
             binding.apply {
-                when (notToDoCount) {
-                    1 -> {
+                when (notToDoPercentage) {
+                    0f -> {
                         ivNotToDo.visibility = View.VISIBLE
+                        tvDay.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
                     }
-                    2 -> {
+                    in 0.1f..0.99f -> {
                         ivNotToDo.visibility = View.VISIBLE
                         ivNotToDo.setImageDrawable(
                             ContextCompat.getDrawable(
@@ -39,8 +40,9 @@ class MonthlyCalendarDayViewHolder(
                                 R.drawable.half_circle_solid_gray
                             )
                         )
+                        tvDay.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
                     }
-                    3 -> {
+                    1f -> {
                         ivNotToDo.visibility = View.VISIBLE
                         ivNotToDo.setImageDrawable(
                             ContextCompat.getDrawable(
@@ -48,9 +50,11 @@ class MonthlyCalendarDayViewHolder(
                                 R.drawable.circle_solid_white_width_38dp
                             )
                         )
+                        tvDay.setTextColor(ContextCompat.getColor(binding.root.context, R.color.black))
                     }
                     else -> {
                         ivNotToDo.visibility = View.GONE
+                        tvDay.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
                     }
                 }
                 day = data
