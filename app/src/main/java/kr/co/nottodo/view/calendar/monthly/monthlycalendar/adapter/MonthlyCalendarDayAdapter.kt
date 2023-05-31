@@ -20,7 +20,7 @@ class MonthlyCalendarDayAdapter : RecyclerView.Adapter<ViewHolder>() {
 
     private val calendarItems = mutableListOf<MonthlyCalendarDay>()
 
-    private val notToDoCountList = mutableListOf<Pair<Date?,Int>>()
+    private val notToDoPercentages = mutableListOf<Pair<Date?,Float>>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -55,11 +55,11 @@ class MonthlyCalendarDayAdapter : RecyclerView.Adapter<ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (calendarItems[position]) {
             is MonthlyCalendarDay.DayMonthly -> {
-                notToDoCountList.indexOfLast {
+                notToDoPercentages.indexOfLast {
                     it.first?.isTheSameDay((calendarItems[position] as MonthlyCalendarDay.DayMonthly).date) == true
                 }.also {
                     if (it != -1) {
-                        (holder as MonthlyCalendarDayViewHolder).onNotToDoBind(calendarItems[position], notToDoCountList[it].second)
+                        (holder as MonthlyCalendarDayViewHolder).onNotToDoBind(calendarItems[position], notToDoPercentages[it].second)
                     } else {
                         (holder as MonthlyCalendarDayViewHolder).onBind(calendarItems[position])
                     }
@@ -86,9 +86,9 @@ class MonthlyCalendarDayAdapter : RecyclerView.Adapter<ViewHolder>() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitNotTodoCountList(list: List<Pair<Date?, Int>>) {
-        notToDoCountList.clear()
-        notToDoCountList.addAll(list)
+    fun submitNotTodoCountList(list: List<Pair<Date?, Float>>) {
+        notToDoPercentages.clear()
+        notToDoPercentages.addAll(list)
         notifyDataSetChanged()
     }
 }

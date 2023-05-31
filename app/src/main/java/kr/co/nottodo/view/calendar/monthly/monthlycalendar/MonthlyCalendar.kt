@@ -55,7 +55,6 @@ class MonthlyCalendar @JvmOverloads constructor(
             field = value
             updateCurrentDateTextView()
         }
-    private val calendarHandler = Handler(Looper.getMainLooper())
 
     private val borderRectF = RectF()
     private val borderPaint = Paint()
@@ -65,7 +64,7 @@ class MonthlyCalendar @JvmOverloads constructor(
     private var monthlyCalendarNextMonthListener: MonthlyCalendarNextMonthListener? = null
     private var monthlyCalendarPrevMonthListener: MonthlyCalendarPrevMonthListener? = null
 
-    private val currentDateTextView = TextView(context, null /*R.style.B14*/).apply {
+    private val currentDateTextView = TextView(context, null, R.style.M14).apply {
         id = ViewCompat.generateViewId()
         text = currentDate
         layoutParams =
@@ -374,7 +373,7 @@ class MonthlyCalendar @JvmOverloads constructor(
 
     }
 
-    fun setNotToDoCountList(list: List<Pair<Date?, Int>>) {
+    fun setNotToDoPercentages(list: List<Pair<Date?, Float>>) {
         monthlyCalendarDayAdapter.submitNotTodoCountList(list)
     }
 
