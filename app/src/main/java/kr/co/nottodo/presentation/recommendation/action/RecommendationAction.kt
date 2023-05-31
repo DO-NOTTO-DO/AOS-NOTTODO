@@ -32,6 +32,7 @@ class RecommendationAction : AppCompatActivity() {
             titleAdapter.submitList(actionTitleList)
         }
 
+
 //        viewModel.getRecommendationList( )
 
         binding.ivRecommendationActionBack.setOnClickListener {
