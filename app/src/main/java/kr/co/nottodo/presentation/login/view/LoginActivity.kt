@@ -12,6 +12,7 @@ import kr.co.nottodo.MainActivity
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
+import kr.co.nottodo.presentation.onboard.view.OnboardActivity
 import kr.co.nottodo.util.showToast
 import timber.log.Timber
 
@@ -24,9 +25,15 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        showOnboardForFirstUser()
         setAutoLogin()
         setKakaoLogin()
         observeGetTokenResult()
+    }
+
+    private fun showOnboardForFirstUser() {
+        if (!SharedPreferences.getBoolean(DID_USER_WATCHED_ONBOARD))
+            startActivity(Intent(this, OnboardActivity::class.java))
     }
 
     private fun setAutoLogin() {
@@ -95,5 +102,6 @@ class LoginActivity : AppCompatActivity() {
         const val KAKAO: String = "KAKAO"
         const val USER_TOKEN = "USER_TOKEN"
         const val FCM_TOKEN = "FCM_TOKEN"
+        const val DID_USER_WATCHED_ONBOARD = "DID_USER_WATCHED_ONBOARD"
     }
 }
