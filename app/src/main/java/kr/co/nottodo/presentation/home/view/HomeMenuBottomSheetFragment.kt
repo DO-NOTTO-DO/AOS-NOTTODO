@@ -64,8 +64,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
             startActivity(intent)
         }
         binding.tvHomeDialogAddDay.setOnClickListener {
-            val calendarBottomSheet = DialogFragment(this)
-            dialog.mypageShowDeleteDialog(R.layout.custom_mypage_dialog)
+//            val calendarBottomSheet = DialogFragment(this)
+//            dialog.mypageShowDeleteDialog(R.layout.custom_mypage_dialog)
 
 
         }

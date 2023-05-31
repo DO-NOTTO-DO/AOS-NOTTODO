@@ -2,7 +2,6 @@ package kr.co.nottodo.view.calendar.weekly
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -17,6 +16,7 @@ import kr.co.nottodo.view.calendar.weekly.adapter.WeeklyAdapter
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarViewChangeYearMonthTextListener
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyDayClickListener
+import timber.log.Timber
 import java.time.DayOfWeek
 import java.time.LocalDate
 
@@ -62,7 +62,7 @@ class WeeklyCalendar @JvmOverloads constructor(
 
     override fun onWeeklyDayClick(view: View, date: LocalDate) {
         selectedDate = date
-        Log.d("selectedDate", "onWeeklyDayClick: $selectedDate")
+        Timber.d("selectedDate", "onWeeklyDayClick: $selectedDate")
         weeklyAdapter.setSelectedDay(date)
         // TODO 여기서 뭔가 CalendarView와 인터랙션이 일어날 수 있도록 해야할 것만 같은디....
         onWeeklyCalendarViewChangeYearMonthTextListener?.changeYearMonthText()

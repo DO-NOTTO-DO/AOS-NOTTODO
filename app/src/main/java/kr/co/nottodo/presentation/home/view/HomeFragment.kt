@@ -82,7 +82,7 @@ class HomeFragment : Fragment() {
             homeAdapter.submitList(homeViewModel.getHomeDaily.value)
         }
         homeViewModel.patchCheckResult.observe(viewLifecycleOwner) {
-            Log.d("homefragment todo성공", "observerData: ")
+            Timber.d("homefragment todo성공", "observerData: ")
             homeViewModel.getHomeDaily(weeklyData)
         }
     }
@@ -129,7 +129,7 @@ class HomeFragment : Fragment() {
 
     private fun initMonth() {
         binding.weeklyCalendar.setOnWeeklyDayClickListener { view, date ->
-            Log.d("calender", "initMonth: $date")
+            Timber.d("calender", "initMonth: $date")
             weeklyData = date.toString()
             homeViewModel.getHomeDaily(weeklyData)
         }
