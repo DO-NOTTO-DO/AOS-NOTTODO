@@ -3,7 +3,6 @@ package kr.co.nottodo.presentation.home.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,15 +43,15 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        homeViewModel.getHomeWeekly(todayData)
+        homeViewModel.getHomeWeekly(binding.weeklyCalendar.getCurrentSundayDate().toString())
         initAdapter()
-        //todo 더미 바꿔야 됨, weeklyTodo로..?
         homeViewModel.getHomeDaily(weeklyData)
         setActivityBackgroundColor()
         observerData()
         clickFloatingBtn()
         setWeeklyDate()
         initMonth()
+
     }
 
     private fun observerData() {
