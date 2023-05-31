@@ -18,7 +18,6 @@ import timber.log.Timber
 
 class ModificationViewModel : ViewModel() {
 
-    private var originDate: String? = null
     private var originMission: String? = null
     private var originSituation: String? = null
     private var originalActionList: List<String>? = null
@@ -26,11 +25,10 @@ class ModificationViewModel : ViewModel() {
     private var missionId: Long? = null
 
     fun setOriginalData(data: NotTodoData) {
-        originDate = data.date
         originMission = data.mission
         originSituation = data.situation
-        originalActionList = data.actions
-        originGoal = data.goal
+        originalActionList = data.actions ?: emptyList()
+        originGoal = data.goal ?: ""
 
         date.value = data.date
         mission.value = data.mission
@@ -42,9 +40,6 @@ class ModificationViewModel : ViewModel() {
     }
 
     val date: MutableLiveData<String> = MutableLiveData()
-    private val isDateChanged: LiveData<Boolean> = date.map { newDate ->
-        originDate != newDate
-    }
 
     val mission: MutableLiveData<String> = MutableLiveData()
     private val isMissionChanged: LiveData<Boolean> = mission.map { newMission ->
@@ -72,9 +67,6 @@ class ModificationViewModel : ViewModel() {
     val isAbleToModify: MediatorLiveData<Boolean> = MediatorLiveData()
 
     init {
-        isAbleToModify.addSource(isDateChanged) {
-            isAbleToModify.value = _isAbleToModify()
-        }
         isAbleToModify.addSource(isMissionChanged) {
             isAbleToModify.value = _isAbleToModify()
         }
@@ -90,7 +82,7 @@ class ModificationViewModel : ViewModel() {
     }
 
     private fun _isAbleToModify(): Boolean =
-        isDateChanged.value == true || isMissionChanged.value == true || isSituationChanged.value == true || isActionListChanged.value == true || isGoalChanged.value == true
+        isMissionChanged.value == true || isSituationChanged.value == true || isActionListChanged.value == true || isGoalChanged.value == true
 
     private val _modificationResponse: MutableLiveData<ResponseModificationDto.Modification> =
         MutableLiveData()
