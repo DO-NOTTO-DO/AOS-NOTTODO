@@ -3,11 +3,10 @@ package kr.co.nottodo.presentation.addition.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kr.co.nottodo.data.remote.api.ServicePool.additionService
 import kr.co.nottodo.data.remote.model.FailureResponseDto
@@ -23,11 +22,11 @@ class AdditionViewModel : ViewModel() {
     val date: MutableLiveData<String> = MutableLiveData(Date().convertDateToString())
 
     val mission: MutableLiveData<String> = MutableLiveData()
-    private val isMissionFilled: LiveData<Boolean> = Transformations.map(mission) { mission ->
+    private val isMissionFilled: LiveData<Boolean> = mission.map { mission ->
         mission.isNotBlank()
     }
     val situation: MutableLiveData<String> = MutableLiveData()
-    private val isSituationFilled: LiveData<Boolean> = Transformations.map(situation) { situation ->
+    private val isSituationFilled: LiveData<Boolean> = situation.map { situation ->
         situation.isNotBlank()
     }
     val action: MutableLiveData<String> = MutableLiveData()
