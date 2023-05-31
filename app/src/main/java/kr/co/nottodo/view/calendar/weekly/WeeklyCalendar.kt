@@ -16,6 +16,7 @@ import kr.co.nottodo.view.calendar.weekly.adapter.WeeklyAdapter
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarViewChangeYearMonthTextListener
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyDayClickListener
+import timber.log.Timber
 import java.time.DayOfWeek
 import java.time.LocalDate
 
@@ -61,6 +62,7 @@ class WeeklyCalendar @JvmOverloads constructor(
 
     override fun onWeeklyDayClick(view: View, date: LocalDate) {
         selectedDate = date
+        Timber.d("selectedDate", "onWeeklyDayClick: $selectedDate")
         weeklyAdapter.setSelectedDay(date)
         // TODO 여기서 뭔가 CalendarView와 인터랙션이 일어날 수 있도록 해야할 것만 같은디....
         onWeeklyCalendarViewChangeYearMonthTextListener?.changeYearMonthText()
@@ -78,7 +80,7 @@ class WeeklyCalendar @JvmOverloads constructor(
     }
 
     /** 서버 통신된 NotToDo 갯수 갱신 **/
-    fun setNotToDoCount(list: List<Pair<LocalDate?, Double>>) {
+    fun setNotToDoCount(list: List<Pair<LocalDate?, Float>>) {
         weeklyAdapter.submitNotTodoCountList(list)
     }
 

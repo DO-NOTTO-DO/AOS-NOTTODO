@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -25,7 +26,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private val viewModel by activityViewModels<HomeViewModel>()
     private lateinit var detailData: ParcelizeBottomDetail
     private lateinit var detailActionData: ParcelizeBottomDetail.Action
-//    private lateinit var changeParcle: List<ParcelizeBottomDetail.Action>
+
+    //    private lateinit var changeParcle: List<ParcelizeBottomDetail.Action>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -50,7 +52,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun initData(index: Long) {
         viewModel.getHomeBottomDetail(index)
-
     }
 
     private fun setOnClick() {
@@ -63,7 +64,10 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
             startActivity(intent)
         }
         binding.tvHomeDialogAddDay.setOnClickListener {
-            //todo calender 넣어야됨
+//            val calendarBottomSheet = DialogFragment(this)
+//            dialog.mypageShowDeleteDialog(R.layout.custom_mypage_dialog)
+
+
         }
         binding.btnHomeDelete.setOnClickListener {
             clickDelete(requireArguments().getLong(MISSION_ID))

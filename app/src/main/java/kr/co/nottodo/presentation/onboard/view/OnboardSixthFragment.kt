@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.FragmentOnboardSixthBinding
 import kr.co.nottodo.presentation.login.view.LoginActivity
+import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_WATCHED_ONBOARD
 import kr.co.nottodo.presentation.onboard.adapter.OnboardActionAdapter
 import kr.co.nottodo.presentation.onboard.viewmodel.OnboardViewModel
 
@@ -36,6 +38,7 @@ class OnboardSixthFragment : Fragment() {
 
     private fun initLoginLayoutClickListener() {
         binding.layoutOnboardSixthLogin.setOnClickListener {
+            SharedPreferences.setBoolean(DID_USER_WATCHED_ONBOARD, true)
             requireActivity().apply {
                 startActivity(Intent(context, LoginActivity::class.java))
                 if (!isFinishing) {
