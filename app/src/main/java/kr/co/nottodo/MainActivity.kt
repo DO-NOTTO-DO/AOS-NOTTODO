@@ -15,7 +15,7 @@ import kr.co.nottodo.databinding.ActivityMainBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.achieve.AchieveFragment
 import kr.co.nottodo.presentation.home.view.HomeFragment
-import kr.co.nottodo.presentation.mypage.view.MyPageFragment
+import kr.co.nottodo.presentation.mypage.view.MyPageActivity
 
 class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     lateinit var binding: ActivityMainBinding
@@ -79,7 +79,8 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
                 when (it.itemId) {
                     R.id.menu_home -> HomeFragment()
                     R.id.menu_calendar -> AchieveFragment()
-                    else -> MyPageFragment()
+                    R.id.menu_my_page -> MyPageActivity()
+                    else -> MyPageActivity()
                 }
             )
             true
@@ -96,7 +97,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
         when (thisFragment) {
             is HomeFragment -> binding.root.setBackgroundColor(getColor(R.color.bg_f2f2f7))
             is AchieveFragment -> binding.root.setBackgroundColor(getColor(R.color.black))
-            is MyPageFragment -> binding.root.setBackgroundColor(getColor(R.color.black))
+            is MyPageActivity -> binding.root.setBackgroundColor(getColor(R.color.black))
         }
     }
 
