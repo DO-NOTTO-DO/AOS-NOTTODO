@@ -39,5 +39,9 @@
     <string name="achieve_achieve">성취</string>
     <string name="achieve_description">더욱 나은 낫투두를 위해\n노력중에 있어요, 기다려주세요.</string>
 
+    <!--notification-->
+    <string name="channel_id">kr.co.nottodo.channel</string>
+    <string name="channel_name">낫투두 알림</string>
+    <string name="channel_desc">낫투두 알림을 위한 채널</string>
 
 </resources>

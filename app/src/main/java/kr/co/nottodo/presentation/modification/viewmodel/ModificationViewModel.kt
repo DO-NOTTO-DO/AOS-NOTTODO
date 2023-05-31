@@ -3,11 +3,10 @@ package kr.co.nottodo.presentation.modification.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kr.co.nottodo.data.remote.api.ServicePool.modificationService
 import kr.co.nottodo.data.remote.model.FailureResponseDto
@@ -43,18 +42,18 @@ class ModificationViewModel : ViewModel() {
     }
 
     val date: MutableLiveData<String> = MutableLiveData()
-    private val isDateChanged: LiveData<Boolean> = Transformations.map(date) { newDate ->
+    private val isDateChanged: LiveData<Boolean> = date.map { newDate ->
         originDate != newDate
     }
 
     val mission: MutableLiveData<String> = MutableLiveData()
-    private val isMissionChanged: LiveData<Boolean> = Transformations.map(mission) { newMission ->
+    private val isMissionChanged: LiveData<Boolean> = mission.map { newMission ->
         originMission != newMission
     }
 
     val situation: MutableLiveData<String> = MutableLiveData()
     private val isSituationChanged: LiveData<Boolean> =
-        Transformations.map(situation) { newSituation ->
+        situation.map { newSituation ->
             originSituation != newSituation
         }
 
@@ -62,11 +61,11 @@ class ModificationViewModel : ViewModel() {
     val actionCount: MutableLiveData<Int> = MutableLiveData()
     val actionList: MutableLiveData<List<String>> = MutableLiveData()
     private val isActionListChanged: LiveData<Boolean> =
-        Transformations.map(actionList) { newActionList ->
+        actionList.map { newActionList ->
             originalActionList != newActionList
         }
     val goal: MutableLiveData<String> = MutableLiveData()
-    private val isGoalChanged: LiveData<Boolean> = Transformations.map(goal) { newGoal ->
+    private val isGoalChanged: LiveData<Boolean> = goal.map { newGoal ->
         originGoal != newGoal
     }
 

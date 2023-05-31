@@ -3,8 +3,8 @@ package kr.co.nottodo.presentation.onboard.viewmodel
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import kr.co.nottodo.R
 
 class OnboardViewModel : ViewModel() {
@@ -21,7 +21,7 @@ class OnboardViewModel : ViewModel() {
     )
 
     private val _situationCount: MutableLiveData<Int> = MutableLiveData(0)
-    val isBtnClickable: LiveData<Boolean> = Transformations.map(_situationCount) { count ->
+    val isBtnClickable: LiveData<Boolean> = _situationCount.map { count ->
         count > 0
     }
 
