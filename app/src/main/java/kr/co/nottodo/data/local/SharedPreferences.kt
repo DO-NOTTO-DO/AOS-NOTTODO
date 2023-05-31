@@ -39,6 +39,14 @@ object SharedPreferences {
         return preferences.getString(key, BLANK)
     }
 
+    fun setBoolean(key: String, value: Boolean) {
+        preferences.edit { putBoolean(key, value) }
+    }
+
+    fun getBoolean(key: String): Boolean {
+        return preferences.getBoolean(key, false)
+    }
+
     fun clear() {
         preferences.edit { clear() }
     }
