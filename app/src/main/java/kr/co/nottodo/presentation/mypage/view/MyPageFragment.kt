@@ -1,5 +1,6 @@
 package kr.co.nottodo.presentation.mypage.view
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,27 +8,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kr.co.nottodo.databinding.ActivityMyPageBinding
+import kr.co.nottodo.databinding.FragmentMyPageBinding
+import kr.co.nottodo.listeners.OnFragmentChangedListener
 
+class MyPageFragment : Fragment() {
+    private var _binding: FragmentMyPageBinding? = null
+    private val binding: FragmentMyPageBinding
+        get() = requireNotNull(_binding)
+    private var onFragmentChangedListener: OnFragmentChangedListener? = null
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        onFragmentChangedListener = context as? OnFragmentChangedListener
+            ?: throw TypeCastException("context can not cast as OnFragmentChangedListener")
+    }
 
-class MyPageActivity : Fragment() {
-
-    private var _binding: ActivityMyPageBinding? = null
-    private val binding: ActivityMyPageBinding get() = requireNotNull(_binding)
-
-
-    //    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
-//    ): View {
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
+        _binding = FragmentMyPageBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
 
-
-        _binding = ActivityMyPageBinding.inflate(inflater, container, false)
-
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setActivityBackgroundColor()
 
         binding.tvNottodoGuide.setOnClickListener {
             // 버튼을 클릭했을 때 실행할 코드
@@ -74,22 +80,20 @@ class MyPageActivity : Fragment() {
             startActivity(intent)
         }
 
-        return binding.root
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
-    private fun replaceFragment(fragment: MyPageInformationActivity) {
-
+    private fun setActivityBackgroundColor() {
+        onFragmentChangedListener?.setActivityBackgroundColorBasedOnFragment(this@MyPageFragment)
+            ?: throw NullPointerException("onFragmentChangedListener is null")
     }
 
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
     }
-}
 
+    override fun onDetach() {
+        onFragmentChangedListener = null
+        super.onDetach()
+    }
+}
