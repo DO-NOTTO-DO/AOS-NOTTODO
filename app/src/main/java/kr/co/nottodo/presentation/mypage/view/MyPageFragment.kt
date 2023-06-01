@@ -34,39 +34,20 @@ class MyPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setActivityBackgroundColor()
+        setClickEvents()
 
-        binding.layoutMyPageGuide.setOnClickListener {
-            // 버튼을 클릭했을 때 실행할 코드
-            val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://teamnottodo.notion.site/f35a7f2d6d5c4b33b4d0949f6077e6cd")
-            )
-            startActivity(intent)
-        }
-        binding.layoutMyPageQuestion.setOnClickListener {
-            // 버튼을 클릭했을 때 실행할 코드
-            val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://teamnottodo.notion.site/a6ef7036bde24e289e576ace099f39dc")
-            )
-            startActivity(intent)
-        }
-        binding.layoutMyPageNotice.setOnClickListener {
-            // 버튼을 클릭했을 때 실행할 코드
-            val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://teamnottodo.notion.site/a5dbb310ec1d43baae02b7e9bf0b3411")
-            )
-            startActivity(intent)
-        }
-        binding.layoutMyPageContact.setOnClickListener {
-            // 버튼을 클릭했을 때 실행할 코드
-            val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("http://pf.kakao.com/_fUIQxj/chat")
-            )
-            startActivity(intent)
-        }
+    }
+
+    private fun setClickEvents() {
+        setNameClickEvent()
+        setGuideClickEvent()
+        setQuestionClickEvent()
+        setNoticeClickEvent()
+        setContactClickEvent()
+        setPoliciesClickEvent()
+    }
+
+    private fun setPoliciesClickEvent() {
         binding.layoutMyPagePolicies.setOnClickListener {
             // 버튼을 클릭했을 때 실행할 코드
             val intent = Intent(
@@ -75,11 +56,57 @@ class MyPageFragment : Fragment() {
             )
             startActivity(intent)
         }
+    }
+
+    private fun setContactClickEvent() {
+        binding.layoutMyPageContact.setOnClickListener {
+            // 버튼을 클릭했을 때 실행할 코드
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("http://pf.kakao.com/_fUIQxj/chat")
+            )
+            startActivity(intent)
+        }
+    }
+
+    private fun setNoticeClickEvent() {
+        binding.layoutMyPageNotice.setOnClickListener {
+            // 버튼을 클릭했을 때 실행할 코드
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://teamnottodo.notion.site/a5dbb310ec1d43baae02b7e9bf0b3411")
+            )
+            startActivity(intent)
+        }
+    }
+
+    private fun setQuestionClickEvent() {
+        binding.layoutMyPageQuestion.setOnClickListener {
+            // 버튼을 클릭했을 때 실행할 코드
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://teamnottodo.notion.site/a6ef7036bde24e289e576ace099f39dc")
+            )
+            startActivity(intent)
+        }
+    }
+
+    private fun setGuideClickEvent() {
+        binding.layoutMyPageGuide.setOnClickListener {
+            // 버튼을 클릭했을 때 실행할 코드
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://teamnottodo.notion.site/f35a7f2d6d5c4b33b4d0949f6077e6cd")
+            )
+            startActivity(intent)
+        }
+    }
+
+    private fun setNameClickEvent() {
         binding.layoutMypageName.setOnClickListener {
             val intent = Intent(requireContext(), MyPageInformationActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     private fun setActivityBackgroundColor() {
