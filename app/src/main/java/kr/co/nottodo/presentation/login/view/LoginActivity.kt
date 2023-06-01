@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -28,7 +29,16 @@ class LoginActivity : AppCompatActivity() {
         showOnboardForFirstUser()
         setAutoLogin()
         setKakaoLogin()
+        setFCMToken()
         observeGetTokenResult()
+    }
+
+    private fun setFCMToken() {
+        if (SharedPreferences.getString(FCM_TOKEN).isNullOrBlank()) {
+            FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                SharedPreferences.setString(FCM_TOKEN, token)
+            }
+        }
     }
 
     private fun showOnboardForFirstUser() {

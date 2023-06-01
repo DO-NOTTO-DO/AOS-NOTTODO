@@ -16,15 +16,6 @@ class Application : Application() {
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         setupSharedPreferences()
         setupKakaoSdk()
-        setFCMToken()
-    }
-
-    private fun setFCMToken() {
-        if (SharedPreferences.getString(FCM_TOKEN).isNullOrBlank()) {
-            FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
-                SharedPreferences.setString(FCM_TOKEN, token)
-            }
-        }
     }
 
     private fun setupTimber() {
