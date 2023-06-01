@@ -35,7 +35,6 @@ class MyPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setActivityBackgroundColor()
         setClickEvents()
-
     }
 
     private fun setClickEvents() {
