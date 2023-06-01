@@ -35,7 +35,7 @@ class MyPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setActivityBackgroundColor()
 
-        binding.tvNottodoGuide.setOnClickListener {
+        binding.layoutMyPageGuide.setOnClickListener {
             // 버튼을 클릭했을 때 실행할 코드
             val intent = Intent(
                 Intent.ACTION_VIEW,
@@ -43,7 +43,7 @@ class MyPageFragment : Fragment() {
             )
             startActivity(intent)
         }
-        binding.tvQuestion.setOnClickListener {
+        binding.layoutMyPageQuestion.setOnClickListener {
             // 버튼을 클릭했을 때 실행할 코드
             val intent = Intent(
                 Intent.ACTION_VIEW,
@@ -51,7 +51,7 @@ class MyPageFragment : Fragment() {
             )
             startActivity(intent)
         }
-        binding.tvNotice.setOnClickListener {
+        binding.layoutMyPageNotice.setOnClickListener {
             // 버튼을 클릭했을 때 실행할 코드
             val intent = Intent(
                 Intent.ACTION_VIEW,
@@ -59,7 +59,7 @@ class MyPageFragment : Fragment() {
             )
             startActivity(intent)
         }
-        binding.tvContact.setOnClickListener {
+        binding.layoutMyPageContact.setOnClickListener {
             // 버튼을 클릭했을 때 실행할 코드
             val intent = Intent(
                 Intent.ACTION_VIEW,
@@ -67,7 +67,7 @@ class MyPageFragment : Fragment() {
             )
             startActivity(intent)
         }
-        binding.tvPolicies.setOnClickListener {
+        binding.layoutMyPagePolicies.setOnClickListener {
             // 버튼을 클릭했을 때 실행할 코드
             val intent = Intent(
                 Intent.ACTION_VIEW,
@@ -75,7 +75,7 @@ class MyPageFragment : Fragment() {
             )
             startActivity(intent)
         }
-        binding.layoutName.setOnClickListener {
+        binding.layoutMypageName.setOnClickListener {
             val intent = Intent(requireContext(), MyPageInformationActivity::class.java)
             startActivity(intent)
         }
