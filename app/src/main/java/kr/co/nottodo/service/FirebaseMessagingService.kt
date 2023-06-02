@@ -45,7 +45,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
             NotificationChannel(
                 getString(R.string.channel_id),
                 getString(R.string.channel_name),
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 description = getString(R.string.channel_desc)
             }
