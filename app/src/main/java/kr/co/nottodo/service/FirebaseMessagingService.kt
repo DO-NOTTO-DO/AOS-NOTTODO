@@ -10,19 +10,13 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kr.co.nottodo.R
-import kr.co.nottodo.data.local.SharedPreferences
-import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.FCM_TOKEN
 import timber.log.Timber
 
 
 class FirebaseMessagingService : FirebaseMessagingService() {
+
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        saveTokenInSharedPreferences(token)
-    }
-
-    private fun saveTokenInSharedPreferences(token: String) {
-        SharedPreferences.setString(key = FCM_TOKEN, value = token)
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
