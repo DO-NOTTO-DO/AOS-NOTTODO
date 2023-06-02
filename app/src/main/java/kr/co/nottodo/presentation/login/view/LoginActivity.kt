@@ -18,6 +18,7 @@ import timber.log.Timber
 class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     private val viewModel by viewModels<LoginViewModel>()
+    private var tokenId: String? = null  //Google Auth 인증에 성공하면 token 값으로 설정된다
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
