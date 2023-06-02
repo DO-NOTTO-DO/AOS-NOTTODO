@@ -13,7 +13,6 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
-import timber.log.Timber
 
 
 class FirebaseMessagingService : FirebaseMessagingService() {
@@ -24,8 +23,6 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        Timber.tag("fcm").e("메시지가 오긴 왔습니다. ${message.data} ${message.notification}")
-
         makePushAlarm(message)
     }
 
@@ -42,8 +39,8 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
         val builder = NotificationCompat.Builder(this, getString(R.string.channel_id))
             .setSmallIcon(R.drawable.ic_push_alarm)
-            .setContentTitle(message.notification?.title ?: "")
-            .setContentText(message.notification?.body ?: "")
+            .setContentTitle(message.data[NOTIFICATION_CONTENT_TITLE_KEY])
+            .setContentText(message.data[NOTIFICATION_CONTENT_TEXT_KEY])
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
@@ -66,8 +63,13 @@ class FirebaseMessagingService : FirebaseMessagingService() {
                 Manifest.permission.POST_NOTIFICATIONS
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            notificationManager.notify(0, builder.build())
-            Timber.tag("fcm").e("알람이 만들어졌네요.")
+            notificationManager.notify(NOTIFICATION_ID, builder.build())
         }
+    }
+
+    companion object {
+        const val NOTIFICATION_ID = 0
+        const val NOTIFICATION_CONTENT_TITLE_KEY = "title"
+        const val NOTIFICATION_CONTENT_TEXT_KEY = "description"
     }
 }
