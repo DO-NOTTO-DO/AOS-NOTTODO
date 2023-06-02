@@ -3,12 +3,11 @@
     android:height="100dp"
     android:viewportWidth="100"
     android:viewportHeight="100">
-  <group>
-    <clip-path
-        android:pathData="M10,0L90,0A10,10 0,0 1,100 10L100,90A10,10 0,0 1,90 100L10,100A10,10 0,0 1,0 90L0,10A10,10 0,0 1,10 0z"/>
-    <path
-        android:pathData="M0,0H100V100H0V0ZM91,50C91,62.15 81.15,72 69,72C56.85,72 47,62.15 47,50C47,37.85 56.85,28 69,28C81.15,28 91,37.85 91,50ZM43,50C43,44.42 45.08,39.33 48.5,35.45C44.47,30.88 38.57,28 32,28C19.85,28 10,37.85 10,50C10,62.15 19.85,72 32,72C38.57,72 44.47,69.12 48.5,64.55C45.08,60.67 43,55.58 43,50Z"
-        android:fillColor="#1F1F23"
-        android:fillType="evenOdd"/>
-  </group>
+  <path
+      android:pathData="M71,50m-24,0a24,24 0,1 1,48 0a24,24 0,1 1,-48 0"
+      android:fillColor="#1F1F23"/>
+  <path
+      android:pathData="M48.31,34.13C44.58,38.36 42.31,43.91 42.31,50C42.31,56.09 44.58,61.64 48.31,65.87C43.92,70.86 37.48,74 30.31,74C17.06,74 6.31,63.25 6.31,50C6.31,36.75 17.06,26 30.31,26C37.48,26 43.92,29.14 48.31,34.13Z"
+      android:fillColor="#1F1F23"
+      android:fillType="evenOdd"/>
 </vector>
