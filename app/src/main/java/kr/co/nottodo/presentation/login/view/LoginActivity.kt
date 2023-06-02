@@ -4,14 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kr.co.nottodo.MainActivity
-import kr.co.nottodo.data.remote.model.RequestTokenDto
+import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
+import kr.co.nottodo.presentation.onboard.view.OnboardActivity
 import kr.co.nottodo.util.showToast
 import timber.log.Timber
 
@@ -25,19 +27,41 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.ivLoginLabelKakao.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
-
+        showOnboardForFirstUser()
+        setAutoLogin()
         setKakaoLogin()
+        setFCMToken()
         observeGetTokenResult()
+    }
+
+    private fun setFCMToken() {
+        if (SharedPreferences.getString(FCM_TOKEN).isNullOrBlank()) {
+            FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                SharedPreferences.setString(FCM_TOKEN, token)
+            }
+        }
+    }
+
+    private fun showOnboardForFirstUser() {
+        if (!SharedPreferences.getBoolean(DID_USER_WATCHED_ONBOARD)) startActivity(
+            Intent(
+                this, OnboardActivity::class.java
+            )
+        )
+    }
+
+    private fun setAutoLogin() {
+        if (!SharedPreferences.getString(USER_TOKEN).isNullOrBlank()) {
+            startActivity(Intent(this, MainActivity::class.java))
+            if (!isFinishing) finish()
+        }
     }
 
     private fun observeGetTokenResult() {
         viewModel.getTokenResult.observe(this) {
             startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            SharedPreferences.setString(USER_TOKEN, it.data.accessToken)
+            if (!isFinishing) finish()
         }
         viewModel.getErrorResult.observe(this) {
             UserApiClient.instance.logout { showToast("오류 발생, 다시 로그인 해주세요. 사유: ${it.toString()}") }
@@ -49,11 +73,11 @@ class LoginActivity : AppCompatActivity() {
             if (error != null) {
                 Timber.e("로그인 실패 $error")
             } else if (token != null) {
-                Timber.i("로그인 성공 ${token.accessToken}")
-                // 서버에 토큰 달라고 요청
-                viewModel.getToken(RequestTokenDto(token.accessToken, KAKAO, "123"))
+                viewModel.setSocialToken(token.accessToken)
+                viewModel.getToken()
             }
         }
+
         binding.layoutLoginKakao.setOnClickListener {
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                 // 카카오톡 로그인
@@ -74,8 +98,8 @@ class LoginActivity : AppCompatActivity() {
                     }
                     // 로그인 성공 부분
                     else if (token != null) {
-                        Timber.e("로그인 성공 ${token.accessToken}")
-                        viewModel.getToken(RequestTokenDto(token.accessToken, KAKAO, "123"))
+                        viewModel.setSocialToken(token.accessToken)
+                        viewModel.getToken()
                     }
                 }
             } else {
@@ -89,7 +113,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val KAKAO: String = "kakao"
+        const val KAKAO: String = "KAKAO"
+        const val USER_TOKEN = "USER_TOKEN"
+        const val FCM_TOKEN = "FCM_TOKEN"
+        const val DID_USER_WATCHED_ONBOARD = "DID_USER_WATCHED_ONBOARD"
     }
-
 }

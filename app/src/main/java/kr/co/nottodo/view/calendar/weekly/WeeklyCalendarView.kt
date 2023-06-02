@@ -137,7 +137,7 @@ class WeeklyCalendarView @JvmOverloads constructor(
     }
 
     /** 서버 통신된 NotToDo 갯수 갱신 **/
-    fun setNotToDoCount(list: List<Pair<LocalDate?, Double>>) {
+    fun setNotToDoCount(list: List<Pair<LocalDate?, Float>>) {
         weeklyCalendar.setNotToDoCount(
             list = list
         )
@@ -163,6 +163,9 @@ class WeeklyCalendarView @JvmOverloads constructor(
             onWeeklyCalendarSwipeListener = onWeeklyCalendarSwipeListener
         )
     }
+
+    /** 한 주의 일요일 Date를 가져오는 함수 **/
+    fun getCurrentSundayDate() = weeklyCalendar.sundayDate
 
     companion object {
         private const val TAG = "WeeklyCalendarView"

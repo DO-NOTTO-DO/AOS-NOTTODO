@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".Application"
@@ -16,10 +17,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <service
-            android:name=".service.NotTodoFCMService"
-            android:exported="true">
+            android:name=".service.FirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
@@ -47,6 +49,13 @@
             android:exported="false"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:name=".presentation.mypage.view.MyPageInformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.recommendation.main.RecommendationMain"
+            android:exported="false" />
+
+        <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>
@@ -60,6 +69,7 @@
                     android:scheme="${KAKAO_AOUTH_HOST_SCHEME}" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

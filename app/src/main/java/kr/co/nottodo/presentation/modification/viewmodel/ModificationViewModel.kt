@@ -3,11 +3,10 @@ package kr.co.nottodo.presentation.modification.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kr.co.nottodo.data.remote.api.ServicePool.modificationService
 import kr.co.nottodo.data.remote.model.FailureResponseDto
@@ -19,7 +18,6 @@ import timber.log.Timber
 
 class ModificationViewModel : ViewModel() {
 
-    private var originDate: String? = null
     private var originMission: String? = null
     private var originSituation: String? = null
     private var originalActionList: List<String>? = null
@@ -27,11 +25,10 @@ class ModificationViewModel : ViewModel() {
     private var missionId: Long? = null
 
     fun setOriginalData(data: NotTodoData) {
-        originDate = data.date
         originMission = data.mission
         originSituation = data.situation
-        originalActionList = data.actions
-        originGoal = data.goal
+        originalActionList = data.actions ?: emptyList()
+        originGoal = data.goal ?: ""
 
         date.value = data.date
         mission.value = data.mission
@@ -43,18 +40,15 @@ class ModificationViewModel : ViewModel() {
     }
 
     val date: MutableLiveData<String> = MutableLiveData()
-    private val isDateChanged: LiveData<Boolean> = Transformations.map(date) { newDate ->
-        originDate != newDate
-    }
 
     val mission: MutableLiveData<String> = MutableLiveData()
-    private val isMissionChanged: LiveData<Boolean> = Transformations.map(mission) { newMission ->
+    private val isMissionChanged: LiveData<Boolean> = mission.map { newMission ->
         originMission != newMission
     }
 
     val situation: MutableLiveData<String> = MutableLiveData()
     private val isSituationChanged: LiveData<Boolean> =
-        Transformations.map(situation) { newSituation ->
+        situation.map { newSituation ->
             originSituation != newSituation
         }
 
@@ -62,20 +56,17 @@ class ModificationViewModel : ViewModel() {
     val actionCount: MutableLiveData<Int> = MutableLiveData()
     val actionList: MutableLiveData<List<String>> = MutableLiveData()
     private val isActionListChanged: LiveData<Boolean> =
-        Transformations.map(actionList) { newActionList ->
+        actionList.map { newActionList ->
             originalActionList != newActionList
         }
     val goal: MutableLiveData<String> = MutableLiveData()
-    private val isGoalChanged: LiveData<Boolean> = Transformations.map(goal) { newGoal ->
+    private val isGoalChanged: LiveData<Boolean> = goal.map { newGoal ->
         originGoal != newGoal
     }
 
     val isAbleToModify: MediatorLiveData<Boolean> = MediatorLiveData()
 
     init {
-        isAbleToModify.addSource(isDateChanged) {
-            isAbleToModify.value = _isAbleToModify()
-        }
         isAbleToModify.addSource(isMissionChanged) {
             isAbleToModify.value = _isAbleToModify()
         }
@@ -91,7 +82,7 @@ class ModificationViewModel : ViewModel() {
     }
 
     private fun _isAbleToModify(): Boolean =
-        isDateChanged.value == true || isMissionChanged.value == true || isSituationChanged.value == true || isActionListChanged.value == true || isGoalChanged.value == true
+        isMissionChanged.value == true || isSituationChanged.value == true || isActionListChanged.value == true || isGoalChanged.value == true
 
     private val _modificationResponse: MutableLiveData<ResponseModificationDto.Modification> =
         MutableLiveData()

@@ -1,0 +1,58 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_recommendation_category"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="15dp"
+    android:layout_marginTop="16dp"
+    android:background="@drawable/item_my_page_rectangle_gray2_radius10"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="21dp">
+
+    <TextView
+        android:id="@+id/tv_when"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_solid_gray_2_radius_50"
+        android:paddingHorizontal="17dp"
+        android:paddingVertical="4dp"
+        android:text="업무 시간 중"
+        android:textAppearance="@style/M14"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_recommendation_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="유튜브 보지 않기"
+        android:textAppearance="@style/Sb18"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@id/tv_when"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_recommendation_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="3dp"
+        android:src="@drawable/ic_recommendation_main_youtube"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_recommendation_category_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="유튜브를 보지 않는 것이 당신의 일상에\n 어떠한 변화를 일으킬까요?\n행복한 중독해소를 위해 제안해요!"
+        android:textAppearance="@style/L14"
+        android:textColor="@color/gray_4_9398aa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_when" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
