@@ -26,14 +26,13 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        getFCMToken()
         showOnboardForFirstUser()
         setAutoLogin()
         setKakaoLogin()
         observeGetTokenResult()
     }
 
-    private fun getFCMToken() {
+    private fun setFCMToken() {
         FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
             viewModel.setFCMToken(token)
             Timber.tag("fcm").e(token)
@@ -71,6 +70,7 @@ class LoginActivity : AppCompatActivity() {
             if (error != null) {
                 Timber.e("로그인 실패 $error")
             } else if (token != null) {
+                setFCMToken()
                 viewModel.setSocialToken(token.accessToken)
                 viewModel.getToken()
             }
@@ -100,6 +100,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                     // 로그인 성공 부분
                     else if (token != null) {
+                        setFCMToken()
                         viewModel.setSocialToken(token.accessToken)
                         viewModel.getToken()
                     }
