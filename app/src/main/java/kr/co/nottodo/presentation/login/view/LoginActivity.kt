@@ -26,18 +26,17 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        getFCMToken()
         showOnboardForFirstUser()
         setAutoLogin()
         setKakaoLogin()
-        setFCMToken()
         observeGetTokenResult()
     }
 
-    private fun setFCMToken() {
-        if (SharedPreferences.getString(FCM_TOKEN).isNullOrBlank()) {
-            FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
-                SharedPreferences.setString(FCM_TOKEN, token)
-            }
+    private fun getFCMToken() {
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+            viewModel.setFCMToken(token)
+            Timber.tag("fcm").e(token)
         }
     }
 
@@ -77,6 +76,10 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        kakaoLoginBtnClickEvent(kakaoLoginCallback)
+    }
+
+    private fun kakaoLoginBtnClickEvent(kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit) {
         binding.layoutLoginKakao.setOnClickListener {
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                 // 카카오톡 로그인
