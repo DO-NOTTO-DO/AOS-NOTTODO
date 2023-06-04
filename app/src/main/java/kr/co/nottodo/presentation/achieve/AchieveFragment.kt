@@ -41,6 +41,7 @@ class AchieveFragment : Fragment() {
         setActivityBackgroundColor()
         initDay()
         observeData()
+        createDialog()
     }
 
     private fun setActivityBackgroundColor() {
@@ -53,17 +54,6 @@ class AchieveFragment : Fragment() {
             val notTodoRate = it?.map {
                 it.actionDate.convertStringToDate() to it.percentage
             } ?: emptyList()
-
-            val todoList =
-                listOf<Pair<String?, Int>>(
-                    Pair("2023-05-22", 1),
-                    Pair("2023-05-15", 1),
-                    Pair("2023-05-29", 2),
-                    Pair("2023-05-08", 3)
-                )
-            val returnDate = todoList.map {
-                it.first?.convertStringToDate() to it.second
-            }
             binding.achieveCalender.setNotToDoPercentages(notTodoRate)
         }
     }
@@ -73,7 +63,12 @@ class AchieveFragment : Fragment() {
     }
 
     private fun createDialog() {
-//            binding.achieveCalender.setNotToDoCountList()
+        binding.achieveCalender.setOnMonthlyCalendarNextMonthListener { view, dateString ->
+            achieveViewModel.getCalenderRate(dateString)
+        }
+        binding.achieveCalender.setOnMonthlyCalendarPrevMonthListener { view, dateString ->
+            achieveViewModel.getCalenderRate(dateString)
+        }
     }
 
     override fun onDestroyView() {
