@@ -2,11 +2,10 @@ package kr.co.nottodo.presentation.mypage.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-
-import kr.co.nottodo.R
+import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityMyPageInformationBinding
+import kr.co.nottodo.presentation.login.view.LoginActivity
 
 class MyPageInformationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyPageInformationBinding
@@ -19,17 +18,23 @@ class MyPageInformationActivity : AppCompatActivity() {
 
         // tv_member_withdrawal 텍스트뷰 클릭 시 WithdrawalDialogFragment 호출
         binding.tvMemberWithdrawal.setOnClickListener {
-            val withdrawalDialogFragment = WithdrawalDialogFragment()
-            withdrawalDialogFragment.show(supportFragmentManager, "WithdrawalDialog")
+            WithdrawalDialogFragment().show(supportFragmentManager, "WithdrawalDialog")
         }
-        val arrow =
-            findViewById<ImageView>(R.id.iv_my_page_information_arrow)
-        arrow.setOnClickListener {
-            val intent = Intent(this, MyPageActivity::class.java).apply {
-                putExtra("mypage", "fragment")
-            }
-            startActivity(intent)
+
+        binding.ivMyPageInformationArrow.setOnClickListener {
+            if (!isFinishing) finish()
         }
+
+        binding.layoutLogout.setOnClickListener {
+            logout()
+        }
+    }
+
+    private fun logout() {
+        SharedPreferences.clear()
+        SharedPreferences.setBoolean(LoginActivity.DID_USER_WATCHED_ONBOARD, true)
+        startActivity(Intent(this, LoginActivity::class.java))
+        if (!isFinishing) finish()
     }
 }
 

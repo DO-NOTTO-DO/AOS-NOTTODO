@@ -15,7 +15,7 @@ import kr.co.nottodo.databinding.ActivityMainBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.achieve.AchieveFragment
 import kr.co.nottodo.presentation.home.view.HomeFragment
-import kr.co.nottodo.presentation.mypage.view.MyPageActivity
+import kr.co.nottodo.presentation.mypage.view.MyPageFragment
 
 class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     lateinit var binding: ActivityMainBinding
@@ -42,8 +42,10 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
 
     private fun askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
-                PackageManager.PERMISSION_GRANTED
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
             ) {
                 // FCM SDK (and your app) can post notifications.
             } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
@@ -67,8 +69,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
         bottomNavigationViewBackground.shapeAppearanceModel =
             bottomNavigationViewBackground.shapeAppearanceModel.toBuilder()
                 .setTopRightCorner(CornerFamily.ROUNDED, radius)
-                .setTopLeftCorner(CornerFamily.ROUNDED, radius)
-                .build()
+                .setTopLeftCorner(CornerFamily.ROUNDED, radius).build()
 
         if (savedInstanceState == null) {
             changeFragment(HomeFragment())
@@ -79,8 +80,8 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
                 when (it.itemId) {
                     R.id.menu_home -> HomeFragment()
                     R.id.menu_calendar -> AchieveFragment()
-                    R.id.menu_my_page -> MyPageActivity()
-                    else -> MyPageActivity()
+                    R.id.menu_my_page -> MyPageFragment()
+                    else -> MyPageFragment()
                 }
             )
             true
@@ -97,7 +98,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
         when (thisFragment) {
             is HomeFragment -> binding.root.setBackgroundColor(getColor(R.color.bg_f2f2f7))
             is AchieveFragment -> binding.root.setBackgroundColor(getColor(R.color.black))
-            is MyPageActivity -> binding.root.setBackgroundColor(getColor(R.color.black))
+            is MyPageFragment -> binding.root.setBackgroundColor(getColor(R.color.black))
         }
     }
 

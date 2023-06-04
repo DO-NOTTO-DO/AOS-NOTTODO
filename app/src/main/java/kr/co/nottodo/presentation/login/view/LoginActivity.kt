@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -31,9 +32,19 @@ class LoginActivity : AppCompatActivity() {
         observeGetTokenResult()
     }
 
+    private fun setFCMToken() {
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+            viewModel.setFCMToken(token)
+            Timber.tag("fcm").e(token)
+        }
+    }
+
     private fun showOnboardForFirstUser() {
-        if (!SharedPreferences.getBoolean(DID_USER_WATCHED_ONBOARD))
-            startActivity(Intent(this, OnboardActivity::class.java))
+        if (!SharedPreferences.getBoolean(DID_USER_WATCHED_ONBOARD)) startActivity(
+            Intent(
+                this, OnboardActivity::class.java
+            )
+        )
     }
 
     private fun setAutoLogin() {
@@ -59,11 +70,16 @@ class LoginActivity : AppCompatActivity() {
             if (error != null) {
                 Timber.e("로그인 실패 $error")
             } else if (token != null) {
+                setFCMToken()
                 viewModel.setSocialToken(token.accessToken)
                 viewModel.getToken()
             }
         }
 
+        kakaoLoginBtnClickEvent(kakaoLoginCallback)
+    }
+
+    private fun kakaoLoginBtnClickEvent(kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit) {
         binding.layoutLoginKakao.setOnClickListener {
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                 // 카카오톡 로그인
@@ -84,6 +100,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                     // 로그인 성공 부분
                     else if (token != null) {
+                        setFCMToken()
                         viewModel.setSocialToken(token.accessToken)
                         viewModel.getToken()
                     }
