@@ -19,24 +19,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <kr.co.nottodo.view.calendar.monthly.monthlycalendar.MonthlyCalendar
-        android:id="@+id/achieve_calender"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_achieve_calender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="23dp"
-        app:layout_constraintBottom_toTopOf="@id/cl_achieve_wait_description"
-        app:layout_constraintTop_toBottomOf="@id/tv_achieve_title" />
+        app:cardCornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_achieve_title"
+        app:strokeColor="@color/gray_4_9398aa"
+        app:strokeWidth="1dp">
+
+        <kr.co.nottodo.view.calendar.monthly.monthlycalendar.MonthlyCalendar
+            android:id="@+id/achieve_calender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_achieve_wait_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/ic_achieve_total"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/achieve_calender">
+        app:layout_constraintTop_toBottomOf="@id/cv_achieve_calender">
 
         <ImageView
             android:id="@+id/tv_achieve_cone"
