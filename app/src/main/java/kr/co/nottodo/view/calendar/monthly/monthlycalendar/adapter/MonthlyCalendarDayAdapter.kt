@@ -16,7 +16,9 @@ import kr.co.nottodo.view.calendar.monthly.monthlycalendar.viewholder.MonthlyCal
 import kr.co.nottodo.view.calendar.monthly.util.isTheSameDay
 import java.util.Date
 
-class MonthlyCalendarDayAdapter : RecyclerView.Adapter<ViewHolder>() {
+class MonthlyCalendarDayAdapter(
+    private val onSelectDay: (date: Date) -> Unit
+) : RecyclerView.Adapter<ViewHolder>() {
 
     private val calendarItems = mutableListOf<MonthlyCalendarDay>()
 
@@ -29,7 +31,7 @@ class MonthlyCalendarDayAdapter : RecyclerView.Adapter<ViewHolder>() {
                 val binding: ViewMonthlyCalendarDayBinding = DataBindingUtil.inflate(
                     layoutInflater, R.layout.view_monthly_calendar_day, parent, false
                 )
-                MonthlyCalendarDayViewHolder(binding)
+                MonthlyCalendarDayViewHolder(binding, onSelectDay)
             }
             CalendarType.EMPTY.ordinal -> {
                 val binding: ViewMonthlyCalendarEmptyBinding = DataBindingUtil.inflate(
