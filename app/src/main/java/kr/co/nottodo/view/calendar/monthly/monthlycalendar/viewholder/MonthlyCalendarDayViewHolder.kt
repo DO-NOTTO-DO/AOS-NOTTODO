@@ -6,12 +6,20 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ViewMonthlyCalendarDayBinding
 import kr.co.nottodo.view.calendar.monthly.model.MonthlyCalendarDay
+import java.util.Date
 
 class MonthlyCalendarDayViewHolder(
-    private val binding: ViewMonthlyCalendarDayBinding
+    private val binding: ViewMonthlyCalendarDayBinding,
+    private val onSelectDay: (date: Date) -> Unit
 ) : ViewHolder(binding.root) {
 
     private lateinit var dayData: MonthlyCalendarDay.DayMonthly
+
+    init {
+        binding.root.setOnClickListener {
+            onSelectDay(dayData.date)
+        }
+    }
 
     fun onBind(data: MonthlyCalendarDay) {
         if (data is MonthlyCalendarDay.DayMonthly) {

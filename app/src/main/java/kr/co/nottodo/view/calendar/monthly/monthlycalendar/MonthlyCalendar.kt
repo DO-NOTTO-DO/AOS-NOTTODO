@@ -26,6 +26,7 @@ import kr.co.nottodo.view.calendar.monthly.model.DAY_COLUMN_COUNT
 import kr.co.nottodo.view.calendar.monthly.model.DateType
 import kr.co.nottodo.view.calendar.monthly.model.MonthlyCalendarDay
 import kr.co.nottodo.view.calendar.monthly.model.TOTAL_COLUMN_COUNT
+import kr.co.nottodo.view.calendar.monthly.monthlycalendar.listener.MonthlyCalendarDayClickListener
 import kr.co.nottodo.view.calendar.monthly.monthlycalendar.listener.MonthlyCalendarNextMonthListener
 import kr.co.nottodo.view.calendar.monthly.monthlycalendar.listener.MonthlyCalendarPrevMonthListener
 import kr.co.nottodo.view.calendar.monthly.util.*
@@ -47,14 +48,20 @@ class MonthlyCalendar @JvmOverloads constructor(
 
     private val timeZone = TimeZone.getDefault()
     private val locale = Locale.KOREA
-    private val monthlyCalendarDayAdapter = MonthlyCalendarDayAdapter()
-    val calendar = Calendar.getInstance(timeZone, locale)
+    private val monthlyCalendarDayAdapter = MonthlyCalendarDayAdapter(
+        onSelectDay = {
+            selectedDay = it
+            monthlyCalendarDayClickListener?.onSelectDay(it)
+        }
+    )
+    private val calendar = Calendar.getInstance(timeZone, locale)
     private var calendarDataList: List<MonthlyCalendarDay> = listOf()
     private var currentDate = calendar.toPrettyMonthString(locale = locale)
         set(value) {
             field = value
             updateCurrentDateTextView()
         }
+    var selectedDay: Date? = null
 
     private val borderRectF = RectF()
     private val borderPaint = Paint()
@@ -63,6 +70,7 @@ class MonthlyCalendar @JvmOverloads constructor(
 
     private var monthlyCalendarNextMonthListener: MonthlyCalendarNextMonthListener? = null
     private var monthlyCalendarPrevMonthListener: MonthlyCalendarPrevMonthListener? = null
+    private var monthlyCalendarDayClickListener: MonthlyCalendarDayClickListener? = null
 
     private val currentDateTextView = TextView(context, null, R.style.M14).apply {
         id = ViewCompat.generateViewId()
@@ -391,6 +399,14 @@ class MonthlyCalendar @JvmOverloads constructor(
 
     fun setOnMonthlyCalendarPrevMonthListener(block: (view: View, dateString: String) -> Unit) {
         this.monthlyCalendarPrevMonthListener = MonthlyCalendarPrevMonthListener(block)
+    }
+
+    fun setOnMonthlyCalendarDayClickListener(monthlyCalendarDayClickListener: MonthlyCalendarDayClickListener) {
+        this.monthlyCalendarDayClickListener = monthlyCalendarDayClickListener
+    }
+
+    fun setOnMonthlyCalendarDayClickListener(block: (date: Date) -> Unit) {
+        this.monthlyCalendarDayClickListener = MonthlyCalendarDayClickListener(block)
     }
 }
 
