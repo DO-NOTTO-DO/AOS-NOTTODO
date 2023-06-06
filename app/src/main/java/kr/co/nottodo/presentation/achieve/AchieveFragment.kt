@@ -63,6 +63,15 @@ class AchieveFragment : Fragment() {
     }
 
     private fun createDialog() {
+        binding.tvAchieveTitle.setOnClickListener {
+            val customDialog = CustomDialogAchieveFragment()
+            customDialog.show(parentFragmentManager, "CustomDialogFragment")
+            achieveViewModel.getAchieveDialogDaily("2023-06-01")
+        }
+
+    }
+
+    private fun clickMonth() {
         binding.achieveCalender.setOnMonthlyCalendarNextMonthListener { view, dateString ->
             achieveViewModel.getCalenderRate(dateString)
         }

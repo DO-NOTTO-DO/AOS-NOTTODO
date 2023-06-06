@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import kr.co.nottodo.data.model.Home.HomeDailyResponse
 import kr.co.nottodo.data.remote.api.ServicePool
+import kr.co.nottodo.data.remote.api.ServicePool.homeService
 import kr.co.nottodo.data.remote.api.home.AchieveService
 import kr.co.nottodo.data.remote.model.achieve.ResponseAchieveCalenderDto
 import timber.log.Timber
@@ -18,6 +20,10 @@ class AchieveFragmentViewModel : ViewModel() {
         MutableLiveData()
     val calenderCount: LiveData<List<ResponseAchieveCalenderDto.Data>> get() = _calenderCount
 
+    //다이얼로그 상세보기
+    private val _getAchieveDialog: MutableLiveData<List<HomeDailyResponse.HomeDaily>> =
+        MutableLiveData()
+    val getAchieveDialog: LiveData<List<HomeDailyResponse.HomeDaily>> get() = _getAchieveDialog
 
     fun getCalenderRate(date: String) {
         viewModelScope.launch {
@@ -26,6 +32,17 @@ class AchieveFragmentViewModel : ViewModel() {
             }.fold(onSuccess = { _calenderCount.value = it.data },
                 onFailure = {
                     Timber.d("achieve error지롱 ${it.message}")
+                })
+        }
+    }
+
+    fun getAchieveDialogDaily(date: String) {
+        viewModelScope.launch {
+            runCatching {
+                homeService.getHomeDaily(date)
+            }.fold(onSuccess = { _getAchieveDialog.value = it.data.toMutableList() },
+                onFailure = {
+                    Timber.d("error지롱 ${it.message}")
                 })
         }
     }
