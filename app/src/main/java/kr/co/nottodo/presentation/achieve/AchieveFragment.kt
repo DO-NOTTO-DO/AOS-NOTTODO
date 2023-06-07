@@ -19,7 +19,7 @@ class AchieveFragment : Fragment() {
     private val binding: FragmentAchieveBinding get() = requireNotNull(_binding)
     private var onFragmentChangedListener: OnFragmentChangedListener? = null
     private val achieveViewModel by viewModels<AchieveFragmentViewModel>()
-    private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern(YEAR_PATTERN))
+    private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern(MONTH_PATTERN))
     val bundle = Bundle()
 
     override fun onAttach(context: Context) {
@@ -93,6 +93,7 @@ class AchieveFragment : Fragment() {
     }
 
     companion object {
+        const val MONTH_PATTERN = "yyyy-MM"
         const val YEAR_PATTERN = "yyyy-MM-dd"
         const val CLICK_DATE = "CLICK_DATE"
     }
