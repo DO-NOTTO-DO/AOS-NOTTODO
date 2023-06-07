@@ -5,15 +5,15 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <com.airbnb.lottie.LottieAnimationView
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/iv_onboard_second"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="68dp"
+        android:src="@drawable/img_onboard_two"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="false"
-        app:lottie_rawRes="@raw/lottie_onboard_second" />
-
+        app:loopCount="1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

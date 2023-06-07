@@ -35,7 +35,7 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
         lifecycleScope.launch {
             delay(12000) // 12 seconds delay
             changeFragment(OnboardSecondFragment())
-            delay(7000) // additional 6 seconds delay
+            delay(9000) // additional 6 seconds delay
             changeFragment(OnboardThirdFragment())
             binding.layoutOnboardIndicator.visibility = View.VISIBLE
         }
