@@ -2,7 +2,6 @@ package kr.co.nottodo.presentation.achieve
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentAchieveBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.view.calendar.monthly.util.convertStringToDate
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -21,8 +19,8 @@ class AchieveFragment : Fragment() {
     private val binding: FragmentAchieveBinding get() = requireNotNull(_binding)
     private var onFragmentChangedListener: OnFragmentChangedListener? = null
     private val achieveViewModel by viewModels<AchieveFragmentViewModel>()
-    private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM"))
-    private lateinit var selectDay: String
+    private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern(YEAR_PATTERN))
+    val bundle = Bundle()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -73,15 +71,15 @@ class AchieveFragment : Fragment() {
             achieveViewModel.getCalenderRate(dateString)
         }
         binding.achieveCalender.setOnMonthlyCalendarDayClickListener { date ->
-            selectDay = SimpleDateFormat(YEAR_PATTERN).format(date)
+            bundle.putString(CLICK_DATE, achieveViewModel.formatDateToLocal(date))
             createDialog()
         }
     }
 
     private fun createDialog() {
         val customDialog = CustomDialogAchieveFragment()
-        customDialog.show(parentFragmentManager, "CustomDialogFragment")
-        achieveViewModel.getAchieveDialogDaily(selectDay)
+        customDialog.show(childFragmentManager, "CustomDialogFragment")
+        customDialog.arguments = bundle
     }
 
     override fun onDestroyView() {
@@ -96,5 +94,6 @@ class AchieveFragment : Fragment() {
 
     companion object {
         const val YEAR_PATTERN = "yyyy-MM-dd"
+        const val CLICK_DATE = "CLICK_DATE"
     }
 }

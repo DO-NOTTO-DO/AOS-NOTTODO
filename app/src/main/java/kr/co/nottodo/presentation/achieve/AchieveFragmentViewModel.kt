@@ -11,6 +11,8 @@ import kr.co.nottodo.data.remote.api.ServicePool.homeService
 import kr.co.nottodo.data.remote.api.home.AchieveService
 import kr.co.nottodo.data.remote.model.achieve.ResponseAchieveCalenderDto
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AchieveFragmentViewModel : ViewModel() {
     private val achieveService: AchieveService = ServicePool.achieveService
@@ -40,10 +42,16 @@ class AchieveFragmentViewModel : ViewModel() {
         viewModelScope.launch {
             runCatching {
                 homeService.getHomeDaily(date)
-            }.fold(onSuccess = { _getAchieveDialog.value = it.data.toMutableList() },
+            }.fold(onSuccess = {
+                _getAchieveDialog.value = it.data.toMutableList()
+            },
                 onFailure = {
                     Timber.d("error지롱 ${it.message}")
                 })
         }
+    }
+
+    fun formatDateToLocal(date: Date): String {
+        return SimpleDateFormat(AchieveFragment.YEAR_PATTERN).format(date)
     }
 }

@@ -1,15 +1,14 @@
 package kr.co.nottodo.presentation.achieve
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentCustomDialogAchieveBinding
 import kr.co.nottodo.databinding.ItemAchieveDialogBinding
+import kr.co.nottodo.presentation.achieve.AchieveFragment.Companion.CLICK_DATE
 
 class CustomDialogAchieveFragment() : DialogFragment() {
 
@@ -17,25 +16,25 @@ class CustomDialogAchieveFragment() : DialogFragment() {
     private val binding get() = _binding!!
     private val achieveViewModel by viewModels<AchieveFragmentViewModel>()
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = FragmentCustomDialogAchieveBinding.inflate(LayoutInflater.from(context))
-        return AlertDialog.Builder(requireActivity())
-            .setView(binding.root)
-            .create()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentCustomDialogAchieveBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        achieveViewModel.getAchieveDialogDaily("2023-06-01")
         setData()
-        Log.d("achieveDialog0", "setData: ")
+        val selectDay = requireArguments().getString(CLICK_DATE)
+        binding.tvAchieveDate.text = selectDay
+        achieveViewModel.getAchieveDialogDaily(selectDay.toString())
     }
 
     private fun setData() {
-        Log.d("achieveDialog1", "setData: ")
-        binding.tvAchieveDate
         achieveViewModel.getAchieveDialog.observe(viewLifecycleOwner) {
-            Log.d("achieveDialog", "setData: $it")
             //동적추가
             binding.layoutAchieveTodo.run {
                 val createLinearBindinding = {
