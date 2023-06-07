@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -657,6 +658,11 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun initRecyclerView(setMissionName: (String) -> Unit) {
         binding.rvModificationMission.adapter = MissionHistoryAdapter(this, setMissionName)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        hideKeyboard()
+        return super.dispatchTouchEvent(ev)
     }
 
     companion object {
