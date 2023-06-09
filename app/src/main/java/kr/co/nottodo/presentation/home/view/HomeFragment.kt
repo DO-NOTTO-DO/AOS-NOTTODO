@@ -3,7 +3,6 @@ package kr.co.nottodo.presentation.home.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
-
 import kr.co.nottodo.presentation.recommendation.main.RecommendationMain
-
-import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
-
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import timber.log.Timber
 import java.time.LocalDate
@@ -50,7 +45,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         homeViewModel.getHomeWeekly(todayData)
         initAdapter()
-        //todo 더미 바꿔야 됨, weeklyTodo로..?
         homeViewModel.getHomeDaily(weeklyData)
         setActivityBackgroundColor()
         observerData()
@@ -80,7 +74,7 @@ class HomeFragment : Fragment() {
             binding.weeklyCalendar.setNotToDoCount(notToDoCountList)
         }
         homeViewModel.deleteTodo.observe(viewLifecycleOwner) {
-            //todo 왜 observer안돼 끄흡이다
+            //todo 왜 observer안돼 끄흡이다, 어디서 만들어자는지 한번 보기
             Timber.tag("deleteTodo").e("$it")
             homeViewModel.getHomeDaily(weeklyData)
             homeAdapter.submitList(homeViewModel.getHomeDaily.value)
@@ -103,6 +97,7 @@ class HomeFragment : Fragment() {
 
     private fun menuItemClick(index: Long) {
         val bundle = Bundle()
+        bundle.putLong(MISSION_ID, index)
         bundle.putLong(MISSION_ID, index)
         val bottomSheetFragment = HomeMenuBottomSheetFragment()
         bottomSheetFragment.arguments = bundle

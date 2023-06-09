@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -41,6 +40,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         initData(requireArguments().getLong(MISSION_ID))
         getMissionData()
         setOnClick()
+        clickAddAnotherDay()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -66,7 +66,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         binding.tvHomeDialogAddDay.setOnClickListener {
 //            val calendarBottomSheet = DialogFragment(this)
 //            dialog.mypageShowDeleteDialog(R.layout.custom_mypage_dialog)
-
+            val dialogFragment = HomeDoAnotherFragment()
+            dialogFragment.show(childFragmentManager, "dialog_fragment")
 
         }
         binding.btnHomeDelete.setOnClickListener {
@@ -120,6 +121,12 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
 //        changeParcle =
 //            actionHome?.map { ParcelizeBottomDetail.Action(it.name) }
 //                ?: throw IllegalArgumentException()
+    }
+
+    private fun clickAddAnotherDay() {
+        binding.tvHomeDialogDoAnother.setOnClickListener {
+
+        }
     }
 
     private fun clickDelete(missionId: Long) {

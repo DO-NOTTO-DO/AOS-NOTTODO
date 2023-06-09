@@ -69,6 +69,12 @@ class HomeAdpater(
             }
         }
 
+        private fun setUncompleteTodo() {
+            binding.clHomeCheckTodo.visibility = View.INVISIBLE
+            binding.vHomeCompleteTodo.visibility = View.INVISIBLE
+            binding.ivHomeTodoCheck.isChecked = false
+        }
+
         private fun parseCheckTodo(bindingCheck: Boolean): String {
             Timber.tag("todo 잘 보내지니?${bindingCheck}")
             val check = if (bindingCheck) {
@@ -77,12 +83,6 @@ class HomeAdpater(
                 UNCHECKED
             }
             return check
-        }
-
-        private fun setUncompleteTodo() {
-            binding.clHomeCheckTodo.visibility = View.INVISIBLE
-            binding.vHomeCompleteTodo.visibility = View.INVISIBLE
-            binding.ivHomeTodoCheck.isChecked = false
         }
     }
 
