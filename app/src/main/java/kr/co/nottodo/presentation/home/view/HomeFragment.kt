@@ -3,7 +3,6 @@ package kr.co.nottodo.presentation.home.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
-
 import kr.co.nottodo.presentation.recommendation.main.RecommendationMain
-
-import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
-
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import timber.log.Timber
 import java.time.LocalDate
@@ -29,7 +24,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeAdapter: HomeAdpater
     private var onFragmentChangedListener: OnFragmentChangedListener? = null
     private val homeViewModel by viewModels<HomeViewModel>()
-    private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern(YEAR_PATTERN))
     private var weeklyData = todayData
 
     override fun onAttach(context: Context) {
@@ -48,15 +43,15 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        homeViewModel.getHomeWeekly(todayData)
+        homeViewModel.getHomeWeekly(binding.weeklyCalendar.getCurrentSundayDate().toString())
         initAdapter()
-        //todo 더미 바꿔야 됨, weeklyTodo로..?
         homeViewModel.getHomeDaily(weeklyData)
         setActivityBackgroundColor()
         observerData()
         clickFloatingBtn()
         setWeeklyDate()
         initMonth()
+
     }
 
     private fun observerData() {
