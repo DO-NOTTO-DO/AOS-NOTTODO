@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rectangle_white_radius15"
+    tools:context=".presentation.achieve.CustomDialogAchieveFragment">
+
+    <TextView
+        android:id="@+id/tv_achieve_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        tools:text="2022년 12월 11일"
+        android:textAppearance="@style/Sb18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layout_achieve_todo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/tv_achieve_date" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

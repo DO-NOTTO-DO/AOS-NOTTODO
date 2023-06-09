@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeAdapter: HomeAdpater
     private var onFragmentChangedListener: OnFragmentChangedListener? = null
     private val homeViewModel by viewModels<HomeViewModel>()
-    private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern(YEAR_PATTERN))
     private var weeklyData = todayData
 
     override fun onAttach(context: Context) {
@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        homeViewModel.getHomeWeekly(todayData)
+        homeViewModel.getHomeWeekly(binding.weeklyCalendar.getCurrentSundayDate().toString())
         initAdapter()
         homeViewModel.getHomeDaily(weeklyData)
         setActivityBackgroundColor()
@@ -51,6 +51,7 @@ class HomeFragment : Fragment() {
         clickFloatingBtn()
         setWeeklyDate()
         initMonth()
+
     }
 
     private fun observerData() {
