@@ -1,6 +1,7 @@
 package kr.co.nottodo.data.remote.api.home
 
 import kr.co.nottodo.data.model.Home.HomeDailyResponse
+import kr.co.nottodo.data.model.Home.RequestHomeDoAnotherDay
 import kr.co.nottodo.data.model.Home.RequestHomeMissionCheck
 import kr.co.nottodo.data.model.Home.ResponseHomeMissionCheckDto
 import kr.co.nottodo.data.remote.model.FailureResponseDto
@@ -33,5 +34,11 @@ interface HomeService {
     @DELETE("mission/{missionId}")
     suspend fun deleteTodo(
         @Path("missionId") missionId: Long
+    ): FailureResponseDto
+
+    @POST("mission/{missionId}")
+    suspend fun postDoAnotherDay(
+        @Path("missionId") missionId: Long,
+        @Body dates: List<RequestHomeDoAnotherDay>
     ): FailureResponseDto
 }

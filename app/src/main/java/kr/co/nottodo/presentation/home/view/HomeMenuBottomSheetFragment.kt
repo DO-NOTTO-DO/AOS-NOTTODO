@@ -28,12 +28,9 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private val binding: FragmentHomeMenuBottomSheetBinding
         get() = requireNotNull(_binding)
     private val viewModel by activityViewModels<HomeViewModel>()
-
-    //    private lateinit var detailData: ParcelizeBottomDetail
-    private lateinit var detailActionData: ParcelizeBottomDetail.Action
+    val bundle = Bundle()
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
-    //    private lateinit var changeParcle: List<ParcelizeBottomDetail.Action>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -71,6 +68,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         }
         binding.tvHomeDialogAddDay.setOnClickListener {
             val dialogFragment = HomeDoAnotherFragment()
+            dialogFragment.arguments = bundle
             dialogFragment.show(childFragmentManager, "dialog_fragment")
         }
         binding.btnHomeDelete.setOnClickListener {
@@ -90,6 +88,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
                 tvHomeDialogStatics.text = completeCount
                 tvHomeDialogSituation.text = it.situation
             }
+
+            bundle.putLong(MISSION_ID, it.id)
             parcelizeData(it)
         }
     }
@@ -180,5 +180,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         const val DETAIL = "DETAIL"
+        const val MISSIONID = "MISSIONID"
     }
 }
