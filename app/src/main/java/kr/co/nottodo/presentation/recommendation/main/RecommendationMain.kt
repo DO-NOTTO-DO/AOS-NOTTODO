@@ -1,5 +1,6 @@
 package kr.co.nottodo.presentation.recommendation.main
 
+import RecommendationAction
 import RecommendationMainListViewAdapter
 import android.app.Activity
 import android.content.Intent
@@ -8,7 +9,6 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
-import kr.co.nottodo.presentation.recommendation.action.RecommendationAction
 
 class RecommendationMain : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +31,6 @@ class RecommendationMain : Activity() {
         val exitButton = findViewById<View>(R.id.iv_recommendation_main_exit)
         exitButton.setOnClickListener { finish() }
 
-        // RecyclerView 아이템 클릭 이벤트 처리
         // RecyclerView 아이템 클릭 이벤트 처리
         adapter.setOnItemClickListener(object : RecommendationMainListViewAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
