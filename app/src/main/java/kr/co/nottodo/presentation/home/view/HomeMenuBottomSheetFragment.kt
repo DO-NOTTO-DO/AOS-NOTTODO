@@ -28,7 +28,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private val binding: FragmentHomeMenuBottomSheetBinding
         get() = requireNotNull(_binding)
     private val viewModel by activityViewModels<HomeViewModel>()
-    private lateinit var detailData: ParcelizeBottomDetail
+//    private lateinit var detailData: ParcelizeBottomDetail
     private lateinit var detailActionData: ParcelizeBottomDetail.Action
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
@@ -109,8 +109,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun parcelizeData(item: ResponHomeMissionDetail.HomeMissionDetail) {
         val actionHome = item.actions
-        //todo 뭔가 여기 전역변수 쓰면 안될거 같은데.. 나중에 바꿔라 윤둉아
-        detailData =
+//        detailData =
             ParcelizeBottomDetail(
                 item.id,
                 item.title,
