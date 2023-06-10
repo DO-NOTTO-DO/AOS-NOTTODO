@@ -99,7 +99,6 @@ class HomeFragment : Fragment() {
     private fun menuItemClick(index: Long) {
         val bundle = Bundle()
         bundle.putLong(MISSION_ID, index)
-        bundle.putLong(MISSION_ID, index)
         val bottomSheetFragment = HomeMenuBottomSheetFragment()
         bottomSheetFragment.arguments = bundle
         bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
