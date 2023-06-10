@@ -44,5 +44,7 @@
     <string name="channel_id">kr.co.nottodo.channel</string>
     <string name="channel_name">낫투두 알림</string>
     <string name="channel_desc">낫투두 알림을 위한 채널</string>
+    <!--my_page-->
+    <string name="version">버전 정보 1.0.0</string>
 
 </resources>
