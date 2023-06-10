@@ -74,6 +74,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.ReleaseNotToDo" />
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Theme.ReleaseNotToDo" />
     </application>
 
 </manifest>
