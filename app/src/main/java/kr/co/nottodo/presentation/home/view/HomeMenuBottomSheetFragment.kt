@@ -28,7 +28,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private val binding: FragmentHomeMenuBottomSheetBinding
         get() = requireNotNull(_binding)
     private val viewModel by activityViewModels<HomeViewModel>()
-//    private lateinit var detailData: ParcelizeBottomDetail
+
+    //    private lateinit var detailData: ParcelizeBottomDetail
     private lateinit var detailActionData: ParcelizeBottomDetail.Action
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
@@ -82,14 +83,25 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private fun getMissionData() {
         viewModel.getHomeBottomDetail.observe(viewLifecycleOwner) {
             val completeCount = getString(R.string.home_dialog_statics, it.count)
+            isEmptyActions(it)
+            isGoalEmpty(it.goal)
             with(binding) {
-                tvHomeDialogGoalDescription.text = it.goal
-                tvHomeDialogSituation.text = it.situation
                 tvHomeDialogNotodo.text = it.title
-                tvHomeDialogGoalDescription.text = it.goal
                 tvHomeDialogStatics.text = completeCount
+                tvHomeDialogSituation.text = it.situation
             }
-            //동적추가
+            parcelizeData(it)
+        }
+    }
+
+    private fun isEmptyActions(it: ResponHomeMissionDetail.HomeMissionDetail) {
+        if (it.actions.isNullOrEmpty()) {
+            binding.tvHomeBottomActionEmptyDescription.visibility = View.VISIBLE
+            binding.ivActionEmpty.visibility = View.VISIBLE
+            binding.linearHomeAction.run { removeAllViews() }
+        } else {
+            binding.tvHomeBottomActionEmptyDescription.visibility = View.GONE
+            binding.ivActionEmpty.visibility = View.GONE
             binding.linearHomeAction.run {
                 val createLinearBindinding = {
                     ItemHomeBottomActionsBinding.inflate(LayoutInflater.from(binding.root.context))
@@ -103,21 +115,31 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
                     addView(it.root)
                 }
             }
-            parcelizeData(it)
+        }
+    }
+
+    private fun isGoalEmpty(it: String?) {
+        if (it.isNullOrEmpty()) {
+            binding.tvHomeBottomGoalEmpty.visibility = View.VISIBLE
+            binding.ivHomeBottomGoalEmpty.visibility = View.VISIBLE
+        } else {
+            binding.tvHomeBottomGoalEmpty.visibility = View.GONE
+            binding.ivHomeBottomGoalEmpty.visibility = View.GONE
+            binding.tvHomeDialogGoalDescription.text = it
         }
     }
 
     private fun parcelizeData(item: ResponHomeMissionDetail.HomeMissionDetail) {
         val actionHome = item.actions
 //        detailData =
-            ParcelizeBottomDetail(
-                item.id,
-                item.title,
-                item.situation,
-                actionHome?.map { ParcelizeBottomDetail.Action(it.name) },
-                item.count,
-                item.goal
-            )
+        ParcelizeBottomDetail(
+            item.id,
+            item.title,
+            item.situation,
+            actionHome?.map { ParcelizeBottomDetail.Action(it.name) },
+            item.count,
+            item.goal
+        )
     }
 
     private fun getModifyData() {
@@ -148,6 +170,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun clickDelete(missionId: Long) {
         viewModel.deleteTodo(missionId)
+
     }
 
     override fun onDestroyView() {
