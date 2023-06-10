@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import kr.co.nottodo.databinding.FragmentMyPageBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 
@@ -44,6 +45,13 @@ class MyPageFragment : Fragment() {
         setNoticeClickEvent()
         setContactClickEvent()
         setPoliciesClickEvent()
+        setOssClickEvent()
+    }
+
+    private fun setOssClickEvent() {
+        binding.layoutMyPageOss.setOnClickListener {
+            startActivity(Intent(requireContext(), OssLicensesMenuActivity::class.java))
+        }
     }
 
     private fun setPoliciesClickEvent() {
