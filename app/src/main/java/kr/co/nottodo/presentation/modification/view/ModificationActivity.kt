@@ -1,5 +1,6 @@
 package kr.co.nottodo.presentation.modification.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -15,9 +16,10 @@ import androidx.databinding.DataBindingUtil
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.ParcelizeBottomDetail
+import kr.co.nottodo.data.local.ParcelizeBottomDetailRegister
 import kr.co.nottodo.databinding.ActivityModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
-import kr.co.nottodo.presentation.home.view.HomeMenuBottomSheetFragment
+import kr.co.nottodo.presentation.home.view.HomeMenuBottomSheetFragment.Companion.DETAIL
 import kr.co.nottodo.presentation.modification.viewmodel.ModificationViewModel
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.getParcelable
@@ -80,6 +82,17 @@ class ModificationActivity : AppCompatActivity() {
     private fun observeSuccessResponse() {
         viewModel.modificationResponse.observe(this) { response ->
             showToast("낫투두 수정 완료")
+            val actionList = response.actions?.map {
+                ParcelizeBottomDetailRegister.Action(it.name)
+            } ?: emptyList()
+            val resultExtraIntent = Intent().apply {
+                putExtra(
+                    DETAIL, ParcelizeBottomDetailRegister(
+                        response.title, response.situation, actionList, response.goal
+                    )
+                )
+            }
+            setResult(RESULT_OK, resultExtraIntent)
             if (!isFinishing) finish()
         }
     }
@@ -91,26 +104,21 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        val dataFromHome = intent.getParcelable(
-            HomeMenuBottomSheetFragment.DETAIL,
-            ParcelizeBottomDetail::class.java
-        )
-
-        if (dataFromHome != null) {
-            viewModel.setOriginalData(
-                NotTodoData(
-                    "2023.01.15",
-                    dataFromHome.title,
-                    dataFromHome.situation,
-                    dataFromHome.actions?.map { action -> action.name.toString() },
-                    dataFromHome.goal,
-                    dataFromHome.id
-                )
-            )
-        } else {
-            showToast("오류로 인해 해당 낫투두를 수정할 수 없습니다.")
+        val dataFromHome = intent.getParcelable(DETAIL, ParcelizeBottomDetail::class.java)
+        if (dataFromHome == null) {
+            showToast("오류로 인해 해당 낫투두를 수정할 수 없습니다")
             if (!isFinishing) finish()
         }
+        viewModel.setOriginalData(
+            NotTodoData(
+                "2023.01.15",
+                dataFromHome!!.title,
+                dataFromHome.situation,
+                dataFromHome.actions?.map { action -> action.name.toString() },
+                dataFromHome.goal,
+                dataFromHome.id
+            )
+        )
     }
 
     private fun setThirdAction() {
