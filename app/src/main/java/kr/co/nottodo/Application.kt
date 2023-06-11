@@ -38,11 +38,11 @@ class Application : Application(), OnTokenExpiredListener {
     }
 
     override fun onTokenExpired() {
-        logoutAndNavigateToLogin()
+        logout()
     }
 
-    private fun logoutAndNavigateToLogin() {
-        logout()
+    private fun logout() {
+        clearForLogout()
         navigateToLogin()
     }
 
@@ -52,7 +52,7 @@ class Application : Application(), OnTokenExpiredListener {
         )
     )
 
-    private fun logout() {
+    private fun clearForLogout() {
         SharedPreferences.apply {
             clearForLogout()
             setBoolean(LoginActivity.DID_USER_WATCHED_ONBOARD, true)
