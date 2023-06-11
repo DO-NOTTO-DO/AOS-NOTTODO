@@ -11,8 +11,7 @@ import kr.co.nottodo.data.model.Home.RequestHomeDoAnotherDay
 import kr.co.nottodo.databinding.FragmentHomeDoAnotherBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
-import java.util.*
-import kotlin.collections.List
+import java.util.Date
 
 
 class HomeDoAnotherFragment : DialogFragment() {
@@ -37,7 +36,7 @@ class HomeDoAnotherFragment : DialogFragment() {
 
     private fun clickDone(missionID: Long) {
         val apiDateList = binding.homeDoAnotherCalendar.selectedDays.map {
-            it.convertDateToString()!!
+            RequestHomeDoAnotherDay(it.convertDateToString()!!)
         }
         binding.tvHomeCalendarSelectDone.setOnClickListener {
             calenderViewModel.postDoAnotherDay(
@@ -55,7 +54,7 @@ class HomeDoAnotherFragment : DialogFragment() {
         }
         Log.d("addDates", "addDate: $dates")
 
-        print(apiDateList)
+//        print(apiDateList)
     }
 
     override fun onDestroyView() {
