@@ -1,13 +1,10 @@
 package kr.co.nottodo.data.remote.api
 
-import RecommendationMainListDTO
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import kr.co.nottodo.BuildConfig
 import kr.co.nottodo.data.remote.api.home.HomeService
 import kr.co.nottodo.presentation.recommendation.dto.RecommendationActionListService
-import kr.co.nottodo.presentation.recommendation.dto.RecommendationActionTitleService
-import kr.co.nottodo.presentation.recommendation.dto.RecommendationMainListService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

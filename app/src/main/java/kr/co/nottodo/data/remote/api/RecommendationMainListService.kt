@@ -1,4 +1,4 @@
-package kr.co.nottodo.presentation.recommendation.dto
+package kr.co.nottodo.data.remote.api
 
 import RecommendationMainListDTO
 import retrofit2.http.GET
