@@ -4,7 +4,6 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.json.Json
 import kr.co.nottodo.BuildConfig
 import kr.co.nottodo.data.remote.api.home.HomeService
-import kr.co.nottodo.presentation.recommendation.dto.RecommendationActionListService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
