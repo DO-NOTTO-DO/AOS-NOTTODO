@@ -7,9 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.nottodo.data.remote.api.ServicePool
-import retrofit2.http.Path
 import timber.log.Timber
-
 
 class RecommendationViewModel : ViewModel() {
     private val recommendationMainListService by lazy { ServicePool.recommendationMainListService }
@@ -30,9 +28,8 @@ class RecommendationViewModel : ViewModel() {
 
     init {
         fetchRecommendationMainList()
-
+        fetchRecommendationCategoryList(0)
     }
-
 
     fun fetchRecommendationMainList() {
         viewModelScope.launch {
@@ -55,7 +52,6 @@ class RecommendationViewModel : ViewModel() {
         }
     }
 
-
     fun fetchRecommendationCategoryList(id: Int) {
         viewModelScope.launch {
             runCatching {
@@ -76,10 +72,6 @@ class RecommendationViewModel : ViewModel() {
                 _categoryList.value = emptyList()
             }
         }
+        _categoryId.value = id
     }
-
-    init {
-        fetchRecommendationCategoryList(0) // 예시로 0을 전달하여 호출
-    }
-
 }
