@@ -5,6 +5,7 @@ import kotlinx.serialization.json.Json
 import kr.co.nottodo.BuildConfig
 import kr.co.nottodo.data.remote.api.home.AchieveService
 import kr.co.nottodo.data.remote.api.home.HomeService
+import kr.co.nottodo.listeners.OnTokenExpiredListener
 import kr.co.nottodo.presentation.recommendation.dto.RecommendationActionListService
 import kr.co.nottodo.presentation.recommendation.dto.RecommendationActionTitleService
 import okhttp3.MediaType.Companion.toMediaType
@@ -19,16 +20,17 @@ object ApiFactory {
         }
     }
 
-    private val client by lazy {
-        OkHttpClient.Builder().addInterceptor(TokenInterceptor())
+    private lateinit var client: OkHttpClient
+    lateinit var retrofit: Retrofit
+
+    fun initRetrofit(onTokenExpiredListener: OnTokenExpiredListener) {
+        client = OkHttpClient.Builder().addInterceptor(TokenInterceptor(onTokenExpiredListener))
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level =
                     if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
             }).build()
-    }
 
-    val retrofit: Retrofit by lazy {
-        Retrofit.Builder().baseUrl(BuildConfig.BASE_URL).client(client)
+        retrofit = Retrofit.Builder().baseUrl(BuildConfig.BASE_URL).client(client)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType())).build()
     }
 
