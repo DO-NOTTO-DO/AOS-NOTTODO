@@ -54,6 +54,50 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+//    private fun setKakaoLogin() {
+//        val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+//            if (error != null) {
+//                Timber.e("로그인 실패 $error")
+//            } else if (token != null) {
+//                viewModel.setSocialToken(token.accessToken)
+//                viewModel.getToken()
+//            }
+//        }
+//
+//        binding.layoutLoginKakao.setOnClickListener {
+//            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+//                // 카카오톡 로그인
+//                UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
+//                    // 로그인 실패 부분
+//                    if (error != null) {
+//                        Timber.e("로그인 실패 $error")
+//                        // 사용자 취소
+//                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+//                            return@loginWithKakaoTalk
+//                        }
+//                        // 다른 오류 - 카톡으로 안 될 경우
+//                        else {
+//                            UserApiClient.instance.loginWithKakaoAccount(
+//                                this, callback = kakaoLoginCallback
+//                            ) // 카카오 이메일 로그인
+//                        }
+//                    }
+//                    // 로그인 성공 부분
+//                    else if (token != null) {
+//                        viewModel.setSocialToken(token.accessToken)
+//                        viewModel.getToken()
+//                    }
+//                }
+//            } else {
+//                Timber.d("카카오톡이 설치되어 있지 않습니다.")
+//                // 카카오 이메일 로그인
+//                UserApiClient.instance.loginWithKakaoAccount(
+//                    this, callback = kakaoLoginCallback
+//                )
+//            }
+//        }
+//    }
+
     private fun setKakaoLogin() {
         val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
@@ -65,6 +109,9 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.layoutLoginKakao.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            // Handle the logic specific to iv_login_label_kakao here
+
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                 // 카카오톡 로그인
                 UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
@@ -97,6 +144,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
 
     companion object {
         const val KAKAO: String = "KAKAO"

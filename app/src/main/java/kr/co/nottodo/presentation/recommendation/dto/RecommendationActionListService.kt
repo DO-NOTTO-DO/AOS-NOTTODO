@@ -6,5 +6,5 @@ import retrofit2.http.Path
 
 interface RecommendationActionListService  {
     @GET("environment/{id}")
-    suspend fun getActionList(@Path("id") id: Int): RecommendationActionListDTO
+    suspend fun getActionCategoryList(@Path("id") id: Int): RecommendationActionListDTO
 }

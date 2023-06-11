@@ -1,11 +1,9 @@
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.databinding.ItemRecommendationMainBinding
-import kr.co.nottodo.presentation.recommendation.action.RecommendationAction
 
 class RecommendationMainListViewAdapter :
     ListAdapter<RecommendationMainListDTO.MainList, RecommendationMainListViewAdapter.RecommendationMainListViewHolder>(
@@ -29,6 +27,7 @@ class RecommendationMainListViewAdapter :
     override fun onBindViewHolder(holder: RecommendationMainListViewHolder, position: Int) {
         holder.onBind(currentList[position], itemClickListener)
     }
+
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.itemClickListener = listener
@@ -55,6 +54,7 @@ class RecommendationMainListViewAdapter :
             }
         }
     }
+
 
     companion object {
         private val diffUtil =

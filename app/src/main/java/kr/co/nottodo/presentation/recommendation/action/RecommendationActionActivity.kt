@@ -2,8 +2,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
-import kr.co.nottodo.presentation.recommendation.action.RecommendationActionListAdapter
-class RecommendationAction : AppCompatActivity() {
+
+class RecommendationActionActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecommendationActionListAdapter

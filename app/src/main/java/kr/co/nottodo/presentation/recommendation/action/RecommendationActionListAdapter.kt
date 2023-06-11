@@ -1,5 +1,3 @@
-package kr.co.nottodo.presentation.recommendation.action
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,7 +7,7 @@ import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ItemRecommendationActionCategoryBinding
 
 class RecommendationActionListAdapter :
-    ListAdapter<RecommendationActionListDTO.ActionList, RecommendationActionListAdapter.RecommendationActionListViewHolder>(
+    ListAdapter<RecommendationActionListDTO.ActionList.CategoryList, RecommendationActionListAdapter.RecommendationActionListViewHolder>(
         diffUtilCallback
     ) {
 
@@ -41,17 +39,17 @@ class RecommendationActionListAdapter :
     }
 
     companion object {
-        private val diffUtilCallback = object : DiffUtil.ItemCallback<RecommendationActionListDTO.ActionList>() {
+        private val diffUtilCallback = object : DiffUtil.ItemCallback<RecommendationActionListDTO.ActionList.CategoryList>() {
             override fun areItemsTheSame(
-                oldItem: RecommendationActionListDTO.ActionList,
-                newItem: RecommendationActionListDTO.ActionList
+                oldItem: RecommendationActionListDTO.ActionList.CategoryList,
+                newItem: RecommendationActionListDTO.ActionList.CategoryList
             ): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem.name == newItem.name
             }
 
             override fun areContentsTheSame(
-                oldItem: RecommendationActionListDTO.ActionList,
-                newItem: RecommendationActionListDTO.ActionList
+                oldItem: RecommendationActionListDTO.ActionList.CategoryList,
+                newItem: RecommendationActionListDTO.ActionList.CategoryList
             ): Boolean {
                 return oldItem == newItem
             }
@@ -62,12 +60,12 @@ class RecommendationActionListAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(
-            data: RecommendationActionListDTO.ActionList,
+            data: RecommendationActionListDTO.ActionList.CategoryList,
             position: Int,
             listener: OnItemClickListener?,
             selectedItemPosition: Int
         ) {
-            binding.tvRecommendationActionCategory.text = data.title
+            binding.tvRecommendationActionCategory.text = data.name
 
             if (position == selectedItemPosition) {
                 // 선택된 아이템인 경우의 처리

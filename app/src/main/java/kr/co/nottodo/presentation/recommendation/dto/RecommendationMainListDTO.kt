@@ -16,7 +16,6 @@ data class RecommendationMainListDTO(
     val data: List<MainList>
 ) {
 
-
     @Serializable
     data class MainList(
         @SerialName("id")

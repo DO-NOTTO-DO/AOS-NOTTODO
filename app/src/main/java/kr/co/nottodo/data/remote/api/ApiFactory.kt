@@ -7,6 +7,7 @@ import kr.co.nottodo.BuildConfig
 import kr.co.nottodo.data.remote.api.home.HomeService
 import kr.co.nottodo.presentation.recommendation.dto.RecommendationActionListService
 import kr.co.nottodo.presentation.recommendation.dto.RecommendationActionTitleService
+import kr.co.nottodo.presentation.recommendation.dto.RecommendationMainListService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -55,10 +56,12 @@ object ApiFactory {
 }
 
 object ServicePool {
+
     val tokenService = ApiFactory.createForToken<TokenService>()
     val additionService = ApiFactory.create<AdditionService>()
     val homeService = ApiFactory.create<HomeService>()
     val modificationService = ApiFactory.create<ModificationService>()
     val recommendationActionListService = ApiFactory.create<RecommendationActionListService>()
     val recommendationActionTitleService = ApiFactory.create<RecommendationActionTitleService>()
+    val recommendationMainListService = ApiFactory.create<RecommendationMainListService>()
 }
