@@ -150,5 +150,6 @@ class HomeFragment : Fragment() {
         const val MONTH_PATTERN = "yyyy.MM"
         const val YEAR_PATTERN = "yyyy-MM-dd"
         const val MISSION_ID = "MISSION_ID"
+        const val CLICK_DAY = "CLICK_DAY"
     }
 }

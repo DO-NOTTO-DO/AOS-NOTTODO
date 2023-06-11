@@ -32,6 +32,9 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var modifyParcelizeExtra: ParcelizeBottomDetail
 
+    private var getMissionID: Long = 0
+//    private var getMissionID: Long? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -42,7 +45,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initData(requireArguments().getLong(MISSION_ID))
+        getMissionID = requireArguments().getLong(MISSION_ID)
+        initData(getMissionID)
         getMissionData()
         setOnClick()
         clickAddAnotherDay()
@@ -154,7 +158,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
                     if (parcelableData != null) {
                         binding.tvHomeDialogSituation.text = parcelableData.title
                         binding.tvHomeDialogNotodo.text = parcelableData.situation
-                        binding.tvHomeDialogGoal.text = parcelableData.goal
+                        binding.tvHomeDialogGoalDescription.text = parcelableData.goal
                         // 데이터 클래스 값 사용
                     }
                     viewModel.getHomeBottomDetail(requireArguments().getLong(MISSION_ID))
@@ -174,6 +178,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     override fun onDestroyView() {
+//        viewModel.getHomeDaily()
         _binding = null
         super.onDestroyView()
     }
@@ -181,5 +186,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     companion object {
         const val DETAIL = "DETAIL"
         const val MISSIONID = "MISSIONID"
+
     }
 }
