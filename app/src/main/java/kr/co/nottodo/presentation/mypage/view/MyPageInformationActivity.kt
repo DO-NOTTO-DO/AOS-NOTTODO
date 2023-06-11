@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityMyPageInformationBinding
 import kr.co.nottodo.presentation.login.view.LoginActivity
+import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_WATCHED_ONBOARD
 
 class MyPageInformationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyPageInformationBinding
@@ -32,7 +33,7 @@ class MyPageInformationActivity : AppCompatActivity() {
 
     private fun logout() {
         SharedPreferences.clear()
-        SharedPreferences.setBoolean(LoginActivity.DID_USER_WATCHED_ONBOARD, true)
+        SharedPreferences.setBoolean(DID_USER_WATCHED_ONBOARD, true)
         startActivity(Intent(this, LoginActivity::class.java))
         if (!isFinishing) finish()
     }
