@@ -157,6 +157,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
                         binding.tvHomeDialogGoal.text = parcelableData.goal
                         // 데이터 클래스 값 사용
                     }
+                    viewModel.getHomeBottomDetail(requireArguments().getLong(MISSION_ID))
                 }
             }
     }
