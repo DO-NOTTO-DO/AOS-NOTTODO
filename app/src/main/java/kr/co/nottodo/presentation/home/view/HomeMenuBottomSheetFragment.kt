@@ -30,6 +30,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private val viewModel by activityViewModels<HomeViewModel>()
     val bundle = Bundle()
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var modifyParcelizeExtra: ParcelizeBottomDetail
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,8 +64,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         binding.ivHomeDialogCancle.setOnClickListener { dismiss() }
         binding.tvHomeDialogEdit.setOnClickListener {
             val intent = Intent(requireActivity(), ModificationActivity::class.java)
+            intent.putExtra(DETAIL, modifyParcelizeExtra)
             resultLauncher.launch(intent)
-            startActivity(intent)
         }
         binding.tvHomeDialogAddDay.setOnClickListener {
             val dialogFragment = HomeDoAnotherFragment()
@@ -90,7 +91,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
             }
 
             bundle.putLong(MISSION_ID, it.id)
-            parcelizeData(it)
+            modifyParcelizeExtra = parcelizeData(it)
         }
     }
 
@@ -129,10 +130,10 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun parcelizeData(item: ResponHomeMissionDetail.HomeMissionDetail) {
+    private fun parcelizeData(item: ResponHomeMissionDetail.HomeMissionDetail): ParcelizeBottomDetail {
         val actionHome = item.actions
 //        detailData =
-        ParcelizeBottomDetail(
+        return ParcelizeBottomDetail(
             item.id,
             item.title,
             item.situation,
@@ -146,11 +147,9 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
-                    val parcelableData =
-                        result.data?.getParcelable(
-                            DETAIL,
-                            ParcelizeBottomDetailRegister::class.java
-                        )
+                    val parcelableData = result.data?.getParcelable(
+                        DETAIL, ParcelizeBottomDetailRegister::class.java
+                    )
                     // 결과 처리
                     if (parcelableData != null) {
                         binding.tvHomeDialogSituation.text = parcelableData.title
