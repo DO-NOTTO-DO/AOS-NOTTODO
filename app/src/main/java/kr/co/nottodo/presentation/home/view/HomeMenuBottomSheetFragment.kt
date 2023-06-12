@@ -32,9 +32,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var modifyParcelizeExtra: ParcelizeBottomDetail
 
-    private var getMissionID: Long = 0
-//    private var getMissionID: Long? = null
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -45,8 +42,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getMissionID = requireArguments().getLong(MISSION_ID)
-        initData(getMissionID)
+        initData(requireArguments().getLong(MISSION_ID))
         getMissionData()
         setOnClick()
         clickAddAnotherDay()
@@ -136,7 +132,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun parcelizeData(item: ResponHomeMissionDetail.HomeMissionDetail): ParcelizeBottomDetail {
         val actionHome = item.actions
-//        detailData =
         return ParcelizeBottomDetail(
             item.id,
             item.title,
