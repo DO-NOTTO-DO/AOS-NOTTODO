@@ -12,6 +12,7 @@ import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.recommendation.main.RecommendationMainActivity
 
+
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
 
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener

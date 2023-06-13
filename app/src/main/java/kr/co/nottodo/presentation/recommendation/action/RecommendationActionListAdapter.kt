@@ -1,10 +1,13 @@
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ItemRecommendationActionCategoryBinding
+import kr.co.nottodo.databinding.ItemRecommendationActionSelectBinding
 
 class RecommendationActionListAdapter :
     ListAdapter<RecommendationActionListDTO.ActionList.CategoryList, RecommendationActionListAdapter.RecommendationActionListViewHolder>(
@@ -14,17 +17,6 @@ class RecommendationActionListAdapter :
     private var itemClickListener: OnItemClickListener? = null
     private var selectedItemPosition: Int = RecyclerView.NO_POSITION
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): RecommendationActionListViewHolder {
-        val binding = ItemRecommendationActionCategoryBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return RecommendationActionListViewHolder(binding)
-    }
 
     override fun onBindViewHolder(holder: RecommendationActionListViewHolder, position: Int) {
         holder.onBind(getItem(position), position, itemClickListener, selectedItemPosition)
@@ -39,7 +31,8 @@ class RecommendationActionListAdapter :
     }
 
     companion object {
-        private val diffUtilCallback = object : DiffUtil.ItemCallback<RecommendationActionListDTO.ActionList.CategoryList>() {
+        private val diffUtilCallback = object :
+            DiffUtil.ItemCallback<RecommendationActionListDTO.ActionList.CategoryList>() {
             override fun areItemsTheSame(
                 oldItem: RecommendationActionListDTO.ActionList.CategoryList,
                 newItem: RecommendationActionListDTO.ActionList.CategoryList
@@ -59,6 +52,8 @@ class RecommendationActionListAdapter :
     class RecommendationActionListViewHolder(private val binding: ItemRecommendationActionCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        private val selectBinding = ItemRecommendationActionSelectBinding.bind(binding.root)
+
         fun onBind(
             data: RecommendationActionListDTO.ActionList.CategoryList,
             position: Int,
@@ -68,13 +63,13 @@ class RecommendationActionListAdapter :
             binding.tvRecommendationActionCategory.text = data.name
 
             if (position == selectedItemPosition) {
-                // 선택된 아이템인 경우의 처리
-                val selectLayout = LayoutInflater.from(binding.root.context).inflate(R.layout.item_recommendation_action_select, null)
-                binding.root.background = selectLayout.background
+                // 선택된 아이템인 경우
+                selectBinding.root.visibility = View.VISIBLE
+                binding.tvRecommendationActionCategory.setTextColor(Color.WHITE)
             } else {
-                // 선택되지 않은 아이템인 경우의 처리
-                val categoryLayout = LayoutInflater.from(binding.root.context).inflate(R.layout.item_recommendation_action_category, null)
-                binding.root.background = categoryLayout.background
+                // 선택되지 않은 아이템인 경우
+                selectBinding.root.visibility = View.GONE
+                binding.tvRecommendationActionCategory.setTextColor(Color.parseColor("#9398aa"))
             }
 
             binding.root.setOnClickListener {
@@ -82,6 +77,19 @@ class RecommendationActionListAdapter :
             }
         }
     }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecommendationActionListViewHolder {
+        val binding = ItemRecommendationActionCategoryBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return RecommendationActionListViewHolder(binding)
+    }
+
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)

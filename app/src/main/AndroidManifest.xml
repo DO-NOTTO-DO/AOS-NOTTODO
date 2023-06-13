@@ -54,6 +54,10 @@
         <activity
             android:name=".presentation.recommendation.main.RecommendationMainActivity"
             android:exported="false" />
+        <activity
+            android:name=".presentation.recommendation.action.RecommendationActionActivity"
+            android:exported="false" />
+
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"

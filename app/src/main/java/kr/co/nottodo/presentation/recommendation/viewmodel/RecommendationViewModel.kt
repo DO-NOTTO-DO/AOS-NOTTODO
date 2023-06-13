@@ -26,11 +26,7 @@ class RecommendationViewModel : ViewModel() {
     private val _categoryId: MutableLiveData<Int> = MutableLiveData()
     val categoryId: LiveData<Int> = _categoryId
 
-    init {
-        fetchRecommendationMainList()
-        fetchRecommendationCategoryList(0)
-    }
-
+    // 추천 메인 목록을 가져오는 함수
     fun fetchRecommendationMainList() {
         viewModelScope.launch {
             runCatching {
@@ -52,6 +48,7 @@ class RecommendationViewModel : ViewModel() {
         }
     }
 
+    // 추천 카테고리 목록을 가져오는 함수
     fun fetchRecommendationCategoryList(id: Int) {
         viewModelScope.launch {
             runCatching {

@@ -1,6 +1,5 @@
 package kr.co.nottodo.presentation.recommendation.main
 
-import RecommendationActionActivity
 import RecommendationMainListViewAdapter
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +7,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.nottodo.databinding.ActivityRecommendationMainBinding
+import kr.co.nottodo.presentation.recommendation.action.RecommendationActionActivity
 import kr.co.nottodo.presentation.recommendation.viewmodel.RecommendationViewModel
+
 class RecommendationMainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecommendationMainBinding
     private lateinit var adapter: RecommendationMainListViewAdapter
@@ -32,15 +33,36 @@ class RecommendationMainActivity : AppCompatActivity() {
         // RecyclerView에 어댑터 설정
         recyclerView.adapter = adapter
 
-        // RecommendationViewModel에서 fetchRecommendationMainList() 호출하여 데이터 가져오기
-        viewModel.fetchRecommendationMainList()
 
-        // RecommendationViewModel의 mainList를 관찰하고 데이터 변경 시 어댑터에 데이터 업데이트
-        viewModel.mainList.observe(this) { mainList ->
-            adapter.submitList(mainList)
-        }
+        // 임의의 더미 데이터 생성
+        val dummyData = listOf(
+            RecommendationMainListDTO.MainList(
+                1,
+                "Title 1",
+                "Situation 1",
+                "Description 1",
+                "image1.jpg"
+            ),
+            RecommendationMainListDTO.MainList(
+                2,
+                "Title 2",
+                "Situation 2",
+                "Description 2",
+                "image2.jpg"
+            ),
+            RecommendationMainListDTO.MainList(
+                3,
+                "Title 3",
+                "Situation 3",
+                "Description 3",
+                "image3.jpg"
+            )
+        )
 
-        // 아이템 클릭 이벤트 처리
+
+        // 어댑터에 더미 데이터 설정
+        adapter.submitList(dummyData)
+
         adapter.setOnItemClickListener(object : RecommendationMainListViewAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val item = adapter.getItemAtPosition(position)
@@ -50,6 +72,8 @@ class RecommendationMainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
+
+
 
         val exitButton = binding.ivRecommendationMainExit
         exitButton.setOnClickListener { finish() }
