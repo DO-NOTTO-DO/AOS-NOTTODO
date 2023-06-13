@@ -18,7 +18,7 @@ class WithdrawalDialogFragment : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentWithdrawalDialogBinding.inflate(inflater, container, false)
         return binding.root
     }

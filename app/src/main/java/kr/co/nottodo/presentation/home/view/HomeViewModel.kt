@@ -14,7 +14,7 @@ import kr.co.nottodo.data.remote.model.home.ResponHomeMissionDetail
 import kr.co.nottodo.data.remote.model.home.ResponseHomeWeekly
 import timber.log.Timber
 
-class HomeViewModel() : ViewModel() {
+class HomeViewModel : ViewModel() {
 
     private val homeService: HomeService = ServicePool.homeService
 

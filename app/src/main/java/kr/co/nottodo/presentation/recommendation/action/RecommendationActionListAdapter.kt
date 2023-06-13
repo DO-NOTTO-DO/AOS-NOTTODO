@@ -1,7 +1,4 @@
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,16 +7,42 @@ import kr.co.nottodo.databinding.ItemRecommendationActionCategoryBinding
 import kr.co.nottodo.databinding.ItemRecommendationActionSelectBinding
 
 class RecommendationActionListAdapter :
-    ListAdapter<RecommendationActionListDTO.ActionList.CategoryList, RecommendationActionListAdapter.RecommendationActionListViewHolder>(
+    ListAdapter<RecommendationActionListDTO.ActionList.CategoryList, RecyclerView.ViewHolder>(
         diffUtilCallback
     ) {
 
     private var itemClickListener: OnItemClickListener? = null
     private var selectedItemPosition: Int = RecyclerView.NO_POSITION
 
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return if (viewType == ITEM_TYPE_SELECTED) {
+            val binding = ItemRecommendationActionSelectBinding.inflate(inflater, parent, false)
+            RecommendationActionSelectViewHolder(binding)
+        } else {
+            val binding = ItemRecommendationActionCategoryBinding.inflate(inflater, parent, false)
+            RecommendationActionCategoryViewHolder(binding)
+        }
+    }
 
-    override fun onBindViewHolder(holder: RecommendationActionListViewHolder, position: Int) {
-        holder.onBind(getItem(position), position, itemClickListener, selectedItemPosition)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val viewType = getItemViewType(position)
+        if (viewType == ITEM_TYPE_SELECTED && holder is RecommendationActionSelectViewHolder) {
+            holder.bind(getItem(position))
+        } else if (viewType == ITEM_TYPE_NORMAL && holder is RecommendationActionCategoryViewHolder) {
+            holder.bind(getItem(position))
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == selectedItemPosition) {
+            ITEM_TYPE_SELECTED
+        } else {
+            ITEM_TYPE_NORMAL
+        }
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -28,9 +51,13 @@ class RecommendationActionListAdapter :
 
     fun setSelectedItem(position: Int) {
         selectedItemPosition = position
+        notifyDataSetChanged()
     }
 
     companion object {
+        private const val ITEM_TYPE_NORMAL = 0
+        private const val ITEM_TYPE_SELECTED = 1
+
         private val diffUtilCallback = object :
             DiffUtil.ItemCallback<RecommendationActionListDTO.ActionList.CategoryList>() {
             override fun areItemsTheSame(
@@ -49,47 +76,37 @@ class RecommendationActionListAdapter :
         }
     }
 
-    class RecommendationActionListViewHolder(private val binding: ItemRecommendationActionCategoryBinding) :
+    inner class RecommendationActionCategoryViewHolder(private val binding: ItemRecommendationActionCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val selectBinding = ItemRecommendationActionSelectBinding.bind(binding.root)
-
-        fun onBind(
-            data: RecommendationActionListDTO.ActionList.CategoryList,
-            position: Int,
-            listener: OnItemClickListener?,
-            selectedItemPosition: Int
-        ) {
+        fun bind(data: RecommendationActionListDTO.ActionList.CategoryList) {
             binding.tvRecommendationActionCategory.text = data.name
 
-            if (position == selectedItemPosition) {
-                // 선택된 아이템인 경우
-                selectBinding.root.visibility = View.VISIBLE
-                binding.tvRecommendationActionCategory.setTextColor(Color.WHITE)
-            } else {
-                // 선택되지 않은 아이템인 경우
-                selectBinding.root.visibility = View.GONE
-                binding.tvRecommendationActionCategory.setTextColor(Color.parseColor("#9398aa"))
-            }
-
+            // Handle item click
             binding.root.setOnClickListener {
-                listener?.onItemClick(adapterPosition)
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener?.onItemClick(position)
+                }
             }
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): RecommendationActionListViewHolder {
-        val binding = ItemRecommendationActionCategoryBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return RecommendationActionListViewHolder(binding)
-    }
+    inner class RecommendationActionSelectViewHolder(private val binding: ItemRecommendationActionSelectBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
+        fun bind(data: RecommendationActionListDTO.ActionList.CategoryList) {
+            binding.tvCategory.text = data.name
+
+            // Handle item click
+            binding.root.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener?.onItemClick(position)
+                }
+            }
+        }
+    }
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)

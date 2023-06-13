@@ -57,9 +57,9 @@ class RecommendationActionActivity : AppCompatActivity() {
 
 
         val dummyData = listOf(
-            RecommendationActionListDTO.ActionList.CategoryList("Category 1"),
-            RecommendationActionListDTO.ActionList.CategoryList("Category 2"),
-            RecommendationActionListDTO.ActionList.CategoryList("Category 3")
+            RecommendationActionListDTO.ActionList.CategoryList("유튜브 프리미엄 해제하기"),
+            RecommendationActionListDTO.ActionList.CategoryList("핸드폰 최대한 멀리두기"),
+            RecommendationActionListDTO.ActionList.CategoryList("실천행동 추천")
         )
 
 //      //어댑터에 더미 데이터 설정
