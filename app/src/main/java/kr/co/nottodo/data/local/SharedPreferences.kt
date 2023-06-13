@@ -8,6 +8,7 @@ import androidx.security.crypto.MasterKey
 import kr.co.nottodo.BuildConfig
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
+import kr.co.nottodo.presentation.login.view.LoginActivity
 
 object SharedPreferences {
     private lateinit var preferences: SharedPreferences
@@ -47,7 +48,12 @@ object SharedPreferences {
         return preferences.getBoolean(key, false)
     }
 
-    fun clear() {
+    private fun clear() {
         preferences.edit { clear() }
+    }
+
+    fun clearForLogout() {
+        clear()
+        setBoolean(LoginActivity.DID_USER_WATCHED_ONBOARD, true)
     }
 }

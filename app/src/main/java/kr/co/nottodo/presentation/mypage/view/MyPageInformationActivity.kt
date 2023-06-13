@@ -31,8 +31,7 @@ class MyPageInformationActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        SharedPreferences.clear()
-        SharedPreferences.setBoolean(LoginActivity.DID_USER_WATCHED_ONBOARD, true)
+        SharedPreferences.clearForLogout()
         startActivity(Intent(this, LoginActivity::class.java))
         if (!isFinishing) finish()
     }
