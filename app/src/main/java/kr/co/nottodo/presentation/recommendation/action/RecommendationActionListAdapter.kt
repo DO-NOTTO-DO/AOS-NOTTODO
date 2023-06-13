@@ -12,7 +12,7 @@ class RecommendationActionListAdapter :
     ) {
 
     private var itemClickListener: OnItemClickListener? = null
-    private var selectedItemPosition: Int = RecyclerView.NO_POSITION
+    private val selectedItems = mutableListOf<Int>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -38,7 +38,7 @@ class RecommendationActionListAdapter :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == selectedItemPosition) {
+        return if (selectedItems.contains(position)) {
             ITEM_TYPE_SELECTED
         } else {
             ITEM_TYPE_NORMAL
@@ -50,7 +50,11 @@ class RecommendationActionListAdapter :
     }
 
     fun setSelectedItem(position: Int) {
-        selectedItemPosition = position
+        if (selectedItems.contains(position)) {
+            selectedItems.remove(position)
+        } else {
+            selectedItems.add(position)
+        }
         notifyDataSetChanged()
     }
 
@@ -89,6 +93,10 @@ class RecommendationActionListAdapter :
                     itemClickListener?.onItemClick(position)
                 }
             }
+
+            // Update UI based on selection
+            val isSelected = selectedItems.contains(adapterPosition)
+            binding.root.isSelected = isSelected
         }
     }
 
@@ -105,6 +113,10 @@ class RecommendationActionListAdapter :
                     itemClickListener?.onItemClick(position)
                 }
             }
+
+            // Update UI based on selection
+            val isSelected = selectedItems.contains(adapterPosition)
+            binding.root.isSelected = isSelected
         }
     }
 
