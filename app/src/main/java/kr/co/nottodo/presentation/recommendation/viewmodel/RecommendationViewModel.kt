@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.nottodo.data.remote.api.ServicePool
 import timber.log.Timber
+import RecommendationMainListDTO
 
 class RecommendationViewModel : ViewModel() {
     private val recommendationMainListService by lazy { ServicePool.recommendationMainListService }
@@ -29,46 +30,37 @@ class RecommendationViewModel : ViewModel() {
     // 추천 메인 목록을 가져오는 함수
     fun fetchRecommendationMainList() {
         viewModelScope.launch {
-            runCatching {
-                recommendationMainListService.getRecommendationMainList()
-            }.onSuccess { response ->
-                when (response.status) {
-                    200 -> {
-                        Timber.d("상태코드 200으로 성공적인 응답을 받았습니다.")
-                        _mainList.value = response.data
-                    }
-
-                    else -> {
-                        Timber.e("상태코드 ${response.status}로 응답을 받았습니다.")
-                        _mainList.value = emptyList()
-                    }
+            try {
+                val response = recommendationMainListService.getRecommendationMainList()
+                if (response.status == 200) {
+                    Timber.d("성공적인 응답.")
+                    _mainList.value = response.data
+                } else {
+                    Timber.e("상태코드 ${response.status}로 응답")
+                    _mainList.value = emptyList()
                 }
-            }.onFailure { throwable ->
-                Timber.e(throwable)
+            } catch (e: Exception) {
+                Timber.e(e)
                 _mainList.value = emptyList()
             }
         }
     }
 
+    // 추천 카테고리 목록을 가져오는 함수
     fun fetchRecommendationCategoryList(id: Int) {
         viewModelScope.launch {
-            runCatching {
-                recommendationActionListService.getActionCategoryList(id)
-            }.onSuccess { response ->
-                when (response.status) {
-                    200 -> {
-                        Timber.d("상태코드 200으로 성공적인 응답을 받았습니다.")
-                        val categoryList = response.data.find { it.id == id }?.recommendActions
-                        _categoryList.value = categoryList ?: emptyList()
-                    }
-
-                    else -> {
-                        Timber.e("상태코드 ${response.status}로 응답을 받았습니다.")
-                        _categoryList.value = emptyList()
-                    }
+            try {
+                val response = recommendationActionListService.getActionCategoryList(id)
+                if (response.status == 200) {
+                    Timber.d("성공적인 응답")
+                    val categoryList = response.data.find { it.id == id }?.recommendActions
+                    _categoryList.value = categoryList ?: emptyList()
+                } else {
+                    Timber.e("상태코드 ${response.status}로 응답")
+                    _categoryList.value = emptyList()
                 }
-            }.onFailure { throwable ->
-                Timber.e(throwable)
+            } catch (e: Exception) {
+                Timber.e(e)
                 _categoryList.value = emptyList()
             }
         }

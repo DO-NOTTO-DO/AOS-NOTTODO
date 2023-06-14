@@ -58,6 +58,5 @@ object ServicePool {
     val homeService = ApiFactory.create<HomeService>()
     val modificationService = ApiFactory.create<ModificationService>()
     val recommendationActionListService = ApiFactory.create<RecommendationActionListService>()
-    val recommendationActionTitleService = ApiFactory.create<RecommendationActionTitleService>()
     val recommendationMainListService = ApiFactory.create<RecommendationMainListService>()
 }

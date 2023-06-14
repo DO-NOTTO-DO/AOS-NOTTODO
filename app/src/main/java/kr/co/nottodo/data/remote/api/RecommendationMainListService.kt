@@ -4,6 +4,6 @@ import RecommendationMainListDTO
 import retrofit2.http.GET
 
 interface RecommendationMainListService {
-    @GET("/recommend/mission")
+    @GET("recommend/mission")
     suspend fun getRecommendationMainList(): RecommendationMainListDTO
 }
