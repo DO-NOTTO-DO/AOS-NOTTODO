@@ -5,11 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.nottodo.databinding.ActivityRecommendationMainBinding
 
 import kr.co.nottodo.presentation.recommendation.action.RecommendationActionActivity
 import kr.co.nottodo.presentation.recommendation.viewmodel.RecommendationViewModel
+
 
 class RecommendationMainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecommendationMainBinding
@@ -34,35 +36,13 @@ class RecommendationMainActivity : AppCompatActivity() {
         // RecyclerView에 어댑터 설정
         recyclerView.adapter = adapter
 
+        // 추천 메인 목록을 관찰하여 데이터 갱신
+        viewModel.mainList.observe(this, Observer { mainList ->
+            adapter.submitList(mainList)
+        })
 
-        // 임의의 더미 데이터 생성
-        val dummyData = listOf(
-            RecommendationMainListDTO.MainList(
-                1,
-                "업무시간 중",
-                "유튜브 보지 않기",
-                "유튜브를 보지 않는 것이 당신의 일상에\n 어떠한 변화를 일으킬까요?\n행복한 중독해소를 위해 제안해요!",
-                "image1.jpg"
-            ),
-            RecommendationMainListDTO.MainList(
-                2,
-                "취침 전",
-                "커피 마시지 않기",
-                "한국인들은 평균 2잔의 커피를 마신대요.\n적당한 섭취를 위해 제안해요!",
-                "image2.jpg"
-            ),
-            RecommendationMainListDTO.MainList(
-                3,
-                "취침 전",
-                "커피 마시지 않기",
-                "한국인들은 평균 2잔의 커피를 마신대요.\n적당한 섭취를 위해 제안해요!",
-                "image2.jpg"
-            )
-        )
-
-
-        // 어댑터에 더미 데이터 설정
-        adapter.submitList(dummyData)
+        // 임의의 더미 데이터 대신 서버에서 추천 메인 목록을 가져옴
+        viewModel.fetchRecommendationMainList()
 
         adapter.setOnItemClickListener(object :
             RecommendationMainListViewAdapter.OnItemClickListener {
@@ -78,8 +58,33 @@ class RecommendationMainActivity : AppCompatActivity() {
             }
         })
 
-
         val exitButton = binding.ivRecommendationMainExit
         exitButton.setOnClickListener { finish() }
     }
 }
+
+//
+//        // 임의의 더미 데이터 생성
+//        val dummyData = listOf(
+//            RecommendationMainListDTO.MainList(
+//                1,
+//                "업무시간 중",
+//                "유튜브 보지 않기",
+//                "유튜브를 보지 않는 것이 당신의 일상에\n 어떠한 변화를 일으킬까요?\n행복한 중독해소를 위해 제안해요!",
+//                "image1.jpg"
+//            ),
+//            RecommendationMainListDTO.MainList(
+//                2,
+//                "취침 전",
+//                "커피 마시지 않기",
+//                "한국인들은 평균 2잔의 커피를 마신대요.\n적당한 섭취를 위해 제안해요!",
+//                "image2.jpg"
+//            ),
+//            RecommendationMainListDTO.MainList(
+//                3,
+//                "취침 전",
+//                "커피 마시지 않기",
+//                "한국인들은 평균 2잔의 커피를 마신대요.\n적당한 섭취를 위해 제안해요!",
+//                "image2.jpg"
+//            )
+//        )

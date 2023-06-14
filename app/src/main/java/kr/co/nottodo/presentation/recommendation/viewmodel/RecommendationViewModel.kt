@@ -34,10 +34,12 @@ class RecommendationViewModel : ViewModel() {
             }.onSuccess { response ->
                 when (response.status) {
                     200 -> {
+                        Timber.d("상태코드 200으로 성공적인 응답을 받았습니다.")
                         _mainList.value = response.data
                     }
 
                     else -> {
+                        Timber.e("상태코드 ${response.status}로 응답을 받았습니다.")
                         _mainList.value = emptyList()
                     }
                 }
@@ -48,7 +50,6 @@ class RecommendationViewModel : ViewModel() {
         }
     }
 
-    // 추천 카테고리 목록을 가져오는 함수
     fun fetchRecommendationCategoryList(id: Int) {
         viewModelScope.launch {
             runCatching {
@@ -56,11 +57,13 @@ class RecommendationViewModel : ViewModel() {
             }.onSuccess { response ->
                 when (response.status) {
                     200 -> {
+                        Timber.d("상태코드 200으로 성공적인 응답을 받았습니다.")
                         val categoryList = response.data.find { it.id == id }?.recommendActions
                         _categoryList.value = categoryList ?: emptyList()
                     }
 
                     else -> {
+                        Timber.e("상태코드 ${response.status}로 응답을 받았습니다.")
                         _categoryList.value = emptyList()
                     }
                 }
