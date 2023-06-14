@@ -6,14 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentAchieveBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
+import kr.co.nottodo.view.calendar.monthly.util.convertStringToDate
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 class AchieveFragment : Fragment() {
     private var _binding: FragmentAchieveBinding? = null
     private val binding: FragmentAchieveBinding get() = requireNotNull(_binding)
     private var onFragmentChangedListener: OnFragmentChangedListener? = null
+    private val achieveViewModel by viewModels<AchieveFragmentViewModel>()
+    private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern(MONTH_PATTERN))
+    val bundle = Bundle()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -33,11 +40,46 @@ class AchieveFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setActivityBackgroundColor()
+        initDay()
+        observeData()
+        clickMonth()
     }
 
     private fun setActivityBackgroundColor() {
         onFragmentChangedListener?.setActivityBackgroundColorBasedOnFragment(this@AchieveFragment)
             ?: throw NullPointerException("onFragmentChangedListener is null")
+    }
+
+    private fun observeData() {
+        achieveViewModel.calenderCount.observe(viewLifecycleOwner) {
+            val notTodoRate = it?.map {
+                it.actionDate.convertStringToDate() to it.percentage
+            } ?: emptyList()
+            binding.achieveCalender.setNotToDoPercentages(notTodoRate)
+        }
+    }
+
+    private fun initDay() {
+        achieveViewModel.getCalenderRate(todayData)
+    }
+
+    private fun clickMonth() {
+        binding.achieveCalender.setOnMonthlyCalendarNextMonthListener { view, dateString ->
+            achieveViewModel.getCalenderRate(dateString)
+        }
+        binding.achieveCalender.setOnMonthlyCalendarPrevMonthListener { view, dateString ->
+            achieveViewModel.getCalenderRate(dateString)
+        }
+        binding.achieveCalender.setOnMonthlyCalendarDayClickListener { date ->
+            bundle.putString(CLICK_DATE, achieveViewModel.formatDateToLocal(date))
+            createDialog()
+        }
+    }
+
+    private fun createDialog() {
+        val customDialog = CustomDialogAchieveFragment()
+        customDialog.show(childFragmentManager, "CustomDialogFragment")
+        customDialog.arguments = bundle
     }
 
     override fun onDestroyView() {
@@ -48,5 +90,11 @@ class AchieveFragment : Fragment() {
     override fun onDetach() {
         onFragmentChangedListener = null
         super.onDetach()
+    }
+
+    companion object {
+        const val MONTH_PATTERN = "yyyy-MM"
+        const val YEAR_PATTERN = "yyyy-MM-dd"
+        const val CLICK_DATE = "CLICK_DATE"
     }
 }

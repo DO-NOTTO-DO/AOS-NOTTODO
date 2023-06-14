@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="kr.co.nottodo.presentation.achieve.AchieveFragmentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_achieve_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/rectangle_border_bg_50"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:textAppearance="@style/M14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="출근시간" />
+
+        <TextView
+            android:id="@+id/tv_achieve_situation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="7dp"
+            android:textAppearance="@style/Sb16"
+            app:layout_constraintStart_toStartOf="@id/tv_achieve_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_achieve_title"
+            tools:text="아침 거르지 않기" />
+
+        <View
+            android:id="@+id/v_homw"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="11dp"
+            android:layout_marginTop="22dp"
+            android:background="@color/gray_6_e6e6f2"
+            app:layout_constraintTop_toBottomOf="@id/tv_achieve_situation" />
+
+        <ImageView
+            android:id="@+id/iv_achieve_item_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="22dp"
+            android:src="@drawable/ic_btn_check"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_achieve_title" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

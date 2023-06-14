@@ -26,6 +26,7 @@ import kr.co.nottodo.view.calendar.monthly.model.DAY_COLUMN_COUNT
 import kr.co.nottodo.view.calendar.monthly.model.DateType
 import kr.co.nottodo.view.calendar.monthly.model.MonthlyCalendarDay
 import kr.co.nottodo.view.calendar.monthly.model.TOTAL_COLUMN_COUNT
+import kr.co.nottodo.view.calendar.monthly.monthlycalendar.listener.MonthlyCalendarDayClickListener
 import kr.co.nottodo.view.calendar.monthly.monthlycalendar.listener.MonthlyCalendarNextMonthListener
 import kr.co.nottodo.view.calendar.monthly.monthlycalendar.listener.MonthlyCalendarPrevMonthListener
 import kr.co.nottodo.view.calendar.monthly.util.*
@@ -47,14 +48,20 @@ class MonthlyCalendar @JvmOverloads constructor(
 
     private val timeZone = TimeZone.getDefault()
     private val locale = Locale.KOREA
-    private val monthlyCalendarDayAdapter = MonthlyCalendarDayAdapter()
-    val calendar = getInstance(timeZone, locale)
+    private val monthlyCalendarDayAdapter = MonthlyCalendarDayAdapter(
+        onSelectDay = {
+            selectedDay = it
+            monthlyCalendarDayClickListener?.onSelectDay(it)
+        }
+    )
+    private val calendar = Calendar.getInstance(timeZone, locale)
     private var calendarDataList: List<MonthlyCalendarDay> = listOf()
     private var currentDate = calendar.toPrettyMonthString(locale = locale)
         set(value) {
             field = value
             updateCurrentDateTextView()
         }
+    var selectedDay: Date? = null
 
     private val borderRectF = RectF()
     private val borderPaint = Paint()
@@ -63,6 +70,7 @@ class MonthlyCalendar @JvmOverloads constructor(
 
     private var monthlyCalendarNextMonthListener: MonthlyCalendarNextMonthListener? = null
     private var monthlyCalendarPrevMonthListener: MonthlyCalendarPrevMonthListener? = null
+    private var monthlyCalendarDayClickListener: MonthlyCalendarDayClickListener? = null
 
     private val currentDateTextView = TextView(context, null, R.style.M14).apply {
         id = ViewCompat.generateViewId()
@@ -83,7 +91,7 @@ class MonthlyCalendar @JvmOverloads constructor(
             )
         )
         setOnClickListener {
-            calendar.add(MONTH, -1)
+            calendar.add(Calendar.MONTH, -1)
             currentDate = calendar.toPrettyMonthString(locale = locale)
             initCalendarData()
             monthlyCalendarPrevMonthListener?.onShowPrevMonth(
@@ -109,7 +117,7 @@ class MonthlyCalendar @JvmOverloads constructor(
             )
         )
         setOnClickListener {
-            calendar.add(MONTH, 1)
+            calendar.add(Calendar.MONTH, 1)
             currentDate = calendar.toPrettyMonthString(locale = locale)
             initCalendarData()
             monthlyCalendarNextMonthListener?.onShowNextMonth(
@@ -141,7 +149,7 @@ class MonthlyCalendar @JvmOverloads constructor(
 
         addView(
             View(context).apply {
-                layoutParams = LayoutParams(context.dpToPx(12f), 0)
+                layoutParams = LinearLayout.LayoutParams(context.dpToPx(12f), 0)
             }
         )
 
@@ -149,7 +157,7 @@ class MonthlyCalendar @JvmOverloads constructor(
 
         addView(
             View(context).apply {
-                layoutParams = LayoutParams(context.dpToPx(12f), 0)
+                layoutParams = LinearLayout.LayoutParams(context.dpToPx(12f), 0)
             }
         )
 
@@ -185,7 +193,7 @@ class MonthlyCalendar @JvmOverloads constructor(
         }
         updateBorder()
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        orientation = VERTICAL
+        orientation = LinearLayout.VERTICAL
 
         addView(calendarHeaderLinearLayout)
         addView(calendarWeekDescriptionView.root)
@@ -219,17 +227,17 @@ class MonthlyCalendar @JvmOverloads constructor(
 
     private fun buildCalendarData(): List<MonthlyCalendarDay> {
         // 현재 달력이 보여주고 있는 Calendar instance의 복사본
-        val proxyCalendar = getInstance().apply {
+        val proxyCalendar = Calendar.getInstance().apply {
             set(MONTH, calendar.get(MONTH))
             set(DAY_OF_MONTH, calendar.get(DAY_OF_MONTH))
             set(YEAR, calendar.get(YEAR))
         }
 
-        val totalDayInMonth = calendar.getActualMaximum(DAY_OF_MONTH)
+        val totalDayInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
         val monthlyCalendarDayList = mutableListOf<MonthlyCalendarDay>()
         (1..totalDayInMonth).forEach { day ->
-            proxyCalendar.set(DAY_OF_MONTH, day)
-            val dayOfWeek = proxyCalendar.get(DAY_OF_WEEK)
+            proxyCalendar.set(Calendar.DAY_OF_MONTH, day)
+            val dayOfWeek = proxyCalendar.get(Calendar.DAY_OF_WEEK)
             val dateType = if (proxyCalendar.isWeekend()) {
                 DateType.WEEKEND
             } else {
@@ -288,7 +296,7 @@ class MonthlyCalendar @JvmOverloads constructor(
         dayOfWeek: Int,
         proxyCalendar: Calendar
     ): List<MonthlyCalendarDay.Empty> {
-        val nextCalendar = getInstance().apply {
+        val nextCalendar = Calendar.getInstance().apply {
             set(MONTH, proxyCalendar.get(MONTH))
             set(DAY_OF_MONTH, proxyCalendar.get(DAY_OF_MONTH))
             set(YEAR, proxyCalendar.get(YEAR))
@@ -297,12 +305,12 @@ class MonthlyCalendar @JvmOverloads constructor(
         }
         var totalDayInNextMonth = nextCalendar.getActualMinimum(DAY_OF_MONTH)
         val numberOfEmptyView = when (dayOfWeek) {
-            SUNDAY -> 6
-            MONDAY -> 5
-            TUESDAY -> 4
-            WEDNESDAY -> 3
-            THURSDAY -> 2
-            FRIDAY -> 1
+            Calendar.SUNDAY -> 6
+            Calendar.MONDAY -> 5
+            Calendar.TUESDAY -> 4
+            Calendar.WEDNESDAY -> 3
+            Calendar.THURSDAY -> 2
+            Calendar.FRIDAY -> 1
             else -> 0
         }
 
@@ -321,7 +329,7 @@ class MonthlyCalendar @JvmOverloads constructor(
         dayOfWeek: Int,
         proxyCalendar: Calendar
     ): List<MonthlyCalendarDay.Empty> {
-        val previousCalendar = getInstance().apply {
+        val previousCalendar = Calendar.getInstance().apply {
             set(MONTH, proxyCalendar.get(MONTH))
             set(DAY_OF_MONTH, proxyCalendar.get(DAY_OF_MONTH))
             set(YEAR, proxyCalendar.get(YEAR))
@@ -329,12 +337,12 @@ class MonthlyCalendar @JvmOverloads constructor(
             it.add(MONTH, -1)
         }
         val numberOfEmptyView = when (dayOfWeek) {
-            MONDAY -> 1
-            TUESDAY -> 2
-            WEDNESDAY -> 3
-            THURSDAY -> 4
-            FRIDAY -> 5
-            SATURDAY -> 6
+            Calendar.MONDAY -> 1
+            Calendar.TUESDAY -> 2
+            Calendar.WEDNESDAY -> 3
+            Calendar.THURSDAY -> 4
+            Calendar.FRIDAY -> 5
+            Calendar.SATURDAY -> 6
             else -> 0
         }
         var startDayInPreviousMonth =
@@ -391,6 +399,14 @@ class MonthlyCalendar @JvmOverloads constructor(
 
     fun setOnMonthlyCalendarPrevMonthListener(block: (view: View, dateString: String) -> Unit) {
         this.monthlyCalendarPrevMonthListener = MonthlyCalendarPrevMonthListener(block)
+    }
+
+    fun setOnMonthlyCalendarDayClickListener(monthlyCalendarDayClickListener: MonthlyCalendarDayClickListener) {
+        this.monthlyCalendarDayClickListener = monthlyCalendarDayClickListener
+    }
+
+    fun setOnMonthlyCalendarDayClickListener(block: (date: Date) -> Unit) {
+        this.monthlyCalendarDayClickListener = MonthlyCalendarDayClickListener(block)
     }
 }
 

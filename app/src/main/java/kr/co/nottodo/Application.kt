@@ -1,35 +1,32 @@
 package kr.co.nottodo
 
 import android.app.Application
+import android.content.Intent
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
-import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.common.KakaoSdk
 import kr.co.nottodo.data.local.SharedPreferences
-import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.FCM_TOKEN
+import kr.co.nottodo.data.remote.api.ApiFactory
+import kr.co.nottodo.listeners.OnTokenExpiredListener
+import kr.co.nottodo.presentation.login.view.LoginActivity
 import timber.log.Timber
 
-class Application : Application() {
+class Application : Application(), OnTokenExpiredListener {
     override fun onCreate() {
         super.onCreate()
         setupTimber()
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         setupSharedPreferences()
         setupKakaoSdk()
-        setFCMToken()
+        setHttpConnection()
     }
 
-    private fun setFCMToken() {
-        if (SharedPreferences.getString(FCM_TOKEN).isNullOrBlank()) {
-            FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
-                SharedPreferences.setString(FCM_TOKEN, token)
-            }
-        }
+    private fun setHttpConnection() {
+        (this as? OnTokenExpiredListener)?.let { ApiFactory.initRetrofit(it) }
     }
 
     private fun setupTimber() {
-        if (BuildConfig.DEBUG)
-            Timber.plant(Timber.DebugTree())
+        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
     }
 
     private fun setupSharedPreferences() {
@@ -38,5 +35,27 @@ class Application : Application() {
 
     private fun setupKakaoSdk() {
         KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_APP_KEY)
+    }
+
+    override fun onTokenExpired() {
+        logout()
+    }
+
+    private fun logout() {
+        clearForLogout()
+        navigateToLogin()
+    }
+
+    private fun navigateToLogin() = startActivity(
+        Intent(this, LoginActivity::class.java).setFlags(
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        )
+    )
+
+    private fun clearForLogout() {
+        SharedPreferences.apply {
+            clearForLogout()
+            setBoolean(LoginActivity.DID_USER_WATCHED_ONBOARD, true)
+        }
     }
 }
