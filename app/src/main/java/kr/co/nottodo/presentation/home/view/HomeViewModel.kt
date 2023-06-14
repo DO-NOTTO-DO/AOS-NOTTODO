@@ -42,11 +42,10 @@ class HomeViewModel() : ViewModel() {
     private val _deleteTodo: MutableLiveData<Boolean> =
         MutableLiveData()
     val deleteTodo: LiveData<Boolean> get() = _deleteTodo
-
-    lateinit var checkTodo: HomeDailyResponse.HomeDaily
-
     val clickDay: MutableLiveData<String> = MutableLiveData()
-//    val list: List<Pair<LocalDate?, Double>> =
+
+    val isDelete: MutableLiveData<Boolean> = MutableLiveData()
+
 
 
     fun checkTodo() {
@@ -57,7 +56,8 @@ class HomeViewModel() : ViewModel() {
         viewModelScope.launch {
             runCatching {
                 homeService.getHomeDaily(date)
-            }.fold(onSuccess = { _getHomeDaily.value = it.data.toMutableList() },
+            }.fold(onSuccess = { _getHomeDaily.value = it.data.toMutableList()
+                Timber.d("gethomeDaily 성공이이롱 ${it.data}")},
                 onFailure = {
                     Timber.d("error지롱 ${it.message}")
                 })

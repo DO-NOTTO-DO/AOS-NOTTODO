@@ -2,9 +2,9 @@ package kr.co.nottodo.presentation.home.view
 
 import android.app.Activity.RESULT_OK
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +23,7 @@ import kr.co.nottodo.databinding.ItemHomeBottomActionsBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.CLICK_DAY
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.presentation.modification.view.ModificationActivity
+import kr.co.nottodo.util.DialogCloseListener
 import kr.co.nottodo.util.getParcelable
 
 class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
@@ -34,6 +35,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var modifyParcelizeExtra: ParcelizeBottomDetail
     private lateinit var clickDay: String
+    private var getDetailFragment: (() -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +49,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         initData(requireArguments().getLong(MISSION_ID))
         clickDay = requireArguments().getString(CLICK_DAY).toString()
-        Log.d("bottomclick", "onViewCreated: $clickDay")
         getMissionData()
         setOnClick()
         clickAddAnotherDay()
@@ -94,7 +95,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
                 tvHomeDialogStatics.text = completeCount
                 tvHomeDialogSituation.text = it.situation
             }
-
             bundle.putLong(MISSION_ID, it.id)
             modifyParcelizeExtra = parcelizeData(it)
         }
@@ -177,10 +177,16 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     override fun onDestroyView() {
-//        viewModel.getHomeDaily(clickDay)
-//        Log.d("HomeMenuBottomSheet", "onDestroyView:$clickDay ")
         _binding = null
         super.onDestroyView()
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        getDetailFragment?.invoke()
+        if(parentFragment is DialogCloseListener){
+            (parentFragment as DialogCloseListener).handleDialogClose(dialog)
+        }
+        super.onDismiss(dialog)
     }
 
     companion object {

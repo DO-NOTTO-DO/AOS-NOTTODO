@@ -1,8 +1,10 @@
 package kr.co.nottodo.presentation.home.view
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +14,15 @@ import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
+import kr.co.nottodo.util.DialogCloseListener
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import kotlin.math.log
 
-class HomeFragment : Fragment() {
+
+class HomeFragment : Fragment(), DialogCloseListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding
         get() = requireNotNull(_binding)
@@ -67,6 +70,7 @@ class HomeFragment : Fragment() {
             binding.rvHomeTodoList.visibility = View.VISIBLE
             binding.clHomeMain.visibility = View.INVISIBLE
             homeAdapter.submitList(homeDaily.toList())
+            Log.d("home getHomeDaily", "observerData: gethomedaily해서 Observer ")
         }
 
         homeViewModel.getHomeWeeklyResult.observe(viewLifecycleOwner) { weeklyCount ->
@@ -82,11 +86,15 @@ class HomeFragment : Fragment() {
         homeViewModel.clickDay.observe(viewLifecycleOwner) { clickDay ->
             bundle.putString(CLICK_DAY, clickDay)
         }
-        homeViewModel.deleteTodo.observe(viewLifecycleOwner) {
-            //todo 왜 observer안돼 끄흡이다, 어디서 만들어자는지 한번 보기
-            Timber.tag("deleteTodo").e("$it")
+//        homeViewModel.deleteTodo.observe(viewLifecycleOwner) {
+//            //todo 왜 observer안돼 끄흡이다, 어디서 만들어자는지 한번 보기
+//            Timber.tag("deleteTodo").e("$it")
+//            homeViewModel.getHomeDaily(weeklyData)
+//            homeAdapter.submitList(homeViewModel.getHomeDaily.value)
+//        }
+        homeViewModel.isDelete.observe(viewLifecycleOwner) {
+            Log.d("homew", "observerData: ")
             homeViewModel.getHomeDaily(weeklyData)
-            homeAdapter.submitList(homeViewModel.getHomeDaily.value)
         }
     }
 
@@ -153,5 +161,9 @@ class HomeFragment : Fragment() {
         const val YEAR_PATTERN = "yyyy-MM-dd"
         const val MISSION_ID = "MISSION_ID"
         const val CLICK_DAY = "CLICK_DAY"
+    }
+
+    override fun handleDialogClose(dialog: DialogInterface) {
+        homeViewModel.getHomeDaily(weeklyData)
     }
 }
