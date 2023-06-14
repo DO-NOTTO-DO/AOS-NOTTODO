@@ -76,6 +76,13 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         binding.tvHomeDialogAddDay.setOnClickListener {
             val dialogFragment = HomeDoAnotherFragment()
             dialogFragment.arguments = bundle
+            dialogFragment.setButtonClickListener(object :
+                HomeDoAnotherFragment.OnButtonClickListener {
+                override fun onButton1Clicked() {
+                    dismiss()
+                }
+            }
+            )
             dialogFragment.show(childFragmentManager, "dialog_fragment")
         }
         binding.btnHomeDelete.setOnClickListener {
@@ -183,7 +190,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         getDetailFragment?.invoke()
-        if(parentFragment is DialogCloseListener){
+        if (parentFragment is DialogCloseListener) {
             (parentFragment as DialogCloseListener).handleDialogClose(dialog)
         }
         super.onDismiss(dialog)

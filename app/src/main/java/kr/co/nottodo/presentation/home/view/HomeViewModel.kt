@@ -41,16 +41,7 @@ class HomeViewModel() : ViewModel() {
     //투두 바텀시트 삭제하기
     private val _deleteTodo: MutableLiveData<Boolean> =
         MutableLiveData()
-    val deleteTodo: LiveData<Boolean> get() = _deleteTodo
     val clickDay: MutableLiveData<String> = MutableLiveData()
-
-    val isDelete: MutableLiveData<Boolean> = MutableLiveData()
-
-
-
-    fun checkTodo() {
-
-    }
 
     fun getHomeDaily(date: String) {
         viewModelScope.launch {

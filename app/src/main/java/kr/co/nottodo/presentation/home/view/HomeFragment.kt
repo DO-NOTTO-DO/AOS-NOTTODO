@@ -29,7 +29,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
     private lateinit var homeAdapter: HomeAdpater
     private var onFragmentChangedListener: OnFragmentChangedListener? = null
     private val homeViewModel by viewModels<HomeViewModel>()
-    private val additionViewModel by viewModels<AdditionViewModel>()
     private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern(YEAR_PATTERN))
     private var weeklyData = todayData
     val bundle = Bundle()
@@ -70,7 +69,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
             binding.rvHomeTodoList.visibility = View.VISIBLE
             binding.clHomeMain.visibility = View.INVISIBLE
             homeAdapter.submitList(homeDaily.toList())
-            Log.d("home getHomeDaily", "observerData: gethomedaily해서 Observer ")
         }
 
         homeViewModel.getHomeWeeklyResult.observe(viewLifecycleOwner) { weeklyCount ->
@@ -85,16 +83,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
         }
         homeViewModel.clickDay.observe(viewLifecycleOwner) { clickDay ->
             bundle.putString(CLICK_DAY, clickDay)
-        }
-//        homeViewModel.deleteTodo.observe(viewLifecycleOwner) {
-//            //todo 왜 observer안돼 끄흡이다, 어디서 만들어자는지 한번 보기
-//            Timber.tag("deleteTodo").e("$it")
-//            homeViewModel.getHomeDaily(weeklyData)
-//            homeAdapter.submitList(homeViewModel.getHomeDaily.value)
-//        }
-        homeViewModel.isDelete.observe(viewLifecycleOwner) {
-            Log.d("homew", "observerData: ")
-            homeViewModel.getHomeDaily(weeklyData)
         }
     }
 

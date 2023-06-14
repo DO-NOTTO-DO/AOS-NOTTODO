@@ -1,65 +1,69 @@
 package kr.co.nottodo.presentation.home.view
 
-import android.app.AlertDialog
-import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
 import kr.co.nottodo.data.model.Home.RequestHomeDoAnotherDay
 import kr.co.nottodo.databinding.FragmentHomeDoAnotherBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
-import java.util.Date
 
 
 class HomeDoAnotherFragment : DialogFragment() {
-
     private var _binding: FragmentHomeDoAnotherBinding? = null
     private val binding get() = _binding!!
-    private val calenderViewModel by activityViewModels<HomeBottomCalenderViewModel>()
-    private lateinit var dates: MutableList<Date>
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = FragmentHomeDoAnotherBinding.inflate(layoutInflater)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentHomeDoAnotherBinding.inflate(inflater, container, false)
         val view = binding.root
-        val builder = AlertDialog.Builder(requireActivity())
-            .setView(view)
-        return builder.create()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         clickDone(requireArguments().getLong(MISSION_ID))
-        addDate()
-    }
-
-    private fun clickDone(missionID: Long) {
-        val apiDateList = binding.homeDoAnotherCalendar.selectedDays.map {
-            RequestHomeDoAnotherDay(it.convertDateToString()!!)
-        }
+        // 각 버튼 클릭 시 각각의 함수 호출
         binding.tvHomeCalendarSelectDone.setOnClickListener {
-            calenderViewModel.postDoAnotherDay(
-                missionID,
-                apiDateList
-            )
+            buttonClickListener.onButton1Clicked()
+            dismiss()
         }
-    }
-
-    private fun addDate() {
-
-        binding.homeDoAnotherCalendar.setOnMonthlyCalendarPickerClickListener { view, date ->
-            val dates = binding.homeDoAnotherCalendar.selectedDays
-            Log.d("addDates1", "addDate:$date")
-        }
-        Log.d("addDates", "addDate: $dates")
-
-//        print(apiDateList)
+        return view
     }
 
     override fun onDestroyView() {
-        _binding = null
         super.onDestroyView()
+        _binding = null
     }
 
+    // 인터페이스
+    interface OnButtonClickListener {
+        fun onButton1Clicked()
+    }
+
+    // 클릭 이벤트 설정
+    fun setButtonClickListener(buttonClickListener: OnButtonClickListener) {
+        this.buttonClickListener = buttonClickListener
+    }
+
+    // 클릭 이벤트 실행
+    private lateinit var buttonClickListener: OnButtonClickListener
+    private fun clickDone(missionID: Long) {
+
+        binding.tvHomeCalendarSelectDone.setOnClickListener {
+            val apiDateList = binding.homeDoAnotherCalendar.selectedDays.map {
+                RequestHomeDoAnotherDay(it.convertDateToString()!!)
+            }
+            Log.d("anotherDay", "clickDone: $apiDateList")
+//            calenderViewModel.postDoAnotherDay(
+//                missionID,
+//                apiDateList
+//            )
+            dismiss()
+        }
+    }
 }
