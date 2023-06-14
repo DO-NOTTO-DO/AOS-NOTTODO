@@ -39,11 +39,13 @@ class HomeViewModel() : ViewModel() {
     val getHomeBottomDetail: LiveData<ResponHomeMissionDetail.HomeMissionDetail> get() = _getHomeBottomDetail
 
     //투두 바텀시트 삭제하기
-    private val _deleteTodo: MutableLiveData<String> =
+    private val _deleteTodo: MutableLiveData<Boolean> =
         MutableLiveData()
-    val deleteTodo: LiveData<String> get() = _deleteTodo
+    val deleteTodo: LiveData<Boolean> get() = _deleteTodo
 
     lateinit var checkTodo: HomeDailyResponse.HomeDaily
+
+    val clickDay: MutableLiveData<String> = MutableLiveData()
 //    val list: List<Pair<LocalDate?, Double>> =
 
 
@@ -120,14 +122,14 @@ class HomeViewModel() : ViewModel() {
             kotlin.runCatching {
                 homeService.deleteTodo(missionId)
             }.fold(onSuccess = {
-                _deleteTodo.value = it.message
+                _deleteTodo.value = true
                 Timber.tag("delete").e("${it.message}")
-//                getHomeDaily("2023-05-21")
             },
                 onFailure = {
                     Timber.d("delete error지롱 ${it.message}")
                 })
         }
+        _deleteTodo.value = false
     }
 
 }

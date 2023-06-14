@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import kr.co.nottodo.data.local.ParcelizeBottomDetailRegister
 import kr.co.nottodo.data.remote.model.home.ResponHomeMissionDetail
 import kr.co.nottodo.databinding.FragmentHomeMenuBottomSheetBinding
 import kr.co.nottodo.databinding.ItemHomeBottomActionsBinding
+import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.CLICK_DAY
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.presentation.modification.view.ModificationActivity
 import kr.co.nottodo.util.getParcelable
@@ -31,6 +33,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     val bundle = Bundle()
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var modifyParcelizeExtra: ParcelizeBottomDetail
+    private lateinit var clickDay: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +46,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData(requireArguments().getLong(MISSION_ID))
+        clickDay = requireArguments().getString(CLICK_DAY).toString()
+        Log.d("bottomclick", "onViewCreated: $clickDay")
         getMissionData()
         setOnClick()
         clickAddAnotherDay()
@@ -74,7 +79,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         }
         binding.btnHomeDelete.setOnClickListener {
             clickDelete(requireArguments().getLong(MISSION_ID))
-            viewModel.getHomeDaily("2023-05-21")
+            viewModel.getHomeDaily(clickDay)
             dismiss()
         }
     }
@@ -169,11 +174,11 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun clickDelete(missionId: Long) {
         viewModel.deleteTodo(missionId)
-
     }
 
     override fun onDestroyView() {
-//        viewModel.getHomeDaily()
+//        viewModel.getHomeDaily(clickDay)
+//        Log.d("HomeMenuBottomSheet", "onDestroyView:$clickDay ")
         _binding = null
         super.onDestroyView()
     }
@@ -181,6 +186,5 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     companion object {
         const val DETAIL = "DETAIL"
         const val MISSIONID = "MISSIONID"
-
     }
 }
