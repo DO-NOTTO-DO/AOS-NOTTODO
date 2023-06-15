@@ -53,9 +53,6 @@ class Application : Application(), OnTokenExpiredListener {
     )
 
     private fun clearForLogout() {
-        SharedPreferences.apply {
-            clearForLogout()
-            setBoolean(LoginActivity.DID_USER_WATCHED_ONBOARD, true)
-        }
+        SharedPreferences.clearForLogout()
     }
 }
