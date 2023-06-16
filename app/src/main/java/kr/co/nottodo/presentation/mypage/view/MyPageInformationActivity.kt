@@ -16,6 +16,22 @@ class MyPageInformationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setClickEvents()
+        setViews()
+    }
+
+    private fun setViews() {
+        setUserName()
+        setUserEmail()
+    }
+
+    private fun setUserEmail() {
+        binding.tvMyPageInformationEmail.text =
+            SharedPreferences.getString(LoginActivity.USER_EMAIL) ?: "연동된 이메일 정보가 없습니다."
+    }
+
+    private fun setUserName() {
+        binding.tvMyPageInformationName.text =
+            SharedPreferences.getString(LoginActivity.USER_NAME) ?: "익명의 도전자"
     }
 
     private fun setClickEvents() {
