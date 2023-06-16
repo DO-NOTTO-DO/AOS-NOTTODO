@@ -13,19 +13,31 @@ class MyPageInformationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMyPageInformationBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
 
-        // tv_member_withdrawal 텍스트뷰 클릭 시 WithdrawalDialogFragment 호출
-        binding.tvMemberWithdrawal.setOnClickListener {
+        setClickEvents()
+    }
+
+    private fun setClickEvents() {
+        setLogoutTvClickEvent()
+        setBackIvClickEvent()
+        setMemberWithdrawalTvClickEvent()
+    }
+
+    private fun setMemberWithdrawalTvClickEvent() {
+        binding.tvMyPageInformationMemberWithdrawal.setOnClickListener {
             WithdrawalDialogFragment().show(supportFragmentManager, "WithdrawalDialog")
         }
+    }
 
-        binding.ivMyPageInformationArrow.setOnClickListener {
+    private fun setBackIvClickEvent() {
+        binding.ivMyPageInformationBackArrow.setOnClickListener {
             if (!isFinishing) finish()
         }
+    }
 
-        binding.layoutLogout.setOnClickListener {
+    private fun setLogoutTvClickEvent() {
+        binding.tvMyPageInformationLogout.setOnClickListener {
             logout()
         }
     }
