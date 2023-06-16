@@ -36,26 +36,93 @@ class ModificationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initDataBinding()
-        initRecyclerView(setMissionName)
-        setSituationRecommendations()
-        initOpenedDesc()
-        initToggles()
-        initData()
-        initActionList(viewModel.actionCount.value)
+        setData()
+        setViews()
+        setObservers()
+        setClickEvent()
+        setEnterKey()
+    }
 
+    private fun setObservers() {
         observeMission()
         observeSituation()
         observeAction()
         observeGoal()
         observeSuccessResponse()
         observeFailureResponse()
-        setActions()
+        observeGetRecommendSituationList()
+        observeGetRecentMissionListResponse()
+    }
 
+    private fun observeGetRecentMissionListResponse() {
+        observeGetRecentMissionListSuccessResponse()
+        observeGetRecentMissionListErrorResponse()
+    }
+
+    private fun observeGetRecentMissionListErrorResponse() {
+        viewModel.getRecentMissionListSuccessResponse.observe(this) { response ->
+            initRecyclerView(setMissionName, response.data.map { mission ->
+                mission.title
+            })
+        }
+    }
+
+    private val setMissionName: (String) -> Unit = { missionName: String ->
+        binding.etModificationMission.setText(missionName)
+        binding.etModificationMission.requestFocus()
+        binding.etModificationMission.setSelection(binding.etModificationMission.length())
+        this.showKeyboard(binding.etModificationMission)
+    }
+
+    private fun observeGetRecentMissionListSuccessResponse() {
+        viewModel.getRecentMissionListListErrorResponse.observe(this) { errorMessage ->
+            showToast(errorMessage)
+        }
+    }
+
+    private fun observeGetRecommendSituationList() {
+        observeGetRecommendSituationListSuccessResponse()
+        observeGetRecommendSituationListErrorResponse()
+    }
+
+    private fun observeGetRecommendSituationListSuccessResponse() {
+        viewModel.getRecommendSituationListSuccessResponse.observe(this) { response ->
+            setSituationRecommendations(response.data.map { situation -> situation.name })
+        }
+    }
+
+    private fun observeGetRecommendSituationListErrorResponse() {
+        viewModel.getRecommendSituationListErrorResponse.observe(this) { errorMessage ->
+            showToast(errorMessage)
+        }
+    }
+
+    private fun setViews() {
+        initDataBinding()
+        initOpenedDesc()
+        initToggles()
+        setActions()
+        initActionList(viewModel.actionCount.value)
+    }
+
+    private fun setClickEvent() {
         setModifyButton()
-        setDeleteButtons()
         setFinishButton()
-        setEnterKey()
+        setDeleteButtons()
+    }
+
+    private fun setData() {
+        setDataFromHome()
+        getRecentMissionList()
+        getRecommendSituationList()
+    }
+
+    private fun getRecommendSituationList() {
+        viewModel.getRecommendSituationList()
+    }
+
+    private fun getRecentMissionList() {
+        viewModel.getRecentMissionList()
     }
 
     private fun initActionList(actionCount: Int?) {
@@ -90,10 +157,9 @@ class ModificationActivity : AppCompatActivity() {
         }
     }
 
-    private fun initData() {
+    private fun setDataFromHome() {
         val dataFromHome = intent.getParcelable(
-            HomeMenuBottomSheetFragment.DETAIL,
-            ParcelizeBottomDetail::class.java
+            HomeMenuBottomSheetFragment.DETAIL, ParcelizeBottomDetail::class.java
         )
 
         if (dataFromHome != null) {
@@ -273,17 +339,9 @@ class ModificationActivity : AppCompatActivity() {
 
     }
 
-    private val setMissionName: (String) -> Unit = { missionName: String ->
-        binding.etModificationMission.setText(missionName)
-        binding.etModificationMission.requestFocus()
-        binding.etModificationMission.setSelection(binding.etModificationMission.length())
-        this.showKeyboard(binding.etModificationMission)
-    }
-
-    private fun setSituationRecommendations() {
+    private fun setSituationRecommendations(situationList: List<String>) {
         binding.layoutModificationSituationRecommend.addButtons(
-            listOf("업무 시간 중", "작업 중", "기상 시간", "공부 시간", "취침 전", "출근 중"),
-            binding.etModificationSituation
+            situationList, binding.etModificationSituation
         )
     }
 
@@ -656,8 +714,9 @@ class ModificationActivity : AppCompatActivity() {
         binding.tvModificationGoalOpenedDesc.text = goalOpenedDesc
     }
 
-    private fun initRecyclerView(setMissionName: (String) -> Unit) {
-        binding.rvModificationMission.adapter = MissionHistoryAdapter(this, setMissionName)
+    private fun initRecyclerView(setMissionName: (String) -> Unit, missionList: List<String>) {
+        binding.rvModificationMission.adapter =
+            MissionHistoryAdapter(this, setMissionName, missionList)
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
