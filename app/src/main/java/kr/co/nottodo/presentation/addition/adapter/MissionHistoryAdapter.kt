@@ -7,23 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.databinding.ItemAdditionMissionHistoryBinding
 
 class MissionHistoryAdapter(
-    private val context: Context, private val setMissionName: (String) -> Unit,
+    private val context: Context,
+    private val setMissionName: (String) -> Unit,
+    private val missionHistory: List<String>,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val missionHistory = listOf(
-        "쓸데없는 계획 세우지 않기",
-        "군것질 비율 줄이기",
-        "유튜브 보지 않기",
-        "핸드폰 작작 보고 끊어버리기",
-        "쓸데없는 계획 세우지 않기",
-        "군것질 비율 줄이기",
-        "유튜브 보지 않기",
-        "핸드폰 작작 보고 끊어버리기",
-        "쓸데없는 계획 세우지 않기",
-        "군것질 비율 줄이기",
-        "유튜브 보지 않기",
-        "핸드폰 작작 보고 끊어버리기"
-    )
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
             ItemAdditionMissionHistoryBinding.inflate(LayoutInflater.from(context), parent, false)
