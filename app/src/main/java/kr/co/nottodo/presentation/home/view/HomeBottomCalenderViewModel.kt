@@ -20,11 +20,12 @@ class HomeBottomCalenderViewModel() : ViewModel() {
     val postDoAnotherDay: LiveData<String> get() = _postDoAnotherDay
 
 
-    fun postDoAnotherDay(missionId: Long, dates: List<RequestHomeDoAnotherDay>) {
+    fun postDoAnotherDay(missionId: Long, dates: List<String>) {
         viewModelScope.launch {
             runCatching {
-                homeService.postDoAnotherDay(missionId, dates)
-            }.fold(onSuccess = { _postDoAnotherDay.value = it.message },
+                homeService.postDoAnotherDay(missionId, RequestHomeDoAnotherDay(dates))
+            }.fold(onSuccess = { _postDoAnotherDay.value = it.message
+                Timber.d("성공이지롱 ${it.message}")        },
                 onFailure = {
                     Timber.d("error지롱 ${it.message}")
                 })

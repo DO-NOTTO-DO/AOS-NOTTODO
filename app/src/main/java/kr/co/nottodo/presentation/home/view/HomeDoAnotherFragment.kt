@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import kr.co.nottodo.data.model.Home.RequestHomeDoAnotherDay
 import kr.co.nottodo.databinding.FragmentHomeDoAnotherBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
@@ -17,7 +16,8 @@ import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 class HomeDoAnotherFragment : DialogFragment() {
     private var _binding: FragmentHomeDoAnotherBinding? = null
     private val binding get() = _binding!!
-//    private lateinit var missionID: Long
+
+    //    private lateinit var missionID: Long
     private val homeDoAnother by viewModels<HomeBottomCalenderViewModel>()
 
     override fun onCreateView(
@@ -36,15 +36,7 @@ class HomeDoAnotherFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.tvHomeCalendarSelectDone.setOnClickListener {
             buttonClickListener.onButton1Clicked()
-//            val apiDateList = binding.homeDoAnotherCalendar.selectedDays.map {
-//                RequestHomeDoAnotherDay(it.convertDateToString()!!)
-//            }
-//            Log.d("anotherDay", "clickDone: $apiDateList")
-//            homeDoAnother.postDoAnotherDay(
-//                missionID,
-//                apiDateList
-//            )
-            clickDone(missionID = requireArguments().getLong(MISSION_ID))
+            clickDone(requireArguments().getLong(MISSION_ID))
             dismiss()
         }
     }
@@ -67,17 +59,12 @@ class HomeDoAnotherFragment : DialogFragment() {
     // 클릭 이벤트 실행
     private lateinit var buttonClickListener: OnButtonClickListener
     private fun clickDone(missionID: Long) {
-
-        binding.tvHomeCalendarSelectDone.setOnClickListener {
-            val apiDateList = binding.homeDoAnotherCalendar.selectedDays.map {
-                RequestHomeDoAnotherDay(it.convertDateToString()!!)
-            }
-            Log.d("anotherDay", "clickDone: $apiDateList")
-            homeDoAnother.postDoAnotherDay(
-                missionID,
-                apiDateList
-            )
-            dismiss()
+        val apiDateList = binding.homeDoAnotherCalendar.selectedDays.map {
+            it.convertDateToString()!!
         }
+        homeDoAnother.postDoAnotherDay(
+            missionID,
+            apiDateList
+        )
     }
 }

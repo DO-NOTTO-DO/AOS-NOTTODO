@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.nottodo.data.model.Home.HomeDailyResponse
+import kr.co.nottodo.data.model.Home.RequestHomeDoAnotherDay
 import kr.co.nottodo.data.model.Home.RequestHomeMissionCheck
 import kr.co.nottodo.data.model.Home.ResponseHomeMissionCheckDto
 import kr.co.nottodo.data.remote.api.ServicePool
@@ -42,6 +43,10 @@ class HomeViewModel() : ViewModel() {
     private val _deleteTodo: MutableLiveData<Boolean> =
         MutableLiveData()
     val clickDay: MutableLiveData<String> = MutableLiveData()
+
+    private val _postDoAnotherDay: MutableLiveData<String> =
+        MutableLiveData()
+    val postDoAnotherDay: LiveData<String> get() = _postDoAnotherDay
 
     fun getHomeDaily(date: String) {
         viewModelScope.launch {
@@ -122,5 +127,4 @@ class HomeViewModel() : ViewModel() {
         }
         _deleteTodo.value = false
     }
-
 }
