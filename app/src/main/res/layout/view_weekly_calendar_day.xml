@@ -28,7 +28,7 @@
             android:textColor="@color/white"
             tools:text="월"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toTopOf="@id/tv_weekly_calendar_day"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,17 +37,19 @@
         <TextView
             android:id="@+id/tv_weekly_calendar_day"
             style="@style/M14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
             android:layout_marginTop="10dp"
             android:text="@{day}"
             android:gravity="center"
             android:textColor="@color/white"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_weekly_calendar_day_of_week"
+            tools:background="@drawable/circle_solid_white_width_38dp"
+            tools:textColor="@color/black"
             tools:text="31" />
 
         <ImageView

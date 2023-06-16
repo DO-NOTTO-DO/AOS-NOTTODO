@@ -32,16 +32,12 @@ class LoginViewModel : ViewModel() {
         FCMToken = newFCMToken
     }
 
-    fun getToken() {
+    fun login(socialToken: String, fcmToken: String) {
         viewModelScope.launch {
             kotlin.runCatching {
                 tokenService.getToken(
                     KAKAO, RequestTokenDto(
-                        socialToken ?: throw NullPointerException(
-                            "social token is null"
-                        ), FCMToken ?: throw NullPointerException(
-                            "fcm token is null"
-                        )
+                        socialToken = socialToken, fcmToken = fcmToken
                     )
                 )
             }.fold(onSuccess = { _getTokenResult.value = it },
