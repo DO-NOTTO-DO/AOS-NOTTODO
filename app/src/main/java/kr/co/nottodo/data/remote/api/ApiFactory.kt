@@ -8,6 +8,7 @@ import kr.co.nottodo.data.remote.api.home.AchieveService
 import kr.co.nottodo.data.remote.api.home.HomeService
 import kr.co.nottodo.data.remote.api.login.TokenService
 import kr.co.nottodo.data.remote.api.modification.ModificationService
+import kr.co.nottodo.data.remote.api.mypage.MyPageService
 import kr.co.nottodo.data.remote.interceptor.TokenInterceptor
 import kr.co.nottodo.listeners.OnTokenExpiredListener
 import kr.co.nottodo.presentation.recommendation.dto.RecommendationActionListService
@@ -49,4 +50,5 @@ object ServicePool {
     val modificationService = ApiFactory.create<ModificationService>()
     val recommendationActionListService = ApiFactory.create<RecommendationActionListService>()
     val recommendationActionTitleService = ApiFactory.create<RecommendationActionTitleService>()
+    val myPageService = ApiFactory.create<MyPageService>()
 }
