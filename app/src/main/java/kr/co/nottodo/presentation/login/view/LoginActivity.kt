@@ -32,13 +32,6 @@ class LoginActivity : AppCompatActivity() {
         observeGetTokenResult()
     }
 
-    private fun setFCMToken() {
-        FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
-            viewModel.setFCMToken(token)
-            Timber.tag("fcm").e(token)
-        }
-    }
-
     private fun showOnboardForFirstUser() {
         if (!SharedPreferences.getBoolean(DID_USER_WATCHED_ONBOARD)) startActivity(
             Intent(
@@ -61,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
             if (!isFinishing) finish()
         }
         viewModel.getErrorResult.observe(this) {
-            UserApiClient.instance.logout { showToast("오류 발생, 다시 로그인 해주세요. 사유: ${it.toString()}") }
+            UserApiClient.instance.logout { showToast("오류 발생, 다시 로그인 해주세요.") }
         }
     }
 
@@ -110,13 +103,13 @@ class LoginActivity : AppCompatActivity() {
 //    }
 
     private fun setKakaoLogin() {
-        val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { socialToken, error ->
             if (error != null) {
                 Timber.e("로그인 실패 $error")
-            } else if (token != null) {
-                setFCMToken()
-                viewModel.setSocialToken(token.accessToken)
-                viewModel.getToken()
+            } else if (socialToken != null) {
+                FirebaseMessaging.getInstance().token.addOnSuccessListener { fcmToken ->
+                    viewModel.login(socialToken = socialToken.accessToken, fcmToken = fcmToken)
+                }
             }
         }
 
@@ -147,9 +140,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                     // 로그인 성공 부분
                     else if (token != null) {
-                        setFCMToken()
-                        viewModel.setSocialToken(token.accessToken)
-                        viewModel.getToken()
+                        kakaoLoginCallback.invoke(token, error)
                     }
                 }
             } else {
@@ -166,7 +157,6 @@ class LoginActivity : AppCompatActivity() {
     companion object {
         const val KAKAO: String = "KAKAO"
         const val USER_TOKEN = "USER_TOKEN"
-        const val FCM_TOKEN = "FCM_TOKEN"
         const val DID_USER_WATCHED_ONBOARD = "DID_USER_WATCHED_ONBOARD"
     }
 }

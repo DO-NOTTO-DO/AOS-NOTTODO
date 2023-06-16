@@ -11,16 +11,15 @@ class TokenInterceptor(private val onTokenExpiredListener: OnTokenExpiredListene
         val userToken = SharedPreferences.getString(USER_TOKEN)
 
         val originalRequest = chain.request()
-        val newRequest = originalRequest.newBuilder()
-        if (userToken != null) {
-            newRequest.header(
-                "Authorization", userToken
-            )
+        if (userToken.isNullOrBlank()) {
+            return chain.proceed(originalRequest)
         }
-        val response = chain.proceed(newRequest.build())
-        if (response.code == 401)
-            onTokenExpiredListener.onTokenExpired()
+        val tokenAddedRequest = originalRequest.newBuilder().header(
+            "Authorization", SharedPreferences.getString(USER_TOKEN) ?: ""
+        ).build()
 
-        return response
+        val response = chain.proceed(tokenAddedRequest)
+        if (response.code == 401) onTokenExpiredListener.onTokenExpired()
+        return chain.proceed(tokenAddedRequest)
     }
 }
