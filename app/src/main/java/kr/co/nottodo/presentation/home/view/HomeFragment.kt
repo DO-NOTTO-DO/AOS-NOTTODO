@@ -56,7 +56,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         observerData()
         clickFloatingBtn()
         setWeeklyDate()
-        initMonth()
+        weeklyDayClick()
     }
 
     private fun observerData() {
@@ -125,7 +125,11 @@ class HomeFragment : Fragment(), DialogCloseListener {
         })
     }
 
-    private fun initMonth() {
+//    private fun setWeeklyDayClick(){
+//        binding.weeklyCalendar.setOnWeeklyDayClickListener()
+//    }
+
+    private fun weeklyDayClick() {
         binding.weeklyCalendar.setOnWeeklyDayClickListener { view, date ->
             Timber.d("calender", "initMonth: $date")
             weeklyData = date.toString()
