@@ -124,5 +124,6 @@ class LoginActivity : AppCompatActivity() {
         const val DID_USER_WATCHED_ONBOARD = "DID_USER_WATCHED_ONBOARD"
         const val USER_NAME = "USER_NAME"
         const val USER_EMAIL = "USER_EMAIL"
+        const val DID_USER_CHOOSE_TO_BE_NOTIFIED = "DID_USER_CHOOSE_TO_BE_NOTIFIED"
     }
 }
