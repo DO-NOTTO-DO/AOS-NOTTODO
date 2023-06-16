@@ -50,5 +50,6 @@ object ServicePool {
     val modificationService = ApiFactory.create<ModificationService>()
     val recommendationActionListService = ApiFactory.create<RecommendationActionListService>()
     val recommendationActionTitleService = ApiFactory.create<RecommendationActionTitleService>()
+    val notTodoService = ApiFactory.create<NotTodoService>()
     val myPageService = ApiFactory.create<MyPageService>()
 }
