@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
-import kr.co.nottodo.presentation.recommendation.main.RecommendationMain
 import kr.co.nottodo.presentation.recommendation.main.RecommendationMainActivity
 
 
