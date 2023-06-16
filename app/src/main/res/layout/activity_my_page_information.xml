@@ -183,13 +183,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.SwitchCompat
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switch_my_page_information_notification_permission"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:thumb="@drawable/bg_switch_thumb"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:switchMinWidth="45dp"
+                app:track="@drawable/bg_switch_track"
+                app:useMaterialThemeColors="false" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
