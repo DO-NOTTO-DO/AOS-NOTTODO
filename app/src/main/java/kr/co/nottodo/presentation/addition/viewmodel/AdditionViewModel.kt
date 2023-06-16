@@ -9,7 +9,12 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kr.co.nottodo.data.remote.api.ServicePool.additionService
+import kr.co.nottodo.data.remote.api.ServicePool.notTodoService
 import kr.co.nottodo.data.remote.model.FailureResponseDto
+import kr.co.nottodo.data.remote.model.RequestAdditionDto
+import kr.co.nottodo.data.remote.model.ResponseAdditionDto
+import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
+import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
@@ -46,8 +51,7 @@ class AdditionViewModel : ViewModel() {
     }
 
     private fun _isAbleToAdd(): Boolean {
-        return (isMissionFilled.value == true
-                && isSituationFilled.value == true)
+        return (isMissionFilled.value == true && isSituationFilled.value == true)
     }
 
     private val _additionResponse: MutableLiveData<ResponseAdditionDto.Addition> = MutableLiveData()
@@ -62,20 +66,59 @@ class AdditionViewModel : ViewModel() {
         viewModelScope.launch {
             kotlin.runCatching {
                 additionService.postMission(requestAdditionDto)
-            }.fold(onSuccess = { _additionResponse.value = it.data },
-                onFailure = {
-                    _errorResponse.value = getErrorMessage(it)
-                })
+            }.fold(onSuccess = { _additionResponse.value = it.data }, onFailure = {
+                _errorResponse.value = getErrorMessage(it)
+            })
+        }
+    }
+
+    private val _getRecommendSituationListSuccessResponse: MutableLiveData<ResponseRecommendSituationListDto> =
+        MutableLiveData()
+    val getRecommendSituationListSuccessResponse: LiveData<ResponseRecommendSituationListDto> =
+        _getRecommendSituationListSuccessResponse
+
+    private val _getRecommendSituationListErrorResponse: MutableLiveData<String> = MutableLiveData()
+    val getRecommendSituationListErrorResponse: LiveData<String> =
+        _getRecommendSituationListErrorResponse
+
+    fun getRecommendSituationList() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                notTodoService.getRecommendSituationList()
+            }.fold(onSuccess = { response ->
+                _getRecommendSituationListSuccessResponse.value = response
+            }, onFailure = { error ->
+                _getRecommendSituationListErrorResponse.value = error.message
+            })
+        }
+    }
+
+    private val _getRecentMissionListSuccessResponse: MutableLiveData<ResponseRecentMissionListDto> =
+        MutableLiveData()
+    val getRecentMissionListSuccessResponse: LiveData<ResponseRecentMissionListDto> =
+        _getRecentMissionListSuccessResponse
+
+    private val _getRecentMissionListErrorResponse: MutableLiveData<String> = MutableLiveData()
+    val getRecentMissionListListErrorResponse: LiveData<String> = _getRecentMissionListErrorResponse
+
+    fun getRecentMissionList() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                notTodoService.getRecentMissionList()
+            }.fold(onSuccess = { response ->
+                _getRecentMissionListSuccessResponse.value = response
+            }, onFailure = { error ->
+                _getRecentMissionListErrorResponse.value = error.message
+            })
         }
     }
 
     private fun getErrorMessage(result: Throwable): String {
         when (result) {
             is HttpException -> {
-                val data =
-                    Json.decodeFromString<FailureResponseDto>(
-                        result.response()?.errorBody()?.string() ?: return "예기치 못한 에러 발생2"
-                    )
+                val data = Json.decodeFromString<FailureResponseDto>(
+                    result.response()?.errorBody()?.string() ?: return "예기치 못한 에러 발생2"
+                )
                 return data.message
             }
 
