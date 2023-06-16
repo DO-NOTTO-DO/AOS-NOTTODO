@@ -1,4 +1,4 @@
-package kr.co.nottodo.data.remote.api
+package kr.co.nottodo.data.remote.interceptor
 
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.listeners.OnTokenExpiredListener

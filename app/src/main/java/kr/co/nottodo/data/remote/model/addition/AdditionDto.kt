@@ -1,35 +1,31 @@
-package kr.co.nottodo.data.remote.model
+package kr.co.nottodo.data.remote.model.addition
 
-import android.app.Notification.Action
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto
 
 @Serializable
-data class RequestModificationDto(
+data class RequestAdditionDto(
     @SerialName("title") val title: String,
     @SerialName("situation") val situation: String,
     @SerialName("actions") val actions: List<String>?,
     @SerialName("goal") val goal: String?,
+    @SerialName("dates") val dates: List<String>,
 )
 
 @Serializable
-data class ResponseModificationDto(
+data class ResponseAdditionDto(
     @SerialName("status") val status: Int,
     @SerialName("success") val success: Boolean,
     @SerialName("message") val message: String,
-    @SerialName("data") val data: Modification,
+    @SerialName("data") val data: Addition,
 ) {
     @Serializable
-    data class Modification(
+    data class Addition(
         @SerialName("title") val title: String,
         @SerialName("situation") val situation: String,
-        @SerialName("actions") val actions: List<Action>?,
+        @SerialName("actions") val actions: List<ResponseModificationDto.Modification.Action>?,
         @SerialName("goal") val goal: String?,
-    ) {
-        @Serializable
-        data class Action(
-            @SerialName("name")
-            val name: String,
-        )
-    }
+        @SerialName("dates") val dates: List<String>,
+    )
 }
