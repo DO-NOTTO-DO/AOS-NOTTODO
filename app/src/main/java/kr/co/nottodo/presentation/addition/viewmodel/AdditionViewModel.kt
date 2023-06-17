@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kr.co.nottodo.data.remote.api.ServicePool.additionService
 import kr.co.nottodo.data.remote.model.FailureResponseDto
-import kr.co.nottodo.data.remote.model.RequestAdditionDto
-import kr.co.nottodo.data.remote.model.ResponseAdditionDto
+import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
+import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import retrofit2.HttpException
 import timber.log.Timber

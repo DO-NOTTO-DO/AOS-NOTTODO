@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kr.co.nottodo.data.remote.api.ServicePool.modificationService
 import kr.co.nottodo.data.remote.model.FailureResponseDto
-import kr.co.nottodo.data.remote.model.RequestModificationDto
-import kr.co.nottodo.data.remote.model.ResponseModificationDto
+import kr.co.nottodo.data.remote.model.modification.RequestModificationDto
+import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto
 import kr.co.nottodo.presentation.modification.view.ModificationActivity.Companion.NotTodoData
 import retrofit2.HttpException
 import timber.log.Timber

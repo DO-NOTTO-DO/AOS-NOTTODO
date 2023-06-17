@@ -3,223 +3,229 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_1_2a2a2e">
+    android:background="@color/black">
 
     <ImageView
-        android:id="@+id/iv_my_page_information_arrow"
-        android:layout_width="7dp"
-        android:layout_height="13dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="38dp"
+        android:id="@+id/iv_my_page_information_back_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="18dp"
+        android:paddingVertical="16dp"
         android:src="@drawable/ic_my_page_infomation_arrow"
+        app:layout_constraintBottom_toBottomOf="@id/tv_my_page_information_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/tv_my_page_information_title" />
 
     <TextView
-        android:id="@+id/tv_title_my_page_information"
+        android:id="@+id/tv_my_page_information_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="34dp"
-        android:gravity="center"
         android:text="계정 정보"
         android:textColor="@color/white"
-        android:textSize="18sp"
         android:theme="@style/Sb18"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view_my_page_divider_first"
+        android:id="@+id/view_my_page_information_divider_first"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1dp"
         android:layout_marginTop="21dp"
-        android:background="@color/gray_3_5d5d6b"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_my_page_information" />
+        android:background="@color/gray_2_34343a"
+        app:layout_constraintTop_toBottomOf="@id/tv_my_page_information_title" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_second"
+        android:id="@+id/layout_my_page_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="17dp"
+        android:layout_marginHorizontal="18dp"
         android:layout_marginTop="42dp"
-        android:background="@drawable/item_my_page_rectangle_gray2_radius10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_my_page_divider_first">
+        android:background="@drawable/rectangle_gray_1_radius10"
+        app:layout_constraintTop_toBottomOf="@id/view_my_page_information_divider_first">
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_my_page_information_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:paddingVertical="17dp"
-            android:text="닉네임"
-            android:textAppearance="@style/M14"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@id/layout_second"
-            app:layout_constraintTop_toTopOf="@id/layout_second" />
+            android:paddingHorizontal="18dp"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_name_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:paddingVertical="17dp"
-            android:text="내이름은 노또"
-            android:textColor="@color/gray_6_e6e6f2"
-            android:theme="@style/R14"
-            app:layout_constraintEnd_toEndOf="@id/layout_second"
-            app:layout_constraintTop_toTopOf="@id/layout_second" />
+            <TextView
+                android:id="@+id/tv_my_page_information_name_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="17dp"
+                android:text="닉네임"
+                android:textAppearance="@style/M14"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_my_page_information_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="17dp"
+                android:text="내이름은 노또"
+                android:textColor="@color/gray_6_e6e6f2"
+                android:theme="@style/R14"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
-            android:id="@+id/view_my_page_divider_second"
+            android:id="@+id/view_my_page_information_divider_second"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray_3_5d5d6b"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_name" />
+            android:layout_height="1dp"
+            android:background="@color/gray_2_34343a"
+            app:layout_constraintTop_toBottomOf="@id/layout_my_page_information_name" />
 
-        <TextView
-            android:id="@+id/tv_email"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_my_page_information_email"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:paddingVertical="17dp"
-            android:text="이메일"
-            android:textAppearance="@style/M14"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@id/layout_second"
-            app:layout_constraintTop_toBottomOf="@id/view_my_page_divider_second" />
+            android:paddingHorizontal="18dp"
+            app:layout_constraintTop_toBottomOf="@id/view_my_page_information_divider_second">
 
-        <TextView
-            android:id="@+id/tv_email_informaiton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:paddingVertical="17dp"
-            android:text="ghdtjgus1234@kakao.com"
-            android:textColor="@color/gray_6_e6e6f2"
-            android:theme="@style/R14"
-            app:layout_constraintEnd_toEndOf="@id/layout_second"
-            app:layout_constraintTop_toTopOf="@id/view_my_page_divider_second" />
+            <TextView
+                android:id="@+id/tv_my_page_information_email_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="17dp"
+                android:text="이메일"
+                android:textAppearance="@style/M14"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_my_page_information_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="17dp"
+                android:text="ghdtjgus1234@kakao.com"
+                android:textColor="@color/gray_6_e6e6f2"
+                android:theme="@style/R14"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
-            android:id="@+id/view_my_page_divider_third"
+            android:id="@+id/view_my_page_information_divider_third"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray_3_5d5d6b"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_email_informaiton" />
+            android:layout_height="1dp"
+            android:background="@color/gray_2_34343a"
+            app:layout_constraintTop_toBottomOf="@id/layout_my_page_information_email" />
 
-        <TextView
-            android:id="@+id/tv_linked_accouts"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_my_page_information_linked_account"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:paddingVertical="17dp"
-            android:text="연결된 계정"
-            android:textAppearance="@style/M14"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@id/layout_second"
-            app:layout_constraintTop_toBottomOf="@id/view_my_page_divider_third" />
+            android:paddingHorizontal="18dp"
+            app:layout_constraintTop_toBottomOf="@id/layout_my_page_information_email">
 
-        <TextView
-            android:id="@+id/tv_linked_accouts_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="17dp"
-            android:paddingVertical="17dp"
-            android:text="카카오톡"
-            android:textColor="@color/gray_6_e6e6f2"
-            android:theme="@style/R14"
-            app:layout_constraintEnd_toEndOf="@id/layout_second"
-            app:layout_constraintTop_toBottomOf="@id/view_my_page_divider_third" />
+            <TextView
+                android:id="@+id/tv_my_page_information_linked_account_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="17dp"
+                android:text="연결된 계정"
+                android:textAppearance="@style/M14"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_my_page_information_linked_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="17dp"
+                android:text="카카오톡"
+                android:textColor="@color/gray_6_e6e6f2"
+                android:theme="@style/R14"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/view_my_page_divider_fourth"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/gray_3_5d5d6b"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_linked_accouts_information" />
+            android:layout_height="1dp"
+            android:background="@color/gray_2_34343a"
+            app:layout_constraintTop_toBottomOf="@id/layout_my_page_information_linked_account" />
 
-        <TextView
-            android:id="@+id/tv_push_alarm_settings"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_my_page_information_notification_permission"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:paddingVertical="17dp"
-            android:text="푸시 알람 설정"
-            android:textAppearance="@style/M14"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@id/layout_second"
-            app:layout_constraintTop_toBottomOf="@id/view_my_page_divider_fourth" />
+            android:paddingHorizontal="18dp"
+            app:layout_constraintTop_toBottomOf="@id/view_my_page_divider_fourth">
 
-        <Switch
-            android:id="@+id/colorSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingVertical="17dp"
-            android:switchMinWidth="55dp"
-            app:layout_constraintEnd_toEndOf="@id/layout_second"
-            app:layout_constraintTop_toTopOf="@id/view_my_page_divider_fourth" />
+            <TextView
+                android:id="@+id/tv_my_page_information_notification_permission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="17dp"
+                android:text="푸시 알람 설정"
+                android:textAppearance="@style/M14"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch_my_page_information_notification_permission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:thumb="@drawable/bg_switch_thumb"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:switchMinWidth="45dp"
+                app:track="@drawable/bg_switch_track"
+                app:useMaterialThemeColors="false" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="17dp"
-        android:layout_marginTop="23dp"
-        android:background="@drawable/item_my_page_rectangle_gray2_radius10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_second">
-
-        <TextView
-            android:id="@+id/tv_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:paddingVertical="17dp"
-            android:text="로그아웃"
-            android:textAppearance="@style/M14"
-            android:textColor="@color/red_ff6464"
-            app:layout_constraintStart_toStartOf="@id/layout_logout"
-            app:layout_constraintTop_toTopOf="@id/layout_logout" />
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/tv_push_alarm_settings_button"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginEnd="17dp"-->
-        <!--            android:paddingVertical="17dp"-->
-        <!--            android:text="ghdtjgus1234@naver.com"-->
-        <!--            android:textColor="@color/gray_6_e6e6f2"-->
-        <!--            android:theme="@style/R14"-->
-        <!--            app:layout_constraintEnd_toEndOf="@id/layout_third"-->
-        <!--            app:layout_constraintTop_toTopOf="@id/layout_third" />-->
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/tv_member_withdrawal"
+        android:id="@+id/tv_my_page_information_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/rectangle_gray_1_radius10"
+        android:paddingVertical="17dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="0dp"
+        android:text="로그아웃"
+        android:textAppearance="@style/M14"
+        android:textColor="@color/red_ff6464"
+        app:layout_constraintTop_toBottomOf="@id/layout_my_page_information" />
+
+    <TextView
+        android:id="@+id/tv_my_page_information_member_withdrawal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="165dp"
-        android:layout_marginTop="263dp"
-        android:text="회원탈퇴"
+        android:layout_marginBottom="11dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="12dp"
+        android:text="@string/user_withdrawal"
+        android:textAppearance="@style/R12"
         android:textColor="@color/gray_4_9398aa"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_logout" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
