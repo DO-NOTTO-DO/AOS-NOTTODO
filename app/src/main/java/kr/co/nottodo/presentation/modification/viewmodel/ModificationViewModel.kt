@@ -11,8 +11,6 @@ import kotlinx.serialization.json.Json
 import kr.co.nottodo.data.remote.api.ServicePool
 import kr.co.nottodo.data.remote.api.ServicePool.modificationService
 import kr.co.nottodo.data.remote.model.FailureResponseDto
-import kr.co.nottodo.data.remote.model.RequestModificationDto
-import kr.co.nottodo.data.remote.model.ResponseModificationDto
 import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
 import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.modification.RequestModificationDto
