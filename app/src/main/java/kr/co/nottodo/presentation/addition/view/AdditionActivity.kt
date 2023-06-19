@@ -1,5 +1,6 @@
 package kr.co.nottodo.presentation.addition.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -12,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
+import kr.co.nottodo.MainActivity
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
@@ -135,9 +137,16 @@ class AdditionActivity : AppCompatActivity() {
     private fun observeSuccessResponse() {
         viewModel.additionResponse.observe(this) {
             showToast("낫투두 생성 완료 !")
+            navigateToMain()
             if (!isFinishing) finish()
         }
     }
+
+    private fun navigateToMain() = startActivity(
+        Intent(this, MainActivity::class.java).setFlags(
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        )
+    )
 
     private fun setActionBox(isActionFilled: Boolean) {
         if (isActionFilled) {
@@ -342,30 +351,30 @@ class AdditionActivity : AppCompatActivity() {
         }
 
         binding.btnAdditionAdd.setOnClickListener {
-            if (binding.btnAdditionAdd.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
-                var actionList: MutableList<String>? = mutableListOf()
-                if (!binding.tvAdditionActionFirst.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionFirst.text.toString())
-                if (!binding.tvAdditionActionSecond.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionSecond.text.toString())
-                if (!binding.tvAdditionActionThird.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionThird.text.toString())
-                if (actionList?.isEmpty() == true) actionList = null
+            if (binding.btnAdditionAdd.currentTextColor != getColor(R.color.gray_1_2a2a2e)) return@setOnClickListener
 
-                var goal: String? = viewModel.goal.value
-                if (goal?.isBlank() == true) goal = null
+            var actionList: MutableList<String>? = mutableListOf()
+            if (!binding.tvAdditionActionFirst.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionFirst.text.toString())
+            if (!binding.tvAdditionActionSecond.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionSecond.text.toString())
+            if (!binding.tvAdditionActionThird.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionThird.text.toString())
+            if (actionList?.isEmpty() == true) actionList = null
 
-                val dateList: List<String> =
-                    binding.calendarAdditionDateOpened.selectedDays.mapNotNull { selectedDay ->
-                        selectedDay.convertDateToString()
-                    }
-                viewModel.postAddition(
-                    RequestAdditionDto(
-                        title = binding.tvAdditionMissionClosedName.text.toString(),
-                        situation = binding.tvAdditionSituationName.text.toString(),
-                        actions = actionList,
-                        goal = goal,
-                        dates = dateList
-                    )
+            var goal: String? = viewModel.goal.value
+            if (goal?.isBlank() == true) goal = null
+
+            val dateList: List<String> =
+                binding.calendarAdditionDateOpened.selectedDays.mapNotNull { selectedDay ->
+                    selectedDay.convertDateToString()
+                }
+            viewModel.postAddition(
+                RequestAdditionDto(
+                    title = binding.tvAdditionMissionClosedName.text.toString(),
+                    situation = binding.tvAdditionSituationName.text.toString(),
+                    actions = actionList,
+                    goal = goal,
+                    dates = dateList
                 )
-            }
+            )
         }
     }
 
