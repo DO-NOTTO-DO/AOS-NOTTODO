@@ -8,6 +8,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
+import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.recommendation.action.RecommendationAction
 
 class RecommendationMain : Activity() {
@@ -43,6 +44,8 @@ class RecommendationMain : Activity() {
             }
         })
 
+        val writeDirectlyButton = findViewById<View>(R.id.btn_write_directly)
+        writeDirectlyButton.setOnClickListener { startActivity(Intent(this, AdditionActivity::class.java)) }
     }
 }
 
