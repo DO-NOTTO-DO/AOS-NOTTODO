@@ -1,6 +1,5 @@
 package kr.co.nottodo.presentation.modification.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -16,10 +15,9 @@ import androidx.databinding.DataBindingUtil
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.ParcelizeBottomDetail
-import kr.co.nottodo.data.local.ParcelizeBottomDetailRegister
 import kr.co.nottodo.databinding.ActivityModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
-import kr.co.nottodo.presentation.home.view.HomeMenuBottomSheetFragment.Companion.DETAIL
+import kr.co.nottodo.presentation.home.view.HomeMenuBottomSheetFragment
 import kr.co.nottodo.presentation.modification.viewmodel.ModificationViewModel
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.getParcelable
@@ -38,26 +36,93 @@ class ModificationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initDataBinding()
-        initRecyclerView(setMissionName)
-        setSituationRecommendations()
-        initOpenedDesc()
-        initToggles()
-        initData()
-        initActionList(viewModel.actionCount.value)
+        setData()
+        setViews()
+        setObservers()
+        setClickEvent()
+        setEnterKey()
+    }
 
+    private fun setObservers() {
         observeMission()
         observeSituation()
         observeAction()
         observeGoal()
         observeSuccessResponse()
         observeFailureResponse()
-        setActions()
+        observeGetRecommendSituationList()
+        observeGetRecentMissionListResponse()
+    }
 
+    private fun observeGetRecentMissionListResponse() {
+        observeGetRecentMissionListSuccessResponse()
+        observeGetRecentMissionListErrorResponse()
+    }
+
+    private fun observeGetRecentMissionListErrorResponse() {
+        viewModel.getRecentMissionListSuccessResponse.observe(this) { response ->
+            initRecyclerView(setMissionName, response.data.map { mission ->
+                mission.title
+            })
+        }
+    }
+
+    private val setMissionName: (String) -> Unit = { missionName: String ->
+        binding.etModificationMission.setText(missionName)
+        binding.etModificationMission.requestFocus()
+        binding.etModificationMission.setSelection(binding.etModificationMission.length())
+        this.showKeyboard(binding.etModificationMission)
+    }
+
+    private fun observeGetRecentMissionListSuccessResponse() {
+        viewModel.getRecentMissionListListErrorResponse.observe(this) { errorMessage ->
+            showToast(errorMessage)
+        }
+    }
+
+    private fun observeGetRecommendSituationList() {
+        observeGetRecommendSituationListSuccessResponse()
+        observeGetRecommendSituationListErrorResponse()
+    }
+
+    private fun observeGetRecommendSituationListSuccessResponse() {
+        viewModel.getRecommendSituationListSuccessResponse.observe(this) { response ->
+            setSituationRecommendations(response.data.map { situation -> situation.name })
+        }
+    }
+
+    private fun observeGetRecommendSituationListErrorResponse() {
+        viewModel.getRecommendSituationListErrorResponse.observe(this) { errorMessage ->
+            showToast(errorMessage)
+        }
+    }
+
+    private fun setViews() {
+        initDataBinding()
+        initOpenedDesc()
+        initToggles()
+        setActions()
+        initActionList(viewModel.actionCount.value)
+    }
+
+    private fun setClickEvent() {
         setModifyButton()
-        setDeleteButtons()
         setFinishButton()
-        setEnterKey()
+        setDeleteButtons()
+    }
+
+    private fun setData() {
+        setDataFromHome()
+        getRecentMissionList()
+        getRecommendSituationList()
+    }
+
+    private fun getRecommendSituationList() {
+        viewModel.getRecommendSituationList()
+    }
+
+    private fun getRecentMissionList() {
+        viewModel.getRecentMissionList()
     }
 
     private fun initActionList(actionCount: Int?) {
@@ -82,17 +147,6 @@ class ModificationActivity : AppCompatActivity() {
     private fun observeSuccessResponse() {
         viewModel.modificationResponse.observe(this) { response ->
             showToast("낫투두 수정 완료")
-            val actionList = response.actions?.map {
-                ParcelizeBottomDetailRegister.Action(it.name)
-            } ?: emptyList()
-            val resultExtraIntent = Intent().apply {
-                putExtra(
-                    DETAIL, ParcelizeBottomDetailRegister(
-                        response.title, response.situation, actionList, response.goal
-                    )
-                )
-            }
-            setResult(RESULT_OK, resultExtraIntent)
             if (!isFinishing) finish()
         }
     }
@@ -103,22 +157,26 @@ class ModificationActivity : AppCompatActivity() {
         }
     }
 
-    private fun initData() {
-        val dataFromHome = intent.getParcelable(DETAIL, ParcelizeBottomDetail::class.java)
-        if (dataFromHome == null) {
-            showToast("오류로 인해 해당 낫투두를 수정할 수 없습니다")
+    private fun setDataFromHome() {
+        val dataFromHome = intent.getParcelable(
+            HomeMenuBottomSheetFragment.DETAIL, ParcelizeBottomDetail::class.java
+        )
+
+        if (dataFromHome != null) {
+            viewModel.setOriginalData(
+                NotTodoData(
+                    "2023.01.15",
+                    dataFromHome.title,
+                    dataFromHome.situation,
+                    dataFromHome.actions?.map { action -> action.name.toString() },
+                    dataFromHome.goal,
+                    dataFromHome.id
+                )
+            )
+        } else {
+            showToast("오류로 인해 해당 낫투두를 수정할 수 없습니다.")
             if (!isFinishing) finish()
         }
-        viewModel.setOriginalData(
-            NotTodoData(
-                "2023.01.15",
-                dataFromHome!!.title,
-                dataFromHome.situation,
-                dataFromHome.actions?.map { action -> action.name.toString() },
-                dataFromHome.goal,
-                dataFromHome.id
-            )
-        )
     }
 
     private fun setThirdAction() {
@@ -281,17 +339,9 @@ class ModificationActivity : AppCompatActivity() {
 
     }
 
-    private val setMissionName: (String) -> Unit = { missionName: String ->
-        binding.etModificationMission.setText(missionName)
-        binding.etModificationMission.requestFocus()
-        binding.etModificationMission.setSelection(binding.etModificationMission.length())
-        this.showKeyboard(binding.etModificationMission)
-    }
-
-    private fun setSituationRecommendations() {
+    private fun setSituationRecommendations(situationList: List<String>) {
         binding.layoutModificationSituationRecommend.addButtons(
-            listOf("업무 시간 중", "작업 중", "기상 시간", "공부 시간", "취침 전", "출근 중"),
-            binding.etModificationSituation
+            situationList, binding.etModificationSituation
         )
     }
 
@@ -664,8 +714,9 @@ class ModificationActivity : AppCompatActivity() {
         binding.tvModificationGoalOpenedDesc.text = goalOpenedDesc
     }
 
-    private fun initRecyclerView(setMissionName: (String) -> Unit) {
-        binding.rvModificationMission.adapter = MissionHistoryAdapter(this, setMissionName)
+    private fun initRecyclerView(setMissionName: (String) -> Unit, missionList: List<String>) {
+        binding.rvModificationMission.adapter =
+            MissionHistoryAdapter(this, setMissionName, missionList)
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

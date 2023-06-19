@@ -1,7 +1,7 @@
-package kr.co.nottodo.data.remote.api
+package kr.co.nottodo.data.remote.api.addition
 
-import kr.co.nottodo.data.remote.model.RequestAdditionDto
-import kr.co.nottodo.data.remote.model.ResponseAdditionDto
+import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
+import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
 import retrofit2.http.Body
 import retrofit2.http.POST
 

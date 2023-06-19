@@ -14,7 +14,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
-import kr.co.nottodo.data.remote.model.RequestAdditionDto
+import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
@@ -39,24 +39,91 @@ class AdditionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setData()
+        setViews()
+        setObservers()
+        setClickEvent()
+        setEnterKey()
+    }
+
+    private fun setData() {
+        getRecentMissionList()
+        getRecommendSituationList()
+    }
+
+    private fun getRecommendSituationList() {
+        viewModel.getRecommendSituationList()
+    }
+
+    private fun getRecentMissionList() {
+        viewModel.getRecentMissionList()
+    }
+
+    private fun setClickEvent() {
+        setAddButton()
+        setFinishButton()
+        setDeleteButtons()
+    }
+
+    private fun setViews() {
         initDataBinding()
-        initRecyclerView(setMissionName)
-        setSituationRecommendations()
         initOpenedDesc()
         initToggles()
+        setActions()
+    }
 
+    private fun setObservers() {
         observeMission()
         observeSituation()
         observeAction()
         observeGoal()
         observeSuccessResponse()
         observeFailureResponse()
+        observeGetRecommendSituationList()
+        observeGetRecentMissionListResponse()
+    }
 
-        setAddButton()
-        setFinishButton()
-        setDeleteButtons()
-        setEnterKey()
-        setActions()
+    private fun observeGetRecentMissionListResponse() {
+        observeGetRecentMissionListSuccessResponse()
+        observeGetRecentMissionListErrorResponse()
+    }
+
+    private fun observeGetRecentMissionListErrorResponse() {
+        viewModel.getRecentMissionListSuccessResponse.observe(this) { response ->
+            initRecyclerView(setMissionName, response.data.map { mission ->
+                mission.title
+            })
+        }
+    }
+
+    private val setMissionName: (String) -> Unit = { missionName: String ->
+        binding.etAdditionMission.setText(missionName)
+        binding.etAdditionMission.requestFocus()
+        binding.etAdditionMission.setSelection(binding.etAdditionMission.length())
+        this.showKeyboard(binding.etAdditionMission)
+    }
+
+    private fun observeGetRecentMissionListSuccessResponse() {
+        viewModel.getRecentMissionListListErrorResponse.observe(this) { errorMessage ->
+            showToast(errorMessage)
+        }
+    }
+
+    private fun observeGetRecommendSituationList() {
+        observeGetRecommendSituationListSuccessResponse()
+        observeGetRecommendSituationListErrorResponse()
+    }
+
+    private fun observeGetRecommendSituationListSuccessResponse() {
+        viewModel.getRecommendSituationListSuccessResponse.observe(this) { response ->
+            setSituationRecommendations(response.data.map { situation -> situation.name })
+        }
+    }
+
+    private fun observeGetRecommendSituationListErrorResponse() {
+        viewModel.getRecommendSituationListErrorResponse.observe(this) { errorMessage ->
+            showToast(errorMessage)
+        }
     }
 
     private fun observeFailureResponse() {
@@ -257,16 +324,9 @@ class AdditionActivity : AppCompatActivity() {
 
     }
 
-    private val setMissionName: (String) -> Unit = { missionName: String ->
-        binding.etAdditionMission.setText(missionName)
-        binding.etAdditionMission.requestFocus()
-        binding.etAdditionMission.setSelection(binding.etAdditionMission.length())
-        this.showKeyboard(binding.etAdditionMission)
-    }
-
-    private fun setSituationRecommendations() {
+    private fun setSituationRecommendations(situationList: List<String>) {
         binding.layoutAdditionSituationRecommend.addButtons(
-            listOf("업무 시간 중", "작업 중", "기상 시간", "공부 시간", "취침 전", "출근 중"), binding.etAdditionSituation
+            situationList, binding.etAdditionSituation
         )
     }
 
@@ -641,8 +701,8 @@ class AdditionActivity : AppCompatActivity() {
         binding.tvAdditionGoalOpenedDesc.text = goalOpenedDesc
     }
 
-    private fun initRecyclerView(setMissionName: (String) -> Unit) {
-        binding.rvAdditionMission.adapter = MissionHistoryAdapter(this, setMissionName)
+    private fun initRecyclerView(setMissionName: (String) -> Unit, missionList: List<String>) {
+        binding.rvAdditionMission.adapter = MissionHistoryAdapter(this, setMissionName, missionList)
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

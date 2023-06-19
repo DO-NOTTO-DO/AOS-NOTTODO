@@ -1,24 +1,24 @@
 package kr.co.nottodo.presentation.mypage.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import kr.co.nottodo.R
+import androidx.fragment.app.activityViewModels
 import kr.co.nottodo.databinding.FragmentWithdrawalDialogBinding
+import kr.co.nottodo.presentation.mypage.viewmodel.MyPageInformationViewModel
 
 class WithdrawalDialogFragment : DialogFragment() {
     private var _binding: FragmentWithdrawalDialogBinding? = null
     private val binding get() = _binding!!
+    private val activityViewModel by activityViewModels<MyPageInformationViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentWithdrawalDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,8 +33,8 @@ class WithdrawalDialogFragment : DialogFragment() {
 
         // 회원탈퇴 버튼 클릭 시
         binding.tvWithdrawal.setOnClickListener {
-            val withdrawalFeedbackDialog = WithdrawalFeedbackDialogFragment()
-            withdrawalFeedbackDialog.show(requireFragmentManager(), "WithdrawalFeedbackDialog")
+            activityViewModel.withdrawal()
+            dismiss()
         }
     }
 

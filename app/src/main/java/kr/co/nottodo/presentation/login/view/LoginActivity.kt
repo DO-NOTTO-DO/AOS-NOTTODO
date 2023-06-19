@@ -48,13 +48,25 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observeGetTokenResult() {
-        viewModel.getTokenResult.observe(this) {
+        viewModel.getTokenResult.observe(this) { response ->
             startActivity(Intent(this, MainActivity::class.java))
-            SharedPreferences.setString(USER_TOKEN, it.data.accessToken)
+            setUserInfo(response.data.accessToken)
             if (!isFinishing) finish()
         }
         viewModel.getErrorResult.observe(this) {
             UserApiClient.instance.logout { showToast("오류 발생, 다시 로그인 해주세요.") }
+        }
+    }
+
+    private fun setUserInfo(token: String) {
+        SharedPreferences.apply {
+            setString(USER_TOKEN, token)
+            UserApiClient.instance.me { user, error ->
+                if (error == null && user != null) {
+                    setString(USER_EMAIL, user.kakaoAccount?.email)
+                    setString(USER_NAME, user.kakaoAccount?.profile?.nickname)
+                }
+            }
         }
     }
 
@@ -110,5 +122,8 @@ class LoginActivity : AppCompatActivity() {
         const val KAKAO: String = "KAKAO"
         const val USER_TOKEN = "USER_TOKEN"
         const val DID_USER_WATCHED_ONBOARD = "DID_USER_WATCHED_ONBOARD"
+        const val USER_NAME = "USER_NAME"
+        const val USER_EMAIL = "USER_EMAIL"
+        const val DID_USER_CHOOSE_TO_BE_NOTIFIED = "DID_USER_CHOOSE_TO_BE_NOTIFIED"
     }
 }

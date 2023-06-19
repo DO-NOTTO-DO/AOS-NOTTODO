@@ -9,8 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.FragmentMyPageBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
+import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.USER_EMAIL
+import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.USER_NAME
 
 class MyPageFragment : Fragment() {
     private var _binding: FragmentMyPageBinding? = null
@@ -36,6 +39,20 @@ class MyPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setActivityBackgroundColor()
         setClickEvents()
+        setViews()
+    }
+
+    private fun setViews() {
+        setUserName()
+        setUserEmail()
+    }
+
+    private fun setUserEmail() {
+        binding.tvMyPageEmail.text = SharedPreferences.getString(USER_EMAIL) ?: "연동된 이메일 정보가 없습니다."
+    }
+
+    private fun setUserName() {
+        binding.tvMyPageName.text = SharedPreferences.getString(USER_NAME) ?: "익명의 도전자"
     }
 
     private fun setClickEvents() {
@@ -69,8 +86,7 @@ class MyPageFragment : Fragment() {
         binding.layoutMyPageContact.setOnClickListener {
             // 버튼을 클릭했을 때 실행할 코드
             val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("http://pf.kakao.com/_fUIQxj/chat")
+                Intent.ACTION_VIEW, Uri.parse("http://pf.kakao.com/_fUIQxj/chat")
             )
             startActivity(intent)
         }

@@ -14,14 +14,11 @@ object SharedPreferences {
     private lateinit var preferences: SharedPreferences
 
     fun init(context: Context) {
-        val masterKeyAlias = MasterKey
-            .Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
+        val masterKeyAlias = MasterKey.Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
 
         preferences = if (BuildConfig.DEBUG) context.getSharedPreferences(
-            context.getString(R.string.preference_file_name),
-            Context.MODE_PRIVATE
+            context.getString(R.string.preference_file_name), Context.MODE_PRIVATE
         )
         else EncryptedSharedPreferences.create(
             context,
