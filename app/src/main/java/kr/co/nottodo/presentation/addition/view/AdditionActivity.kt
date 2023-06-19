@@ -20,7 +20,6 @@ import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
-import kr.co.nottodo.presentation.login.view.LoginActivity
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.containToday
 import kr.co.nottodo.util.containTomorrow
@@ -352,30 +351,30 @@ class AdditionActivity : AppCompatActivity() {
         }
 
         binding.btnAdditionAdd.setOnClickListener {
-            if (binding.btnAdditionAdd.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
-                var actionList: MutableList<String>? = mutableListOf()
-                if (!binding.tvAdditionActionFirst.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionFirst.text.toString())
-                if (!binding.tvAdditionActionSecond.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionSecond.text.toString())
-                if (!binding.tvAdditionActionThird.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionThird.text.toString())
-                if (actionList?.isEmpty() == true) actionList = null
+            if (binding.btnAdditionAdd.currentTextColor != getColor(R.color.gray_1_2a2a2e)) return@setOnClickListener
 
-                var goal: String? = viewModel.goal.value
-                if (goal?.isBlank() == true) goal = null
+            var actionList: MutableList<String>? = mutableListOf()
+            if (!binding.tvAdditionActionFirst.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionFirst.text.toString())
+            if (!binding.tvAdditionActionSecond.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionSecond.text.toString())
+            if (!binding.tvAdditionActionThird.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionThird.text.toString())
+            if (actionList?.isEmpty() == true) actionList = null
 
-                val dateList: List<String> =
-                    binding.calendarAdditionDateOpened.selectedDays.mapNotNull { selectedDay ->
-                        selectedDay.convertDateToString()
-                    }
-                viewModel.postAddition(
-                    RequestAdditionDto(
-                        title = binding.tvAdditionMissionClosedName.text.toString(),
-                        situation = binding.tvAdditionSituationName.text.toString(),
-                        actions = actionList,
-                        goal = goal,
-                        dates = dateList
-                    )
+            var goal: String? = viewModel.goal.value
+            if (goal?.isBlank() == true) goal = null
+
+            val dateList: List<String> =
+                binding.calendarAdditionDateOpened.selectedDays.mapNotNull { selectedDay ->
+                    selectedDay.convertDateToString()
+                }
+            viewModel.postAddition(
+                RequestAdditionDto(
+                    title = binding.tvAdditionMissionClosedName.text.toString(),
+                    situation = binding.tvAdditionSituationName.text.toString(),
+                    actions = actionList,
+                    goal = goal,
+                    dates = dateList
                 )
-            }
+            )
         }
     }
 
