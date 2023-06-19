@@ -1,5 +1,6 @@
 package kr.co.nottodo.presentation.addition.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -12,12 +13,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
+import kr.co.nottodo.MainActivity
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
+import kr.co.nottodo.presentation.login.view.LoginActivity
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.containToday
 import kr.co.nottodo.util.containTomorrow
@@ -135,9 +138,16 @@ class AdditionActivity : AppCompatActivity() {
     private fun observeSuccessResponse() {
         viewModel.additionResponse.observe(this) {
             showToast("낫투두 생성 완료 !")
+            navigateToMain()
             if (!isFinishing) finish()
         }
     }
+
+    private fun navigateToMain() = startActivity(
+        Intent(this, MainActivity::class.java).setFlags(
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        )
+    )
 
     private fun setActionBox(isActionFilled: Boolean) {
         if (isActionFilled) {
