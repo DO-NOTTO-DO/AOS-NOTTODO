@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.nottodo.data.model.Home.HomeDailyResponse
-import kr.co.nottodo.data.model.Home.RequestHomeDoAnotherDay
 import kr.co.nottodo.data.model.Home.RequestHomeMissionCheck
 import kr.co.nottodo.data.model.Home.ResponseHomeMissionCheckDto
 import kr.co.nottodo.data.remote.api.ServicePool
