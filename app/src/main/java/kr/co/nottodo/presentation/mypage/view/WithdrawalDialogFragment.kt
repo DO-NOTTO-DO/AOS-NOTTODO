@@ -41,9 +41,4 @@ class WithdrawalDialogFragment : DialogFragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    private fun performWithdrawal() {
-
-        dismiss() // 다이얼로그 닫기
-    }
 }
