@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
                 //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
                 //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
                 //       If the user selects "No thanks," allow the user to continue without notifications.
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             } else {
                 // Directly ask for the permission (first time)
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
