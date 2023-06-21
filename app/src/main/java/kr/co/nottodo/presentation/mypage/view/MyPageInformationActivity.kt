@@ -15,18 +15,45 @@ import kr.co.nottodo.databinding.ActivityMyPageInformationBinding
 import kr.co.nottodo.presentation.login.view.LoginActivity
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 import kr.co.nottodo.presentation.mypage.viewmodel.MyPageInformationViewModel
-import timber.log.Timber
+import kr.co.nottodo.util.showToast
 
 
 class MyPageInformationActivity : AppCompatActivity() {
     lateinit var binding: ActivityMyPageInformationBinding
     private val viewModel by viewModels<MyPageInformationViewModel>()
+    private val withdrawalDialogFragment by lazy { WithdrawalDialogFragment() }
+    private val withdrawalFeedbackDialogFragment by lazy { WithdrawalFeedbackDialogFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setViews()
         setClickEvents()
+        setObservers()
+    }
+
+    private fun setObservers() {
+        setWithdrawalObserver()
+    }
+
+    private fun setWithdrawalObserver() {
+        setWithdrawalSuccessObserver()
+        setWithdrawalErrorObserver()
+    }
+
+    private fun setWithdrawalErrorObserver() {
+        viewModel.withdrawalErrorResponse.observe(this) { errorMessage ->
+            showToast(errorMessage)
+        }
+    }
+
+    private fun setWithdrawalSuccessObserver() {
+        viewModel.withdrawalSuccessResponse.observe(this) {
+            withdrawalDialogFragment.dismiss()
+            withdrawalFeedbackDialogFragment.show(
+                supportFragmentManager, withdrawalFeedbackDialogFragment.tag
+            )
+        }
     }
 
     private fun setViews() {
@@ -63,14 +90,6 @@ class MyPageInformationActivity : AppCompatActivity() {
     }
 
     private fun setIsNotificationPermissionValid() {
-        Timber.tag("gio").e(
-            "setIsNotificationPermissionValid is invoked... result : ${
-                ContextCompat.checkSelfPermission(
-                    this, Manifest.permission.POST_NOTIFICATIONS
-                ) == PERMISSION_GRANTED
-            }"
-        )
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             viewModel.setIsNotificationPermissionValid(
                 isNotificationPermissionValid = ContextCompat.checkSelfPermission(
@@ -121,7 +140,7 @@ class MyPageInformationActivity : AppCompatActivity() {
 
     private fun setMemberWithdrawalTvClickEvent() {
         binding.tvMyPageInformationMemberWithdrawal.setOnClickListener {
-            WithdrawalDialogFragment().show(supportFragmentManager, "WithdrawalDialog")
+            withdrawalDialogFragment.show(supportFragmentManager, withdrawalDialogFragment.tag)
         }
     }
 
