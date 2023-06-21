@@ -34,7 +34,6 @@ class WithdrawalDialogFragment : DialogFragment() {
         // 회원탈퇴 버튼 클릭 시
         binding.tvWithdrawal.setOnClickListener {
             activityViewModel.withdrawal()
-            dismiss()
         }
     }
 
