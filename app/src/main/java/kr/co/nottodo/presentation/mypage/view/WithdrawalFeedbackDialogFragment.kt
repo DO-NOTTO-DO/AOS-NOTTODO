@@ -45,7 +45,7 @@ class WithdrawalFeedbackDialogFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentWithdrawalFeedbackDialogBinding.inflate(inflater, container, false)
         return binding.root

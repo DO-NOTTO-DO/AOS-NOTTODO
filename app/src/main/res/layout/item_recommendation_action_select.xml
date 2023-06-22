@@ -4,15 +4,14 @@
     android:id="@+id/layout_recommendation_action_select_category"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="24dp"
-    android:paddingHorizontal="15dp"
-    android:paddingVertical="12dp">
+    android:layout_marginTop="12dp"
+    android:paddingHorizontal="15dp">
 
     <TextView
         android:id="@+id/tv_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_solid_gray_1_radius_12"
+        android:background="@drawable/rectangle_solid_gray_1_radius_12_stroke"
         android:paddingHorizontal="28dp"
         android:paddingVertical="16dp"
         android:text="유튜브 프리미엄 해제하기"
