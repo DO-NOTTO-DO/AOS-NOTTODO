@@ -7,12 +7,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
+import kr.co.nottodo.data.local.SharedPreferences
+import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 
 
 class FirebaseMessagingService : FirebaseMessagingService() {
@@ -41,27 +43,26 @@ class FirebaseMessagingService : FirebaseMessagingService() {
             .setSmallIcon(R.drawable.ic_push_alarm)
             .setContentTitle(message.data[NOTIFICATION_CONTENT_TITLE_KEY])
             .setContentText(message.data[NOTIFICATION_CONTENT_TEXT_KEY])
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT).setAutoCancel(true)
             .setContentIntent(pendingIntent)
 
-        val channel =
-            NotificationChannel(
-                getString(R.string.channel_id),
-                getString(R.string.channel_name),
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = getString(R.string.channel_desc)
-            }
+        val channel = NotificationChannel(
+            getString(R.string.channel_id),
+            getString(R.string.channel_name),
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = getString(R.string.channel_desc)
+        }
 
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
 
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED || SharedPreferences.getBoolean(
+                DID_USER_CHOOSE_TO_BE_NOTIFIED
+            )
         ) {
             notificationManager.notify(NOTIFICATION_ID, builder.build())
         }
