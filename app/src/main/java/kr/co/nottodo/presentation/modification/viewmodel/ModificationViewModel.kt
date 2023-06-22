@@ -8,10 +8,13 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+import kr.co.nottodo.data.remote.api.ServicePool
 import kr.co.nottodo.data.remote.api.ServicePool.modificationService
 import kr.co.nottodo.data.remote.model.FailureResponseDto
-import kr.co.nottodo.data.remote.model.RequestModificationDto
-import kr.co.nottodo.data.remote.model.ResponseModificationDto
+import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
+import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
+import kr.co.nottodo.data.remote.model.modification.RequestModificationDto
+import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto
 import kr.co.nottodo.presentation.modification.view.ModificationActivity.Companion.NotTodoData
 import retrofit2.HttpException
 import timber.log.Timber
@@ -111,6 +114,48 @@ class ModificationViewModel : ViewModel() {
                 })
         }
     }
+
+    private val _getRecommendSituationListSuccessResponse: MutableLiveData<ResponseRecommendSituationListDto> =
+        MutableLiveData()
+    val getRecommendSituationListSuccessResponse: LiveData<ResponseRecommendSituationListDto> =
+        _getRecommendSituationListSuccessResponse
+
+    private val _getRecommendSituationListErrorResponse: MutableLiveData<String> = MutableLiveData()
+    val getRecommendSituationListErrorResponse: LiveData<String> =
+        _getRecommendSituationListErrorResponse
+
+    fun getRecommendSituationList() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                ServicePool.notTodoService.getRecommendSituationList()
+            }.fold(onSuccess = { response ->
+                _getRecommendSituationListSuccessResponse.value = response
+            }, onFailure = { error ->
+                _getRecommendSituationListErrorResponse.value = error.message
+            })
+        }
+    }
+
+    private val _getRecentMissionListSuccessResponse: MutableLiveData<ResponseRecentMissionListDto> =
+        MutableLiveData()
+    val getRecentMissionListSuccessResponse: LiveData<ResponseRecentMissionListDto> =
+        _getRecentMissionListSuccessResponse
+
+    private val _getRecentMissionListErrorResponse: MutableLiveData<String> = MutableLiveData()
+    val getRecentMissionListListErrorResponse: LiveData<String> = _getRecentMissionListErrorResponse
+
+    fun getRecentMissionList() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                ServicePool.notTodoService.getRecentMissionList()
+            }.fold(onSuccess = { response ->
+                _getRecentMissionListSuccessResponse.value = response
+            }, onFailure = { error ->
+                _getRecentMissionListErrorResponse.value = error.message
+            })
+        }
+    }
+
 
     private fun getErrorMessage(result: Throwable): String {
         when (result) {

@@ -3,8 +3,13 @@ package kr.co.nottodo.data.remote.api
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import kr.co.nottodo.BuildConfig
+import kr.co.nottodo.data.remote.api.addition.AdditionService
 import kr.co.nottodo.data.remote.api.home.AchieveService
 import kr.co.nottodo.data.remote.api.home.HomeService
+import kr.co.nottodo.data.remote.api.login.TokenService
+import kr.co.nottodo.data.remote.api.modification.ModificationService
+import kr.co.nottodo.data.remote.api.mypage.MyPageService
+import kr.co.nottodo.data.remote.interceptor.TokenInterceptor
 import kr.co.nottodo.listeners.OnTokenExpiredListener
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -43,4 +48,7 @@ object ServicePool {
     val modificationService = ApiFactory.create<ModificationService>()
     val recommendationActionListService = ApiFactory.create<RecommendationActionListService>()
     val recommendationMainListService = ApiFactory.create<RecommendationMainListService>()
+    val recommendationActionTitleService = ApiFactory.create<RecommendationActionTitleService>()
+    val notTodoService = ApiFactory.create<NotTodoService>()
+    val myPageService = ApiFactory.create<MyPageService>()
 }

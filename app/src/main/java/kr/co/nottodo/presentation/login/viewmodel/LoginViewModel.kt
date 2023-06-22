@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.nottodo.data.remote.api.ServicePool
-import kr.co.nottodo.data.remote.model.RequestTokenDto
-import kr.co.nottodo.data.remote.model.ResponseTokenDto
+import kr.co.nottodo.data.remote.model.login.RequestTokenDto
+import kr.co.nottodo.data.remote.model.login.ResponseTokenDto
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.KAKAO
 
 class LoginViewModel : ViewModel() {

@@ -1,4 +1,4 @@
-package kr.co.nottodo.data.remote.model
+package kr.co.nottodo.data.remote.model.login
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
