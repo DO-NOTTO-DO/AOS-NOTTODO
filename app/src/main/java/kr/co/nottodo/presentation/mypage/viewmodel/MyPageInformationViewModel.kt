@@ -6,12 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.nottodo.data.remote.api.ServicePool.myPageService
-import kr.co.nottodo.data.remote.model.mypage.WithdrawalDto
 
 class MyPageInformationViewModel : ViewModel() {
 
-    private val _withdrawalSuccessResponse: MutableLiveData<WithdrawalDto> = MutableLiveData()
-    val withdrawalSuccessResponse: LiveData<WithdrawalDto> = _withdrawalSuccessResponse
+    private val _isWithdrawalSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    val isWithdrawalSuccess: LiveData<Boolean> = _isWithdrawalSuccess
 
     private val _withdrawalErrorResponse: MutableLiveData<String> = MutableLiveData()
     val withdrawalErrorResponse: LiveData<String> = _withdrawalErrorResponse
@@ -20,8 +19,10 @@ class MyPageInformationViewModel : ViewModel() {
         viewModelScope.launch {
             kotlin.runCatching {
                 myPageService.withdrawal()
-            }.fold(onSuccess = { response -> _withdrawalSuccessResponse.value = response },
-                onFailure = { error -> _withdrawalErrorResponse.value = error.message })
+            }.fold(onSuccess = {
+                val isWithdrawalSuccess = isWithdrawalSuccess.value
+                _isWithdrawalSuccess.value = isWithdrawalSuccess ?: false
+            }, onFailure = { error -> _withdrawalErrorResponse.value = error.message })
         }
     }
 
