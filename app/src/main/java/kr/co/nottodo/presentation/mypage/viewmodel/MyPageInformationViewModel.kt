@@ -9,8 +9,8 @@ import kr.co.nottodo.data.remote.api.ServicePool.myPageService
 
 class MyPageInformationViewModel : ViewModel() {
 
-    private val _isWithdrawalSuccess: MutableLiveData<Boolean> = MutableLiveData()
-    val isWithdrawalSuccess: LiveData<Boolean> = _isWithdrawalSuccess
+    private val _withdrawalSuccessResponse: MutableLiveData<Boolean> = MutableLiveData()
+    val withdrawalSuccessResponse: LiveData<Boolean> = _withdrawalSuccessResponse
 
     private val _withdrawalErrorResponse: MutableLiveData<String> = MutableLiveData()
     val withdrawalErrorResponse: LiveData<String> = _withdrawalErrorResponse
@@ -20,8 +20,8 @@ class MyPageInformationViewModel : ViewModel() {
             kotlin.runCatching {
                 myPageService.withdrawal()
             }.fold(onSuccess = {
-                val isWithdrawalSuccess = isWithdrawalSuccess.value
-                _isWithdrawalSuccess.value = isWithdrawalSuccess ?: false
+                val isWithdrawalSuccess = withdrawalSuccessResponse.value
+                _withdrawalSuccessResponse.value = isWithdrawalSuccess ?: false
             }, onFailure = { error -> _withdrawalErrorResponse.value = error.message })
         }
     }
