@@ -1,6 +1,5 @@
 package kr.co.nottodo.presentation.recommendation.action
 
-import RecommendationActionListAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -10,14 +9,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
-import kr.co.nottodo.presentation.recommendation.main.RecommendationMainActivity
-import kr.co.nottodo.presentation.recommendation.viewmodel.RecommendationViewModel
+import kr.co.nottodo.presentation.recommendation.main.RecommendationMissionActivity
+import kr.co.nottodo.presentation.recommendation.viewmodel.RecommendationMissionViewModel
 
 class RecommendationActionActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: RecommendationActionListAdapter
-    private lateinit var viewModel: RecommendationViewModel
+    private lateinit var adapter: RecommendationActionAdapter
+    private lateinit var viewModel: RecommendationMissionViewModel
     private lateinit var tvSituation: TextView
     private lateinit var tvTitle: TextView
 
@@ -40,16 +39,16 @@ class RecommendationActionActivity : AppCompatActivity() {
         backButton.setOnClickListener {
 
             // RecommendationMainActivity로 전환
-            val intent = Intent(this, RecommendationMainActivity::class.java)
+            val intent = Intent(this, RecommendationMissionActivity::class.java)
             startActivity(intent)
         }
 
-        // RecommendationViewModel 인스턴스 생성
-        viewModel = ViewModelProvider(this).get(RecommendationViewModel::class.java)
+        // RecommendationMissionViewModel 인스턴스 생성
+        viewModel = ViewModelProvider(this).get(RecommendationMissionViewModel::class.java)
 
         // 리사이클러뷰 초기화
         recyclerView = findViewById(R.id.rv_recommendation_action_category)
-        adapter = RecommendationActionListAdapter()
+        adapter = RecommendationActionAdapter()
         recyclerView.adapter = adapter
 
         // LinearLayoutManager 생성 및 설정
@@ -67,7 +66,7 @@ class RecommendationActionActivity : AppCompatActivity() {
 
         // 아이템 클릭 리스너 설정
         adapter.setOnItemClickListener(object :
-            RecommendationActionListAdapter.OnItemClickListener {
+            RecommendationActionAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 // 클릭된 아이템의 상태 변경
                 adapter.setSelectedItem(position)
@@ -91,7 +90,7 @@ class RecommendationActionActivity : AppCompatActivity() {
 //            viewModel.fetchRecommendationCategoryList(categoryId)
 //        }
 //
-//        // categoryId를 Intent에서 가져와서 RecommendationViewModel fetchRecommendationCategoryList 호출
+//        // categoryId를 Intent에서 가져와서 RecommendationMissionViewModel fetchRecommendationCategoryList 호출
 //        val categoryId = intent.getIntExtra("categoryId", -1)
 //        if (categoryId != -1) {
 //            viewModel.fetchRecommendationCategoryList(categoryId)
@@ -99,9 +98,9 @@ class RecommendationActionActivity : AppCompatActivity() {
 
 
 //        val dummyData = listOf(
-//            RecommendationActionListDTO.ActionList.CategoryList("유튜브 프리미엄 해제하기"),
-//            RecommendationActionListDTO.ActionList.CategoryList("핸드폰 최대한 멀리두기"),
-//            RecommendationActionListDTO.ActionList.CategoryList("실천행동 추천")
+//            ResponseRecommendationActionListDTO.ActionList.CategoryList("유튜브 프리미엄 해제하기"),
+//            ResponseRecommendationActionListDTO.ActionList.CategoryList("핸드폰 최대한 멀리두기"),
+//            ResponseRecommendationActionListDTO.ActionList.CategoryList("실천행동 추천")
 //        )
 //
 ////      //어댑터에 더미 데이터 설정

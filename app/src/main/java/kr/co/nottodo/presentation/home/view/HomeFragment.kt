@@ -16,6 +16,7 @@ import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 import kr.co.nottodo.util.DialogCloseListener
 import kr.co.nottodo.presentation.recommendation.main.RecommendationMainActivity
+import kr.co.nottodo.presentation.recommendation.main.RecommendationMissionActivity
 
 
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
@@ -114,7 +115,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
     }
 
     private fun clickFloatingBtn() {
-        val intent = Intent(context, RecommendationMainActivity::class.java)
+        val intent = Intent(context, RecommendationMissionActivity::class.java)
         binding.ftbHomeAdd.setOnClickListener { startActivity(intent) }
     }
 

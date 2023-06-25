@@ -1,22 +1,23 @@
+package kr.co.nottodo.presentation.recommendation.action
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kr.co.nottodo.data.remote.model.recommendation.action.ResponseRecommendationActionListDTO
+import kr.co.nottodo.data.remote.model.recommendation.action.ResponseRecommendationActionListDTO.Action.CategoryList
 import kr.co.nottodo.databinding.ItemRecommendationActionCategoryBinding
 import kr.co.nottodo.databinding.ItemRecommendationActionSelectBinding
+import kr.co.nottodo.util.DiffUtilItemCallback
 
-class RecommendationActionListAdapter :
-    ListAdapter<RecommendationActionListDTO.ActionList.CategoryList, RecyclerView.ViewHolder>(
-        diffUtilCallback
-    ) {
+class RecommendationActionAdapter : ListAdapter<CategoryList, RecyclerView.ViewHolder>(diffUtil) {
 
     private var itemClickListener: OnItemClickListener? = null
     private val selectedItems = mutableListOf<Int>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: Int
+        viewType: Int,
     ): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return if (viewType == ITEM_TYPE_SELECTED) {
@@ -55,35 +56,23 @@ class RecommendationActionListAdapter :
         } else {
             selectedItems.add(position)
         }
-        notifyDataSetChanged()
     }
 
     companion object {
         private const val ITEM_TYPE_NORMAL = 0
         private const val ITEM_TYPE_SELECTED = 1
 
-        private val diffUtilCallback = object :
-            DiffUtil.ItemCallback<RecommendationActionListDTO.ActionList.CategoryList>() {
-            override fun areItemsTheSame(
-                oldItem: RecommendationActionListDTO.ActionList.CategoryList,
-                newItem: RecommendationActionListDTO.ActionList.CategoryList
-            ): Boolean {
-                return oldItem.name == newItem.name
-            }
 
-            override fun areContentsTheSame(
-                oldItem: RecommendationActionListDTO.ActionList.CategoryList,
-                newItem: RecommendationActionListDTO.ActionList.CategoryList
-            ): Boolean {
-                return oldItem == newItem
-            }
-        }
+        val diffUtil =
+            DiffUtilItemCallback<ResponseRecommendationActionListDTO.Action.CategoryList>(
+                onItemsTheSame = { old, new -> old === new },
+                onContentsTheSame = { old, new -> old == new })
     }
 
     inner class RecommendationActionCategoryViewHolder(private val binding: ItemRecommendationActionCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: RecommendationActionListDTO.ActionList.CategoryList) {
+        fun bind(data: CategoryList) {
             binding.tvRecommendationActionCategory.text = data.name
 
             // Handle item click
@@ -103,7 +92,7 @@ class RecommendationActionListAdapter :
     inner class RecommendationActionSelectViewHolder(private val binding: ItemRecommendationActionSelectBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: RecommendationActionListDTO.ActionList.CategoryList) {
+        fun bind(data: CategoryList) {
             binding.tvCategory.text = data.name
 
             // Handle item click

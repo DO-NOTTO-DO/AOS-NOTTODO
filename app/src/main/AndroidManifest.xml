@@ -56,7 +56,7 @@
             android:name=".presentation.mypage.view.MyPageInformationActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.recommendation.main.RecommendationMainActivity"
+            android:name=".presentation.recommendation.main.RecommendationMissionActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.recommendation.action.RecommendationActionActivity"
