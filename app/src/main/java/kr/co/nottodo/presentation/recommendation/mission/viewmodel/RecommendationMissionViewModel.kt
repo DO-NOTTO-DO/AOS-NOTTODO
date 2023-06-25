@@ -1,4 +1,4 @@
-package kr.co.nottodo.presentation.recommendation.viewmodel
+package kr.co.nottodo.presentation.recommendation.mission.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

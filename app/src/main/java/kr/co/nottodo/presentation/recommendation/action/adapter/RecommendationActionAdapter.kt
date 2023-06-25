@@ -1,4 +1,4 @@
-package kr.co.nottodo.presentation.recommendation.action
+package kr.co.nottodo.presentation.recommendation.action.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

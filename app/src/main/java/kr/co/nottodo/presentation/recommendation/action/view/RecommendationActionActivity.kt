@@ -1,4 +1,4 @@
-package kr.co.nottodo.presentation.recommendation.action
+package kr.co.nottodo.presentation.recommendation.action.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,8 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
-import kr.co.nottodo.presentation.recommendation.main.RecommendationMissionActivity
-import kr.co.nottodo.presentation.recommendation.viewmodel.RecommendationMissionViewModel
+import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendationActionAdapter
+import kr.co.nottodo.presentation.recommendation.mission.view.RecommendationMissionActivity
+import kr.co.nottodo.presentation.recommendation.mission.viewmodel.RecommendationMissionViewModel
 
 class RecommendationActionActivity : AppCompatActivity() {
 

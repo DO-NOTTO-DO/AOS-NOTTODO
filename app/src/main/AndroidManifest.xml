@@ -56,10 +56,10 @@
             android:name=".presentation.mypage.view.MyPageInformationActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.recommendation.main.RecommendationMissionActivity"
+            android:name=".presentation.recommendation.mission.view.RecommendationMissionActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.recommendation.action.RecommendationActionActivity"
+            android:name=".presentation.recommendation.action.view.RecommendationActionActivity"
             android:exported="false" />
 
 

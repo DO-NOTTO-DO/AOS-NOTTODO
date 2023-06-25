@@ -1,4 +1,4 @@
-package kr.co.nottodo.presentation.recommendation.main
+package kr.co.nottodo.presentation.recommendation.mission.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.nottodo.databinding.ActivityRecommendationMainBinding
+import kr.co.nottodo.presentation.recommendation.action.view.RecommendationActionActivity
+import kr.co.nottodo.presentation.recommendation.mission.adapter.RecommendationMissionAdapter
+import kr.co.nottodo.presentation.recommendation.mission.viewmodel.RecommendationMissionViewModel
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
 
 import kr.co.nottodo.presentation.recommendation.action.RecommendationActionActivity

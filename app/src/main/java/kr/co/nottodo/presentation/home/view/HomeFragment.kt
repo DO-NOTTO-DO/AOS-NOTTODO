@@ -17,6 +17,7 @@ import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 import kr.co.nottodo.util.DialogCloseListener
 import kr.co.nottodo.presentation.recommendation.main.RecommendationMainActivity
 import kr.co.nottodo.presentation.recommendation.main.RecommendationMissionActivity
+import kr.co.nottodo.presentation.recommendation.mission.view.RecommendationMissionActivity
 
 
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
