@@ -550,39 +550,7 @@ class AdditionActivity : AppCompatActivity() {
                 closeDateToggle()
             }
         }
-
         binding.tvAdditionDateOpenedComplete.setOnClickListener {
-            val selectedDays: MutableList<Date> = binding.calendarAdditionDateOpened.selectedDays
-            if (selectedDays.isEmpty()) return@setOnClickListener
-
-            if (selectedDays.containToday()) {
-                binding.tvAdditionDateStartDesc.apply {
-                    visibility = View.VISIBLE
-                    text = getString(R.string.today)
-                }
-            } else if (selectedDays.containTomorrow()) {
-                binding.tvAdditionDateStartDesc.apply {
-                    visibility = View.VISIBLE
-                    text = getString(R.string.tomorrow)
-                }
-            } else {
-                binding.tvAdditionDateStartDesc.visibility = View.GONE
-            }
-
-            if (selectedDays.size > 1) {
-                binding.tvAdditionDateEndDesc.apply {
-                    visibility = View.VISIBLE
-                    text = getString(R.string.other_days, selectedDays.size - 1)
-                }
-            } else {
-                binding.tvAdditionDateEndDesc.apply {
-                    visibility = View.GONE
-                }
-            }
-
-            selectedDays.sortDescending()
-            binding.tvAdditionDate.text = selectedDays.last().convertDateToString()
-
             closeDateToggle()
         }
 
@@ -591,10 +559,44 @@ class AdditionActivity : AppCompatActivity() {
         }
     }
 
+    private fun setDateDescTextView() {
+        val selectedDays: MutableList<Date> = binding.calendarAdditionDateOpened.selectedDays
+        if (selectedDays.isEmpty()) return
+
+        if (selectedDays.containToday()) {
+            binding.tvAdditionDateStartDesc.apply {
+                visibility = View.VISIBLE
+                text = getString(R.string.today)
+            }
+        } else if (selectedDays.containTomorrow()) {
+            binding.tvAdditionDateStartDesc.apply {
+                visibility = View.VISIBLE
+                text = getString(R.string.tomorrow)
+            }
+        } else {
+            binding.tvAdditionDateStartDesc.visibility = View.GONE
+        }
+
+        if (selectedDays.size > 1) {
+            binding.tvAdditionDateEndDesc.apply {
+                visibility = View.VISIBLE
+                text = getString(R.string.other_days, selectedDays.size - 1)
+            }
+        } else {
+            binding.tvAdditionDateEndDesc.apply {
+                visibility = View.GONE
+            }
+        }
+
+        selectedDays.sortDescending()
+        binding.tvAdditionDate.text = selectedDays.last().convertDateToString()
+    }
+
     private fun closeDateToggle() {
         binding.layoutAdditionDateClosed.visibility = View.VISIBLE
         binding.layoutAdditionDateOpened.visibility = View.GONE
         isDateToggleVisible = false
+        setDateDescTextView()
     }
 
     private fun openDateToggle() {
