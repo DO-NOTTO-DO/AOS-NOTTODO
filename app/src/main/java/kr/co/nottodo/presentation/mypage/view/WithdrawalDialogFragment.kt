@@ -34,17 +34,11 @@ class WithdrawalDialogFragment : DialogFragment() {
         // 회원탈퇴 버튼 클릭 시
         binding.tvWithdrawal.setOnClickListener {
             activityViewModel.withdrawal()
-            dismiss()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun performWithdrawal() {
-
-        dismiss() // 다이얼로그 닫기
     }
 }

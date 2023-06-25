@@ -6,7 +6,6 @@ import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import kr.co.nottodo.BuildConfig
-import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
 import kr.co.nottodo.presentation.login.view.LoginActivity
 
@@ -34,7 +33,7 @@ object SharedPreferences {
     }
 
     fun getString(key: String): String? {
-        return preferences.getString(key, BLANK)
+        return preferences.getString(key, null)
     }
 
     fun setBoolean(key: String, value: Boolean) {

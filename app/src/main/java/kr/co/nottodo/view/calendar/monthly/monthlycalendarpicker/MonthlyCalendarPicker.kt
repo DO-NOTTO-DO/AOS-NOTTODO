@@ -182,7 +182,7 @@ class MonthlyCalendarPicker @JvmOverloads constructor(
             getStyleableAttrs(attrs)
         }
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        orientation = LinearLayout.VERTICAL
+        orientation = VERTICAL
 
         addView(calendarPickerHeaderLinearLayout)
         addView(calendarWeekDescriptionView.root)

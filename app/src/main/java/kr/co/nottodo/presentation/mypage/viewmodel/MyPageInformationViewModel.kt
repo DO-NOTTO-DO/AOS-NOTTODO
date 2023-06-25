@@ -24,4 +24,10 @@ class MyPageInformationViewModel : ViewModel() {
                 onFailure = { error -> _withdrawalErrorResponse.value = error.message })
         }
     }
+
+    private val _isNotificationPermissionValid: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isNotificationPermissionValid: LiveData<Boolean> = _isNotificationPermissionValid
+    fun setIsNotificationPermissionValid(isNotificationPermissionValid: Boolean) {
+        _isNotificationPermissionValid.value = isNotificationPermissionValid
+    }
 }

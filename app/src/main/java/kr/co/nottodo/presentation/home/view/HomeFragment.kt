@@ -15,6 +15,9 @@ import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 import kr.co.nottodo.util.DialogCloseListener
+import kr.co.nottodo.presentation.recommendation.main.RecommendationMainActivity
+
+
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import timber.log.Timber
@@ -111,8 +114,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
     }
 
     private fun clickFloatingBtn() {
-        //todo RecommendationMain으로 다시 수정
-        val intent = Intent(context, AdditionActivity::class.java)
+        val intent = Intent(context, RecommendationMainActivity::class.java)
         binding.ftbHomeAdd.setOnClickListener { startActivity(intent) }
     }
 

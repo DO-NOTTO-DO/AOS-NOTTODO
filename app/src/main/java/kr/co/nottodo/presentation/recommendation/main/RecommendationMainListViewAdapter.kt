@@ -1,15 +1,28 @@
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kr.co.nottodo.databinding.ItemRecommendationMainBinding
-import kr.co.nottodo.presentation.recommendation.action.RecommendationAction
-
+import kr.co.nottodo.presentation.home.view.HomeAdpater.Companion.diffUtil
 class RecommendationMainListViewAdapter :
     ListAdapter<RecommendationMainListDTO.MainList, RecommendationMainListViewAdapter.RecommendationMainListViewHolder>(
-        diffUtil
+        object : DiffUtil.ItemCallback<RecommendationMainListDTO.MainList>() {
+            override fun areItemsTheSame(
+                oldItem: RecommendationMainListDTO.MainList,
+                newItem: RecommendationMainListDTO.MainList
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(
+                oldItem: RecommendationMainListDTO.MainList,
+                newItem: RecommendationMainListDTO.MainList
+            ): Boolean {
+                return oldItem == newItem
+            }
+        }
     ) {
 
     private var itemClickListener: OnItemClickListener? = null
@@ -27,7 +40,7 @@ class RecommendationMainListViewAdapter :
     }
 
     override fun onBindViewHolder(holder: RecommendationMainListViewHolder, position: Int) {
-        holder.onBind(currentList[position], itemClickListener)
+        holder.onBind(getItem(position), itemClickListener)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -39,7 +52,7 @@ class RecommendationMainListViewAdapter :
     }
 
     fun getItemAtPosition(position: Int): RecommendationMainListDTO.MainList {
-        return currentList[position]
+        return getItem(position)
     }
 
     class RecommendationMainListViewHolder(private val binding: ItemRecommendationMainBinding) :
@@ -50,28 +63,13 @@ class RecommendationMainListViewAdapter :
             binding.tvRecommendationCategory.text = data.title
             binding.tvRecommendationCategoryDescription.text = data.description
 
+            Glide.with(binding.root)
+                .load(data.image)
+                .into(binding.ivRecommendationCategory)
+
             binding.layoutRecommendationCategory.setOnClickListener {
                 listener?.onItemClick(adapterPosition)
             }
         }
-    }
-
-    companion object {
-        private val diffUtil =
-            object : DiffUtil.ItemCallback<RecommendationMainListDTO.MainList>() {
-                override fun areItemsTheSame(
-                    oldItem: RecommendationMainListDTO.MainList,
-                    newItem: RecommendationMainListDTO.MainList
-                ): Boolean {
-                    return oldItem.id == newItem.id
-                }
-
-                override fun areContentsTheSame(
-                    oldItem: RecommendationMainListDTO.MainList,
-                    newItem: RecommendationMainListDTO.MainList
-                ): Boolean {
-                    return oldItem == newItem
-                }
-            }
     }
 }
