@@ -24,6 +24,7 @@ class MyPageInformationActivity : AppCompatActivity(), OnDialogDismissListener {
     private val viewModel by viewModels<MyPageInformationViewModel>()
     private val withdrawalDialogFragment by lazy { WithdrawalDialogFragment() }
     private val withdrawalFeedbackDialogFragment by lazy { WithdrawalFeedbackDialogFragment() }
+    private val myPageLogoutDialogFragment by lazy { MyPageLogoutDialogFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -153,8 +154,12 @@ class MyPageInformationActivity : AppCompatActivity(), OnDialogDismissListener {
 
     private fun setLogoutTvClickEvent() {
         binding.tvMyPageInformationLogout.setOnClickListener {
-            logout()
+            startMyPageLogoutDialog()
         }
+    }
+
+    private fun startMyPageLogoutDialog() {
+        myPageLogoutDialogFragment.show(supportFragmentManager, myPageLogoutDialogFragment.tag)
     }
 
     private fun logout() {
