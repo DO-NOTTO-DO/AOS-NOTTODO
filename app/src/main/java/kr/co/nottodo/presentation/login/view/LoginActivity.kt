@@ -28,8 +28,63 @@ class LoginActivity : AppCompatActivity() {
 
         showOnboardForFirstUser()
         setAutoLogin()
-        setKakaoLogin()
         observeGetTokenResult()
+        setClickEvent()
+    }
+
+    private fun setClickEvent() {
+        setGoogleLoginBtnClickEvent()
+        setKakaoLoginBtnClickEvent()
+    }
+
+    private fun setGoogleLoginBtnClickEvent() {
+        binding.layoutLoginGoogle.setOnClickListener {
+            showToast("구글 로그인은 추후 업데이트 예정입니다")
+        }
+    }
+
+    private fun setKakaoLoginBtnClickEvent() {
+        val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { socialToken, error ->
+            if (error != null) {
+                Timber.e("로그인 실패 $error")
+            } else if (socialToken != null) {
+                FirebaseMessaging.getInstance().token.addOnSuccessListener { fcmToken ->
+                    viewModel.login(socialToken = socialToken.accessToken, fcmToken = fcmToken)
+                }
+            }
+        }
+
+        binding.layoutLoginKakao.setOnClickListener {
+            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+                // 카카오톡 로그인
+                UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
+                    // 로그인 실패 부분
+                    if (error != null) {
+                        Timber.e("로그인 실패 $error")
+                        // 사용자 취소
+                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                            return@loginWithKakaoTalk
+                        }
+                        // 다른 오류 - 카톡으로 안 될 경우
+                        else {
+                            UserApiClient.instance.loginWithKakaoAccount(
+                                this, callback = kakaoLoginCallback
+                            ) // 카카오 이메일 로그인
+                        }
+                    }
+                    // 로그인 성공 부분
+                    else if (token != null) {
+                        kakaoLoginCallback.invoke(token, error)
+                    }
+                }
+            } else {
+                Timber.d("카카오톡이 설치되어 있지 않습니다.")
+                // 카카오 이메일 로그인
+                UserApiClient.instance.loginWithKakaoAccount(
+                    this, callback = kakaoLoginCallback
+                )
+            }
+        }
     }
 
     private fun showOnboardForFirstUser() {
@@ -66,54 +121,6 @@ class LoginActivity : AppCompatActivity() {
                     setString(USER_EMAIL, user.kakaoAccount?.email)
                     setString(USER_NAME, user.kakaoAccount?.profile?.nickname)
                 }
-            }
-        }
-    }
-
-    private fun setKakaoLogin() {
-        val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { socialToken, error ->
-            if (error != null) {
-                Timber.e("로그인 실패 $error")
-            } else if (socialToken != null) {
-                FirebaseMessaging.getInstance().token.addOnSuccessListener { fcmToken ->
-                    viewModel.login(socialToken = socialToken.accessToken, fcmToken = fcmToken)
-                }
-            }
-        }
-
-        kakaoLoginBtnClickEvent(kakaoLoginCallback)
-    }
-
-    private fun kakaoLoginBtnClickEvent(kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit) {
-        binding.layoutLoginKakao.setOnClickListener {
-            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
-                // 카카오톡 로그인
-                UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
-                    // 로그인 실패 부분
-                    if (error != null) {
-                        Timber.e("로그인 실패 $error")
-                        // 사용자 취소
-                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                            return@loginWithKakaoTalk
-                        }
-                        // 다른 오류 - 카톡으로 안 될 경우
-                        else {
-                            UserApiClient.instance.loginWithKakaoAccount(
-                                this, callback = kakaoLoginCallback
-                            ) // 카카오 이메일 로그인
-                        }
-                    }
-                    // 로그인 성공 부분
-                    else if (token != null) {
-                        kakaoLoginCallback.invoke(token, error)
-                    }
-                }
-            } else {
-                Timber.d("카카오톡이 설치되어 있지 않습니다.")
-                // 카카오 이메일 로그인
-                UserApiClient.instance.loginWithKakaoAccount(
-                    this, callback = kakaoLoginCallback
-                )
             }
         }
     }
