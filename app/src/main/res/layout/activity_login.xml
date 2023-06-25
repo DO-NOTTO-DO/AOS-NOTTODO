@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
         android:layout_marginTop="133dp"
-        android:text="나만을 위한 추천과\n안전한 데이터 보관의 시작!"
+        android:text="이제 오늘의 낫투두를 세우고\n변화된 삶을 느껴보세요!"
         android:textAppearance="@style/Sb24"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
