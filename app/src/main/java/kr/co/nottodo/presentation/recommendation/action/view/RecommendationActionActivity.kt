@@ -23,7 +23,7 @@ class RecommendationActionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recommendation_action_title)
+        setContentView(R.layout.activity_recommendation_action)
         // 레이아웃의 TextView를 참조
         tvSituation = findViewById(R.id.tv_recommendation_action_when)
         tvTitle = findViewById(R.id.tv_recommendation_title)

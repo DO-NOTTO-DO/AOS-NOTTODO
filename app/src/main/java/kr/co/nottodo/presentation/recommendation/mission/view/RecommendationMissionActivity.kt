@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import kr.co.nottodo.databinding.ActivityRecommendationMainBinding
+import kr.co.nottodo.databinding.ActivityRecommendationMissionBinding
 import kr.co.nottodo.presentation.recommendation.action.view.RecommendationActionActivity
 import kr.co.nottodo.presentation.recommendation.mission.adapter.RecommendationMissionAdapter
 import kr.co.nottodo.presentation.recommendation.mission.viewmodel.RecommendationMissionViewModel
@@ -16,13 +16,13 @@ import kr.co.nottodo.presentation.recommendation.viewmodel.RecommendationMission
 
 
 class RecommendationMissionActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityRecommendationMainBinding
+    private lateinit var binding: ActivityRecommendationMissionBinding
     private lateinit var adapter: RecommendationMissionAdapter
     private val viewModel: RecommendationMissionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRecommendationMainBinding.inflate(layoutInflater)
+        binding = ActivityRecommendationMissionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // RecyclerView 가져오기
