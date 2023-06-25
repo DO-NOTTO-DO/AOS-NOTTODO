@@ -20,6 +20,6 @@ class TokenInterceptor(private val onTokenExpiredListener: OnTokenExpiredListene
 
         val response = chain.proceed(tokenAddedRequest)
         if (response.code == 401) onTokenExpiredListener.onTokenExpired()
-        return chain.proceed(tokenAddedRequest)
+        return response
     }
 }
