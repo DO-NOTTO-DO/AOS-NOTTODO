@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
+import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 import kr.co.nottodo.util.DialogCloseListener
@@ -116,7 +117,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
     }
 
     private fun clickFloatingBtn() {
-        val intent = Intent(context, RecommendationMissionActivity::class.java)
+        val intent = Intent(context, RecommendMissionActivity::class.java)
         binding.ftbHomeAdd.setOnClickListener { startActivity(intent) }
     }
 
