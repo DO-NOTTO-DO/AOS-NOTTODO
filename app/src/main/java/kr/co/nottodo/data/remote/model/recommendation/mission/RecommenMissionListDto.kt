@@ -11,7 +11,6 @@ data class ResponseRecommendMissionListDto(
     @SerialName("message") val message: String,
     @SerialName("data") val data: List<Mission>
 ) {
-
     @Serializable
     data class Mission(
         @SerialName("id") val id: Int,
