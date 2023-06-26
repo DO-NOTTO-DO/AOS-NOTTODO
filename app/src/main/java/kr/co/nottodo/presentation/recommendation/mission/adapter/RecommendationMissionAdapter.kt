@@ -4,63 +4,44 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import kr.co.nottodo.data.remote.model.recommendation.mission.ResponseRecommendationMissionListDto.Mission
-import kr.co.nottodo.databinding.ItemRecommendationMainBinding
+import coil.load
+import kr.co.nottodo.data.remote.model.recommendation.mission.ResponseRecommendMissionListDto.Mission
+import kr.co.nottodo.databinding.ItemRecommendMissionBinding
 import kr.co.nottodo.util.DiffUtilItemCallback
 
 class RecommendationMissionAdapter :
-    ListAdapter<Mission, RecommendationMissionAdapter.RecommendationMissionViewHolder>(
+    ListAdapter<Mission, RecommendationMissionAdapter.RecommendMissionViewHolder>(
         diffUtil
     ) {
 
-    private var itemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): RecommendationMissionViewHolder {
-        val binding = ItemRecommendationMainBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
-        return RecommendationMissionViewHolder(binding)
+    ): RecommendMissionViewHolder {
+        val binding =
+            ItemRecommendMissionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return RecommendMissionViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecommendationMissionViewHolder, position: Int) {
-        holder.onBind(getItem(position), itemClickListener)
+    override fun onBindViewHolder(holder: RecommendMissionViewHolder, position: Int) {
+        holder.onBind(getItem(position))
     }
 
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.itemClickListener = listener
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
-
-    fun getItemAtPosition(position: Int): Mission {
-        return getItem(position)
-    }
-
-    class RecommendationMissionViewHolder(private val binding: ItemRecommendationMainBinding) :
+    class RecommendMissionViewHolder(private val binding: ItemRecommendMissionBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-        fun onBind(data: Mission, listener: OnItemClickListener?) {
-            binding.tvWhen.text = data.situation
-            binding.tvRecommendationCategory.text = data.title
-            binding.tvRecommendationCategoryDescription.text = data.description
-
-            Glide.with(binding.root).load(data.image).into(binding.ivRecommendationCategory)
-
-            binding.layoutRecommendationCategory.setOnClickListener {
-                listener?.onItemClick(adapterPosition)
+        fun onBind(data: Mission) {
+            with(binding) {
+                tvRecommendationMissionSituation.text = data.situation
+                tvRecommendationMission.text = data.title
+                tvRecommendationMissionDesc.text = data.description
+                ivRecommendationMission.load(data.image)
             }
         }
     }
 
     companion object {
-        val diffUtil =
-            DiffUtilItemCallback<Mission>(onItemsTheSame = { old, new -> old === new },
-                onContentsTheSame = { old, new -> old == new })
+        val diffUtil = DiffUtilItemCallback<Mission>(onItemsTheSame = { old, new -> old === new },
+            onContentsTheSame = { old, new -> old == new })
     }
 }
