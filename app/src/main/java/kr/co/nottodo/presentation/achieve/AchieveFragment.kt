@@ -44,6 +44,7 @@ class AchieveFragment : Fragment() {
         initDay()
         observeData()
         clickMonth()
+        observeDailyData()
     }
 
     private fun setActivityBackgroundColor() {
@@ -73,7 +74,17 @@ class AchieveFragment : Fragment() {
         }
         binding.achieveCalender.setOnMonthlyCalendarDayClickListener { date ->
             Log.d("acheve", "clickMonth: $date")
-            bundle.putString(CLICK_DATE, achieveViewModel.formatDateToLocal(date))
+            val formatDate = achieveViewModel.formatDateToLocal(date)
+            bundle.putString(CLICK_DATE, formatDate)
+            achieveViewModel.getAchieveDialogDaily(formatDate)
+        }
+    }
+
+    private fun observeDailyData() {
+        achieveViewModel.getAchieveDialog.observe(viewLifecycleOwner) {
+            if (it.isNullOrEmpty()) {
+                return@observe
+            }
             createDialog()
         }
     }

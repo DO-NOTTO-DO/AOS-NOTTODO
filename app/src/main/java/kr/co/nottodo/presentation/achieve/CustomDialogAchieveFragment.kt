@@ -50,7 +50,7 @@ class CustomDialogAchieveFragment() : DialogFragment() {
                     createLinearBindinding().apply {
                         tvAchieveTitle.text = actions.title
                         tvAchieveSituation.text = actions.situationName
-                        if (actions.completionStatus == "NOTYET") {
+                        if (actions.completionStatus == "UNCHECKED") {
                             ivAchieveItemCheck.visibility = View.INVISIBLE
                         } else {
                             ivAchieveItemCheck.visibility = View.VISIBLE
