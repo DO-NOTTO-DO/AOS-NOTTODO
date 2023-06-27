@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    android:background="@drawable/rectangle_gray_1_radius10"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp">
+
+    <TextView
+        android:id="@+id/tv_recommend_action_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="7dp"
+        android:textAppearance="@style/R14"
+        android:textColor="@color/white"
+        tools:text="배고플 때마다 양치하기" />
+
+    <TextView
+        android:id="@+id/tv_recommend_action_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:ellipsize="end"
+        android:textAppearance="@style/R12"
+        android:textColor="@color/gray_4_9398aa"
+        tools:text="치약 성분은 식욕감을 떨어뜨리는데 도움을 줘요." />
+
+</LinearLayout>

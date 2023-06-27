@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_recommendation_action_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="13dp"
+            android:src="@drawable/ic_recommendation_action_arrow_back"
+            app:layout_constraintBottom_toBottomOf="@id/tv_recommend_action_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_recommend_action_title" />
+
+        <TextView
+            android:id="@+id/tv_recommend_action_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="20dp"
+            android:text="낫투두 생성"
+            android:textAppearance="@style/B18"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_recommend_action_mission_situation_with_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@color/gray_1_2a2a2e"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_recommend_action_title">
+
+            <LinearLayout
+                android:id="@+id/layout_recommend_action_mission_situation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="34dp"
+                android:layout_marginStart="18dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_recommend_action_mission_situation"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_recommend_action_situation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/rectangle_solid_gray_2_radius_50"
+                    android:paddingHorizontal="17dp"
+                    android:paddingVertical="4dp"
+                    android:textAppearance="@style/R14"
+                    android:textColor="@color/white"
+                    tools:text="업무 시간 중" />
+
+                <TextView
+                    android:id="@+id/tv_recommend_action_mission"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="15dp"
+                    android:text="유튜브 보지 않기"
+                    android:textAppearance="@style/Sb18"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_recommend_action_mission_situation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintBottom_toBottomOf="@id/layout_recommend_action_mission_situation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/layout_recommend_action_mission_situation"
+                tools:src="@drawable/ic_recommendation_action_youtube" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/iv_recommend_action_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="29dp"
+            android:src="@drawable/ic_recommendation_action_arrow"
+            app:layout_constraintBottom_toBottomOf="@id/layout_recommend_action_mission_situation_with_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_recommend_action_mission_situation_with_iv" />
+
+
+        <TextView
+            android:id="@+id/tv_recommend_action_recommend_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="48dp"
+            android:text="실천행동 추천"
+            android:textAppearance="@style/Sb18"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_recommend_action_mission_situation_with_iv" />
+
+        <ImageView
+            android:id="@+id/iv_recommend_action_recommend_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:src="@drawable/ic_recommendation_action_info"
+            app:layout_constraintBottom_toBottomOf="@id/tv_recommend_action_recommend_title"
+            app:layout_constraintStart_toEndOf="@id/tv_recommend_action_recommend_title"
+            app:layout_constraintTop_toTopOf="@id/tv_recommend_action_recommend_title" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_recommend_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="18dp"
+            android:layout_marginTop="22dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_recommend_action_recommend_title"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_recommend_action" />
+
+        <TextView
+            android:id="@+id/tv_recommend_action_write_direct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="필요 없어요 or 직접 입력할게요!"
+            android:textAppearance="@style/R14"
+            android:textColor="@color/gray_4_9398aa"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_recommend_action" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
