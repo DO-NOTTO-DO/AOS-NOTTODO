@@ -32,6 +32,7 @@ class ModificationActivity : AppCompatActivity() {
     private var isSituationToggleVisible: Boolean = false
     private var isActionToggleVisible: Boolean = false
     private var isGoalToggleVisible: Boolean = false
+    private var missionHistoryAdapter: MissionHistoryAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,10 +61,8 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeGetRecentMissionListErrorResponse() {
-        viewModel.getRecentMissionListSuccessResponse.observe(this) { response ->
-            initRecyclerView(setMissionName, response.data.map { mission ->
-                mission.title
-            })
+        viewModel.getRecentMissionListListErrorResponse.observe(this) { errorMessage ->
+            showToast(errorMessage)
         }
     }
 
@@ -75,8 +74,10 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeGetRecentMissionListSuccessResponse() {
-        viewModel.getRecentMissionListListErrorResponse.observe(this) { errorMessage ->
-            showToast(errorMessage)
+        viewModel.getRecentMissionListSuccessResponse.observe(this) { response ->
+            missionHistoryAdapter?.submitList(response.data.map {
+                it.title
+            })
         }
     }
 
@@ -102,7 +103,25 @@ class ModificationActivity : AppCompatActivity() {
         initOpenedDesc()
         initToggles()
         setActions()
+        initAdapters()
+        initRecyclerViews()
         initActionList(viewModel.actionCount.value)
+    }
+
+    private fun initRecyclerViews() {
+        initMissionHistoryRecyclerView()
+    }
+
+    private fun initMissionHistoryRecyclerView() {
+        binding.rvModificationMission.adapter = missionHistoryAdapter
+    }
+
+    private fun initAdapters() {
+        initMissionHistoryAdapter()
+    }
+
+    private fun initMissionHistoryAdapter() {
+        missionHistoryAdapter = MissionHistoryAdapter(this, setMissionName)
     }
 
     private fun setClickEvent() {
@@ -145,8 +164,9 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeSuccessResponse() {
-        viewModel.modificationResponse.observe(this) { response ->
-            showToast("낫투두 수정 완료")
+        viewModel.modificationResponse.observe(this) {
+            showToast("낫투두 수정 완료 !")
+            setResult(RESULT_OK)
             if (!isFinishing) finish()
         }
     }
@@ -712,11 +732,6 @@ class ModificationActivity : AppCompatActivity() {
             ForegroundColorSpan(getColor(R.color.white)), 14, 24, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         binding.tvModificationGoalOpenedDesc.text = goalOpenedDesc
-    }
-
-    private fun initRecyclerView(setMissionName: (String) -> Unit, missionList: List<String>) {
-        binding.rvModificationMission.adapter =
-            MissionHistoryAdapter(this, setMissionName, missionList)
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

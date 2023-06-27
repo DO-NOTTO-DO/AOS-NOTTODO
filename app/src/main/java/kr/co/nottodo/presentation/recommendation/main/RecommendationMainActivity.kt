@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.nottodo.databinding.ActivityRecommendationMainBinding
+import kr.co.nottodo.presentation.addition.view.AdditionActivity
 
 import kr.co.nottodo.presentation.recommendation.action.RecommendationActionActivity
 import kr.co.nottodo.presentation.recommendation.viewmodel.RecommendationViewModel
@@ -60,31 +61,9 @@ class RecommendationMainActivity : AppCompatActivity() {
 
         val exitButton = binding.ivRecommendationMainExit
         exitButton.setOnClickListener { finish() }
+
+        binding.btnWriteDirectly.setOnClickListener {
+            startActivity(Intent(this, AdditionActivity::class.java))
+        }
     }
 }
-
-//
-//        // 임의의 더미 데이터 생성
-//        val dummyData = listOf(
-//            RecommendationMainListDTO.MainList(
-//                1,
-//                "업무시간 중",
-//                "유튜브 보지 않기",
-//                "유튜브를 보지 않는 것이 당신의 일상에\n 어떠한 변화를 일으킬까요?\n행복한 중독해소를 위해 제안해요!",
-//                "image1.jpg"
-//            ),
-//            RecommendationMainListDTO.MainList(
-//                2,
-//                "취침 전",
-//                "커피 마시지 않기",
-//                "한국인들은 평균 2잔의 커피를 마신대요.\n적당한 섭취를 위해 제안해요!",
-//                "image2.jpg"
-//            ),
-//            RecommendationMainListDTO.MainList(
-//                3,
-//                "취침 전",
-//                "커피 마시지 않기",
-//                "한국인들은 평균 2잔의 커피를 마신대요.\n적당한 섭취를 위해 제안해요!",
-//                "image2.jpg"
-//            )
-//        )

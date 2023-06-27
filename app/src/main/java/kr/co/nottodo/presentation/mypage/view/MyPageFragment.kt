@@ -76,7 +76,7 @@ class MyPageFragment : Fragment() {
             // 버튼을 클릭했을 때 실행할 코드
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://teamnottodo.notion.site/5af34df7da3649fc941312c5f533c1eb")
+                Uri.parse("https://teamnottodo.notion.site/81594da775614d23900cdb2475eadb73")
             )
             startActivity(intent)
         }
