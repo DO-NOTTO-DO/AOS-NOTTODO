@@ -37,6 +37,7 @@ class AdditionActivity : AppCompatActivity() {
     private var isSituationToggleVisible: Boolean = false
     private var isActionToggleVisible: Boolean = false
     private var isGoalToggleVisible: Boolean = false
+    private var missionHistoryAdapter: MissionHistoryAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +52,14 @@ class AdditionActivity : AppCompatActivity() {
     private fun setData() {
         getRecentMissionList()
         getRecommendSituationList()
+    }
+
+    private fun initAdapters() {
+        initMissionHistoryAdapter()
+    }
+
+    private fun initMissionHistoryAdapter() {
+        missionHistoryAdapter = MissionHistoryAdapter(this, setMissionName)
     }
 
     private fun getRecommendSituationList() {
@@ -71,7 +80,13 @@ class AdditionActivity : AppCompatActivity() {
         initDataBinding()
         initOpenedDesc()
         initToggles()
+        initRecyclerViews()
         setActions()
+    }
+
+    private fun initRecyclerViews() {
+        initAdapters()
+        initMissionHistoryRecyclerView()
     }
 
     private fun setObservers() {
@@ -91,10 +106,8 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeGetRecentMissionListErrorResponse() {
-        viewModel.getRecentMissionListSuccessResponse.observe(this) { response ->
-            initRecyclerView(setMissionName, response.data.map { mission ->
-                mission.title
-            })
+        viewModel.getRecentMissionListListErrorResponse.observe(this) { errorMessage ->
+            showToast(errorMessage)
         }
     }
 
@@ -106,8 +119,10 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeGetRecentMissionListSuccessResponse() {
-        viewModel.getRecentMissionListListErrorResponse.observe(this) { errorMessage ->
-            showToast(errorMessage)
+        viewModel.getRecentMissionListSuccessResponse.observe(this) { response ->
+            missionHistoryAdapter?.submitList(response.data.map {
+                it.title
+            })
         }
     }
 
@@ -535,39 +550,7 @@ class AdditionActivity : AppCompatActivity() {
                 closeDateToggle()
             }
         }
-
         binding.tvAdditionDateOpenedComplete.setOnClickListener {
-            val selectedDays: MutableList<Date> = binding.calendarAdditionDateOpened.selectedDays
-            if (selectedDays.isEmpty()) return@setOnClickListener
-
-            if (selectedDays.containToday()) {
-                binding.tvAdditionDateStartDesc.apply {
-                    visibility = View.VISIBLE
-                    text = getString(R.string.today)
-                }
-            } else if (selectedDays.containTomorrow()) {
-                binding.tvAdditionDateStartDesc.apply {
-                    visibility = View.VISIBLE
-                    text = getString(R.string.tomorrow)
-                }
-            } else {
-                binding.tvAdditionDateStartDesc.visibility = View.GONE
-            }
-
-            if (selectedDays.size > 1) {
-                binding.tvAdditionDateEndDesc.apply {
-                    visibility = View.VISIBLE
-                    text = getString(R.string.other_days, selectedDays.size - 1)
-                }
-            } else {
-                binding.tvAdditionDateEndDesc.apply {
-                    visibility = View.GONE
-                }
-            }
-
-            selectedDays.sortDescending()
-            binding.tvAdditionDate.text = selectedDays.last().convertDateToString()
-
             closeDateToggle()
         }
 
@@ -576,10 +559,44 @@ class AdditionActivity : AppCompatActivity() {
         }
     }
 
+    private fun setDateDescTextView() {
+        val selectedDays: MutableList<Date> = binding.calendarAdditionDateOpened.selectedDays
+        if (selectedDays.isEmpty()) return
+
+        if (selectedDays.containToday()) {
+            binding.tvAdditionDateStartDesc.apply {
+                visibility = View.VISIBLE
+                text = getString(R.string.today)
+            }
+        } else if (selectedDays.containTomorrow()) {
+            binding.tvAdditionDateStartDesc.apply {
+                visibility = View.VISIBLE
+                text = getString(R.string.tomorrow)
+            }
+        } else {
+            binding.tvAdditionDateStartDesc.visibility = View.GONE
+        }
+
+        if (selectedDays.size > 1) {
+            binding.tvAdditionDateEndDesc.apply {
+                visibility = View.VISIBLE
+                text = getString(R.string.other_days, selectedDays.size - 1)
+            }
+        } else {
+            binding.tvAdditionDateEndDesc.apply {
+                visibility = View.GONE
+            }
+        }
+
+        selectedDays.sortDescending()
+        binding.tvAdditionDate.text = selectedDays.last().convertDateToString()
+    }
+
     private fun closeDateToggle() {
         binding.layoutAdditionDateClosed.visibility = View.VISIBLE
         binding.layoutAdditionDateOpened.visibility = View.GONE
         isDateToggleVisible = false
+        setDateDescTextView()
     }
 
     private fun openDateToggle() {
@@ -710,8 +727,8 @@ class AdditionActivity : AppCompatActivity() {
         binding.tvAdditionGoalOpenedDesc.text = goalOpenedDesc
     }
 
-    private fun initRecyclerView(setMissionName: (String) -> Unit, missionList: List<String>) {
-        binding.rvAdditionMission.adapter = MissionHistoryAdapter(this, setMissionName, missionList)
+    private fun initMissionHistoryRecyclerView() {
+        binding.rvAdditionMission.adapter = missionHistoryAdapter
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

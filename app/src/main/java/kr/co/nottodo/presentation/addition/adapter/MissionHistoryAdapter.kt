@@ -3,18 +3,23 @@ package kr.co.nottodo.presentation.addition.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.databinding.ItemAdditionMissionHistoryBinding
+import kr.co.nottodo.util.DiffUtilItemCallback
 
 class MissionHistoryAdapter(
     private val context: Context,
     private val setMissionName: (String) -> Unit,
-    private val missionHistory: List<String>,
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+) : ListAdapter<String, MissionHistoryAdapter.AdditionViewHolder>(diffUtil) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdditionViewHolder {
         val binding =
             ItemAdditionMissionHistoryBinding.inflate(LayoutInflater.from(context), parent, false)
         return AdditionViewHolder(binding, setMissionName)
+    }
+
+    override fun onBindViewHolder(holder: AdditionViewHolder, position: Int) {
+        holder.onBind(currentList, position)
     }
 
     class AdditionViewHolder(
@@ -31,11 +36,10 @@ class MissionHistoryAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return 12
-    }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as AdditionViewHolder).onBind(missionHistory, position)
+    companion object {
+        val diffUtil =
+            DiffUtilItemCallback<String>(onItemsTheSame = { oldItem, newItem -> oldItem === newItem },
+                onContentsTheSame = { oldItem, newItem -> oldItem == newItem })
     }
 }
