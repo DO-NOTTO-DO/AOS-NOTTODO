@@ -9,11 +9,10 @@ import kr.co.nottodo.data.remote.model.recommendation.mission.ResponseRecommendM
 import kr.co.nottodo.databinding.ItemRecommendMissionBinding
 import kr.co.nottodo.util.DiffUtilItemCallback
 
-class RecommendationMissionAdapter :
-    ListAdapter<Mission, RecommendationMissionAdapter.RecommendMissionViewHolder>(
+class RecommendMissionAdapter(private val startRecommendActionActivity: (Int, String, String) -> Unit) :
+    ListAdapter<Mission, RecommendMissionAdapter.RecommendMissionViewHolder>(
         diffUtil
     ) {
-
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -21,21 +20,27 @@ class RecommendationMissionAdapter :
     ): RecommendMissionViewHolder {
         val binding =
             ItemRecommendMissionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return RecommendMissionViewHolder(binding)
+        return RecommendMissionViewHolder(binding, startRecommendActionActivity)
     }
 
     override fun onBindViewHolder(holder: RecommendMissionViewHolder, position: Int) {
         holder.onBind(getItem(position))
     }
 
-    class RecommendMissionViewHolder(private val binding: ItemRecommendMissionBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class RecommendMissionViewHolder(
+        private val binding: ItemRecommendMissionBinding,
+        private val startRecommendActionActivity: (Int, String, String) -> Unit,
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: Mission) {
             with(binding) {
                 tvRecommendationMissionSituation.text = data.situation
                 tvRecommendationMission.text = data.title
                 tvRecommendationMissionDesc.text = data.description
                 ivRecommendationMission.load(data.image)
+
+                layoutRecommendationMission.setOnClickListener {
+                    startRecommendActionActivity.invoke(data.id, data.title, data.situation)
+                }
             }
         }
     }

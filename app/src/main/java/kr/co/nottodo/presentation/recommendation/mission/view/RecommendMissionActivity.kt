@@ -1,17 +1,20 @@
 package kr.co.nottodo.presentation.recommendation.mission.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import kr.co.nottodo.databinding.ActivityRecommendMissionBinding
-import kr.co.nottodo.presentation.recommendation.mission.adapter.RecommendationMissionAdapter
+import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity
+import kr.co.nottodo.presentation.recommendation.mission.adapter.RecommendMissionAdapter
 import kr.co.nottodo.presentation.recommendation.mission.viewmodel.RecommendMissionViewModel
+import kr.co.nottodo.presentation.recommendation.model.ParcelizeMissionDetail
 import kr.co.nottodo.util.showToast
 
 
 class RecommendMissionActivity : AppCompatActivity() {
     private val binding by lazy { ActivityRecommendMissionBinding.inflate(layoutInflater) }
-    private var recommendationMissionAdapter: RecommendationMissionAdapter? = null
+    private var recommendMissionAdapter: RecommendMissionAdapter? = null
     private val viewModel: RecommendMissionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +38,13 @@ class RecommendMissionActivity : AppCompatActivity() {
     private fun setRecommendMissionFailureObserver() {
         viewModel.recommendMissionListErrorResponse.observe(this) { errorMessage ->
             showToast(errorMessage)
-            recommendationMissionAdapter?.submitList(emptyList())
+            recommendMissionAdapter?.submitList(emptyList())
         }
     }
 
     private fun setRecommendMissionSuccessObserver() {
         viewModel.recommendMissionListSuccessResponse.observe(this) { missionList ->
-            recommendationMissionAdapter?.submitList(missionList)
+            recommendMissionAdapter?.submitList(missionList)
         }
     }
 
@@ -69,11 +72,23 @@ class RecommendMissionActivity : AppCompatActivity() {
     }
 
     private fun setAdapter() {
-        recommendationMissionAdapter = RecommendationMissionAdapter()
-        binding.rvRecommendationMission.adapter = recommendationMissionAdapter
+        recommendMissionAdapter = RecommendMissionAdapter(startRecommendActionActivity)
+        binding.rvRecommendationMission.adapter = recommendMissionAdapter
+    }
+
+    private val startRecommendActionActivity = { id: Int, title: String, situation: String ->
+        startActivity(
+            Intent(this, RecommendActionActivity::class.java).putExtra(
+                MISSION_DETAIL, ParcelizeMissionDetail(id, title, situation)
+            )
+        )
     }
 
     private fun setData() {
         viewModel.getRecommendMissionList()
+    }
+
+    companion object {
+        const val MISSION_DETAIL = "MISSION_DETAIL"
     }
 }
