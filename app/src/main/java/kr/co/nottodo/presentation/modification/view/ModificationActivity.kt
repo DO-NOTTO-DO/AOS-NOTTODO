@@ -164,8 +164,9 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeSuccessResponse() {
-        viewModel.modificationResponse.observe(this) { response ->
-            showToast("낫투두 수정 완료")
+        viewModel.modificationResponse.observe(this) {
+            showToast("낫투두 수정 완료 !")
+            setResult(RESULT_OK)
             if (!isFinishing) finish()
         }
     }
