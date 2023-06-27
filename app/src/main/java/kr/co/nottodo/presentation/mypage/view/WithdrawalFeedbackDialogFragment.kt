@@ -57,7 +57,7 @@ class WithdrawalFeedbackDialogFragment : DialogFragment() {
         binding.btnFeedback.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://teamnottodo.notion.site/5af34df7da3649fc941312c5f533c1eb")
+                Uri.parse("https://forms.gle/sXWnpYjYFuhVXxB38")
             )
             resultLauncher.launch(intent)
         }
