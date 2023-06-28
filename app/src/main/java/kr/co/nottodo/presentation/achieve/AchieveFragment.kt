@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import kr.co.nottodo.data.model.Home.HomeDailyResponse
 import kr.co.nottodo.databinding.FragmentAchieveBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.view.calendar.monthly.util.convertStringToDate
@@ -80,11 +81,15 @@ class AchieveFragment : Fragment() {
 
     private fun observeDailyData() {
         achieveViewModel.getAchieveDialog.observe(viewLifecycleOwner) {
-            if (it.isNullOrEmpty()) {
-                return@observe
-            }
-            createDialog()
+            emptyNotodo(it)
         }
+    }
+
+    private fun emptyNotodo(daily: List<HomeDailyResponse.HomeDaily>) {
+        if (daily.isNullOrEmpty()) {
+            return
+        }
+        createDialog()
     }
 
     private fun createDialog() {
