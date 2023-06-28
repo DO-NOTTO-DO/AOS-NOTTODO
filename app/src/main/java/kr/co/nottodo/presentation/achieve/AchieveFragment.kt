@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import kr.co.nottodo.data.model.Home.HomeDailyResponse
 import kr.co.nottodo.databinding.FragmentAchieveBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.view.calendar.monthly.util.convertStringToDate
@@ -43,6 +44,7 @@ class AchieveFragment : Fragment() {
         initDay()
         observeData()
         clickMonth()
+        observeDailyData()
     }
 
     private fun setActivityBackgroundColor() {
@@ -71,9 +73,23 @@ class AchieveFragment : Fragment() {
             achieveViewModel.getCalenderRate(dateString)
         }
         binding.achieveCalender.setOnMonthlyCalendarDayClickListener { date ->
-            bundle.putString(CLICK_DATE, achieveViewModel.formatDateToLocal(date))
-            createDialog()
+            val formatDate = achieveViewModel.formatDateToLocal(date)
+            bundle.putString(CLICK_DATE, formatDate)
+            achieveViewModel.getAchieveDialogDaily(formatDate)
         }
+    }
+
+    private fun observeDailyData() {
+        achieveViewModel.getAchieveDialog.observe(viewLifecycleOwner) {
+            emptyNotodo(it)
+        }
+    }
+
+    private fun emptyNotodo(daily: List<HomeDailyResponse.HomeDaily>) {
+        if (daily.isNullOrEmpty()) {
+            return
+        }
+        createDialog()
     }
 
     private fun createDialog() {

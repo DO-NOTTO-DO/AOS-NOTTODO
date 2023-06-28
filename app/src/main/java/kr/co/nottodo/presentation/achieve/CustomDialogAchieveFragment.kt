@@ -1,5 +1,7 @@
 package kr.co.nottodo.presentation.achieve
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +23,9 @@ class CustomDialogAchieveFragment() : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentCustomDialogAchieveBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentCustomDialogAchieveBinding.inflate(inflater, container, false)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        // 각 버튼 클릭 시 각각의 함수 호출
         return binding.root
     }
 
@@ -45,7 +49,7 @@ class CustomDialogAchieveFragment() : DialogFragment() {
                     createLinearBindinding().apply {
                         tvAchieveTitle.text = actions.title
                         tvAchieveSituation.text = actions.situationName
-                        if (actions.completionStatus == "NOTYET") {
+                        if (actions.completionStatus == "UNCHECKED") {
                             ivAchieveItemCheck.visibility = View.INVISIBLE
                         } else {
                             ivAchieveItemCheck.visibility = View.VISIBLE
