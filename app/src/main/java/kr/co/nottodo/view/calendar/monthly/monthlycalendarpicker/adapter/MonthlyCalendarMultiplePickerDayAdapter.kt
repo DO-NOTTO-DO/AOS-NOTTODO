@@ -34,18 +34,21 @@ class MonthlyCalendarMultiplePickerDayAdapter(
                 )
                 MonthlyCalendarPickerDayViewHolder(binding, monthlyCalendarPickerClickListener)
             }
+
             CalendarType.EMPTY.ordinal -> {
                 val binding: ViewMonthlyCalendarPickerEmptyBinding = DataBindingUtil.inflate(
                     layoutInflater, R.layout.view_monthly_calendar_picker_empty, parent, false
                 )
                 MonthlyCalendarPickerEmptyViewHolder(binding)
             }
+
             CalendarType.WEEK.ordinal -> {
                 val binding: ViewMonthlyCalendarPickerEmptyBinding = DataBindingUtil.inflate(
                     layoutInflater, R.layout.view_monthly_calendar_picker_empty, parent, false
                 )
                 MonthlyCalendarPickerEmptyViewHolder(binding)
             }
+
             else -> {
                 val binding: ViewMonthlyCalendarPickerEmptyBinding = DataBindingUtil.inflate(
                     layoutInflater, R.layout.view_monthly_calendar_picker_empty, parent, false
@@ -59,7 +62,7 @@ class MonthlyCalendarMultiplePickerDayAdapter(
         when (holder) {
             is MonthlyCalendarPickerDayViewHolder -> {
                 if (calendarPickerItems[position] is MonthlyCalendarDay.DayMonthly) {
-                    if (selectedDateList.any { it.isTheSameDay((calendarPickerItems[position] as MonthlyCalendarDay.DayMonthly).date)}) {
+                    if (selectedDateList.any { it.isTheSameDay((calendarPickerItems[position] as MonthlyCalendarDay.DayMonthly).date) }) {
                         holder.onBindSelectedState(calendarPickerItems[position])
                     } else {
                         holder.onBind(calendarPickerItems[position])
@@ -68,9 +71,11 @@ class MonthlyCalendarMultiplePickerDayAdapter(
                     holder.onBind(calendarPickerItems[position])
                 }
             }
+
             is MonthlyCalendarPickerEmptyViewHolder -> {
                 holder.onBind(calendarPickerItems[position])
             }
+
             else -> {
                 throw IllegalStateException("how dare you....")
             }
@@ -88,10 +93,18 @@ class MonthlyCalendarMultiplePickerDayAdapter(
         notifyDataSetChanged()
     }
 
+    /**
+     * ssong-develop
+     *
+     * 1차 QA에서 Fix 되었습니다.
+     * Date객체의 시간대가 달라서 동일객체로 판단되지 않습니다. 그로 인해 contains와 remove도 동작하지 않았습니다.
+     *
+     * Util클래스를 사용요망
+     */
     @SuppressLint("NotifyDataSetChanged")
     fun setSelectedDay(date: Date) {
-        if (selectedDateList.contains(date)) {
-            selectedDateList.remove(date)
+        if (selectedDateList.any { it.isTheSameDay(date) }) {
+            selectedDateList.remove(selectedDateList.find { it.isTheSameDay(date) })
         } else {
             selectedDateList.add(date)
         }
