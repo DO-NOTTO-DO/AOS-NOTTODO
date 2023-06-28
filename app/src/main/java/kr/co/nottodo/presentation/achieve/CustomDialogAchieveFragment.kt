@@ -39,7 +39,14 @@ class CustomDialogAchieveFragment() : DialogFragment() {
 
     private fun setData() {
         achieveViewModel.getAchieveDialog.observe(viewLifecycleOwner) {
+            if (it.isNullOrEmpty()) {
+                binding.tvAchieveNoTodo.visibility = View.VISIBLE
+                binding.layoutAchieveTodo.visibility = View.GONE
+                return@observe
+            }
             //동적추가
+            binding.tvAchieveNoTodo.visibility = View.INVISIBLE
+            binding.layoutAchieveTodo.visibility = View.VISIBLE
             binding.layoutAchieveTodo.run {
                 val createLinearBindinding = {
                     ItemAchieveDialogBinding.inflate(LayoutInflater.from(binding.root.context))
