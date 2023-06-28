@@ -107,19 +107,15 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
             }
         )
 
-        addView(
-            View(this.context).apply {
+        addView(View(this.context).apply {
                 layoutParams = LayoutParams(context.dpToPx(8), 0, 0f)
-            }
-        )
+            })
 
         addView(currentDateTextView)
 
-        addView(
-            View(this.context).apply {
+        addView(View(this.context).apply {
                 layoutParams = LayoutParams(context.dpToPx(8), 0, 0f)
-            }
-        )
+            })
 
         addView(
             ImageView(this.context).apply {
