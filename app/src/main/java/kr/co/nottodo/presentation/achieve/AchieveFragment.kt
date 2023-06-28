@@ -81,15 +81,8 @@ class AchieveFragment : Fragment() {
 
     private fun observeDailyData() {
         achieveViewModel.getAchieveDialog.observe(viewLifecycleOwner) {
-            emptyNotodo(it)
+            createDialog()
         }
-    }
-
-    private fun emptyNotodo(daily: List<HomeDailyResponse.HomeDaily>) {
-        if (daily.isNullOrEmpty()) {
-            return
-        }
-        createDialog()
     }
 
     private fun createDialog() {
