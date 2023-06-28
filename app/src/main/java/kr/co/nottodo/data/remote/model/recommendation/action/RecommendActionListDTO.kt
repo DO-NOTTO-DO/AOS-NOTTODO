@@ -14,11 +14,12 @@ data class ResponseRecommendActionListDTO(
     data class Action(
         @SerialName("id") val id: Int,
         @SerialName("title") val title: String,
-        @SerialName("recommendActions") val recommendActions: CategoryList,
+        @SerialName("recommendActions") val recommendActions: Action,
     ) {
         @Serializable
-        data class CategoryList(
+        data class Action(
             @SerialName("name") val name: String,
+            @SerialName("description") val description: String,
         )
     }
 }
