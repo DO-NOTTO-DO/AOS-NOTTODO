@@ -24,10 +24,9 @@ class CustomDialogAchieveFragment() : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCustomDialogAchieveBinding.inflate(inflater, container, false)
-        val view = binding.root
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         // 각 버튼 클릭 시 각각의 함수 호출
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
