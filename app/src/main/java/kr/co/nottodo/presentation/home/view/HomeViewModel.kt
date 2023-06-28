@@ -39,23 +39,20 @@ class HomeViewModel : ViewModel() {
     val getHomeBottomDetail: LiveData<ResponHomeMissionDetail.HomeMissionDetail> get() = _getHomeBottomDetail
 
     //투두 바텀시트 삭제하기
-    private val _deleteTodo: MutableLiveData<String> =
+    private val _deleteTodo: MutableLiveData<Boolean> =
         MutableLiveData()
-    val deleteTodo: LiveData<String> get() = _deleteTodo
+    val clickDay: MutableLiveData<String> = MutableLiveData()
 
-    lateinit var checkTodo: HomeDailyResponse.HomeDaily
-//    val list: List<Pair<LocalDate?, Double>> =
-
-
-    fun checkTodo() {
-
-    }
+    private val _postDoAnotherDay: MutableLiveData<String> =
+        MutableLiveData()
+    val postDoAnotherDay: LiveData<String> get() = _postDoAnotherDay
 
     fun getHomeDaily(date: String) {
         viewModelScope.launch {
             runCatching {
                 homeService.getHomeDaily(date)
-            }.fold(onSuccess = { _getHomeDaily.value = it.data.toMutableList() },
+            }.fold(onSuccess = { _getHomeDaily.value = it.data.toMutableList()
+                Timber.d("gethomeDaily 성공이이롱 ${it.data}")},
                 onFailure = {
                     Timber.d("error지롱 ${it.message}")
                 })
@@ -120,14 +117,13 @@ class HomeViewModel : ViewModel() {
             kotlin.runCatching {
                 homeService.deleteTodo(missionId)
             }.fold(onSuccess = {
-                _deleteTodo.value = it.message
+                _deleteTodo.value = true
                 Timber.tag("delete").e("${it.message}")
-//                getHomeDaily("2023-05-21")
             },
                 onFailure = {
                     Timber.d("delete error지롱 ${it.message}")
                 })
         }
+        _deleteTodo.value = false
     }
-
 }
