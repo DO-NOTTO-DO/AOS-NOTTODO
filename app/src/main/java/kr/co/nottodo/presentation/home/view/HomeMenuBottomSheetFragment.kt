@@ -1,33 +1,42 @@
 package kr.co.nottodo.presentation.home.view
 
+import android.app.Activity.RESULT_OK
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.ParcelizeBottomDetail
+import kr.co.nottodo.data.local.ParcelizeBottomDetailRegister
 import kr.co.nottodo.data.remote.model.home.ResponHomeMissionDetail
 import kr.co.nottodo.databinding.FragmentHomeMenuBottomSheetBinding
 import kr.co.nottodo.databinding.ItemHomeBottomActionsBinding
+import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.CLICK_DAY
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.presentation.modification.view.ModificationActivity
+import kr.co.nottodo.util.DialogCloseListener
+import kr.co.nottodo.util.getParcelable
 
 class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentHomeMenuBottomSheetBinding? = null
     private val binding: FragmentHomeMenuBottomSheetBinding
         get() = requireNotNull(_binding)
     private val viewModel by activityViewModels<HomeViewModel>()
-    private lateinit var detailData: ParcelizeBottomDetail
-    private lateinit var detailActionData: ParcelizeBottomDetail.Action
+    val bundle = Bundle()
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var modifyParcelizeExtra: ParcelizeBottomDetail
+    private lateinit var clickDay: String
+    private var getDetailFragment: (() -> Unit)? = null
 
-    //    private lateinit var changeParcle: List<ParcelizeBottomDetail.Action>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -39,8 +48,11 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData(requireArguments().getLong(MISSION_ID))
+        clickDay = requireArguments().getString(CLICK_DAY).toString()
         getMissionData()
         setOnClick()
+        clickAddAnotherDay()
+        getModifyData()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -57,21 +69,25 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private fun setOnClick() {
         binding.ivHomeDialogCancle.setOnClickListener { dismiss() }
         binding.tvHomeDialogEdit.setOnClickListener {
-            //todo 파셀라블 적용
-            val intent = Intent(context, ModificationActivity::class.java)
-            intent.putExtra(DETAIL, detailData)
-//            intent.putParcelableArrayListExtra(ACTIONS, ArrayList(changeParcle))
-            startActivity(intent)
+            val intent = Intent(requireActivity(), ModificationActivity::class.java)
+            intent.putExtra(DETAIL, modifyParcelizeExtra)
+            resultLauncher.launch(intent)
         }
         binding.tvHomeDialogAddDay.setOnClickListener {
-//            val calendarBottomSheet = DialogFragment(this)
-//            dialog.mypageShowDeleteDialog(R.layout.custom_mypage_dialog)
-
-
+            val dialogFragment = HomeDoAnotherFragment()
+            dialogFragment.arguments = bundle
+            dialogFragment.setButtonClickListener(object :
+                HomeDoAnotherFragment.OnButtonClickListener {
+                override fun onButton1Clicked() {
+                    dismiss()
+                }
+            }
+            )
+            dialogFragment.show(childFragmentManager, "dialog_fragment")
         }
         binding.btnHomeDelete.setOnClickListener {
             clickDelete(requireArguments().getLong(MISSION_ID))
-            viewModel.getHomeDaily("2023-05-21")
+            viewModel.getHomeDaily(clickDay)
             dismiss()
         }
     }
@@ -79,14 +95,26 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private fun getMissionData() {
         viewModel.getHomeBottomDetail.observe(viewLifecycleOwner) {
             val completeCount = getString(R.string.home_dialog_statics, it.count)
+            isEmptyActions(it)
+            isGoalEmpty(it.goal)
             with(binding) {
-                tvHomeDialogGoalDescription.text = it.goal
-                tvHomeDialogSituation.text = it.situation
                 tvHomeDialogNotodo.text = it.title
-                tvHomeDialogGoalDescription.text = it.goal
                 tvHomeDialogStatics.text = completeCount
+                tvHomeDialogSituation.text = it.situation
             }
-            //동적추가
+            bundle.putLong(MISSION_ID, it.id)
+            modifyParcelizeExtra = parcelizeData(it)
+        }
+    }
+
+    private fun isEmptyActions(it: ResponHomeMissionDetail.HomeMissionDetail) {
+        if (it.actions.isNullOrEmpty()) {
+            binding.tvHomeBottomActionEmptyDescription.visibility = View.VISIBLE
+            binding.ivActionEmpty.visibility = View.VISIBLE
+            binding.linearHomeAction.run { removeAllViews() }
+        } else {
+            binding.tvHomeBottomActionEmptyDescription.visibility = View.GONE
+            binding.ivActionEmpty.visibility = View.GONE
             binding.linearHomeAction.run {
                 val createLinearBindinding = {
                     ItemHomeBottomActionsBinding.inflate(LayoutInflater.from(binding.root.context))
@@ -100,26 +128,55 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
                     addView(it.root)
                 }
             }
-            parcelizeData(it)
         }
     }
 
-    private fun parcelizeData(item: ResponHomeMissionDetail.HomeMissionDetail) {
-        val actionHome = item.actions
-        //todo 뭔가 여기 전역변수 쓰면 안될거 같은데.. 나중에 바꿔라 윤둉아
-        detailData =
-            ParcelizeBottomDetail(
-                item.id,
-                item.title,
-                item.situation,
-                actionHome?.map { ParcelizeBottomDetail.Action(it.name) },
-                item.count,
-                item.goal
-            )
+    private fun isGoalEmpty(it: String?) {
+        if (it.isNullOrEmpty()) {
+            binding.tvHomeBottomGoalEmpty.visibility = View.VISIBLE
+            binding.ivHomeBottomGoalEmpty.visibility = View.VISIBLE
+        } else {
+            binding.tvHomeBottomGoalEmpty.visibility = View.GONE
+            binding.ivHomeBottomGoalEmpty.visibility = View.GONE
+            binding.tvHomeDialogGoalDescription.text = it
+        }
+    }
 
-//        changeParcle =
-//            actionHome?.map { ParcelizeBottomDetail.Action(it.name) }
-//                ?: throw IllegalArgumentException()
+    private fun parcelizeData(item: ResponHomeMissionDetail.HomeMissionDetail): ParcelizeBottomDetail {
+        val actionHome = item.actions
+        return ParcelizeBottomDetail(
+            item.id,
+            item.title,
+            item.situation,
+            actionHome?.map { ParcelizeBottomDetail.Action(it.name) },
+            item.count,
+            item.goal
+        )
+    }
+
+    private fun getModifyData() {
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    val parcelableData = result.data?.getParcelable(
+                        DETAIL, ParcelizeBottomDetailRegister::class.java
+                    )
+                    // 결과 처리
+                    if (parcelableData != null) {
+                        binding.tvHomeDialogSituation.text = parcelableData.title
+                        binding.tvHomeDialogNotodo.text = parcelableData.situation
+                        binding.tvHomeDialogGoalDescription.text = parcelableData.goal
+                        // 데이터 클래스 값 사용
+                    }
+                    viewModel.getHomeBottomDetail(requireArguments().getLong(MISSION_ID))
+                }
+            }
+    }
+
+    private fun clickAddAnotherDay() {
+        binding.tvHomeDialogDoAnother.setOnClickListener {
+            dismiss()
+        }
     }
 
     private fun clickDelete(missionId: Long) {
@@ -131,8 +188,16 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         super.onDestroyView()
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        getDetailFragment?.invoke()
+        if (parentFragment is DialogCloseListener) {
+            (parentFragment as DialogCloseListener).handleDialogClose(dialog)
+        }
+        super.onDismiss(dialog)
+    }
+
     companion object {
         const val DETAIL = "DETAIL"
-        const val ACTIONS = "ACTIONS"
+        const val MISSIONID = "MISSIONID"
     }
 }

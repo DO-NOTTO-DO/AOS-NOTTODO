@@ -25,6 +25,7 @@
     <string name="home_bottom_goal_null">목표만큼 강력한 동기는 없어요!\n무엇을 위해 낫투두를 도전하시나요?</string>
     <!--home calendar-->
     <string name="home_calendar_todo_description">*달성 가능한 계획을 위해 다가올 일주일만 선택할 수 있어요</string>
+    <string name="home_calendar_select_done">완료</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

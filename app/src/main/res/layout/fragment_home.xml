@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_f2f2f7"
     tools:context=".presentation.home.view.HomeFragment">
 
     <kr.co.nottodo.view.calendar.weekly.WeeklyCalendarView
