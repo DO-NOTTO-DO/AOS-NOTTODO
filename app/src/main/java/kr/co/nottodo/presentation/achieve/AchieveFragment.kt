@@ -2,7 +2,6 @@ package kr.co.nottodo.presentation.achieve
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,7 +72,6 @@ class AchieveFragment : Fragment() {
             achieveViewModel.getCalenderRate(dateString)
         }
         binding.achieveCalender.setOnMonthlyCalendarDayClickListener { date ->
-            Log.d("acheve", "clickMonth: $date")
             val formatDate = achieveViewModel.formatDateToLocal(date)
             bundle.putString(CLICK_DATE, formatDate)
             achieveViewModel.getAchieveDialogDaily(formatDate)
