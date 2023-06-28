@@ -3,13 +3,13 @@ package kr.co.nottodo.presentation.recommendation.action.view
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import kr.co.nottodo.databinding.ActivityRecommendationActionBinding
+import kr.co.nottodo.databinding.ActivityRecommendActionBinding
 import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendationActionAdapter
 import kr.co.nottodo.presentation.recommendation.action.viewmodel.RecommendActionViewModel
 
 class RecommendActionActivity : AppCompatActivity() {
 
-    private val binding by lazy { ActivityRecommendationActionBinding.inflate(layoutInflater) }
+    private val binding by lazy { ActivityRecommendActionBinding.inflate(layoutInflater) }
     private lateinit var recommendationActionAdapter: RecommendationActionAdapter
     private val viewModel by viewModels<RecommendActionViewModel>()
 
