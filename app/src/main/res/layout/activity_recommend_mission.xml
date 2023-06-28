@@ -7,18 +7,18 @@
     android:background="@color/black">
 
     <ImageView
-        android:id="@+id/iv_recommendation_mission_destroy"
+        android:id="@+id/iv_recommend_mission_destroy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:padding="16dp"
         android:src="@drawable/ic_destroy"
-        app:layout_constraintBottom_toBottomOf="@id/tv_recommendation_mission_title"
+        app:layout_constraintBottom_toBottomOf="@id/tv_recommend_mission_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_recommendation_mission_title" />
+        app:layout_constraintTop_toTopOf="@id/tv_recommend_mission_title" />
 
     <TextView
-        android:id="@+id/tv_recommendation_mission_title"
+        android:id="@+id/tv_recommend_mission_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
@@ -32,15 +32,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view_recommendation_mission_divider"
+        android:id="@+id/view_recommend_mission_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="11dp"
         android:background="@color/gray_2_34343a"
-        app:layout_constraintTop_toBottomOf="@id/iv_recommendation_mission_destroy" />
+        app:layout_constraintTop_toBottomOf="@id/iv_recommend_mission_destroy" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_recommendation_mission"
+        android:id="@+id/rv_recommend_mission"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
@@ -48,11 +48,11 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_recommendation_mission_divider"
+        app:layout_constraintTop_toBottomOf="@id/view_recommend_mission_divider"
         tools:listitem="@layout/item_recommend_mission" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/btn_write_directly"
+        android:id="@+id/tv_recommend_mission_write_directly"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginHorizontal="15dp"
@@ -63,9 +63,6 @@
         android:text="직접 입력하기"
         android:textAlignment="center"
         android:textAppearance="@style/Sb16"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
