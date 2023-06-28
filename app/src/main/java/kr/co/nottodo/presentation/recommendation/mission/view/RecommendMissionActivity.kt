@@ -53,7 +53,7 @@ class RecommendMissionActivity : AppCompatActivity() {
     }
 
     private fun setDestroyBtnClickEvent() {
-        binding.ivRecommendationMissionDestroy.setOnClickListener {
+        binding.ivRecommendMissionDestroy.setOnClickListener {
             if (!isFinishing) finish()
         }
     }
@@ -73,7 +73,7 @@ class RecommendMissionActivity : AppCompatActivity() {
 
     private fun setAdapter() {
         recommendMissionAdapter = RecommendMissionAdapter(startRecommendActionActivity)
-        binding.rvRecommendationMission.adapter = recommendMissionAdapter
+        binding.rvRecommendMission.adapter = recommendMissionAdapter
     }
 
     private val startRecommendActionActivity = { id: Int, title: String, situation: String ->
