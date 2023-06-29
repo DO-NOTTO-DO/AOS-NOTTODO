@@ -2,6 +2,7 @@ package kr.co.nottodo.presentation.recommendation.action.view
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +39,7 @@ class RecommendActionActivity : AppCompatActivity() {
         setDataBinding()
         setData()
         setViews()
+        overrideBackPressed()
         setClickEvents()
         setObservers()
     }
@@ -144,6 +146,21 @@ class RecommendActionActivity : AppCompatActivity() {
             recommendActionAdapter?.submitList(actionList)
         }
     }
+
+    private fun overrideBackPressed() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                startActivity(
+                    Intent(
+                        this@RecommendActionActivity, RecommendMissionActivity::class.java
+                    )
+                )
+                if (!isFinishing) finish()
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, callback)
+    }
+
 
     companion object {
         const val MISSION_ACTION_DETAIL = "MISSION_ACTION_DETAIL"
