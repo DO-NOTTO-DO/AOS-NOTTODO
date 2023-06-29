@@ -34,9 +34,8 @@ class RecommendActionAdapter(
         holder.onBind(currentList[position])
     }
 
-    companion object {
-        val diffUtil = DiffUtilItemCallback<Action>(onItemsTheSame = { old, new -> old === new },
-            onContentsTheSame = { old, new -> old == new })
+    fun getSelectedActionList(): List<String> {
+        return currentList.filter { it.isSelected }.map { it.name }.toList()
     }
 
     class RecommendActionViewHolder(
@@ -47,14 +46,14 @@ class RecommendActionAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(action: Action) {
             setData(action)
-            setClickEvents()
+            setClickEvents(action)
         }
 
-        private fun setClickEvents() {
-            setItemClickEvent()
+        private fun setClickEvents(action: Action) {
+            setItemClickEvent(action)
         }
 
-        private fun setItemClickEvent() {
+        private fun setItemClickEvent(action: Action) {
             binding.root.setOnClickListener {
                 if (!it.isSelected) {
                     if (isSelectedActionsCountThree.invoke()) {
@@ -69,6 +68,7 @@ class RecommendActionAdapter(
                     binding.ivRecommendActionCheck.visibility = View.INVISIBLE
                     it.isSelected = !it.isSelected
                 }
+                action.isSelected = it.isSelected
             }
         }
 
@@ -88,5 +88,10 @@ class RecommendActionAdapter(
         private fun setActionTitle(action: Action) {
             binding.tvRecommendActionTitle.text = action.name
         }
+    }
+
+    companion object {
+        val diffUtil = DiffUtilItemCallback<Action>(onItemsTheSame = { old, new -> old === new },
+            onContentsTheSame = { old, new -> old == new })
     }
 }
