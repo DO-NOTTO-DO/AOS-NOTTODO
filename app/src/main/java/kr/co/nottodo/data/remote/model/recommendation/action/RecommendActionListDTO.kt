@@ -19,7 +19,7 @@ data class ResponseRecommendActionListDTO(
         @Serializable
         data class Action(
             @SerialName("name") val name: String,
-            @SerialName("description") val description: String,
+            @SerialName("description") val description: String?,
         )
     }
 }
