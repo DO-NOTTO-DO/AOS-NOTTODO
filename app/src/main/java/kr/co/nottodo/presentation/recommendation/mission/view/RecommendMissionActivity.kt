@@ -80,13 +80,14 @@ class RecommendMissionActivity : AppCompatActivity() {
     }
 
     private fun setAdapter() {
-        val startRecommendActionActivity = { id: Int, title: String, situation: String ->
-            startActivity(
-                Intent(this, RecommendActionActivity::class.java).putExtra(
-                    MISSION_DETAIL, ParcelizeMissionDetail(id, title, situation)
+        val startRecommendActionActivity =
+            { id: Int, title: String, situation: String, image: String ->
+                startActivity(
+                    Intent(this, RecommendActionActivity::class.java).putExtra(
+                        MISSION_DETAIL, ParcelizeMissionDetail(id, title, situation, image)
+                    )
                 )
-            )
-        }
+            }
         recommendMissionAdapter = RecommendMissionAdapter(startRecommendActionActivity)
         binding.rvRecommendMission.adapter = recommendMissionAdapter
     }

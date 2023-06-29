@@ -3,68 +3,98 @@ package kr.co.nottodo.presentation.recommendation.action.view
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import coil.load
 import kr.co.nottodo.databinding.ActivityRecommendActionBinding
-import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendationActionAdapter
+import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter
 import kr.co.nottodo.presentation.recommendation.action.viewmodel.RecommendActionViewModel
+import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
+import kr.co.nottodo.presentation.recommendation.model.ParcelizeMissionDetail
+import kr.co.nottodo.util.getParcelable
+import kr.co.nottodo.util.showToast
+import timber.log.Timber
 
 class RecommendActionActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityRecommendActionBinding.inflate(layoutInflater) }
-    private lateinit var recommendationActionAdapter: RecommendationActionAdapter
+    private var recommendActionAdapter: RecommendActionAdapter? = null
     private val viewModel by viewModels<RecommendActionViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setData()
+        setViews()
+        setClickEvents()
+        setObservers()
+    }
+
+    private fun setData() {
+        getDataFromRecommendMissionActivity()
+        getRecommendActionList()
+    }
+
+    private fun getRecommendActionList() {
+        viewModel.getRecommendActionList()
+    }
+
+    private fun getDataFromRecommendMissionActivity() {
+        val dataFromRecommendMissionActivity: ParcelizeMissionDetail? = intent.getParcelable(
+            MISSION_DETAIL, ParcelizeMissionDetail::class.java
+        )
+        if (dataFromRecommendMissionActivity == null) {
+            if (!isFinishing) finish()
+            return
+        }
+        viewModel.setMissionId(
+            dataFromRecommendMissionActivity.id
+        )
+
+        with(binding) {
+            tvRecommendActionMission.text = dataFromRecommendMissionActivity.title
+            tvRecommendActionSituation.text = dataFromRecommendMissionActivity.situation
+            ivRecommendActionMissionSituation.load(dataFromRecommendMissionActivity.image)
+        }
+    }
+
+    private fun setViews() {
         setContentView(binding.root)
-//        // 레이아웃의 TextView를 참조
-//
-//        // RecommendationMainActivity에서 전달된 데이터 수신
-//        val situation = intent.getStringExtra("situation")
-//        val title = intent.getStringExtra("title")
-//
-//        // 수신한 데이터를 해당 TextView에 설정
-//        binding = situation
-//        tvTitle.text = title
-//
-//        val backButton: ImageView = findViewById(R.id.iv_recommendation_action_back)
-//        backButton.setOnClickListener {
-//
-//            // RecommendationMainActivity로 전환
-//            val intent = Intent(this, RecommendMissionActivity::class.java)
-//            startActivity(intent)
-//        }
-//
-//        // RecommendMissionViewModel 인스턴스 생성
-//        viewModel = ViewModelProvider(this).get(RecommendMissionViewModel::class.java)
-//
-//        // 리사이클러뷰 초기화
-//        recyclerView = findViewById(R.id.rv_recommendation_action_category)
-//        adapter = RecommendationActionAdapter()
-//        recyclerView.adapter = adapter
-//
-//        // LinearLayoutManager 생성 및 설정
-//        val layoutManager = LinearLayoutManager(this)
-//        recyclerView.layoutManager = layoutManager
-//
-//        // 카테고리 목록을 관찰하여 데이터 갱신
-//        viewModel.categoryList.observe(this, { categoryList ->
-//            adapter.submitList(categoryList)
-//        })
-//
-//        // 추천 카테고리 목록을 가져오는 함수 호출
-//        val categoryId = intent.getIntExtra("categoryId", -1)
-//        viewModel.fetchRecommendationCategoryList(categoryId)
-//
-//        // 아이템 클릭 리스너 설정
-//        adapter.setOnItemClickListener(object :
-//            RecommendationActionAdapter.OnItemClickListener {
-//            override fun onItemClick(position: Int) {
-//                // 클릭된 아이템의 상태 변경
-//                adapter.setSelectedItem(position)
-//
-//                // 변경된 상태를 반영하여 아이템 갱신
-//                adapter.notifyItemRangeChanged(0, adapter.itemCount)
-//            }
-//        })
+        setRecommendActionRecyclerView()
+    }
+
+    private fun setRecommendActionRecyclerView() {
+        recommendActionAdapter = RecommendActionAdapter()
+        binding.rvRecommendAction.adapter = recommendActionAdapter
+    }
+
+    private fun setClickEvents() {
+        backIvClickEvent()
+    }
+
+    private fun backIvClickEvent() {
+        binding.ivRecommendationActionBack.setOnClickListener {
+            if (!isFinishing) finish()
+        }
+    }
+
+    private fun setObservers() {
+        setRecommendActionObservers()
+    }
+
+    private fun setRecommendActionObservers() {
+        setRecommendActionSuccessObserver()
+        setRecommendActionErrorObserver()
+    }
+
+    private fun setRecommendActionErrorObserver() {
+        viewModel.recommendActionListErrorResponse.observe(this) { errorMessage ->
+            showToast(errorMessage)
+            Timber.tag("okhttp").e(errorMessage)
+        }
+    }
+
+    private fun setRecommendActionSuccessObserver() {
+        viewModel.recommendActionListSuccessResponse.observe(this) { actionList ->
+            recommendActionAdapter?.submitList(actionList)
+        }
     }
 }

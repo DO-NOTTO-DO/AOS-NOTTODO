@@ -8,4 +8,5 @@ data class ParcelizeMissionDetail(
     val id: Int,
     val title: String,
     val situation: String,
+    val image: String,
 ) : Parcelable
