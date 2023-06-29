@@ -20,6 +20,7 @@ data class ResponseRecommendActionListDTO(
         data class Action(
             @SerialName("name") val name: String,
             @SerialName("description") val description: String?,
+            var isSelected: Boolean = false,
         )
     }
 }
