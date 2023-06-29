@@ -10,14 +10,21 @@ import kr.co.nottodo.databinding.ItemRecommendActionBinding
 import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter.RecommendActionViewHolder
 import kr.co.nottodo.util.DiffUtilItemCallback
 
-class RecommendActionAdapter : ListAdapter<Action, RecommendActionViewHolder>(diffUtil) {
+class RecommendActionAdapter(
+    private val plusSelectedActionsCount: () -> Unit,
+    private val minusSelectedActionsCount: () -> Unit,
+) : ListAdapter<Action, RecommendActionViewHolder>(diffUtil) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
     ): RecommendActionViewHolder {
         val binding =
             ItemRecommendActionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return RecommendActionViewHolder(binding)
+        return RecommendActionViewHolder(
+            binding,
+            plusSelectedActionsCount = plusSelectedActionsCount,
+            minusSelectedActionsCount = minusSelectedActionsCount
+        )
     }
 
     override fun onBindViewHolder(holder: RecommendActionViewHolder, position: Int) {
@@ -29,17 +36,48 @@ class RecommendActionAdapter : ListAdapter<Action, RecommendActionViewHolder>(di
             onContentsTheSame = { old, new -> old == new })
     }
 
-    class RecommendActionViewHolder(private val binding: ItemRecommendActionBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun onBind(item: Action) {
-            with(binding) {
-                tvRecommendActionTitle.text = item.name
-                if (item.description.isNullOrBlank()) {
-                    tvRecommendActionDesc.visibility = View.GONE
-                    return
+    class RecommendActionViewHolder(
+        private val binding: ItemRecommendActionBinding,
+        private val plusSelectedActionsCount: () -> Unit,
+        private val minusSelectedActionsCount: () -> Unit,
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun onBind(action: Action) {
+            setData(action)
+            setClickEvents()
+        }
+
+        private fun setClickEvents() {
+            setItemClickEvent()
+        }
+
+        private fun setItemClickEvent() {
+            binding.root.setOnClickListener {
+                if (!it.isSelected) {
+                    plusSelectedActionsCount.invoke()
+                    binding.ivRecommendActionCheck.visibility = View.VISIBLE
+                } else {
+                    minusSelectedActionsCount.invoke()
+                    binding.ivRecommendActionCheck.visibility = View.INVISIBLE
                 }
-                tvRecommendActionDesc.text = item.description
+                it.isSelected = !it.isSelected
             }
+        }
+
+        private fun setData(action: Action) {
+            setActionTitle(action)
+            setActionDesc(action)
+        }
+
+        private fun setActionDesc(action: Action) {
+            if (action.description.isNullOrBlank()) {
+                binding.tvRecommendActionDesc.visibility = View.GONE
+                return
+            }
+            binding.tvRecommendActionDesc.text = action.description
+        }
+
+        private fun setActionTitle(action: Action) {
+            binding.tvRecommendActionTitle.text = action.name
         }
     }
 }

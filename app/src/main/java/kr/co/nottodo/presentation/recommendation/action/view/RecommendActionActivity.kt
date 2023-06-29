@@ -1,11 +1,13 @@
 package kr.co.nottodo.presentation.recommendation.action.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import kr.co.nottodo.databinding.ActivityRecommendActionBinding
+import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter
 import kr.co.nottodo.presentation.recommendation.action.viewmodel.RecommendActionViewModel
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
@@ -22,11 +24,16 @@ class RecommendActionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setDataBinding()
         setData()
         setViews()
         setClickEvents()
         setObservers()
+    }
+
+    private fun setDataBinding() {
+        binding.lifecycleOwner = this
+        binding.vm = viewModel
     }
 
     private fun setData() {
@@ -63,7 +70,10 @@ class RecommendActionActivity : AppCompatActivity() {
     }
 
     private fun setRecommendActionRecyclerView() {
-        recommendActionAdapter = RecommendActionAdapter()
+        recommendActionAdapter = RecommendActionAdapter(
+            plusSelectedActionsCount = viewModel.plusSelectedActionsCount,
+            minusSelectedActionsCount = viewModel.minusSelectedActionsCount
+        )
         binding.rvRecommendAction.adapter = recommendActionAdapter
         binding.rvRecommendAction.layoutManager = object : LinearLayoutManager(this) {
             override fun canScrollVertically(): Boolean = false
@@ -72,6 +82,14 @@ class RecommendActionActivity : AppCompatActivity() {
 
     private fun setClickEvents() {
         backIvClickEvent()
+        writeDirectTvClickEvent()
+    }
+
+    private fun writeDirectTvClickEvent() {
+        binding.tvRecommendActionWriteDirect.setOnClickListener {
+            startActivity(Intent(this, AdditionActivity::class.java))
+            if (!isFinishing) finish()
+        }
     }
 
     private fun backIvClickEvent() {
