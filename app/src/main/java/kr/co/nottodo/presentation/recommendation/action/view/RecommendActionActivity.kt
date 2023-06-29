@@ -3,6 +3,7 @@ package kr.co.nottodo.presentation.recommendation.action.view
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import kr.co.nottodo.databinding.ActivityRecommendActionBinding
 import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter
@@ -64,6 +65,9 @@ class RecommendActionActivity : AppCompatActivity() {
     private fun setRecommendActionRecyclerView() {
         recommendActionAdapter = RecommendActionAdapter()
         binding.rvRecommendAction.adapter = recommendActionAdapter
+        binding.rvRecommendAction.layoutManager = object : LinearLayoutManager(this) {
+            override fun canScrollVertically(): Boolean = false
+        }
     }
 
     private fun setClickEvents() {
