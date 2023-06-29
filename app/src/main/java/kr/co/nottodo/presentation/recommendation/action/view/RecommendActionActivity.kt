@@ -11,6 +11,7 @@ import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter
 import kr.co.nottodo.presentation.recommendation.action.viewmodel.RecommendActionViewModel
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
+import kr.co.nottodo.presentation.recommendation.model.ParcelizeMissionActionDetail
 import kr.co.nottodo.presentation.recommendation.model.ParcelizeMissionDetail
 import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.showToast
@@ -21,6 +22,15 @@ class RecommendActionActivity : AppCompatActivity() {
     private val binding by lazy { ActivityRecommendActionBinding.inflate(layoutInflater) }
     private var recommendActionAdapter: RecommendActionAdapter? = null
     private val viewModel by viewModels<RecommendActionViewModel>()
+    private val dataFromRecommendMissionActivity by lazy {
+        val dataFromRecommendMissionActivity = intent.getParcelable(
+            MISSION_DETAIL, ParcelizeMissionDetail::class.java
+        )
+        if (dataFromRecommendMissionActivity == null) {
+            if (!isFinishing) finish()
+        }
+        dataFromRecommendMissionActivity!!
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,13 +56,6 @@ class RecommendActionActivity : AppCompatActivity() {
     }
 
     private fun getDataFromRecommendMissionActivity() {
-        val dataFromRecommendMissionActivity: ParcelizeMissionDetail? = intent.getParcelable(
-            MISSION_DETAIL, ParcelizeMissionDetail::class.java
-        )
-        if (dataFromRecommendMissionActivity == null) {
-            if (!isFinishing) finish()
-            return
-        }
         viewModel.setMissionId(
             dataFromRecommendMissionActivity.id
         )
@@ -84,6 +87,25 @@ class RecommendActionActivity : AppCompatActivity() {
     private fun setClickEvents() {
         backIvClickEvent()
         writeDirectTvClickEvent()
+        continueBtnClickEvent()
+    }
+
+    private fun continueBtnClickEvent() {
+        binding.btnRecommendActionContinue.setOnClickListener {
+            val selectedActionList = recommendActionAdapter?.getSelectedActionList()
+
+            val parcelizeMissionActionDetail = ParcelizeMissionActionDetail(
+                title = dataFromRecommendMissionActivity.title,
+                situation = dataFromRecommendMissionActivity.situation,
+                actionList = selectedActionList ?: emptyList()
+            )
+            startActivity(
+                Intent(this, AdditionActivity::class.java).putExtra(
+                    MISSION_ACTION_DETAIL, parcelizeMissionActionDetail
+                )
+            )
+            if (!isFinishing) finish()
+        }
     }
 
     private fun writeDirectTvClickEvent() {
@@ -119,5 +141,9 @@ class RecommendActionActivity : AppCompatActivity() {
         viewModel.recommendActionListSuccessResponse.observe(this) { actionList ->
             recommendActionAdapter?.submitList(actionList)
         }
+    }
+
+    companion object {
+        const val MISSION_ACTION_DETAIL = "MISSION_ACTION_DETAIL"
     }
 }
