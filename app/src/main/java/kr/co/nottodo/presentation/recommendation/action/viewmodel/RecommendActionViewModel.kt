@@ -36,9 +36,13 @@ class RecommendActionViewModel : ViewModel() {
 
     private val selectedActionsCount = MutableLiveData(0)
     val isActionSelected = selectedActionsCount.map { it != 0 }
+    val isSelectedActionsCountThree: () -> Boolean = {
+        selectedActionsCount.value == 3
+    }
 
-    val plusSelectedActionsCount =
-        { selectedActionsCount.value = (selectedActionsCount.value ?: 0) + 1 }
+    val plusSelectedActionsCount = {
+        selectedActionsCount.value = (selectedActionsCount.value ?: 0) + 1
+    }
     val minusSelectedActionsCount =
         { selectedActionsCount.value = selectedActionsCount.value?.minus(1) ?: 0 }
 

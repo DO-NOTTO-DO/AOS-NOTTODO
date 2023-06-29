@@ -9,10 +9,12 @@ import kr.co.nottodo.data.remote.model.recommendation.action.ResponseRecommendAc
 import kr.co.nottodo.databinding.ItemRecommendActionBinding
 import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter.RecommendActionViewHolder
 import kr.co.nottodo.util.DiffUtilItemCallback
+import kr.co.nottodo.util.showSnackBar
 
 class RecommendActionAdapter(
     private val plusSelectedActionsCount: () -> Unit,
     private val minusSelectedActionsCount: () -> Unit,
+    private val isSelectedActionsCountThree: () -> Boolean,
 ) : ListAdapter<Action, RecommendActionViewHolder>(diffUtil) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,7 +25,8 @@ class RecommendActionAdapter(
         return RecommendActionViewHolder(
             binding,
             plusSelectedActionsCount = plusSelectedActionsCount,
-            minusSelectedActionsCount = minusSelectedActionsCount
+            minusSelectedActionsCount = minusSelectedActionsCount,
+            isSelectedActionsCountThree = isSelectedActionsCountThree
         )
     }
 
@@ -40,6 +43,7 @@ class RecommendActionAdapter(
         private val binding: ItemRecommendActionBinding,
         private val plusSelectedActionsCount: () -> Unit,
         private val minusSelectedActionsCount: () -> Unit,
+        private val isSelectedActionsCountThree: () -> Boolean,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(action: Action) {
             setData(action)
@@ -53,13 +57,18 @@ class RecommendActionAdapter(
         private fun setItemClickEvent() {
             binding.root.setOnClickListener {
                 if (!it.isSelected) {
+                    if (isSelectedActionsCountThree.invoke()) {
+                        binding.root.context.showSnackBar(binding.root, "실천방법은 최대 3개만 추가할 수 있어요.")
+                        return@setOnClickListener
+                    }
                     plusSelectedActionsCount.invoke()
                     binding.ivRecommendActionCheck.visibility = View.VISIBLE
+                    it.isSelected = !it.isSelected
                 } else {
                     minusSelectedActionsCount.invoke()
                     binding.ivRecommendActionCheck.visibility = View.INVISIBLE
+                    it.isSelected = !it.isSelected
                 }
-                it.isSelected = !it.isSelected
             }
         }
 

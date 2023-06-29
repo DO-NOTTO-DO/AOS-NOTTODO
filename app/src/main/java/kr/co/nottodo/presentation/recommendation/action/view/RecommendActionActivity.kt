@@ -72,7 +72,8 @@ class RecommendActionActivity : AppCompatActivity() {
     private fun setRecommendActionRecyclerView() {
         recommendActionAdapter = RecommendActionAdapter(
             plusSelectedActionsCount = viewModel.plusSelectedActionsCount,
-            minusSelectedActionsCount = viewModel.minusSelectedActionsCount
+            minusSelectedActionsCount = viewModel.minusSelectedActionsCount,
+            isSelectedActionsCountThree = viewModel.isSelectedActionsCountThree
         )
         binding.rvRecommendAction.adapter = recommendActionAdapter
         binding.rvRecommendAction.layoutManager = object : LinearLayoutManager(this) {
