@@ -107,6 +107,8 @@ class AdditionActivity : AppCompatActivity() {
         binding.tvAdditionActionThird.text = thirdAction
         binding.tvAdditionActionThird.visibility = View.VISIBLE
         binding.ivAdditionActionThirdDelete.visibility = View.VISIBLE
+        binding.etAdditionAction.visibility = View.GONE
+        binding.tvAdditionActionTextCount.visibility = View.GONE
     }
 
     private fun initAdapters() {
