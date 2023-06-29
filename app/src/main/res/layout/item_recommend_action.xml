@@ -6,14 +6,13 @@
     android:layout_marginBottom="15dp"
     android:background="@drawable/rectangle_gray_1_radius10"
     android:orientation="vertical"
-    android:paddingHorizontal="20dp">
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="16dp">
 
     <TextView
         android:id="@+id/tv_recommend_action_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="7dp"
         android:textAppearance="@style/R14"
         android:textColor="@color/white"
         tools:text="배고플 때마다 양치하기" />
@@ -22,7 +21,7 @@
         android:id="@+id/tv_recommend_action_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="7dp"
         android:ellipsize="end"
         android:textAppearance="@style/R12"
         android:textColor="@color/gray_4_9398aa"

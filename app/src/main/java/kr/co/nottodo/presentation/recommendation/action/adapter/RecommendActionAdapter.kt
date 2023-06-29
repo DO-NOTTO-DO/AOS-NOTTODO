@@ -1,6 +1,7 @@
 package kr.co.nottodo.presentation.recommendation.action.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,10 @@ class RecommendActionAdapter : ListAdapter<Action, RecommendActionViewHolder>(di
         fun onBind(item: Action) {
             with(binding) {
                 tvRecommendActionTitle.text = item.name
+                if (item.description.isNullOrBlank()) {
+                    tvRecommendActionDesc.visibility = View.GONE
+                    return
+                }
                 tvRecommendActionDesc.text = item.description
             }
         }
