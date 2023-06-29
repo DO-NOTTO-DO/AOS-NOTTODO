@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.nottodo.data.remote.api.ServicePool.recommendActionListService
-import kr.co.nottodo.data.remote.model.recommendation.action.ResponseRecommendActionListDTO.Action
+import kr.co.nottodo.data.remote.model.recommendation.action.ResponseRecommendActionListDTO.Mission.Action
 
 class RecommendActionViewModel : ViewModel() {
     private var missionId: Int? = null
@@ -28,7 +28,7 @@ class RecommendActionViewModel : ViewModel() {
             kotlin.runCatching {
                 recommendActionListService.getRecommendActionList(missionId ?: return@launch)
             }.fold(onSuccess = { response ->
-                _recommendActionListSuccessResponse.value = response.data
+                _recommendActionListSuccessResponse.value = response.data.recommendActions
             }, onFailure = { error -> _recommendActionListErrorResponse.value = error.message })
         }
     }

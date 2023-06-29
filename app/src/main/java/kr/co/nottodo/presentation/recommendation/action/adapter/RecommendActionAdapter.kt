@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kr.co.nottodo.data.remote.model.recommendation.action.ResponseRecommendActionListDTO.Action.Action
+import kr.co.nottodo.data.remote.model.recommendation.action.ResponseRecommendActionListDTO.Mission.Action
 import kr.co.nottodo.databinding.ItemRecommendActionBinding
 import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter.RecommendActionViewHolder
 import kr.co.nottodo.util.DiffUtilItemCallback
