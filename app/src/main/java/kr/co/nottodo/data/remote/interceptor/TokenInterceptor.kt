@@ -15,7 +15,7 @@ class TokenInterceptor(private val onTokenExpiredListener: OnTokenExpiredListene
             return chain.proceed(originalRequest)
         }
         val tokenAddedRequest = originalRequest.newBuilder().header(
-            "Authorization", SharedPreferences.getString(USER_TOKEN) ?: ""
+            "Authorization", userToken
         ).build()
 
         val response = chain.proceed(tokenAddedRequest)
