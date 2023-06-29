@@ -57,6 +57,7 @@ class RecommendMissionActivity : AppCompatActivity() {
     private fun setWriteDirectlyBtnClickEvent() {
         binding.fabRecommendMissionWriteDirectly.setOnClickListener {
             startActivity(Intent(this, AdditionActivity::class.java))
+            if (!isFinishing) finish()
         }
     }
 
@@ -87,6 +88,7 @@ class RecommendMissionActivity : AppCompatActivity() {
                         MISSION_DETAIL, ParcelizeMissionDetail(id, title, situation, image)
                     )
                 )
+                if (!isFinishing) finish()
             }
         recommendMissionAdapter = RecommendMissionAdapter(startRecommendActionActivity)
         binding.rvRecommendMission.adapter = recommendMissionAdapter
