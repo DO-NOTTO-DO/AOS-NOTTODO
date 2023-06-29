@@ -10,6 +10,7 @@ import kr.co.nottodo.databinding.ActivityRecommendActionBinding
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter
 import kr.co.nottodo.presentation.recommendation.action.viewmodel.RecommendActionViewModel
+import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
 import kr.co.nottodo.presentation.recommendation.model.ParcelizeMissionActionDetail
 import kr.co.nottodo.presentation.recommendation.model.ParcelizeMissionDetail
@@ -117,6 +118,7 @@ class RecommendActionActivity : AppCompatActivity() {
 
     private fun backIvClickEvent() {
         binding.ivRecommendationActionBack.setOnClickListener {
+            startActivity(Intent(this, RecommendMissionActivity::class.java))
             if (!isFinishing) finish()
         }
     }
