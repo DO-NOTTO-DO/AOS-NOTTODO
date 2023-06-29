@@ -180,6 +180,7 @@
             android:paddingVertical="18dp"
             android:text="계속하기"
             android:textAppearance="@style/Sb18"
+            android:visibility="@{vm.isActionSelected ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
