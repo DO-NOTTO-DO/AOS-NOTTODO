@@ -7,17 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 import kr.co.nottodo.data.remote.api.ServicePool
 import kr.co.nottodo.data.remote.api.ServicePool.modificationService
-import kr.co.nottodo.data.remote.model.FailureResponseDto
 import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
 import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.modification.RequestModificationDto
 import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto
 import kr.co.nottodo.presentation.modification.view.ModificationActivity.Companion.NotTodoData
-import retrofit2.HttpException
-import timber.log.Timber
+import kr.co.nottodo.util.getErrorMessage
 
 class ModificationViewModel : ViewModel() {
 
@@ -50,18 +47,16 @@ class ModificationViewModel : ViewModel() {
     }
 
     val situation: MutableLiveData<String> = MutableLiveData()
-    private val isSituationChanged: LiveData<Boolean> =
-        situation.map { newSituation ->
-            originSituation != newSituation
-        }
+    private val isSituationChanged: LiveData<Boolean> = situation.map { newSituation ->
+        originSituation != newSituation
+    }
 
     val action: MutableLiveData<String> = MutableLiveData()
     val actionCount: MutableLiveData<Int> = MutableLiveData()
     val actionList: MutableLiveData<List<String>> = MutableLiveData()
-    private val isActionListChanged: LiveData<Boolean> =
-        actionList.map { newActionList ->
-            originalActionList != newActionList
-        }
+    private val isActionListChanged: LiveData<Boolean> = actionList.map { newActionList ->
+        originalActionList != newActionList
+    }
     val goal: MutableLiveData<String> = MutableLiveData()
     private val isGoalChanged: LiveData<Boolean> = goal.map { newGoal ->
         originGoal != newGoal
@@ -110,7 +105,7 @@ class ModificationViewModel : ViewModel() {
                 )
             }.fold(onSuccess = { response -> _modificationResponse.value = response.data },
                 onFailure = { errorResponse ->
-                    _errorResponse.value = getErrorMessage(errorResponse)
+                    _errorResponse.value = errorResponse.getErrorMessage()
                 })
         }
     }
@@ -151,25 +146,8 @@ class ModificationViewModel : ViewModel() {
             }.fold(onSuccess = { response ->
                 _getRecentMissionListSuccessResponse.value = response
             }, onFailure = { error ->
-                _getRecentMissionListErrorResponse.value = error.message
+                _getRecentMissionListErrorResponse.value = error.getErrorMessage()
             })
-        }
-    }
-
-
-    private fun getErrorMessage(result: Throwable): String {
-        when (result) {
-            is HttpException -> {
-                val data = Json.decodeFromString<FailureResponseDto>(
-                    result.response()?.errorBody()?.string() ?: return "예기치 못한 에러 발생"
-                )
-                return data.message
-            }
-
-            else -> {
-                Timber.e(result.message.toString())
-                return "예기치 못한 에러 발생"
-            }
         }
     }
 }
