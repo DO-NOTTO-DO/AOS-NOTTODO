@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import kr.co.nottodo.databinding.ActivityRecommendMissionBinding
+import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity
 import kr.co.nottodo.presentation.recommendation.mission.adapter.RecommendMissionAdapter
 import kr.co.nottodo.presentation.recommendation.mission.viewmodel.RecommendMissionViewModel
@@ -50,6 +51,13 @@ class RecommendMissionActivity : AppCompatActivity() {
 
     private fun setClickEvents() {
         setDestroyBtnClickEvent()
+        setWriteDirectlyBtnClickEvent()
+    }
+
+    private fun setWriteDirectlyBtnClickEvent() {
+        binding.fabRecommendMissionWriteDirectly.setOnClickListener {
+            startActivity(Intent(this, AdditionActivity::class.java))
+        }
     }
 
     private fun setDestroyBtnClickEvent() {
@@ -72,16 +80,15 @@ class RecommendMissionActivity : AppCompatActivity() {
     }
 
     private fun setAdapter() {
+        val startRecommendActionActivity = { id: Int, title: String, situation: String ->
+            startActivity(
+                Intent(this, RecommendActionActivity::class.java).putExtra(
+                    MISSION_DETAIL, ParcelizeMissionDetail(id, title, situation)
+                )
+            )
+        }
         recommendMissionAdapter = RecommendMissionAdapter(startRecommendActionActivity)
         binding.rvRecommendMission.adapter = recommendMissionAdapter
-    }
-
-    private val startRecommendActionActivity = { id: Int, title: String, situation: String ->
-        startActivity(
-            Intent(this, RecommendActionActivity::class.java).putExtra(
-                MISSION_DETAIL, ParcelizeMissionDetail(id, title, situation)
-            )
-        )
     }
 
     private fun setData() {
