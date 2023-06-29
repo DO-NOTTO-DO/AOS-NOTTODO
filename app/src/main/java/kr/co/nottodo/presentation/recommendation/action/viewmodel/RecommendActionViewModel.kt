@@ -3,6 +3,7 @@ package kr.co.nottodo.presentation.recommendation.action.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.nottodo.data.remote.api.ServicePool.recommendActionListService
@@ -32,4 +33,13 @@ class RecommendActionViewModel : ViewModel() {
             }, onFailure = { error -> _recommendActionListErrorResponse.value = error.message })
         }
     }
+
+    private val selectedActionsCount = MutableLiveData(0)
+    val isActionSelected = selectedActionsCount.map { it != 0 }
+
+    val plusSelectedActionsCount =
+        { selectedActionsCount.value = (selectedActionsCount.value ?: 0) + 1 }
+    val minusSelectedActionsCount =
+        { selectedActionsCount.value = selectedActionsCount.value?.minus(1) ?: 0 }
+
 }
