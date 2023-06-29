@@ -52,7 +52,7 @@
         tools:listitem="@layout/item_recommend_mission" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/tv_recommend_mission_write_directly"
+        android:id="@+id/fab_recommend_mission_write_directly"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginHorizontal="15dp"
