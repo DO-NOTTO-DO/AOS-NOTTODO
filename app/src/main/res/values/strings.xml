@@ -49,4 +49,8 @@
     <string name="version">버전 정보 1.0.0</string>
     <string name="user_withdrawal"><u>회원탈퇴</u></string>
 
+    <!--toast Lighting-->
+    <string name="Duplicate_nottodo">이미 같은 내용이 있어요!\n낫투두 혹은 날짜를 변경하세요.</string>
+    <string name="success_save_not_todo">낫투두 다른 날짜에 추가 성공</string>
+
 </resources>

@@ -32,7 +32,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
     private lateinit var homeAdapter: HomeAdpater
     private var onFragmentChangedListener: OnFragmentChangedListener? = null
     private val homeViewModel by viewModels<HomeViewModel>()
-    private val homeDoAnotherViewModel by viewModels<HomeBottomCalenderViewModel>()
     private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern(YEAR_PATTERN))
     private var weeklyData = todayData
     val bundle = Bundle()
@@ -86,9 +85,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
         }
         homeViewModel.clickDay.observe(viewLifecycleOwner) { clickDay ->
             bundle.putString(CLICK_DAY, clickDay)
-        }
-        homeDoAnotherViewModel.postDoAnotherDay.observe(viewLifecycleOwner){
-            Log.d("home", "observerData: $it")
         }
     }
 

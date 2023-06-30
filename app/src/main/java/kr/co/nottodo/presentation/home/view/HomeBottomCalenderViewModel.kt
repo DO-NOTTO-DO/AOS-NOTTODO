@@ -10,24 +10,27 @@ import kr.co.nottodo.data.remote.api.ServicePool
 import kr.co.nottodo.data.remote.api.home.HomeService
 import timber.log.Timber
 
-class HomeBottomCalenderViewModel() : ViewModel() {
+class HomeBottomCalenderViewModel : ViewModel() {
 
     private val homeService: HomeService = ServicePool.homeService
+    lateinit var seletedDays: List<String>
 
     //홈 데일리 조회
     private val _postDoAnotherDay: MutableLiveData<String> =
         MutableLiveData()
     val postDoAnotherDay: LiveData<String> get() = _postDoAnotherDay
 
-
     fun postDoAnotherDay(missionId: Long, dates: List<String>) {
         viewModelScope.launch {
             runCatching {
                 homeService.postDoAnotherDay(missionId, RequestHomeDoAnotherDay(dates))
-            }.fold(onSuccess = { _postDoAnotherDay.value = it.message
-                Timber.d("성공이지롱 ${it.message}")        },
+            }.fold(onSuccess = {
+                _postDoAnotherDay.value = it.status.toString()
+                Timber.d("1231233", it.message)
+            },
                 onFailure = {
-                    Timber.d("error지롱 ${it.message}")
+                    _postDoAnotherDay.value = it.message
+                    Timber.d("error지롱123 ${it.message}")
                 })
         }
     }

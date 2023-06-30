@@ -34,7 +34,7 @@ class HomeAdpater(
         private val todoItemClick: (Long, String) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: HomeDailyResponse.HomeDaily) {
-            binding.ivHomeTodoCheck.isSelected = isCheckTodo(data.completionStatus)
+            binding.ivHomeTodoCheck.isChecked = isCheckTodo(data.completionStatus)
             binding.tvHomeTodoSituation.text = data.situationName
             binding.tvHomeTodo.text = data.title
             binding.ivHomeTodoCheck.setOnClickListener {
@@ -51,6 +51,7 @@ class HomeAdpater(
                 showCompleteTodoView()
                 true
             }
+
             else -> {
                 setUncompleteTodo()
                 false
@@ -61,7 +62,7 @@ class HomeAdpater(
             with(binding) {
                 clHomeCheckTodo.visibility = View.VISIBLE
                 vHomeCompleteTodo.visibility = View.VISIBLE
-                ivHomeTodoCheck.isChecked = true
+//                ivHomeTodoCheck.isChecked = true
                 tvHomeTodoSituation.setTextColor(Color.parseColor("#9398aa"))
                 tvHomeTodo.setTextColor(Color.parseColor("#9398aa"))
                 tvHomeTodoSituation.setBackgroundResource(R.drawable.rectangle_border_gray6_50)
@@ -71,8 +72,9 @@ class HomeAdpater(
 
         private fun setUncompleteTodo() {
             binding.clHomeCheckTodo.visibility = View.INVISIBLE
-            binding.vHomeCompleteTodo.visibility = View.INVISIBLE
-            binding.ivHomeTodoCheck.isChecked = false
+            binding.vHomeCompleteTodo.visibility = View.GONE
+            binding.clHomeMain.visibility = View.VISIBLE
+//            binding.ivHomeTodoCheck.isChecked = false
         }
 
         private fun parseCheckTodo(bindingCheck: Boolean): String {
