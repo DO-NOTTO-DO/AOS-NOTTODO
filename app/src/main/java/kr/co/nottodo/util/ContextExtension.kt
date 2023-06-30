@@ -7,6 +7,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
+import kr.co.nottodo.view.snackbar.NotTodoSnackbar
 
 /** convert dp to px */
 fun Context.dpToPx(dp: Int): Int {
@@ -29,7 +30,11 @@ fun Context.showKeyboard(view: View) {
 
 /** Make a Snackbar to display a message for 2 seconds */
 fun Context.showSnackBar(view: View, msg: String) {
-    Snackbar.make(view, msg, Toast.LENGTH_SHORT).show()
+    Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show()
+}
+
+fun Context.showNotTodoSnackBar(view: View, msg: String) {
+    NotTodoSnackbar(view, msg).show()
 }
 
 /** Make a Toast to display a message for 2 seconds */
