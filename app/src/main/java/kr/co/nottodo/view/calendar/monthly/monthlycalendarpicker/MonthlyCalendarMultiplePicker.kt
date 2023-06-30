@@ -108,14 +108,14 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
         )
 
         addView(View(this.context).apply {
-                layoutParams = LayoutParams(context.dpToPx(8), 0, 0f)
-            })
+            layoutParams = LayoutParams(context.dpToPx(8), 0, 0f)
+        })
 
         addView(currentDateTextView)
 
         addView(View(this.context).apply {
-                layoutParams = LayoutParams(context.dpToPx(8), 0, 0f)
-            })
+            layoutParams = LayoutParams(context.dpToPx(8), 0, 0f)
+        })
 
         addView(
             ImageView(this.context).apply {
@@ -384,11 +384,19 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
         this.monthlyCalendarPickerClickListener = MonthlyCalendarPickerClickListener(block)
     }
 
+    /**
+     * 혹시 몰라서 Clear함수도 같이 구현
+     */
+    fun clearSelectedDays() {
+        selectedDays.clear()
+        monthlyCalendarMultiplePickerDayAdapter.submitList(emptyList())
+    }
+
     override fun onDayClick(view: View, date: Date) {
         monthlyCalendarPickerClickListener?.onDayClick(view, date)
         monthlyCalendarMultiplePickerDayAdapter.setSelectedDay(date)
-        if (selectedDays.contains(date)) {
-            selectedDays.remove(date)
+        if (selectedDays.any { it.isTheSameDay(date) }) {
+            selectedDays.remove(selectedDays.find { it.isTheSameDay(date) })
         } else {
             selectedDays.add(date)
         }
