@@ -4,6 +4,9 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +22,7 @@ import kr.co.nottodo.presentation.achieve.AchieveFragment
 import kr.co.nottodo.presentation.home.view.HomeFragment
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 import kr.co.nottodo.presentation.mypage.view.MyPageFragment
+import kr.co.nottodo.util.showToast
 
 class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     private lateinit var binding: ActivityMainBinding
@@ -33,6 +37,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
         setResultLaunchers()
         initBottomNavigationView(savedInstanceState)
         askNotificationPermission()
+        overrideBackPressed()
     }
 
     private fun setResultLaunchers() {
@@ -103,6 +108,25 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
             is AchieveFragment -> binding.root.setBackgroundColor(getColor(R.color.black))
             is MyPageFragment -> binding.root.setBackgroundColor(getColor(R.color.black))
         }
+    }
+
+    private var doubleBackToExitPressedOnce = false
+    private fun overrideBackPressed() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (doubleBackToExitPressedOnce) {
+                    if (!isFinishing) finish()
+                }
+
+                doubleBackToExitPressedOnce = true
+                showToast("'뒤로'버튼 한번 더 누르시면 종료됩니다.")
+
+                Handler(Looper.getMainLooper()).postDelayed( {
+                    doubleBackToExitPressedOnce = false
+                }, 2000)
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 
     companion object {
