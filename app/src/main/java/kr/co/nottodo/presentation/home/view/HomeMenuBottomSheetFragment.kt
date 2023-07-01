@@ -25,6 +25,7 @@ import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.presentation.modification.view.ModificationActivity
 import kr.co.nottodo.util.DialogCloseListener
 import kr.co.nottodo.util.getParcelable
+import timber.log.Timber
 
 class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentHomeMenuBottomSheetBinding? = null
@@ -85,11 +86,20 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
             )
             dialogFragment.show(childFragmentManager, "dialog_fragment")
         }
-        binding.btnHomeDelete.setOnClickListener {
-            clickDelete(requireArguments().getLong(MISSION_ID))
-            viewModel.getHomeDaily(clickDay)
-            dismiss()
-        }
+        binding.btnHomeDelete.setOnClickListener { showDeleteDialog() }
+    }
+
+    private fun showDeleteDialog() {
+        val dialog = HomeNottodoDeleteFragment()
+        dialog.setButtonClickListener(object : HomeNottodoDeleteFragment.OnButtonClickListener {
+            override fun onDeleteButtonClicked() {
+                super.onDeleteButtonClicked()
+                clickDelete(requireArguments().getLong(MISSION_ID))
+                viewModel.getHomeDaily(clickDay)
+                dismiss()
+            }
+        })
+        dialog.show(childFragmentManager, "delete_dialog_fragment")
     }
 
     private fun getMissionData() {
@@ -105,6 +115,11 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
             bundle.putLong(MISSION_ID, it.id)
             modifyParcelizeExtra = parcelizeData(it)
         }
+    }
+
+
+    private fun clickDelete(missionId: Long) {
+        viewModel.deleteTodo(missionId)
     }
 
     private fun isEmptyActions(it: ResponHomeMissionDetail.HomeMissionDetail) {
@@ -177,10 +192,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         binding.tvHomeDialogDoAnother.setOnClickListener {
             dismiss()
         }
-    }
-
-    private fun clickDelete(missionId: Long) {
-        viewModel.deleteTodo(missionId)
     }
 
     override fun onDestroyView() {
