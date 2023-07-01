@@ -9,7 +9,7 @@ import kr.co.nottodo.data.remote.model.recommendation.action.ResponseRecommendAc
 import kr.co.nottodo.databinding.ItemRecommendActionBinding
 import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter.RecommendActionViewHolder
 import kr.co.nottodo.util.DiffUtilItemCallback
-import kr.co.nottodo.util.showSnackBar
+import kr.co.nottodo.util.showNotTodoSnackBar
 
 class RecommendActionAdapter(
     private val plusSelectedActionsCount: () -> Unit,
@@ -57,7 +57,9 @@ class RecommendActionAdapter(
             binding.root.setOnClickListener {
                 if (!it.isSelected) {
                     if (isSelectedActionsCountThree.invoke()) {
-                        binding.root.context.showSnackBar(binding.root, "실천방법은 최대 3개만 추가할 수 있어요.")
+                        binding.root.context.showNotTodoSnackBar(
+                            binding.root, "실천방법은 최대 3개만 추가할 수 있어요."
+                        )
                         return@setOnClickListener
                     }
                     plusSelectedActionsCount.invoke()
