@@ -25,13 +25,13 @@ class RecommendActionActivity : AppCompatActivity() {
     private var recommendActionAdapter: RecommendActionAdapter? = null
     private val viewModel by viewModels<RecommendActionViewModel>()
     private val dataFromRecommendMissionActivity by lazy {
-        val dataFromRecommendMissionActivity = intent.getParcelable(
+        val recommendMissionUiModel = intent.getParcelable(
             MISSION_DETAIL, RecommendMissionUiModel::class.java
         )
-        if (dataFromRecommendMissionActivity == null) {
+        if (recommendMissionUiModel == null) {
             if (!isFinishing) finish()
         }
-        dataFromRecommendMissionActivity!!
+        recommendMissionUiModel!!
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,17 +62,26 @@ class RecommendActionActivity : AppCompatActivity() {
         viewModel.setMissionId(
             dataFromRecommendMissionActivity.id
         )
-
-        with(binding) {
-            tvRecommendActionMission.text = dataFromRecommendMissionActivity.title
-            tvRecommendActionSituation.text = dataFromRecommendMissionActivity.situation
-            ivRecommendActionMissionSituation.load(dataFromRecommendMissionActivity.image)
-        }
     }
 
     private fun setViews() {
         setContentView(binding.root)
         setRecommendActionRecyclerView()
+        setMissionTextView()
+        setSituationTextView()
+        setMissionImageView()
+    }
+
+    private fun setMissionTextView() {
+        binding.tvRecommendActionMission.text = dataFromRecommendMissionActivity.title
+    }
+
+    private fun setSituationTextView() {
+        binding.tvRecommendActionSituation.text = dataFromRecommendMissionActivity.situation
+    }
+
+    private fun setMissionImageView() {
+        binding.ivRecommendActionMissionSituation.load(dataFromRecommendMissionActivity.image)
     }
 
     private fun setRecommendActionRecyclerView() {
