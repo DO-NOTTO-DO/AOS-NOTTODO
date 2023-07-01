@@ -13,7 +13,11 @@ import timber.log.Timber
 class HomeBottomCalenderViewModel : ViewModel() {
 
     private val homeService: HomeService = ServicePool.homeService
-    lateinit var seletedDays: List<String>
+//    lateinit var seletedDays: List<ResponseHomeDoAnotherDay.HomeDoAnotherDayDto?>
+
+    private val _seletedDays: MutableLiveData<List<String>> =
+        MutableLiveData()
+    val seletedDays: LiveData<List<String>> get() = _seletedDays
 
     //홈 데일리 조회
     private val _postDoAnotherDay: MutableLiveData<String> =
@@ -26,7 +30,8 @@ class HomeBottomCalenderViewModel : ViewModel() {
                 homeService.postDoAnotherDay(missionId, RequestHomeDoAnotherDay(dates))
             }.fold(onSuccess = {
                 _postDoAnotherDay.value = it.status.toString()
-                Timber.d("1231233", it.message)
+                _seletedDays.value = dates
+                Timber.d("1231233", "${it.data}")
             },
                 onFailure = {
                     _postDoAnotherDay.value = it.message

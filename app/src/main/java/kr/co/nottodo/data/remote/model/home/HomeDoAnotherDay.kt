@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class RequestHomeDoAnotherDay(val dates: List<String>)
 
 @Serializable
-data class ResponseHomeDoAnotherDayDtoDto(
+data class ResponseHomeDoAnotherDay(
     val message: String,
     val status: Int,
     val success: Boolean,

@@ -37,5 +37,5 @@ interface HomeService {
     suspend fun postDoAnotherDay(
         @Path("missionId") missionId: Long,
         @Body dates: RequestHomeDoAnotherDay
-    ): ResponseHomeDoAnotherDayDtoDto
+    ): ResponseHomeDoAnotherDay
 }

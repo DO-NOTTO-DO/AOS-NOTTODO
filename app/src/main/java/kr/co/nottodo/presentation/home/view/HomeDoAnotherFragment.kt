@@ -29,10 +29,9 @@ class HomeDoAnotherFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeDoAnotherBinding.inflate(inflater, container, false)
-        val view = binding.root
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         // 각 버튼 클릭 시 각각의 함수 호출
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,7 +59,7 @@ class HomeDoAnotherFragment : DialogFragment() {
         val apiDateList = binding.homeDoAnotherCalendar.selectedDays.map {
             it.convertDateToString()!!
         }
-        Log.d("homeDoAnotherViemodel", "clickDone: 여기인가?1")
+        Log.d("homeDoAnotherViemodel", "clickDone: 여기인가?1 $apiDateList")
         return apiDateList
     }
 
@@ -80,17 +79,21 @@ class HomeDoAnotherFragment : DialogFragment() {
         homeDoAnotherViemodel.postDoAnotherDay.observe(viewLifecycleOwner) {
             showResponseToast(it)
         }
+        homeDoAnotherViemodel.seletedDays.observe(viewLifecycleOwner){
+            Timber.d("homeDoAnotherViemodel0", "$it")
+            Log.d("homeDoAnotherViemodel0", "observeDate: $it")
+        }
     }
 
     private fun showResponseToast(responseResult: String) {
         if (responseResult == "201") {
-            Timber.d("homeDoAnotherViemodel1", "$responseResult")
+            Log.d("homeDoAnotherViemodel1", "$responseResult")
             Toast.makeText(context, R.string.success_save_not_todo, Toast.LENGTH_SHORT).show()
             deleteFragmentStack()
             dismiss()
             return
         } else {
-            Timber.d("homeDoAnotherViemodel2", "$responseResult")
+            Log.d("homeDoAnotherViemodel2", "$responseResult")
             Toast.makeText(context, R.string.Duplicate_nottodo, Toast.LENGTH_SHORT).show()
             return
         }
