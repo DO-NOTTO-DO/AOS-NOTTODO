@@ -20,9 +20,12 @@ import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
+import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity.Companion.MISSION_ACTION_DETAIL
+import kr.co.nottodo.presentation.recommendation.model.RecommendMissionActionUiModel
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.containToday
 import kr.co.nottodo.util.containTomorrow
+import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showToast
@@ -41,7 +44,7 @@ class AdditionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        initDataBinding()
         setData()
         setViews()
         setObservers()
@@ -52,6 +55,60 @@ class AdditionActivity : AppCompatActivity() {
     private fun setData() {
         getRecentMissionList()
         getRecommendSituationList()
+        getDataFromRecommendActivity()
+    }
+
+    private fun getDataFromRecommendActivity() {
+        val dataFromRecommendActivity: RecommendMissionActionUiModel =
+            intent.getParcelable(MISSION_ACTION_DETAIL, RecommendMissionActionUiModel::class.java)
+                ?: return
+
+        with(viewModel) {
+            mission.value = dataFromRecommendActivity.title
+            situation.value = dataFromRecommendActivity.situation
+        }
+        val recommendActionList = dataFromRecommendActivity.actionList
+        initActionList(recommendActionList)
+    }
+
+    private fun initActionList(actionList: List<String>) {
+        when (actionList.size) {
+            1 -> {
+                setFirstAction(actionList[0])
+            }
+
+            2 -> {
+                setFirstAction(actionList[0])
+                setSecondAction(actionList[1])
+            }
+
+            3 -> {
+                setFirstAction(actionList[0])
+                setSecondAction(actionList[1])
+                setThirdAction(actionList[2])
+            }
+        }
+        viewModel.actionCount.value = actionList.size
+    }
+
+    private fun setFirstAction(firstAction: String) {
+        binding.tvAdditionActionFirst.text = firstAction
+        binding.tvAdditionActionFirst.visibility = View.VISIBLE
+        binding.ivAdditionActionFirstDelete.visibility = View.VISIBLE
+    }
+
+    private fun setSecondAction(secondAction: String) {
+        binding.tvAdditionActionSecond.text = secondAction
+        binding.tvAdditionActionSecond.visibility = View.VISIBLE
+        binding.ivAdditionActionSecondDelete.visibility = View.VISIBLE
+    }
+
+    private fun setThirdAction(thirdAction: String) {
+        binding.tvAdditionActionThird.text = thirdAction
+        binding.tvAdditionActionThird.visibility = View.VISIBLE
+        binding.ivAdditionActionThirdDelete.visibility = View.VISIBLE
+        binding.etAdditionAction.visibility = View.GONE
+        binding.tvAdditionActionTextCount.visibility = View.GONE
     }
 
     private fun initAdapters() {
@@ -77,7 +134,6 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun setViews() {
-        initDataBinding()
         initOpenedDesc()
         initToggles()
         initRecyclerViews()

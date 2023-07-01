@@ -18,14 +18,12 @@ import kr.co.nottodo.util.showToast
 import timber.log.Timber
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var binding: ActivityLoginBinding
+    private val binding by lazy { ActivityLoginBinding.inflate(layoutInflater) }
     private val viewModel by viewModels<LoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         showOnboardForFirstUser()
         setAutoLogin()
         observeGetTokenResult()

@@ -7,17 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 import kr.co.nottodo.data.remote.api.ServicePool.additionService
 import kr.co.nottodo.data.remote.api.ServicePool.notTodoService
-import kr.co.nottodo.data.remote.model.FailureResponseDto
 import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
 import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
+import kr.co.nottodo.util.getErrorMessage
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
-import retrofit2.HttpException
-import timber.log.Timber
 import java.util.Date
 
 class AdditionViewModel : ViewModel() {
@@ -65,7 +62,7 @@ class AdditionViewModel : ViewModel() {
             kotlin.runCatching {
                 additionService.postMission(requestAdditionDto)
             }.fold(onSuccess = { _additionResponse.value = it.data }, onFailure = {
-                _errorResponse.value = getErrorMessage(it)
+                _errorResponse.value = it.getErrorMessage()
             })
         }
     }
@@ -108,22 +105,6 @@ class AdditionViewModel : ViewModel() {
             }, onFailure = { error ->
                 _getRecentMissionListErrorResponse.value = error.message
             })
-        }
-    }
-
-    private fun getErrorMessage(result: Throwable): String {
-        when (result) {
-            is HttpException -> {
-                val data = Json.decodeFromString<FailureResponseDto>(
-                    result.response()?.errorBody()?.string() ?: return "예기치 못한 에러 발생2"
-                )
-                return data.message
-            }
-
-            else -> {
-                Timber.e(result.message.toString())
-                return "예기치 못한 에러가 발생했습니다"
-            }
         }
     }
 }

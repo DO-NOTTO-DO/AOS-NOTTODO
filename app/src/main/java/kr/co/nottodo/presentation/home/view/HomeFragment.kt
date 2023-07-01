@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
-import kr.co.nottodo.presentation.addition.view.AdditionActivity
-import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
+import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
 import kr.co.nottodo.util.DialogCloseListener
-import kr.co.nottodo.presentation.recommendation.main.RecommendationMainActivity
-
-
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import timber.log.Timber
@@ -110,7 +105,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
     }
 
     private fun clickFloatingBtn() {
-        val intent = Intent(context, RecommendationMainActivity::class.java)
+        val intent = Intent(context, RecommendMissionActivity::class.java)
         binding.ftbHomeAdd.setOnClickListener { startActivity(intent) }
     }
 
