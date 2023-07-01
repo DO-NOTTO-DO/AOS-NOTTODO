@@ -9,7 +9,7 @@ import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity
 import kr.co.nottodo.presentation.recommendation.mission.adapter.RecommendMissionAdapter
 import kr.co.nottodo.presentation.recommendation.mission.viewmodel.RecommendMissionViewModel
-import kr.co.nottodo.presentation.recommendation.model.ParcelizeMissionDetail
+import kr.co.nottodo.presentation.recommendation.model.RecommendMissionUiModel
 import kr.co.nottodo.util.showToast
 
 
@@ -85,7 +85,7 @@ class RecommendMissionActivity : AppCompatActivity() {
             { id: Int, title: String, situation: String, image: String ->
                 startActivity(
                     Intent(this, RecommendActionActivity::class.java).putExtra(
-                        MISSION_DETAIL, ParcelizeMissionDetail(id, title, situation, image)
+                        MISSION_DETAIL, RecommendMissionUiModel(id, title, situation, image)
                     )
                 )
                 if (!isFinishing) finish()

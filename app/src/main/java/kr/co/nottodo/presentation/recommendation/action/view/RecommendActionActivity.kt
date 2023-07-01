@@ -13,8 +13,8 @@ import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionA
 import kr.co.nottodo.presentation.recommendation.action.viewmodel.RecommendActionViewModel
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
-import kr.co.nottodo.presentation.recommendation.model.ParcelizeMissionActionDetail
-import kr.co.nottodo.presentation.recommendation.model.ParcelizeMissionDetail
+import kr.co.nottodo.presentation.recommendation.model.RecommendMissionActionUiModel
+import kr.co.nottodo.presentation.recommendation.model.RecommendMissionUiModel
 import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.showToast
 import timber.log.Timber
@@ -26,7 +26,7 @@ class RecommendActionActivity : AppCompatActivity() {
     private val viewModel by viewModels<RecommendActionViewModel>()
     private val dataFromRecommendMissionActivity by lazy {
         val dataFromRecommendMissionActivity = intent.getParcelable(
-            MISSION_DETAIL, ParcelizeMissionDetail::class.java
+            MISSION_DETAIL, RecommendMissionUiModel::class.java
         )
         if (dataFromRecommendMissionActivity == null) {
             if (!isFinishing) finish()
@@ -97,14 +97,14 @@ class RecommendActionActivity : AppCompatActivity() {
         binding.btnRecommendActionContinue.setOnClickListener {
             val selectedActionList = recommendActionAdapter?.getSelectedActionList()
 
-            val parcelizeMissionActionDetail = ParcelizeMissionActionDetail(
+            val recommendMissionActionUiModel = RecommendMissionActionUiModel(
                 title = dataFromRecommendMissionActivity.title,
                 situation = dataFromRecommendMissionActivity.situation,
                 actionList = selectedActionList ?: emptyList()
             )
             startActivity(
                 Intent(this, AdditionActivity::class.java).putExtra(
-                    MISSION_ACTION_DETAIL, parcelizeMissionActionDetail
+                    MISSION_ACTION_DETAIL, recommendMissionActionUiModel
                 )
             )
             if (!isFinishing) finish()
