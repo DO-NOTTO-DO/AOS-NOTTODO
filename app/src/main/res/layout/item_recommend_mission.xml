@@ -1,0 +1,66 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_recommendation_mission"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="15dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/rectangle_solid_gray_1_radius_12">
+
+    <TextView
+        android:id="@+id/tv_recommendation_mission_situation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/rectangle_solid_gray_2_radius_50"
+        android:paddingHorizontal="17dp"
+        android:paddingVertical="4dp"
+        android:textAppearance="@style/R14"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="업무 시간 중" />
+
+    <TextView
+        android:id="@+id/tv_recommendation_mission"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:text="유튜브 보지 않기"
+        android:textAppearance="@style/Sb18"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/tv_recommendation_mission_situation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_recommendation_mission_situation"
+        app:layout_constraintTop_toTopOf="@id/tv_recommendation_mission_situation" />
+
+    <ImageView
+        android:id="@+id/iv_recommendation_mission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_recommendation_mission" />
+
+    <TextView
+        android:id="@+id/tv_recommendation_mission_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="22dp"
+        android:textAppearance="@style/L14"
+        android:textColor="@color/gray_4_9398aa"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/iv_recommendation_mission"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_recommendation_mission_situation"
+        tools:text="유튜브를 보지 않는 것이 당신의 일상에 어떠한 변화를 일으킬까요? 행복한 중독해소를 위해 제안해요!" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

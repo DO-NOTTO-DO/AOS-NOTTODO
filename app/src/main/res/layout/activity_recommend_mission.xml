@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/black">
 
     <ImageView
-        android:id="@+id/iv_recommendation_main_exit"
+        android:id="@+id/iv_recommend_mission_destroy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="38dp"
-        android:src="@drawable/ic_btn_x"
+        android:layout_marginTop="10dp"
+        android:padding="16dp"
+        android:src="@drawable/ic_destroy"
+        app:layout_constraintBottom_toBottomOf="@id/tv_recommend_mission_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/tv_recommend_mission_title" />
 
     <TextView
-        android:id="@+id/tv_title_my_page_information"
+        android:id="@+id/tv_recommend_mission_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="22dp"
         android:gravity="center"
         android:text="낫투두 생성"
         android:textColor="@color/white"
@@ -31,39 +32,37 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view_my_page_divider_first"
+        android:id="@+id/view_recommend_mission_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="21dp"
-        android:background="@color/gray_3_5d5d6b"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_my_page_information" />
+        android:layout_marginTop="11dp"
+        android:background="@color/gray_2_34343a"
+        app:layout_constraintTop_toBottomOf="@id/iv_recommend_mission_destroy" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_recommendation"
+        android:id="@+id/rv_recommend_mission"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_my_page_divider_first"
-        tools:listitem="@layout/item_recommendation_main" />
+        app:layout_constraintTop_toBottomOf="@id/view_recommend_mission_divider"
+        tools:listitem="@layout/item_recommend_mission" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/btn_write_directly"
+        android:id="@+id/fab_recommend_mission_write_directly"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/white"
         android:drawableTint="@color/white"
+        android:paddingVertical="15dp"
         android:text="직접 입력하기"
         android:textAlignment="center"
-        android:textAppearance="@style/M16"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-
-        android:layout_marginBottom="34dp"/>
-
+        android:textAppearance="@style/Sb16"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

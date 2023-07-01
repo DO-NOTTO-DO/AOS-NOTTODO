@@ -24,13 +24,13 @@ class MissionHistoryAdapter(
 
     class AdditionViewHolder(
         private val binding: ItemAdditionMissionHistoryBinding,
-        private val lambda: (String) -> Unit,
+        private val setMissionName: (String) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(missionHistory: List<String>, position: Int) {
             with(binding.tvAdditionMissionRvItem) {
                 text = missionHistory[position]
                 setOnClickListener {
-                    lambda.invoke(missionHistory[position])
+                    setMissionName.invoke(missionHistory[position])
                 }
             }
         }
