@@ -3,14 +3,11 @@ package kr.co.nottodo.presentation.home.view
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentHomeDoAnotherBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
@@ -59,7 +56,7 @@ class HomeDoAnotherFragment : DialogFragment() {
         val apiDateList = binding.homeDoAnotherCalendar.selectedDays.map {
             it.convertDateToString()!!
         }
-        Log.d("homeDoAnotherViemodel", "clickDone: 여기인가?1 $apiDateList")
+        Timber.d("homeDoAnotherViemodel", "clickDone: 여기인가?1 $apiDateList")
         return apiDateList
     }
 
@@ -68,7 +65,7 @@ class HomeDoAnotherFragment : DialogFragment() {
             missionID,
             clickDone()
         )
-        Log.d("homeDoAnotherViemodel", "postSelectedDay: 아니면 여기?2")
+        Timber.d("homeDoAnotherViemodel", "postSelectedDay: 아니면 여기?2")
     }
 
     private fun deleteFragmentStack() {
@@ -79,22 +76,19 @@ class HomeDoAnotherFragment : DialogFragment() {
         homeDoAnotherViemodel.postDoAnotherDay.observe(viewLifecycleOwner) {
             showResponseToast(it)
         }
-        homeDoAnotherViemodel.seletedDays.observe(viewLifecycleOwner){
+        homeDoAnotherViemodel.seletedDays.observe(viewLifecycleOwner) {
             Timber.d("homeDoAnotherViemodel0", "$it")
-            Log.d("homeDoAnotherViemodel0", "observeDate: $it")
         }
     }
 
     private fun showResponseToast(responseResult: String) {
         if (responseResult == "201") {
-            Log.d("homeDoAnotherViemodel1", "$responseResult")
-            Toast.makeText(context, R.string.success_save_not_todo, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, R.string.success_save_not_todo, Toast.LENGTH_SHORT).show()
             deleteFragmentStack()
             dismiss()
             return
         } else {
-            Log.d("homeDoAnotherViemodel2", "$responseResult")
-            Toast.makeText(context, R.string.Duplicate_nottodo, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, R.string.Duplicate_nottodo, Toast.LENGTH_SHORT).show()
             return
         }
         return
