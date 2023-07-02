@@ -25,6 +25,9 @@ class MonthlyCalendarMultiplePickerDayAdapter(
 
     private val selectedDateList = mutableListOf<Date>()
 
+    // 이미 낫투두가 설정되어 있는 날 리스트
+    private val notTodoScheduledDateList = mutableListOf<Date>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
@@ -62,10 +65,14 @@ class MonthlyCalendarMultiplePickerDayAdapter(
         when (holder) {
             is MonthlyCalendarPickerDayViewHolder -> {
                 if (calendarPickerItems[position] is MonthlyCalendarDay.DayMonthly) {
-                    if (selectedDateList.any { it.isTheSameDay((calendarPickerItems[position] as MonthlyCalendarDay.DayMonthly).date) }) {
-                        holder.onBindSelectedState(calendarPickerItems[position])
+                    if (notTodoScheduledDateList.any { it.isTheSameDay((calendarPickerItems[position] as MonthlyCalendarDay.DayMonthly).date) }) {
+                        holder.onBindScheduledState(calendarPickerItems[position])
                     } else {
-                        holder.onBind(calendarPickerItems[position])
+                        if (selectedDateList.any { it.isTheSameDay((calendarPickerItems[position] as MonthlyCalendarDay.DayMonthly).date) }) {
+                            holder.onBindSelectedState(calendarPickerItems[position])
+                        } else {
+                            holder.onBind(calendarPickerItems[position])
+                        }
                     }
                 } else {
                     holder.onBind(calendarPickerItems[position])
@@ -90,6 +97,16 @@ class MonthlyCalendarMultiplePickerDayAdapter(
     fun submitList(list: List<MonthlyCalendarDay>) {
         calendarPickerItems.clear()
         calendarPickerItems.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    /**
+     * 이미 낫투두 날짜가 정해져 있는 경우의 데이터를 확인하기 위한 함수
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    fun submitScheduledNotTodoList(list: List<Date>) {
+        notTodoScheduledDateList.clear()
+        notTodoScheduledDateList.addAll(list)
         notifyDataSetChanged()
     }
 

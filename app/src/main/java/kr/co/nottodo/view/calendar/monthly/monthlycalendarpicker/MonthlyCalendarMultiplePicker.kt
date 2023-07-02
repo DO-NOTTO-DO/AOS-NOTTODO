@@ -392,6 +392,16 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
         monthlyCalendarMultiplePickerDayAdapter.submitList(emptyList())
     }
 
+    /**
+     * 이미 낫투두 날짜가 정해져 있는 데이터 넣어주는 함수
+     */
+    fun setScheduledNotTodoDateList(list: List<Date>) {
+        val current7DayList = getAvailableDateList()
+        monthlyCalendarMultiplePickerDayAdapter.submitScheduledNotTodoList(
+            list.filter { current7DayList.any { it.isTheSameDay(it) } }
+        )
+    }
+
     override fun onDayClick(view: View, date: Date) {
         monthlyCalendarPickerClickListener?.onDayClick(view, date)
         monthlyCalendarMultiplePickerDayAdapter.setSelectedDay(date)
