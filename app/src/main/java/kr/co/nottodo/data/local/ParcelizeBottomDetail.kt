@@ -11,6 +11,7 @@ data class ParcelizeBottomDetail(
     val actions: List<Action>?,
     val count: Int,
     val goal: String?,
+    val date: String
 ) : Parcelable {
     @Parcelize
     data class Action(
