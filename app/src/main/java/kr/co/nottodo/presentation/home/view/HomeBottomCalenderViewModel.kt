@@ -8,35 +8,59 @@ import kotlinx.coroutines.launch
 import kr.co.nottodo.data.model.Home.RequestHomeDoAnotherDay
 import kr.co.nottodo.data.remote.api.ServicePool
 import kr.co.nottodo.data.remote.api.home.HomeService
+import kr.co.nottodo.util.getErrorMessage
 import timber.log.Timber
 
 class HomeBottomCalenderViewModel : ViewModel() {
 
     private val homeService: HomeService = ServicePool.homeService
-//    lateinit var seletedDays: List<ResponseHomeDoAnotherDay.HomeDoAnotherDayDto?>
 
     private val _seletedDays: MutableLiveData<List<String>> =
         MutableLiveData()
     val seletedDays: LiveData<List<String>> get() = _seletedDays
 
-    //홈 데일리 조회
+    // post다른 날도 할래요
     private val _postDoAnotherDay: MutableLiveData<String> =
         MutableLiveData()
     val postDoAnotherDay: LiveData<String> get() = _postDoAnotherDay
+
+    // get다른날도 할래요
+    private val _getDoAnotherDay: MutableLiveData<List<String>> =
+        MutableLiveData()
+    val getDoAnotherDay: LiveData<List<String>> get() = _getDoAnotherDay
 
     fun postDoAnotherDay(missionId: Long, dates: List<String>) {
         viewModelScope.launch {
             runCatching {
                 homeService.postDoAnotherDay(missionId, RequestHomeDoAnotherDay(dates))
-            }.fold(onSuccess = {
-                _postDoAnotherDay.value = it.status.toString()
-                _seletedDays.value = dates
-                Timber.d("1231233", "${it.data}")
-            },
+            }.fold(
+                onSuccess = {
+                    _postDoAnotherDay.value = it.status.toString()
+                    _seletedDays.value = dates
+                    Timber.tag("1231233").d("${it.data}")
+                },
                 onFailure = {
                     _postDoAnotherDay.value = it.message
-                    Timber.d("error지롱123 ${it.message}")
-                })
+                    Timber.tag("error지롱123 ").i("${it.getErrorMessage()}")
+                },
+            )
+        }
+    }
+
+    fun getDoAnotherDay(missionId: Int) {
+        viewModelScope.launch {
+            runCatching {
+                homeService.getDoAnotherDay(missionId)
+            }.fold(
+                onSuccess = {
+                    _getDoAnotherDay.value = it.data
+                    Timber.tag("123123").d("${it.data}")
+                },
+                onFailure = {
+//                    _getDoAnotherDay.value = it.
+                    Timber.tag("1231233").d("error지롱123 ${it.message}")
+                },
+            )
         }
     }
 }
