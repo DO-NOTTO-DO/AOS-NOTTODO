@@ -35,11 +35,11 @@ class LoginActivity : AppCompatActivity() {
     private fun setClickEvents() {
         setGoogleLoginBtnClickEvent()
         setKakaoLoginBtnClickEvent()
-        setTermsOfUseTVClickEvent()
-        setPrivacyPolicyTVClickEvent()
+        setTermsOfUseTvClickEvent()
+        setPrivacyPolicyTvClickEvent()
     }
 
-    private fun setTermsOfUseTVClickEvent() {
+    private fun setTermsOfUseTvClickEvent() {
         binding.tvLoginTermsOfUse.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_terms_of_use))
@@ -48,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun setPrivacyPolicyTVClickEvent() {
+    private fun setPrivacyPolicyTvClickEvent() {
         binding.tvLoginPrivacyPolicy.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_privacy_policy))
