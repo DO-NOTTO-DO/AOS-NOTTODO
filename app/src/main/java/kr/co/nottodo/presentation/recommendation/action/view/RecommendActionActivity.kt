@@ -15,8 +15,8 @@ import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionAc
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
 import kr.co.nottodo.presentation.recommendation.model.RecommendMissionUiModel
 import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
-import kr.co.nottodo.util.getParcelable
-import kr.co.nottodo.util.showToast
+import kr.co.nottodo.presentation.recommendation.util.getParcelable
+import kr.co.nottodo.presentation.recommendation.util.showToast
 import timber.log.Timber
 
 class RecommendActionActivity : AppCompatActivity() {

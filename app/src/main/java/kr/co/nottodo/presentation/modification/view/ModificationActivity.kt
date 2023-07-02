@@ -20,12 +20,12 @@ import kr.co.nottodo.databinding.ActivityModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.home.view.HomeMenuBottomSheetFragment
 import kr.co.nottodo.presentation.modification.viewmodel.ModificationViewModel
-import kr.co.nottodo.util.addButtons
-import kr.co.nottodo.util.getParcelable
-import kr.co.nottodo.util.hideKeyboard
-import kr.co.nottodo.util.showKeyboard
-import kr.co.nottodo.util.showNotTodoSnackBar
-import kr.co.nottodo.util.showToast
+import kr.co.nottodo.presentation.recommendation.util.addButtons
+import kr.co.nottodo.presentation.recommendation.util.getParcelable
+import kr.co.nottodo.presentation.recommendation.util.hideKeyboard
+import kr.co.nottodo.presentation.recommendation.util.showKeyboard
+import kr.co.nottodo.presentation.recommendation.util.showNotTodoSnackBar
+import kr.co.nottodo.presentation.recommendation.util.showToast
 import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToPrettyDateString
 
 class ModificationActivity : AppCompatActivity() {

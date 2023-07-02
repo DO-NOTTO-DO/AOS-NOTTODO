@@ -13,7 +13,7 @@ import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
 import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
-import kr.co.nottodo.util.getErrorMessage
+import kr.co.nottodo.presentation.recommendation.util.getErrorMessage
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import java.util.Date
 

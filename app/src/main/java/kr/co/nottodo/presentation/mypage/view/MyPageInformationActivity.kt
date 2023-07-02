@@ -16,7 +16,7 @@ import kr.co.nottodo.listeners.OnDialogDismissListener
 import kr.co.nottodo.presentation.login.view.LoginActivity
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 import kr.co.nottodo.presentation.mypage.viewmodel.MyPageInformationViewModel
-import kr.co.nottodo.util.showToast
+import kr.co.nottodo.presentation.recommendation.util.showToast
 
 
 class MyPageInformationActivity : AppCompatActivity(), OnDialogDismissListener {

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.databinding.ItemAdditionMissionHistoryBinding
-import kr.co.nottodo.util.DiffUtilItemCallback
+import kr.co.nottodo.presentation.recommendation.util.DiffUtilItemCallback
 
 class MissionHistoryAdapter(
     private val context: Context,

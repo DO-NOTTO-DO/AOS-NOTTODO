@@ -1,4 +1,4 @@
-package kr.co.nottodo.util
+package kr.co.nottodo.presentation.recommendation.util
 
 import kotlinx.serialization.json.Json
 import kr.co.nottodo.data.remote.model.FailureResponseDto

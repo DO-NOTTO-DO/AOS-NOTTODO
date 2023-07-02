@@ -1,4 +1,4 @@
-package kr.co.nottodo.util
+package kr.co.nottodo.presentation.recommendation.util
 
 import kr.co.nottodo.view.calendar.monthly.util.isTheSameDay
 import java.util.Calendar
