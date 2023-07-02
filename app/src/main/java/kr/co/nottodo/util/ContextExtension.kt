@@ -33,7 +33,7 @@ fun Context.showSnackBar(view: View, msg: String) {
     Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show()
 }
 
-fun Context.showNotTodoSnackBar(view: View, msg: String) {
+fun Context.showNotTodoSnackBar(view: View, msg: CharSequence) {
     NotTodoSnackbar(view, msg).show()
 }
 

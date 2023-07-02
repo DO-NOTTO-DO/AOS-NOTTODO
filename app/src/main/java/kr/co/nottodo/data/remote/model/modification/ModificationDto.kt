@@ -32,3 +32,15 @@ data class ResponseModificationDto(
         )
     }
 }
+
+@Serializable
+data class ResponseGetMissionDates(
+    @SerialName("status")
+    val status: Int,
+    @SerialName("success")
+    val success: Boolean,
+    @SerialName("message")
+    val message: String,
+    @SerialName("data")
+    val data: List<String>,
+)

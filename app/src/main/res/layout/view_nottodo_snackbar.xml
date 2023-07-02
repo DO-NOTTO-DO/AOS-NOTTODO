@@ -4,15 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:clipToPadding="false"
+    android:paddingHorizontal="7dp"
     android:paddingBottom="28dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="15dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/rectangle_solid_white_12"
-        android:elevation="10dp"
-        android:paddingHorizontal="16dp">
+        android:elevation="5dp"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/iv_nottodo_snackbar"
@@ -27,12 +31,13 @@
 
         <TextView
             android:id="@+id/tv_nottodo_snackbar_desc"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="12dp"
             android:layout_marginStart="6dp"
             android:textAppearance="@style/R14"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_nottodo_snackbar"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="실천방법은 최대 3개만 추가할 수 있어요." />

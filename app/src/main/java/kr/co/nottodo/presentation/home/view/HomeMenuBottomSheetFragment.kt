@@ -150,7 +150,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
             item.situation,
             actionHome?.map { ParcelizeBottomDetail.Action(it.name) },
             item.count,
-            item.goal
+            item.goal,
+            clickDay
         )
     }
 
