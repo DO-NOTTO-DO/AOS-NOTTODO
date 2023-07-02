@@ -22,7 +22,7 @@ import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity.Companion.MISSION_ACTION_DETAIL
-import kr.co.nottodo.presentation.recommendation.model.RecommendMissionActionUiModel
+import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.containToday
 import kr.co.nottodo.util.containTomorrow
@@ -61,15 +61,15 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun getDataFromRecommendActivity() {
-        val dataFromRecommendActivity: RecommendMissionActionUiModel =
-            intent.getParcelable(MISSION_ACTION_DETAIL, RecommendMissionActionUiModel::class.java)
+        val recommendUiModel: RecommendUiModel =
+            intent.getParcelable(MISSION_ACTION_DETAIL, RecommendUiModel::class.java)
                 ?: return
 
         with(viewModel) {
-            mission.value = dataFromRecommendActivity.title
-            situation.value = dataFromRecommendActivity.situation
+            mission.value = recommendUiModel.title
+            situation.value = recommendUiModel.situation
         }
-        val recommendActionList = dataFromRecommendActivity.actionList
+        val recommendActionList = recommendUiModel.actionList
         initActionList(recommendActionList)
     }
 
