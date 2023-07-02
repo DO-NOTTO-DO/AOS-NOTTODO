@@ -1,6 +1,7 @@
 package kr.co.nottodo.presentation.login.view
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kr.co.nottodo.MainActivity
+import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
@@ -27,13 +29,34 @@ class LoginActivity : AppCompatActivity() {
         showOnboardForFirstUser()
         setAutoLogin()
         observeGetTokenResult()
-        setClickEvent()
+        setClickEvents()
     }
 
-    private fun setClickEvent() {
+    private fun setClickEvents() {
         setGoogleLoginBtnClickEvent()
         setKakaoLoginBtnClickEvent()
+        setTermsOfUseTvClickEvent()
+        setPrivacyPolicyTvClickEvent()
     }
+
+    private fun setTermsOfUseTvClickEvent() {
+        binding.tvLoginTermsOfUse.setOnClickListener {
+            val intent = Intent(
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_terms_of_use))
+            )
+            startActivity(intent)
+        }
+    }
+
+    private fun setPrivacyPolicyTvClickEvent() {
+        binding.tvLoginPrivacyPolicy.setOnClickListener {
+            val intent = Intent(
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_privacy_policy))
+            )
+            startActivity(intent)
+        }
+    }
+
 
     private fun setGoogleLoginBtnClickEvent() {
         binding.layoutLoginGoogle.setOnClickListener {
