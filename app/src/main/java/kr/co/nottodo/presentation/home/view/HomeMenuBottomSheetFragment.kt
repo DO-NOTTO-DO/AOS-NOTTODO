@@ -23,9 +23,7 @@ import kr.co.nottodo.databinding.ItemHomeBottomActionsBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.CLICK_DAY
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.presentation.modification.view.ModificationActivity
-import kr.co.nottodo.util.DialogCloseListener
 import kr.co.nottodo.util.getParcelable
-import timber.log.Timber
 
 class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentHomeMenuBottomSheetBinding? = null
@@ -116,7 +114,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
             modifyParcelizeExtra = parcelizeData(it)
         }
     }
-
 
     private fun clickDelete(missionId: Long) {
         viewModel.deleteTodo(missionId)

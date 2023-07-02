@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeDoAnotherBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
@@ -17,8 +18,8 @@ class HomeDoAnotherFragment : DialogFragment() {
     private var _binding: FragmentHomeDoAnotherBinding? = null
     private val binding get() = _binding!!
 
-    //    private lateinit var missionID: Long
     private val homeDoAnotherViemodel by viewModels<HomeBottomCalenderViewModel>()
+    private val homeViemodel by activityViewModels<HomeViewModel>()
     private lateinit var buttonClickListener: OnButtonClickListener
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +43,10 @@ class HomeDoAnotherFragment : DialogFragment() {
     // 인터페이스
     interface OnButtonClickListener {
         fun onButton1Clicked() {
+        }
+
+        fun onPassSelectDay(value: String) {
+            Timber.tag("onPassInterface").d("$value")
         }
     }
 
@@ -77,7 +82,11 @@ class HomeDoAnotherFragment : DialogFragment() {
             showResponseToast(it)
         }
         homeDoAnotherViemodel.seletedDays.observe(viewLifecycleOwner) {
-            Timber.d("homeDoAnotherViemodel0", "$it")
+            Timber.tag("homeDoAnotherViemodel0").d("$it")
+            val selectFirstDay = it[0]
+            Timber.d("homeDoAnotherViemodel3", "$selectFirstDay")
+            homeViemodel.selectedDay.value = selectFirstDay
+            buttonClickListener.onPassSelectDay(selectFirstDay)
         }
     }
 

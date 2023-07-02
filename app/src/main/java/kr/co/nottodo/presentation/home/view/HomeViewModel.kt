@@ -47,12 +47,17 @@ class HomeViewModel : ViewModel() {
         MutableLiveData()
     val postDoAnotherDay: LiveData<String> get() = _postDoAnotherDay
 
+    //다른 날도 할래요 선택된 젤 처음 날짜
+    val selectedDay = MutableLiveData<String>()
+
     fun getHomeDaily(date: String) {
         viewModelScope.launch {
             runCatching {
                 homeService.getHomeDaily(date)
-            }.fold(onSuccess = { _getHomeDaily.value = it.data.toMutableList()
-                Timber.d("gethomeDaily 성공이이롱 ${it.data}")},
+            }.fold(onSuccess = {
+                _getHomeDaily.value = it.data.toMutableList()
+                Timber.d("gethomeDaily 성공이이롱 ${it.data}")
+            },
                 onFailure = {
                     Timber.d("error지롱 ${it.message}")
                 })

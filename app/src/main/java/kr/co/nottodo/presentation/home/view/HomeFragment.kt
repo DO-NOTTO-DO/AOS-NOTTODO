@@ -12,13 +12,11 @@ import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
-import kr.co.nottodo.util.DialogCloseListener
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
 
 class HomeFragment : Fragment(), DialogCloseListener {
     private var _binding: FragmentHomeBinding? = null
@@ -37,7 +35,8 @@ class HomeFragment : Fragment(), DialogCloseListener {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
@@ -121,10 +120,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
         })
     }
 
-//    private fun setWeeklyDayClick(){
-//        binding.weeklyCalendar.setOnWeeklyDayClickListener()
-//    }
-
     private fun weeklyDayClick() {
         binding.weeklyCalendar.setOnWeeklyDayClickListener { view, date ->
             Timber.d("calender", "initMonth: $date")
@@ -153,5 +148,10 @@ class HomeFragment : Fragment(), DialogCloseListener {
 
     override fun handleDialogClose(dialog: DialogInterface) {
         homeViewModel.getHomeDaily(weeklyData)
+    }
+
+    override fun onDataPass(selectFirstDay: String) {
+        Timber.tag("homePassInterface").d("$selectFirstDay")
+        homeViewModel.getHomeDaily(selectFirstDay)
     }
 }
