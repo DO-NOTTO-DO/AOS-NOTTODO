@@ -3,8 +3,15 @@ package kr.co.nottodo.view.calendar.monthly.util
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
-import java.util.Calendar.*
+import java.util.Calendar
+import java.util.Calendar.DAY_OF_MONTH
+import java.util.Calendar.DAY_OF_WEEK
+import java.util.Calendar.LONG
+import java.util.Calendar.MONTH
+import java.util.Calendar.SUNDAY
+import java.util.Calendar.YEAR
+import java.util.Date
+import java.util.Locale
 
 fun Calendar.toPrettyMonthString(
     style: Int = LONG,
@@ -48,6 +55,10 @@ fun String.convertToLocalDate(): LocalDate? {
     return runCatching {
         LocalDate.parse(this, format)
     }.getOrNull()
+}
+
+fun String.convertDateStringToPrettyDateString(): String {
+    return this.replace('-', '.')
 }
 
 fun Date.convertDateToString(): String? {

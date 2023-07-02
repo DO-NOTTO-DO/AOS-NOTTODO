@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
@@ -23,7 +24,9 @@ import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
+import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
+import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToPrettyDateString
 
 class ModificationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityModificationBinding
@@ -53,6 +56,25 @@ class ModificationActivity : AppCompatActivity() {
         observeFailureResponse()
         observeGetRecommendSituationList()
         observeGetRecentMissionListResponse()
+        observeGetMissionDatesResponse()
+    }
+
+    private fun observeGetMissionDatesResponse() {
+        observeGetMissionDatesSuccessResponse()
+        observeGetMissionDatesErrorResponse()
+    }
+
+    private fun observeGetMissionDatesErrorResponse() {
+        viewModel.getMissionDatesErrorResponse.observe(this) {errorMessage ->
+            showToast(errorMessage)
+            if(!isFinishing) finish()
+        }
+    }
+
+    private fun observeGetMissionDatesSuccessResponse() {
+        viewModel.getMissionDatesSuccessResponse.observe(this) {response ->
+            viewModel.setMissionDates()
+        }
     }
 
     private fun observeGetRecentMissionListResponse() {
@@ -132,8 +154,13 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun setData() {
         setDataFromHome()
+        getMissionDates()
         getRecentMissionList()
         getRecommendSituationList()
+    }
+
+    private fun getMissionDates() {
+        viewModel.getMissionDates()
     }
 
     private fun getRecommendSituationList() {
@@ -173,7 +200,9 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun observeFailureResponse() {
         viewModel.errorResponse.observe(this) { errorMessage ->
-            showToast(errorMessage)
+            val errorMessageWithHtmlTag =
+                HtmlCompat.fromHtml(errorMessage, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
         }
     }
 
@@ -185,7 +214,6 @@ class ModificationActivity : AppCompatActivity() {
         if (dataFromHome != null) {
             viewModel.setOriginalData(
                 NotTodoData(
-                    "2023.01.15",
                     dataFromHome.title,
                     dataFromHome.situation,
                     dataFromHome.actions?.map { action -> action.name.toString() },
@@ -747,7 +775,6 @@ class ModificationActivity : AppCompatActivity() {
         const val goalOpenedDesc = "낫투두를 통해서\n어떤 목표를 이루려 하나요?"
 
         data class NotTodoData(
-            val date: String,
             val mission: String,
             val situation: String,
             val actions: List<String>?,

@@ -2,7 +2,8 @@ package kr.co.nottodo.view.calendar.monthly.util
 
 import android.util.TypedValue
 import android.view.View
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 fun Date.isTheSameDay(comparedDate: Date): Boolean {
     val calendar = Calendar.getInstance()
@@ -18,9 +19,17 @@ fun Date.isTheSameDay(comparedDate: Date): Boolean {
 fun Date.isToday(): Boolean {
     val calendar = Calendar.getInstance()
     calendar.withTime(this)
-    val todayCalendar= Calendar.getInstance()
+    val todayCalendar = Calendar.getInstance()
     return (todayCalendar.get(Calendar.DAY_OF_YEAR)) == calendar.get(Calendar.DAY_OF_YEAR) &&
             todayCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
+}
+
+fun Date.isTomorrow(): Boolean {
+    val tomorrow = Calendar.getInstance().apply {
+        time = Date()
+        add(Calendar.DAY_OF_YEAR, 1)
+    }.time
+    return this.isTheSameDay(tomorrow)
 }
 
 fun Calendar.withTime(date: Date) {

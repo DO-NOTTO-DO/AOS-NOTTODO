@@ -12,9 +12,13 @@ import kr.co.nottodo.data.remote.api.ServicePool.modificationService
 import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
 import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.modification.RequestModificationDto
+import kr.co.nottodo.data.remote.model.modification.ResponseGetMissionDates
 import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto
 import kr.co.nottodo.presentation.modification.view.ModificationActivity.Companion.NotTodoData
 import kr.co.nottodo.util.getErrorMessage
+import kr.co.nottodo.view.calendar.monthly.util.achievementConvertStringToDate
+import kr.co.nottodo.view.calendar.monthly.util.isToday
+import kr.co.nottodo.view.calendar.monthly.util.isTomorrow
 
 class ModificationViewModel : ViewModel() {
 
@@ -30,7 +34,6 @@ class ModificationViewModel : ViewModel() {
         originalActionList = data.actions ?: emptyList()
         originGoal = data.goal ?: ""
 
-        date.value = data.date
         mission.value = data.mission
         situation.value = data.situation
         actionList.value = data.actions ?: emptyList()
@@ -39,8 +42,26 @@ class ModificationViewModel : ViewModel() {
         missionId = data.missionId
     }
 
-    val date: MutableLiveData<String> = MutableLiveData()
-
+    private val dates: MutableLiveData<List<String>> = MutableLiveData()
+    val firstDate: LiveData<String> = dates.map { dates ->
+        dates.last()
+    }
+    val dateDesc: LiveData<String> = firstDate.map { firstDate ->
+        val date = firstDate.achievementConvertStringToDate()
+        if (date?.isToday() == true) "오늘"
+        else if (date?.isTomorrow() == true) {
+            "내일"
+        } else {
+            ""
+        }
+    }
+    val datesCountMinusOne: LiveData<String> = dates.map { dates ->
+        if (dates.size == 1) {
+            ""
+        } else {
+            "그 외 ${dates.size - 1}일"
+        }
+    }
     val mission: MutableLiveData<String> = MutableLiveData()
     private val isMissionChanged: LiveData<Boolean> = mission.map { newMission ->
         originMission != newMission
@@ -149,5 +170,30 @@ class ModificationViewModel : ViewModel() {
                 _getRecentMissionListErrorResponse.value = error.getErrorMessage()
             })
         }
+    }
+
+    private val _getMissionDatesSuccessResponse: MutableLiveData<ResponseGetMissionDates> =
+        MutableLiveData()
+    val getMissionDatesSuccessResponse: LiveData<ResponseGetMissionDates> =
+        _getMissionDatesSuccessResponse
+
+    private val _getMissionDatesErrorResponse: MutableLiveData<String> = MutableLiveData()
+    val getMissionDatesErrorResponse: LiveData<String> = _getMissionDatesErrorResponse
+
+    fun getMissionDates() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                modificationService.getMissionDates(
+                    missionId?.toInt() ?: throw NullPointerException("invalid mission id")
+                )
+            }.fold(onSuccess = { response -> _getMissionDatesSuccessResponse.value = response },
+                onFailure = { errorResponse ->
+                    _getMissionDatesErrorResponse.value = errorResponse.getErrorMessage()
+                })
+        }
+    }
+
+    fun setMissionDates() {
+        dates.value = getMissionDatesSuccessResponse.value?.data ?: emptyList()
     }
 }

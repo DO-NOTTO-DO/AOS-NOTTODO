@@ -13,8 +13,8 @@ import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionA
 import kr.co.nottodo.presentation.recommendation.action.viewmodel.RecommendActionViewModel
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
-import kr.co.nottodo.presentation.recommendation.model.RecommendMissionActionUiModel
 import kr.co.nottodo.presentation.recommendation.model.RecommendMissionUiModel
+import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
 import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.showToast
 import timber.log.Timber
@@ -25,13 +25,13 @@ class RecommendActionActivity : AppCompatActivity() {
     private var recommendActionAdapter: RecommendActionAdapter? = null
     private val viewModel by viewModels<RecommendActionViewModel>()
     private val dataFromRecommendMissionActivity by lazy {
-        val dataFromRecommendMissionActivity = intent.getParcelable(
+        val recommendMissionUiModel = intent.getParcelable(
             MISSION_DETAIL, RecommendMissionUiModel::class.java
         )
-        if (dataFromRecommendMissionActivity == null) {
+        if (recommendMissionUiModel == null) {
             if (!isFinishing) finish()
         }
-        dataFromRecommendMissionActivity!!
+        recommendMissionUiModel!!
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,17 +62,26 @@ class RecommendActionActivity : AppCompatActivity() {
         viewModel.setMissionId(
             dataFromRecommendMissionActivity.id
         )
-
-        with(binding) {
-            tvRecommendActionMission.text = dataFromRecommendMissionActivity.title
-            tvRecommendActionSituation.text = dataFromRecommendMissionActivity.situation
-            ivRecommendActionMissionSituation.load(dataFromRecommendMissionActivity.image)
-        }
     }
 
     private fun setViews() {
         setContentView(binding.root)
         setRecommendActionRecyclerView()
+        setMissionTextView()
+        setSituationTextView()
+        setMissionImageView()
+    }
+
+    private fun setMissionTextView() {
+        binding.tvRecommendActionMission.text = dataFromRecommendMissionActivity.title
+    }
+
+    private fun setSituationTextView() {
+        binding.tvRecommendActionSituation.text = dataFromRecommendMissionActivity.situation
+    }
+
+    private fun setMissionImageView() {
+        binding.ivRecommendActionMissionSituation.load(dataFromRecommendMissionActivity.image)
     }
 
     private fun setRecommendActionRecyclerView() {
@@ -97,14 +106,14 @@ class RecommendActionActivity : AppCompatActivity() {
         binding.btnRecommendActionContinue.setOnClickListener {
             val selectedActionList = recommendActionAdapter?.getSelectedActionList()
 
-            val recommendMissionActionUiModel = RecommendMissionActionUiModel(
+            val recommendUiModel = RecommendUiModel(
                 title = dataFromRecommendMissionActivity.title,
                 situation = dataFromRecommendMissionActivity.situation,
                 actionList = selectedActionList ?: emptyList()
             )
             startActivity(
                 Intent(this, AdditionActivity::class.java).putExtra(
-                    MISSION_ACTION_DETAIL, recommendMissionActionUiModel
+                    MISSION_ACTION_DETAIL, recommendUiModel
                 )
             )
             if (!isFinishing) finish()

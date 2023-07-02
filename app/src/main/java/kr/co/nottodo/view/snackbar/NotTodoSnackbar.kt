@@ -1,12 +1,13 @@
 package kr.co.nottodo.view.snackbar
 
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import kr.co.nottodo.databinding.ViewNottodoSnackbarBinding
 
-class NotTodoSnackbar(view: View, private val message: String) {
+class NotTodoSnackbar(view: View, private val message: CharSequence) {
     private val context = view.context
     private val snackbar = Snackbar.make(view, message, 2000)
     private val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
@@ -29,7 +30,15 @@ class NotTodoSnackbar(view: View, private val message: String) {
     }
 
     private fun initData() {
-        binding.tvNottodoSnackbarDesc.text = message
+        when (message) {
+            is Spanned -> {
+                binding.tvNottodoSnackbarDesc.text = message
+            }
+
+            else -> {
+                binding.tvNottodoSnackbarDesc.text = message
+            }
+        }
     }
 
     fun show() {
