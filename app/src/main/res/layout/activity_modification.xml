@@ -115,12 +115,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="37dp"
-                            android:text="오늘"
+                            android:text="@{vm.dateDesc}"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/white"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/tv_modification_date_title_before"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="오늘" />
 
                         <TextView
                             android:id="@+id/tv_modification_date"

@@ -15,6 +15,9 @@ import kr.co.nottodo.data.remote.model.modification.RequestModificationDto
 import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto
 import kr.co.nottodo.presentation.modification.view.ModificationActivity.Companion.NotTodoData
 import kr.co.nottodo.util.getErrorMessage
+import kr.co.nottodo.view.calendar.monthly.util.achievementConvertStringToDate
+import kr.co.nottodo.view.calendar.monthly.util.isToday
+import kr.co.nottodo.view.calendar.monthly.util.isTomorrow
 
 class ModificationViewModel : ViewModel() {
 
@@ -40,7 +43,15 @@ class ModificationViewModel : ViewModel() {
     }
 
     val date: MutableLiveData<String> = MutableLiveData()
-
+    val dateDesc: LiveData<String> = date.map { dateString ->
+        val date = dateString.achievementConvertStringToDate()
+        if (date?.isToday() == true) "오늘"
+        else if (date?.isTomorrow() == true) {
+            "내일"
+        } else {
+            ""
+        }
+    }
     val mission: MutableLiveData<String> = MutableLiveData()
     private val isMissionChanged: LiveData<Boolean> = mission.map { newMission ->
         originMission != newMission
