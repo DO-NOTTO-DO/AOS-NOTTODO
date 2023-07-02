@@ -29,6 +29,11 @@ class HomeBottomCalenderViewModel : ViewModel() {
         MutableLiveData()
     val getDoAnotherDay: LiveData<List<String>> get() = _getDoAnotherDay
 
+    // post다른 날도 할래요
+    private val _errorMessage: MutableLiveData<String> =
+        MutableLiveData()
+    val errorMessage: LiveData<String> get() = _errorMessage
+
     fun postDoAnotherDay(missionId: Long, dates: List<String>) {
         viewModelScope.launch {
             runCatching {
@@ -40,8 +45,7 @@ class HomeBottomCalenderViewModel : ViewModel() {
                     Timber.tag("1231233").d("${it.data}")
                 },
                 onFailure = {
-                    _postDoAnotherDay.value = it.message
-                    Timber.tag("error지롱123 ").i("${it.getErrorMessage()}")
+                    _postDoAnotherDay.value = it.getErrorMessage()
                 },
             )
         }

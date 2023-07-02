@@ -120,12 +120,20 @@ class HomeDoAnotherFragment : DialogFragment() {
     }
 
     private fun showResponseToast(responseResult: String) {
-        if (responseResult == "201") {
-            Toast.makeText(context, R.string.success_save_not_todo, Toast.LENGTH_SHORT).show()
-            deleteFragmentStack()
-            dismiss()
-            return
-        } else {
+
+        when (responseResult) {
+            "201" -> {
+                Toast.makeText(context, R.string.success_save_not_todo, Toast.LENGTH_SHORT).show()
+                deleteFragmentStack()
+                dismiss()
+                return
+            }
+
+            HAVE_SAME_NOTTODO ->{
+                Toast.makeText(context, R.string.success_save_not_todo, Toast.LENGTH_SHORT).show()
+            }
+        }
+        else {
             Toast.makeText(context, R.string.Duplicate_nottodo, Toast.LENGTH_SHORT).show()
             return
         }
@@ -135,5 +143,10 @@ class HomeDoAnotherFragment : DialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val HAVE_SAME_NOTTODO = "해당 날짜에 이미 같은 낫투두가 있습니다."
+        const val HAVE_THREE_NOTTODO = "해당 날짜에 이미 3개의 낫투두가 있습니다."
     }
 }
