@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
@@ -23,6 +24,7 @@ import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
+import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
 
 class ModificationActivity : AppCompatActivity() {
@@ -173,7 +175,9 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun observeFailureResponse() {
         viewModel.errorResponse.observe(this) { errorMessage ->
-            showToast(errorMessage)
+            val errorMessageWithHtmlTag =
+                HtmlCompat.fromHtml(errorMessage, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
         }
     }
 
