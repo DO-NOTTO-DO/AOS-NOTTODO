@@ -56,6 +56,25 @@ class ModificationActivity : AppCompatActivity() {
         observeFailureResponse()
         observeGetRecommendSituationList()
         observeGetRecentMissionListResponse()
+        observeGetMissionDatesResponse()
+    }
+
+    private fun observeGetMissionDatesResponse() {
+        observeGetMissionDatesSuccessResponse()
+        observeGetMissionDatesErrorResponse()
+    }
+
+    private fun observeGetMissionDatesErrorResponse() {
+        viewModel.getMissionDatesErrorResponse.observe(this) {errorMessage ->
+            showToast(errorMessage)
+            if(!isFinishing) finish()
+        }
+    }
+
+    private fun observeGetMissionDatesSuccessResponse() {
+        viewModel.getMissionDatesSuccessResponse.observe(this) {response ->
+            viewModel.setMissionDates()
+        }
     }
 
     private fun observeGetRecentMissionListResponse() {
@@ -135,8 +154,13 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun setData() {
         setDataFromHome()
+        getMissionDates()
         getRecentMissionList()
         getRecommendSituationList()
+    }
+
+    private fun getMissionDates() {
+        viewModel.getMissionDates()
     }
 
     private fun getRecommendSituationList() {
@@ -190,7 +214,6 @@ class ModificationActivity : AppCompatActivity() {
         if (dataFromHome != null) {
             viewModel.setOriginalData(
                 NotTodoData(
-                    dataFromHome.date.convertDateStringToPrettyDateString(),
                     dataFromHome.title,
                     dataFromHome.situation,
                     dataFromHome.actions?.map { action -> action.name.toString() },
@@ -752,7 +775,6 @@ class ModificationActivity : AppCompatActivity() {
         const val goalOpenedDesc = "낫투두를 통해서\n어떤 목표를 이루려 하나요?"
 
         data class NotTodoData(
-            val date: String,
             val mission: String,
             val situation: String,
             val actions: List<String>?,
