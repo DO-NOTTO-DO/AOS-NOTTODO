@@ -26,6 +26,7 @@ import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
+import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToPrettyDateString
 
 class ModificationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityModificationBinding
@@ -189,7 +190,7 @@ class ModificationActivity : AppCompatActivity() {
         if (dataFromHome != null) {
             viewModel.setOriginalData(
                 NotTodoData(
-                    "2023.01.15",
+                    dataFromHome.date.convertDateStringToPrettyDateString(),
                     dataFromHome.title,
                     dataFromHome.situation,
                     dataFromHome.actions?.map { action -> action.name.toString() },
