@@ -120,24 +120,21 @@ class HomeDoAnotherFragment : DialogFragment() {
     }
 
     private fun showResponseToast(responseResult: String) {
-
         when (responseResult) {
             "201" -> {
                 Toast.makeText(context, R.string.success_save_not_todo, Toast.LENGTH_SHORT).show()
                 deleteFragmentStack()
                 dismiss()
-                return
             }
 
-            HAVE_SAME_NOTTODO ->{
-                Toast.makeText(context, R.string.success_save_not_todo, Toast.LENGTH_SHORT).show()
+            HAVE_SAME_NOTTODO -> {
+                Toast.makeText(context, R.string.duplicate_nottodo, Toast.LENGTH_SHORT).show()
+            }
+
+            HAVE_THREE_NOTTODO -> {
+                Toast.makeText(context, R.string.three_nottodo, Toast.LENGTH_SHORT).show()
             }
         }
-        else {
-            Toast.makeText(context, R.string.Duplicate_nottodo, Toast.LENGTH_SHORT).show()
-            return
-        }
-        return
     }
 
     override fun onDestroyView() {

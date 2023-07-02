@@ -58,7 +58,8 @@
     <string name="and">및</string>
 
     <!--toast Lighting-->
-    <string name="Duplicate_nottodo">이미 같은 내용이 있어요!\n낫투두 혹은 날짜를 변경하세요.</string>
+    <string name="duplicate_nottodo">이미 같은 내용이 있어요!\n낫투두 혹은 날짜를 변경하세요.</string>
+    <string name="three_nottodo">낫투두는 하루 최대 3개 추가할 수 있어요.\n꼭 개선할 것에만 집중해봐요:)</string>
     <string name="success_save_not_todo">낫투두 다른 날짜에 추가 성공</string>
 
 </resources>

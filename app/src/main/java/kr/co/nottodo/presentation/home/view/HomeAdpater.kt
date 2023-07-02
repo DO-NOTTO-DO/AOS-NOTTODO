@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
 import kr.co.nottodo.data.model.Home.HomeDailyResponse
 import kr.co.nottodo.databinding.ItemListHomeTodoBinding
-import kr.co.nottodo.util.DiffUtilItemCallback
+import kr.co.nottodo.presentation.recommendation.util.DiffUtilItemCallback
 import timber.log.Timber
 
 class HomeAdpater(
@@ -40,7 +40,7 @@ class HomeAdpater(
             binding.ivHomeTodoCheck.setOnClickListener {
                 todoItemClick(
                     data.id,
-                    parseCheckTodo(binding.ivHomeTodoCheck.isChecked)
+                    parseCheckTodo(binding.ivHomeTodoCheck.isChecked),
                 )
             }
             binding.ivHomeMetalBall.setOnClickListener { menuItemClick(data.id) }
@@ -78,7 +78,7 @@ class HomeAdpater(
         }
 
         private fun parseCheckTodo(bindingCheck: Boolean): String {
-            Timber.tag("todo 잘 보내지니?${bindingCheck}")
+            Timber.tag("todo 잘 보내지니?$bindingCheck")
             val check = if (bindingCheck) {
                 CHECKED
             } else {
@@ -91,7 +91,7 @@ class HomeAdpater(
     companion object {
         val diffUtil = DiffUtilItemCallback<HomeDailyResponse.HomeDaily>(
             onItemsTheSame = { old, new -> old.id == new.id },
-            onContentsTheSame = { old, new -> old == new }
+            onContentsTheSame = { old, new -> old == new },
         )
         const val CHECKED = "CHECKED"
         const val UNCHECKED = "UNCHECKED"

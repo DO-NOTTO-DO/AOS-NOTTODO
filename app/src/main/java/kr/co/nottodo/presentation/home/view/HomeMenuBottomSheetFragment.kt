@@ -23,7 +23,7 @@ import kr.co.nottodo.databinding.ItemHomeBottomActionsBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.CLICK_DAY
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.presentation.modification.view.ModificationActivity
-import kr.co.nottodo.util.getParcelable
+import kr.co.nottodo.presentation.recommendation.util.getParcelable
 
 class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentHomeMenuBottomSheetBinding? = null
@@ -37,7 +37,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private var getDetailFragment: (() -> Unit)? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeMenuBottomSheetBinding.inflate(layoutInflater, container, false)
@@ -75,12 +76,13 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         binding.tvHomeDialogAddDay.setOnClickListener {
             val dialogFragment = HomeDoAnotherFragment()
             dialogFragment.arguments = bundle
-            dialogFragment.setButtonClickListener(object :
-                HomeDoAnotherFragment.OnButtonClickListener {
-                override fun onButton1Clicked() {
-                    dismiss()
-                }
-            }
+            dialogFragment.setButtonClickListener(
+                object :
+                    HomeDoAnotherFragment.OnButtonClickListener {
+                    override fun onButton1Clicked() {
+                        dismiss()
+                    }
+                },
             )
             dialogFragment.show(childFragmentManager, "dialog_fragment")
         }
@@ -163,7 +165,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
             actionHome?.map { ParcelizeBottomDetail.Action(it.name) },
             item.count,
             item.goal,
-            clickDay
+            clickDay,
         )
     }
 
@@ -172,7 +174,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
                     val parcelableData = result.data?.getParcelable(
-                        DETAIL, ParcelizeBottomDetailRegister::class.java
+                        DETAIL,
+                        ParcelizeBottomDetailRegister::class.java,
                     )
                     // 결과 처리
                     if (parcelableData != null) {
