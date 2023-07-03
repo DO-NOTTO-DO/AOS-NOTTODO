@@ -1,7 +1,6 @@
 package kr.co.nottodo.presentation.home.view
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -96,6 +95,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         bundle.putLong(MISSION_ID, index)
         val bottomSheetFragment = HomeMenuBottomSheetFragment()
         bottomSheetFragment.arguments = bundle
+        bottomSheetFragment.setDialogDismissListener(this)
         bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
     }
 
@@ -146,12 +146,26 @@ class HomeFragment : Fragment(), DialogCloseListener {
         const val CLICK_DAY = "CLICK_DAY"
     }
 
-    override fun handleDialogClose(dialog: DialogInterface) {
-        homeViewModel.getHomeDaily(weeklyData)
-    }
+    override fun onDismissAndDataPass(selectFirstDay: String?) {
+        val formatSelectDay = selectFirstDay?.replace(".", "-")
+        if (formatSelectDay != null && !formatSelectDay.isNullOrEmpty()) {
+            Timber.tag("interface1").d("$weeklyData")
+            homeViewModel.getHomeDaily(weeklyData)
+        } else {
+            Timber.tag("interface").d("$formatSelectDay")
+            weeklyData = formatSelectDay
+            homeViewModel.getHomeDaily(weeklyData)
+        }
+//        // FragmentB와 FragmentC를 모두 dismiss
+//        val homeMenuBottomSheetFragment =
+//            parentFragmentManager.findFragmentByTag("bottomSheetFragment.tag") as? HomeMenuBottomSheetFragment
+//        homeMenuBottomSheetFragment?.dismiss()
 
-    override fun onDataPass(selectFirstDay: String) {
-        Timber.tag("homePassInterface").d("$selectFirstDay")
-        homeViewModel.getHomeDaily(selectFirstDay)
+        val doAnotherFragment =
+            parentFragmentManager.findFragmentByTag("dialog_fragment") as? HomeDoAnotherFragment
+        doAnotherFragment?.dismiss()
     }
 }
+//    override fun handleDialogClose(dialog: DialogInterface) {
+//        homeViewModel.getHomeDaily(weeklyData)
+//    }

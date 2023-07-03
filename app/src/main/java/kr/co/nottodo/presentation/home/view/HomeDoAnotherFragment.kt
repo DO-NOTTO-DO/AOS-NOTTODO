@@ -1,5 +1,6 @@
 package kr.co.nottodo.presentation.home.view
 
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -8,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentHomeDoAnotherBinding
@@ -23,8 +23,7 @@ class HomeDoAnotherFragment : DialogFragment() {
     private val binding get() = _binding!!
 
     private val homeDoAnotherViemodel by viewModels<HomeBottomCalenderViewModel>()
-    private val homeViemodel by activityViewModels<HomeViewModel>()
-    private lateinit var buttonClickListener: OnButtonClickListener
+    private var dialogDismissListener: DialogCloseListener? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,22 +45,26 @@ class HomeDoAnotherFragment : DialogFragment() {
         observeDate()
     }
 
-    // 인터페이스
-    interface OnButtonClickListener {
-        fun onButton1Clicked() {
-        }
-
-        fun onPassSelectDay(value: String) {
-            Timber.tag("onPassInterface").d("$value")
-        }
+    // 인터페이스 설정 메서드
+    fun setDialogDismissListener(listener: DialogCloseListener) {
+        dialogDismissListener = listener
     }
-
-    // 클릭 이벤트 설정
-    fun setButtonClickListener(buttonClickListener: OnButtonClickListener) {
-        this.buttonClickListener = buttonClickListener
-    }
-
-    // 클릭 이벤트 실행
+//    // 인터페이스
+//    interface OnButtonClickListener {
+//        fun onButton1Clicked() {
+//        }
+//
+//        fun onPassSelectDay(value: String) {
+//            Timber.tag("onPassInterface").d("$value")
+//        }
+//    }
+//
+//    // 클릭 이벤트 설정
+//    fun setButtonClickListener(buttonClickListener: OnButtonClickListener) {
+//        this.buttonClickListener = buttonClickListener
+//    }
+//
+//    // 클릭 이벤트 실행
 
     private fun formatSelectDays(): List<String> {
         val apiDateList = binding.homeDoAnotherCalendar.selectedDays.map {
@@ -84,7 +87,7 @@ class HomeDoAnotherFragment : DialogFragment() {
     }
 
     private fun deleteFragmentStack() {
-        buttonClickListener.onButton1Clicked()
+        dialogDismissListener?.onDismissAndDataPass("")
     }
 
     private fun observeDate() {
@@ -95,8 +98,8 @@ class HomeDoAnotherFragment : DialogFragment() {
             Timber.tag("homeDoAnotherViemodel0").d("$it")
             val selectFirstDay = it[0]
             Timber.d("homeDoAnotherViemodel3", "$selectFirstDay")
-            homeViemodel.selectedDay.value = selectFirstDay
-            buttonClickListener.onPassSelectDay(selectFirstDay)
+            dialogDismissListener?.onDismissAndDataPass(selectFirstDay)
+            dismiss()
         }
         homeDoAnotherViemodel.getDoAnotherDay.observe(viewLifecycleOwner) {
             Timber.tag("homeDoAnotherViemodelca3e").d("$it")
@@ -123,8 +126,8 @@ class HomeDoAnotherFragment : DialogFragment() {
         when (responseResult) {
             "201" -> {
                 Toast.makeText(context, R.string.success_save_not_todo, Toast.LENGTH_SHORT).show()
-                deleteFragmentStack()
-                dismiss()
+//                deleteFragmentStack()
+//                dismiss()
             }
 
             HAVE_SAME_NOTTODO -> {
@@ -140,6 +143,11 @@ class HomeDoAnotherFragment : DialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        dialogDismissListener?.onDismissAndDataPass(null)
+        super.onDismiss(dialog)
     }
 
     companion object {

@@ -25,7 +25,7 @@ import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.presentation.modification.view.ModificationActivity
 import kr.co.nottodo.presentation.recommendation.util.getParcelable
 
-class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
+class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseListener {
     private var _binding: FragmentHomeMenuBottomSheetBinding? = null
     private val binding: FragmentHomeMenuBottomSheetBinding
         get() = requireNotNull(_binding)
@@ -35,6 +35,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var modifyParcelizeExtra: ParcelizeBottomDetail
     private lateinit var clickDay: String
     private var getDetailFragment: (() -> Unit)? = null
+    private var dialogDismissListener: DialogCloseListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,7 +52,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         clickDay = requireArguments().getString(CLICK_DAY).toString()
         getMissionData()
         setOnClick()
-        clickAddAnotherDay()
+//        clickAddAnotherDay()
         getModifyData()
     }
 
@@ -66,6 +67,11 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         viewModel.getHomeBottomDetail(index)
     }
 
+    // 인터페이스 설정 메서드
+    fun setDialogDismissListener(listener: DialogCloseListener) {
+        dialogDismissListener = listener
+    }
+
     private fun setOnClick() {
         binding.ivHomeDialogCancle.setOnClickListener { dismiss() }
         binding.tvHomeDialogEdit.setOnClickListener {
@@ -76,14 +82,15 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
         binding.tvHomeDialogAddDay.setOnClickListener {
             val dialogFragment = HomeDoAnotherFragment()
             dialogFragment.arguments = bundle
-            dialogFragment.setButtonClickListener(
-                object :
-                    HomeDoAnotherFragment.OnButtonClickListener {
-                    override fun onButton1Clicked() {
-                        dismiss()
-                    }
-                },
-            )
+            dialogFragment.setDialogDismissListener(this)
+//            dialogFragment.setButtonClickListener(
+//                object :
+//                    HomeDoAnotherFragment.OnButtonClickListener {
+//                    override fun onButton1Clicked() {
+//                        dismiss()
+//                    }
+//                },
+//            )
             dialogFragment.show(childFragmentManager, "dialog_fragment")
         }
         binding.btnHomeDelete.setOnClickListener { showDeleteDialog() }
@@ -202,14 +209,19 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         getDetailFragment?.invoke()
-        if (parentFragment is DialogCloseListener) {
-            (parentFragment as DialogCloseListener).handleDialogClose(dialog)
-        }
+//        if (parentFragment is DialogCloseListener) {
+//            (parentFragment as DialogCloseListener).handleDialogClose(dialog)
+//        }
         super.onDismiss(dialog)
     }
 
     companion object {
         const val DETAIL = "DETAIL"
         const val MISSIONID = "MISSIONID"
+    }
+
+    override fun onDismissAndDataPass(selectFirstDay: String?) {
+        dialogDismissListener?.onDismissAndDataPass(selectFirstDay)
+        dismiss()
     }
 }
