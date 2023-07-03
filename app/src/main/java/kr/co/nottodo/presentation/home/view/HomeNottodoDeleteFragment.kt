@@ -8,17 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import kr.co.nottodo.databinding.FragmentNotTodoDeleteDialogBinding
-import timber.log.Timber
 
 class HomeNottodoDeleteFragment : DialogFragment() {
     private var _binding: FragmentNotTodoDeleteDialogBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var buttonClickListener: OnButtonClickListener
+    private lateinit var buttonClickListener: DialogCloseListener
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentNotTodoDeleteDialogBinding.inflate(inflater, container, false)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -28,19 +27,12 @@ class HomeNottodoDeleteFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("onviewcreate")
         clickDelete()
         clickCancle()
     }
 
-    // 인터페이스
-    interface OnButtonClickListener {
-        fun onDeleteButtonClicked() {}
-        fun onCancleButtonClicked() {}
-    }
-
     // 클릭 이벤트 설정
-    fun setButtonClickListener(buttonClickListener: OnButtonClickListener) {
+    fun setDeleteButtonClickListener(buttonClickListener: DialogCloseListener) {
         this.buttonClickListener = buttonClickListener
     }
 
@@ -56,7 +48,6 @@ class HomeNottodoDeleteFragment : DialogFragment() {
     private fun clickCancle() {
         binding.btnDeleteDialogCancle.setOnClickListener {
             dismiss()
-            buttonClickListener.onCancleButtonClicked()
         }
     }
 

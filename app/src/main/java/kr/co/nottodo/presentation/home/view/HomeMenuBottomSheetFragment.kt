@@ -2,7 +2,6 @@ package kr.co.nottodo.presentation.home.view
 
 import android.app.Activity.RESULT_OK
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -34,7 +33,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var modifyParcelizeExtra: ParcelizeBottomDetail
     private lateinit var clickDay: String
-    private var getDetailFragment: (() -> Unit)? = null
     private var dialogDismissListener: DialogCloseListener? = null
 
     override fun onCreateView(
@@ -52,7 +50,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         clickDay = requireArguments().getString(CLICK_DAY).toString()
         getMissionData()
         setOnClick()
-//        clickAddAnotherDay()
         getModifyData()
     }
 
@@ -83,14 +80,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             val dialogFragment = HomeDoAnotherFragment()
             dialogFragment.arguments = bundle
             dialogFragment.setDialogDismissListener(this)
-//            dialogFragment.setButtonClickListener(
-//                object :
-//                    HomeDoAnotherFragment.OnButtonClickListener {
-//                    override fun onButton1Clicked() {
-//                        dismiss()
-//                    }
-//                },
-//            )
             dialogFragment.show(childFragmentManager, "dialog_fragment")
         }
         binding.btnHomeDelete.setOnClickListener { showDeleteDialog() }
@@ -98,15 +87,19 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
 
     private fun showDeleteDialog() {
         val dialog = HomeNottodoDeleteFragment()
-        dialog.setButtonClickListener(object : HomeNottodoDeleteFragment.OnButtonClickListener {
-            override fun onDeleteButtonClicked() {
-                super.onDeleteButtonClicked()
-                clickDelete(requireArguments().getLong(MISSION_ID))
-                viewModel.getHomeDaily(clickDay)
-                dismiss()
-            }
-        })
+        dialog.setDeleteButtonClickListener(this)
+        clickDelete(requireArguments().getLong(MISSION_ID))
+//                viewModel.getHomeDaily(clickDay)
+//        dialog.(object : HomeNottodoDeleteFragment. {
+//            override fun onDeleteButtonClicked() {
+//                super.onDeleteButtonClicked()
+//                clickDelete(requireArguments().getLong(MISSION_ID))
+//                viewModel.getHomeDaily(clickDay)
+//                dismiss()
+//            }
+//        })
         dialog.show(childFragmentManager, "delete_dialog_fragment")
+        dismiss()
     }
 
     private fun getMissionData() {
@@ -196,23 +189,9 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             }
     }
 
-    private fun clickAddAnotherDay() {
-        binding.tvHomeDialogDoAnother.setOnClickListener {
-            dismiss()
-        }
-    }
-
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        getDetailFragment?.invoke()
-//        if (parentFragment is DialogCloseListener) {
-//            (parentFragment as DialogCloseListener).handleDialogClose(dialog)
-//        }
-        super.onDismiss(dialog)
     }
 
     companion object {
@@ -222,6 +201,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
 
     override fun onDismissAndDataPass(selectFirstDay: String?) {
         dialogDismissListener?.onDismissAndDataPass(selectFirstDay)
-        dismiss()
+        if (!selectFirstDay.isNullOrEmpty()) {
+            dismiss()
+        }
     }
 }

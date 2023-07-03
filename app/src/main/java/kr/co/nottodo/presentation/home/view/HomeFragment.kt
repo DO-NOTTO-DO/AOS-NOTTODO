@@ -148,7 +148,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
 
     override fun onDismissAndDataPass(selectFirstDay: String?) {
         val formatSelectDay = selectFirstDay?.replace(".", "-")
-        if (formatSelectDay != null && !formatSelectDay.isNullOrEmpty()) {
+        if (formatSelectDay.isNullOrEmpty()) {
             Timber.tag("interface1").d("$weeklyData")
             homeViewModel.getHomeDaily(weeklyData)
         } else {
@@ -161,11 +161,8 @@ class HomeFragment : Fragment(), DialogCloseListener {
 //            parentFragmentManager.findFragmentByTag("bottomSheetFragment.tag") as? HomeMenuBottomSheetFragment
 //        homeMenuBottomSheetFragment?.dismiss()
 
-        val doAnotherFragment =
-            parentFragmentManager.findFragmentByTag("dialog_fragment") as? HomeDoAnotherFragment
-        doAnotherFragment?.dismiss()
+//        val doAnotherFragment =
+//            parentFragmentManager.findFragmentByTag("dialog_fragment") as? HomeDoAnotherFragment
+//        doAnotherFragment?.dismiss()
     }
 }
-//    override fun handleDialogClose(dialog: DialogInterface) {
-//        homeViewModel.getHomeDaily(weeklyData)
-//    }

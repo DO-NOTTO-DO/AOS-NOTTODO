@@ -49,23 +49,6 @@ class HomeDoAnotherFragment : DialogFragment() {
     fun setDialogDismissListener(listener: DialogCloseListener) {
         dialogDismissListener = listener
     }
-//    // 인터페이스
-//    interface OnButtonClickListener {
-//        fun onButton1Clicked() {
-//        }
-//
-//        fun onPassSelectDay(value: String) {
-//            Timber.tag("onPassInterface").d("$value")
-//        }
-//    }
-//
-//    // 클릭 이벤트 설정
-//    fun setButtonClickListener(buttonClickListener: OnButtonClickListener) {
-//        this.buttonClickListener = buttonClickListener
-//    }
-//
-//    // 클릭 이벤트 실행
-
     private fun formatSelectDays(): List<String> {
         val apiDateList = binding.homeDoAnotherCalendar.selectedDays.map {
             it.convertDateToString()!!
