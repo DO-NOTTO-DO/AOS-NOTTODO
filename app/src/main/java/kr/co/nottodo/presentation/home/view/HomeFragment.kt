@@ -165,4 +165,8 @@ class HomeFragment : Fragment(), DialogCloseListener {
 //            parentFragmentManager.findFragmentByTag("dialog_fragment") as? HomeDoAnotherFragment
 //        doAnotherFragment?.dismiss()
     }
+
+    override fun onDeleteButtonClicked() {
+        homeViewModel.getHomeDaily(weeklyData)
+    }
 }

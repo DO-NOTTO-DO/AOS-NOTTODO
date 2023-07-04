@@ -88,18 +88,11 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
     private fun showDeleteDialog() {
         val dialog = HomeNottodoDeleteFragment()
         dialog.setDeleteButtonClickListener(this)
-        clickDelete(requireArguments().getLong(MISSION_ID))
-//                viewModel.getHomeDaily(clickDay)
-//        dialog.(object : HomeNottodoDeleteFragment. {
-//            override fun onDeleteButtonClicked() {
-//                super.onDeleteButtonClicked()
-//                clickDelete(requireArguments().getLong(MISSION_ID))
-//                viewModel.getHomeDaily(clickDay)
-//                dismiss()
-//            }
-//        })
         dialog.show(childFragmentManager, "delete_dialog_fragment")
-        dismiss()
+    }
+
+    private fun clickDelete(missionId: Long) {
+        viewModel.deleteTodo(missionId)
     }
 
     private fun getMissionData() {
@@ -115,10 +108,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             bundle.putLong(MISSION_ID, it.id)
             modifyParcelizeExtra = parcelizeData(it)
         }
-    }
-
-    private fun clickDelete(missionId: Long) {
-        viewModel.deleteTodo(missionId)
     }
 
     private fun isEmptyActions(it: ResponHomeMissionDetail.HomeMissionDetail) {
@@ -149,6 +138,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         if (it.isNullOrEmpty()) {
             binding.tvHomeBottomGoalEmpty.visibility = View.VISIBLE
             binding.ivHomeBottomGoalEmpty.visibility = View.VISIBLE
+            binding.tvHomeDialogGoalDescription.visibility = View.GONE
         } else {
             binding.tvHomeBottomGoalEmpty.visibility = View.GONE
             binding.ivHomeBottomGoalEmpty.visibility = View.GONE
@@ -204,5 +194,11 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         if (!selectFirstDay.isNullOrEmpty()) {
             dismiss()
         }
+    }
+
+    override fun onDeleteButtonClicked() {
+        dialogDismissListener?.onDeleteButtonClicked()
+        clickDelete(requireArguments().getLong(MISSION_ID))
+        dismiss()
     }
 }
