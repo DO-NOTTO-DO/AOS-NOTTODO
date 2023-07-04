@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
@@ -158,6 +160,8 @@ class HomeFragment : Fragment(), DialogCloseListener {
     }
 
     override fun onDeleteButtonClicked() {
+        Timber.tag("interface3").d("$weeklyData")
+
         homeViewModel.getHomeDaily(weeklyData)
     }
 }

@@ -10,9 +10,12 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.ParcelizeBottomDetail
 import kr.co.nottodo.data.local.ParcelizeBottomDetailRegister
@@ -91,7 +94,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         dialog.show(childFragmentManager, "delete_dialog_fragment")
     }
 
-    private fun clickDelete(missionId: Long) {
+    private fun postClickDelete(missionId: Long) {
         viewModel.deleteTodo(missionId)
     }
 
@@ -197,8 +200,11 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
     }
 
     override fun onDeleteButtonClicked() {
-        dialogDismissListener?.onDeleteButtonClicked()
-        clickDelete(requireArguments().getLong(MISSION_ID))
-        dismiss()
+        lifecycleScope.launch {
+            val deleteJob = async { postClickDelete(requireArguments().getLong(MISSION_ID)) }
+            deleteJob.await()
+            dialogDismissListener?.onDeleteButtonClicked()
+            dismiss()
+        }
     }
 }
