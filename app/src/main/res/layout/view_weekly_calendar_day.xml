@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray_1_2a2a2e">
+        android:background="@color/black">
 
         <TextView
             android:id="@+id/tv_weekly_calendar_day_of_week"
