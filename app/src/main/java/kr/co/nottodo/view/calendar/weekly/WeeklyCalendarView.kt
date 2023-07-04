@@ -127,13 +127,18 @@ class WeeklyCalendarView @JvmOverloads constructor(
     }
 
     private fun initBackgroundColor() {
-        setBackgroundColor(ContextCompat.getColor(context, R.color.gray_1_2a2a2e))
+        setBackgroundColor(ContextCompat.getColor(context, R.color.black))
     }
 
     private fun initChangeYearMonthTextListener() {
         weeklyCalendar.setOnWeeklyCalendarViewChangeYearMonthTextListener {
             yearMonth = YearMonth.from(weeklyCalendar.selectedDate)
         }
+    }
+
+    /** 가장 최근 낫투두 등록한 날짜로 이동하는 함수 **/
+    fun moveToDate(date : LocalDate) {
+        weeklyCalendar.moveToDate(date)
     }
 
     /** 서버 통신된 NotToDo 갯수 갱신 **/

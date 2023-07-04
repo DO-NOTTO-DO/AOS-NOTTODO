@@ -62,19 +62,29 @@ class WeeklyCalendar @JvmOverloads constructor(
 
     override fun onWeeklyDayClick(view: View, date: LocalDate) {
         selectedDate = date
-        Timber.d("selectedDate", "onWeeklyDayClick: $selectedDate")
         weeklyAdapter.setSelectedDay(date)
         // TODO 여기서 뭔가 CalendarView와 인터랙션이 일어날 수 있도록 해야할 것만 같은디....
         onWeeklyCalendarViewChangeYearMonthTextListener?.changeYearMonthText()
         onWeeklyDayClickListener?.onWeeklyDayClick(view, date)
     }
 
+    /** 새로고침 **/
     fun refresh() {
         currentDate = LocalDate.now()
         selectedDate = LocalDate.now()
         weeklyAdapter.setSelectedDay(selectedDate)
         this@WeeklyCalendar.scheduleLayoutAnimation()
         weeklyAdapter.submitList(getDaysInWeek(currentDate))
+        onWeeklyCalendarViewChangeYearMonthTextListener?.changeYearMonthText()
+        onWeeklyDayClickListener?.onWeeklyDayClick(this, selectedDate)
+    }
+
+    /** 가장 최근 낫투두 등록한 날짜로 이동하는 함수 **/
+    fun moveToDate(date : LocalDate) {
+        selectedDate = date
+        weeklyAdapter.setSelectedDay(selectedDate)
+        this@WeeklyCalendar.scheduleLayoutAnimation()
+        weeklyAdapter.submitList(getDaysInWeek(date))
         onWeeklyCalendarViewChangeYearMonthTextListener?.changeYearMonthText()
         onWeeklyDayClickListener?.onWeeklyDayClick(this, selectedDate)
     }
