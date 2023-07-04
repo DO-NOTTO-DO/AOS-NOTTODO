@@ -43,7 +43,7 @@ class HomeAdpater(
                     parseCheckTodo(binding.ivHomeTodoCheck.isChecked),
                 )
             }
-            binding.ivHomeMetalBall.setOnClickListener { menuItemClick(data.id) }
+            binding.clHomeClick.setOnClickListener { menuItemClick(data.id) }
         }
 
         private fun isCheckTodo(isCheck: String): Boolean = when (isCheck) {
