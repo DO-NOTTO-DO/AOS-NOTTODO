@@ -87,5 +87,4 @@
         app:layout_constraintStart_toEndOf="@id/iv_home_todo_check"
         app:layout_constraintTop_toTopOf="parent" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

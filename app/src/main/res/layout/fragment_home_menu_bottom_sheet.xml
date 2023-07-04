@@ -50,8 +50,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:layout_marginTop="9dp"
-        android:textAppearance="@style/Sb20"
         android:lineSpacingExtra="2.8dp"
+        android:textAppearance="@style/Sb20"
         app:layout_constraintEnd_toStartOf="@id/iv_home_dialog_statics"
         app:layout_constraintStart_toStartOf="@id/tv_home_dialog_situation"
         app:layout_constraintTop_toBottomOf="@id/tv_home_dialog_situation"
@@ -230,6 +230,17 @@
         android:textColor="@color/gray_4_9398aa"
         app:layout_constraintEnd_toStartOf="@id/iv_home_dailog_right_stroke"
         app:layout_constraintTop_toTopOf="@id/tv_home_dialog_do_another" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_home_doAnother_click_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="70dp"
+        android:paddingVertical="30dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_home_dialog_add_day"
+        app:layout_constraintEnd_toEndOf="@id/iv_home_dailog_right_stroke"
+        app:layout_constraintStart_toStartOf="@id/tv_home_dialog_add_day"
+        app:layout_constraintTop_toTopOf="@id/tv_home_dialog_add_day" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_home_delete"

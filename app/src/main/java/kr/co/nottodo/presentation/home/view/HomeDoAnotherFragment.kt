@@ -49,6 +49,7 @@ class HomeDoAnotherFragment : DialogFragment() {
     fun setDialogDismissListener(listener: DialogCloseListener) {
         dialogDismissListener = listener
     }
+
     private fun formatSelectDays(): List<String> {
         val apiDateList = binding.homeDoAnotherCalendar.selectedDays.map {
             it.convertDateToString()!!
@@ -94,13 +95,16 @@ class HomeDoAnotherFragment : DialogFragment() {
     }
 
     private fun formatDay(dayList: List<String>): List<String> {
-        val formattedList = dayList.map { day ->
-            val parts = day.split(".")
-            val year = parts[0]
-            val month = parts[1]
-            val dayOfMonth = parts[2]
-            "$year-$month-$dayOfMonth"
-        }
+        val formattedList =
+            dayList.map { day ->
+                val parts = day.split(".")
+                val year = parts[0]
+                val month = parts[1]
+                val dayOfMonth = parts[2]
+                "$year-$month-$dayOfMonth"
+            }
+        /** replace로 바꾸고싶어라..**/
+//            dayList.map { it.replace(".", "_") }
         Timber.tag("homeDoAnotherViemodelca3d").d("$formattedList")
         return formattedList
     }
@@ -109,8 +113,6 @@ class HomeDoAnotherFragment : DialogFragment() {
         when (responseResult) {
             "201" -> {
                 Toast.makeText(context, R.string.success_save_not_todo, Toast.LENGTH_SHORT).show()
-//                deleteFragmentStack()
-//                dismiss()
             }
 
             HAVE_SAME_NOTTODO -> {

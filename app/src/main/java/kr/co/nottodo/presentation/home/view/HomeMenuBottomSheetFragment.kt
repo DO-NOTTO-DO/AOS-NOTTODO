@@ -79,7 +79,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             intent.putExtra(DETAIL, modifyParcelizeExtra)
             resultLauncher.launch(intent)
         }
-        binding.tvHomeDialogAddDay.setOnClickListener {
+        binding.clHomeDoAnotherClickArea.setOnClickListener {
             val dialogFragment = HomeDoAnotherFragment()
             dialogFragment.arguments = bundle
             dialogFragment.setDialogDismissListener(this)
