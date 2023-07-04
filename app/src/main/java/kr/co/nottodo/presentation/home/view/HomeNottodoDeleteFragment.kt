@@ -31,12 +31,9 @@ class HomeNottodoDeleteFragment : DialogFragment() {
         clickCancle()
     }
 
-    // 클릭 이벤트 설정
     fun setDeleteButtonClickListener(buttonClickListener: DialogCloseListener) {
         this.buttonClickListener = buttonClickListener
     }
-
-    // 클릭 이벤트 실행
 
     private fun clickDelete() {
         binding.btnDeleteDialogDelete.setOnClickListener {

@@ -43,13 +43,6 @@ class HomeViewModel : ViewModel() {
         MutableLiveData()
     val clickDay: MutableLiveData<String> = MutableLiveData()
 
-    private val _postDoAnotherDay: MutableLiveData<String> =
-        MutableLiveData()
-    val postDoAnotherDay: LiveData<String> get() = _postDoAnotherDay
-
-    // 다른 날도 할래요 선택된 젤 처음 날짜
-    val selectedDay = MutableLiveData<String>()
-
     fun getHomeDaily(date: String) {
         viewModelScope.launch {
             runCatching {

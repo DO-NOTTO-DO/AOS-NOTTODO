@@ -140,7 +140,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
     }
 
     companion object {
-        const val MONTH_PATTERN = "yyyy.MM"
         const val YEAR_PATTERN = "yyyy-MM-dd"
         const val MISSION_ID = "MISSION_ID"
         const val CLICK_DAY = "CLICK_DAY"
@@ -156,14 +155,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
             weeklyData = formatSelectDay
             homeViewModel.getHomeDaily(weeklyData)
         }
-//        // FragmentB와 FragmentC를 모두 dismiss
-//        val homeMenuBottomSheetFragment =
-//            parentFragmentManager.findFragmentByTag("bottomSheetFragment.tag") as? HomeMenuBottomSheetFragment
-//        homeMenuBottomSheetFragment?.dismiss()
-
-//        val doAnotherFragment =
-//            parentFragmentManager.findFragmentByTag("dialog_fragment") as? HomeDoAnotherFragment
-//        doAnotherFragment?.dismiss()
     }
 
     override fun onDeleteButtonClicked() {
