@@ -36,7 +36,7 @@ class WeeklyCalendarView @JvmOverloads constructor(
         id = ViewCompat.generateViewId()
         layoutParams =
             LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
+        setBackgroundColor(ContextCompat.getColor(context, R.color.black))
         setPadding(
             context.dpToPx(8f),
             0,
