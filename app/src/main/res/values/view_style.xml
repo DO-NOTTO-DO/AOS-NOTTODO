@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MonthlyCalendarMultiplePicker">
+        <attr name="isClickedCurrentDate" format="boolean"/>
+    </declare-styleable>
+</resources>

@@ -60,6 +60,8 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
             updateCurrentDateTextView()
         }
 
+    private var isClickedCurrentDate: Boolean = true
+
     /** Calendar Adapter **/
     private val monthlyCalendarMultiplePickerDayAdapter =
         MonthlyCalendarMultiplePickerDayAdapter(this)
@@ -196,8 +198,10 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
     }
 
     private fun initializeNotToDoMonthCalendar() {
-        monthlyCalendarMultiplePickerDayAdapter.setSelectedDay(Calendar.getInstance().time)
-        selectedDays.add(Calendar.getInstance().time)
+        if (isClickedCurrentDate) {
+            monthlyCalendarMultiplePickerDayAdapter.setSelectedDay(Calendar.getInstance().time)
+            selectedDays.add(Calendar.getInstance().time)
+        }
         initCalendarData()
     }
 
@@ -216,7 +220,7 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
         val todayCalendar = Calendar.getInstance()
 
         val totalDayInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-        val availableDayList = getAvailableDateList()
+        val availableDayList = get7DateList()
         val monthlyCalendarDayList = mutableListOf<MonthlyCalendarDay>()
         (1..totalDayInMonth).forEach { day ->
             proxyCalendar.set(Calendar.DAY_OF_MONTH, day)
@@ -359,13 +363,17 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
         setBackgroundColor(Color.parseColor("#ffffff"))
     }
 
-    private fun getStyleableAttrs(attrs: AttributeSet) {}
+    private fun getStyleableAttrs(attrs: AttributeSet) {
+        context.obtainStyledAttributes(attrs, R.styleable.MonthlyCalendarMultiplePicker).use {
+            isClickedCurrentDate = it.getBoolean(R.styleable.MonthlyCalendarMultiplePicker_isClickedCurrentDate, true)
+        }
+    }
 
     /**
      * 오늘을 기점으로 7일을 담아 반환하는 함수
      * todo 이름좀 다시
      */
-    private fun getAvailableDateList(): List<Date> {
+    private fun get7DateList(): List<Date> {
         val currentWeekDays = mutableListOf<Date>()
         val calendar = Calendar.getInstance(timeZone, locale)
         repeat(7) {
@@ -396,7 +404,7 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
      * 이미 낫투두 날짜가 정해져 있는 데이터 넣어주는 함수
      */
     fun setScheduledNotTodoDateList(list: List<Date>) {
-        val current7DayList = getAvailableDateList()
+        val current7DayList = get7DateList()
         monthlyCalendarMultiplePickerDayAdapter.submitScheduledNotTodoList(
             list.filter { current7DayList.any { it.isTheSameDay(it) } }
         )
