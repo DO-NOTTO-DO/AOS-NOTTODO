@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
+import kr.co.nottodo.view.calendar.monthly.util.convertStringToDate
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import timber.log.Timber
@@ -157,6 +158,11 @@ class HomeFragment : Fragment(), DialogCloseListener {
         } else {
             Timber.tag("interface").d("$formatSelectDay")
             weeklyData = formatSelectDay
+            val weeklyFormatDay = formatSelectDay.convertToLocalDate()
+            Timber.tag("interface6").d("$weeklyFormatDay")
+            if (weeklyFormatDay != null) {
+                binding.weeklyCalendar.moveToDate(weeklyFormatDay)
+            }
             homeViewModel.getHomeDaily(weeklyData)
         }
     }
