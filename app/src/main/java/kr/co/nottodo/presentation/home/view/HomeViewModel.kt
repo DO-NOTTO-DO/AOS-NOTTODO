@@ -50,7 +50,7 @@ class HomeViewModel : ViewModel() {
             }.fold(
                 onSuccess = {
                     _getHomeDaily.value = it.data.toMutableList()
-                    Timber.tag("gethomeDaily 성공이이롱 ").d("${it.data}")
+                    Timber.tag("gethomeDaily 성공이이롱 ").d("HomeViewModel - getHomeDaily() : ${it.data}")
                 },
                 onFailure = {
                     Timber.tag("gethomeDaily error지롱 ").d("${it.message}")
@@ -118,9 +118,27 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun deleteTodo(missionId: Long) {
+    suspend fun deleteTodo(missionId: Long) =
+            /*
+            lifecycleScope.launch {
+                val deleteJob = async { postClickDelete(requireArguments().getLong(MISSION_ID)) }
+                deleteJob.await()
+                dialogDismissListener?.onDeleteButtonClicked()
+                dismiss()
+            }
+             */
+
+//        viewModelScope.launch {
+//            val sync =
+//                async {
+//                    kotlin.runCatching { homeService.deleteTodo(missionId) }.onSuccess {
+//                        _deleteTodo.value = true
+//                    }
+//                }
+//            sync.await()
+//        }
         viewModelScope.launch {
-            kotlin.runCatching {
+            runCatching {
                 homeService.deleteTodo(missionId)
             }.fold(
                 onSuccess = {
@@ -132,6 +150,5 @@ class HomeViewModel : ViewModel() {
                 },
             )
         }
-        _deleteTodo.value = false
-    }
+//        _deleteTodo.value = false
 }

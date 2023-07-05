@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.ParcelizeBottomDetail
@@ -92,10 +92,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         val dialog = HomeNottodoDeleteFragment()
         dialog.setDeleteButtonClickListener(this)
         dialog.show(childFragmentManager, "delete_dialog_fragment")
-    }
-
-    private fun postClickDelete(missionId: Long) {
-        viewModel.deleteTodo(missionId)
     }
 
     private fun getMissionData() {
@@ -201,9 +197,10 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
 
     override fun onDeleteButtonClicked() {
         lifecycleScope.launch {
-            val deleteJob = async { postClickDelete(requireArguments().getLong(MISSION_ID)) }
-            deleteJob.await()
+            viewModel.deleteTodo(requireArguments().getLong(MISSION_ID)).join()
+            Log.d("gethomeDaily 성공이이롱", "BottomSheet - 삭제하기")
             dialogDismissListener?.onDeleteButtonClicked()
+            viewModel.getHomeDaily(modifyParcelizeExtra.date)
             dismiss()
         }
     }

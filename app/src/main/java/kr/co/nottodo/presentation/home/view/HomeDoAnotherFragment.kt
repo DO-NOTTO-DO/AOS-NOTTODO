@@ -70,10 +70,6 @@ class HomeDoAnotherFragment : DialogFragment() {
         homeDoAnotherViemodel.getDoAnotherDay(missionID)
     }
 
-    private fun deleteFragmentStack() {
-        dialogDismissListener?.onDismissAndDataPass("")
-    }
-
     private fun observeDate() {
         homeDoAnotherViemodel.postDoAnotherDay.observe(viewLifecycleOwner) {
             showResponseToast(it)

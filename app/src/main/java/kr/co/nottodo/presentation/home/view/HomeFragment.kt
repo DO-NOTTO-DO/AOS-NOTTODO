@@ -3,11 +3,12 @@ package kr.co.nottodo.presentation.home.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
@@ -23,7 +24,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         get() = requireNotNull(_binding)
     private lateinit var homeAdapter: HomeAdpater
     private var onFragmentChangedListener: OnFragmentChangedListener? = null
-    private val homeViewModel by viewModels<HomeViewModel>()
+    private val homeViewModel by activityViewModels<HomeViewModel>()
     private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern(YEAR_PATTERN))
     private var weeklyData = todayData
     val bundle = Bundle()
@@ -57,6 +58,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
 
     private fun observerData() {
         homeViewModel.getHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
+            Log.d("gethomeDaily 성공이이롱", "observerData: ")
             if (homeDaily.isEmpty()) {
                 binding.clHomeMain.visibility = View.VISIBLE
                 binding.rvHomeTodoList.visibility = View.INVISIBLE
@@ -106,7 +108,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
     private fun clickFloatingBtn() {
         val intent = Intent(context, RecommendMissionActivity::class.java)
         binding.ftbHomeAdd.setOnClickListener {
-            startActivityForResult(intent, RECOMMENDATION_REQUEST_CODE)
+            startActivity(intent)
         }
     }
 
@@ -141,14 +143,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
         super.onDetach()
     }
 
-    companion object {
-        const val YEAR_PATTERN = "yyyy-MM-dd"
-        const val MISSION_ID = "MISSION_ID"
-        const val CLICK_DAY = "CLICK_DAY"
-        private const val RECOMMENDATION_REQUEST_CODE = 1
-        private const val ADDITION_REQUEST_CODE = 2
-    }
-
     override fun onDismissAndDataPass(selectFirstDay: String?) {
         val formatSelectDay = selectFirstDay?.replace(".", "-")
         if (formatSelectDay.isNullOrEmpty()) {
@@ -165,6 +159,12 @@ class HomeFragment : Fragment(), DialogCloseListener {
 
     override fun onDeleteButtonClicked() {
         Timber.tag("interface3").d("$weeklyData")
-        homeViewModel.getHomeDaily(weeklyData)
+//        homeViewModel.getHomeDaily(weeklyData)
+    }
+
+    companion object {
+        const val YEAR_PATTERN = "yyyy-MM-dd"
+        const val MISSION_ID = "MISSION_ID"
+        const val CLICK_DAY = "CLICK_DAY"
     }
 }
