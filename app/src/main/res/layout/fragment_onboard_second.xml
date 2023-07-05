@@ -5,14 +5,26 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/iv_onboard_second"
+    <VideoView
+        android:id="@+id/vv_onboard_second"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/img_onboard_two"
+        android:alpha="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:loopCount="1" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_onboard_second"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="45dp"
+        android:background="@drawable/rectangle_solid_white_radius_50"
+        android:paddingVertical="14dp"
+        android:text="@string/wanna_start"
+        android:textAppearance="@style/Sb16"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
