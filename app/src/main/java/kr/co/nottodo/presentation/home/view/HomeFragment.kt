@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
-import kr.co.nottodo.view.calendar.monthly.util.convertStringToDate
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import timber.log.Timber
@@ -106,7 +105,9 @@ class HomeFragment : Fragment(), DialogCloseListener {
 
     private fun clickFloatingBtn() {
         val intent = Intent(context, RecommendMissionActivity::class.java)
-        binding.ftbHomeAdd.setOnClickListener { startActivity(intent) }
+        binding.ftbHomeAdd.setOnClickListener {
+            startActivityForResult(intent, RECOMMENDATION_REQUEST_CODE)
+        }
     }
 
     private fun setWeeklyDate() {
@@ -119,10 +120,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
                 }
             }
         })
-    }
-
-    private fun showAddRecentDay() {
-        binding.weeklyCalendar.isSelected
     }
 
     private fun weeklyDayClick() {
@@ -148,6 +145,8 @@ class HomeFragment : Fragment(), DialogCloseListener {
         const val YEAR_PATTERN = "yyyy-MM-dd"
         const val MISSION_ID = "MISSION_ID"
         const val CLICK_DAY = "CLICK_DAY"
+        private const val RECOMMENDATION_REQUEST_CODE = 1
+        private const val ADDITION_REQUEST_CODE = 2
     }
 
     override fun onDismissAndDataPass(selectFirstDay: String?) {
@@ -160,10 +159,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
             weeklyData = formatSelectDay
             val weeklyFormatDay = formatSelectDay.convertToLocalDate()
             Timber.tag("interface6").d("$weeklyFormatDay")
-            if (weeklyFormatDay != null) {
-                binding.weeklyCalendar.moveToDate(weeklyFormatDay)
-            }
-            homeViewModel.getHomeDaily(weeklyData)
+            binding.weeklyCalendar.moveToDate(weeklyFormatDay!!)
         }
     }
 

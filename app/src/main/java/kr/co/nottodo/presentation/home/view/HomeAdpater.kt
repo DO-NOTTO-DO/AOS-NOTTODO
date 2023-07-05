@@ -1,6 +1,7 @@
 package kr.co.nottodo.presentation.home.view
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,7 @@ class HomeAdpater(
         private val todoItemClick: (Long, String) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: HomeDailyResponse.HomeDaily) {
+            Log.d("isCheckTodoOnBind", "onBind: ${data.situationName}")
             binding.ivHomeTodoCheck.isChecked = isCheckTodo(data.completionStatus)
             binding.tvHomeTodoSituation.text = data.situationName
             binding.tvHomeTodo.text = data.title
@@ -48,21 +50,23 @@ class HomeAdpater(
 
         private fun isCheckTodo(isCheck: String): Boolean = when (isCheck) {
             CHECKED -> {
+                Log.d("isCheckTodo1", "isCheckTodo: 1")
                 showCompleteTodoView()
                 true
             }
 
             else -> {
+                Log.d("isCheckTodo2", "isCheckTodo: ")
                 setUncompleteTodo()
                 false
             }
         }
 
         private fun showCompleteTodoView() {
+            Log.d("isCheckTodo3", "isCheckTodo: ")
             with(binding) {
                 clHomeCheckTodo.visibility = View.VISIBLE
                 vHomeCompleteTodo.visibility = View.VISIBLE
-//                ivHomeTodoCheck.isChecked = true
                 tvHomeTodoSituation.setTextColor(Color.parseColor("#9398aa"))
                 tvHomeTodo.setTextColor(Color.parseColor("#9398aa"))
                 tvHomeTodoSituation.setBackgroundResource(R.drawable.rectangle_border_gray6_50)
@@ -71,10 +75,12 @@ class HomeAdpater(
         }
 
         private fun setUncompleteTodo() {
-            binding.clHomeCheckTodo.visibility = View.INVISIBLE
+            Log.d("isCheckTodo4", "isCheckTodo: ")
+            binding.clHomeMain.setBackgroundResource(R.drawable.rectangle_border_white_10)
+            binding.clHomeCheckTodo.visibility = View.INVISIBLE // 회색
             binding.vHomeCompleteTodo.visibility = View.GONE
-            binding.clHomeMain.visibility = View.VISIBLE
-//            binding.ivHomeTodoCheck.isChecked = false
+            binding.tvHomeTodoSituation.setTextColor(Color.parseColor("#34343a"))
+            binding.tvHomeTodo.setTextColor(Color.parseColor("#34343a"))
         }
 
         private fun parseCheckTodo(bindingCheck: Boolean): String {
