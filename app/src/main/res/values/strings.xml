@@ -56,6 +56,7 @@
     <string name="url_terms_of_use">https://teamnottodo.notion.site/0c3c7c02857b46e1b16307ce7a8f6ca9?pvs=4</string>
     <string name="url_privacy_policy">https://www.notion.so/teamnottodo/5af34df7da3649fc941312c5f533c1eb?pvs=4</string>
     <string name="and">및</string>
+    <string name="wanna_start">시작할래요!</string>
 
     <!--toast Lighting-->
     <string name="duplicate_nottodo">이미 같은 내용이 있어요!\n낫투두 혹은 날짜를 변경하세요.</string>

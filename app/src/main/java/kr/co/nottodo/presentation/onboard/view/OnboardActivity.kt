@@ -33,11 +33,8 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
 
     private fun setTimer() {
         lifecycleScope.launch {
-            delay(12000) // 12 seconds delay
+            delay(12000)
             changeFragment(OnboardSecondFragment())
-            delay(9000) // additional 6 seconds delay
-            changeFragment(OnboardThirdFragment())
-            binding.layoutOnboardIndicator.visibility = View.VISIBLE
         }
     }
 
@@ -60,5 +57,9 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
             ivOnboardIndicator.setImageResource(R.drawable.ic_tutorial_second)
             tvOnboardIndicator.text = "사용 방법"
         }
+    }
+
+    override fun showOnboardIndicator() {
+        binding.layoutOnboardIndicator.visibility = View.VISIBLE
     }
 }
