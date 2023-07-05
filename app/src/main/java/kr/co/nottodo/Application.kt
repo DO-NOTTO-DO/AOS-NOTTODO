@@ -9,6 +9,7 @@ import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.data.remote.api.ApiFactory
 import kr.co.nottodo.listeners.OnTokenExpiredListener
 import kr.co.nottodo.presentation.login.view.LoginActivity
+import kr.co.nottodo.presentation.recommendation.util.NotTodoDebugTree
 import timber.log.Timber
 
 class Application : Application(), OnTokenExpiredListener {
@@ -26,7 +27,9 @@ class Application : Application(), OnTokenExpiredListener {
     }
 
     private fun setupTimber() {
-        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+        if (BuildConfig.DEBUG) {
+            Timber.plant(NotTodoDebugTree())
+        }
     }
 
     private fun setupSharedPreferences() {
@@ -48,8 +51,8 @@ class Application : Application(), OnTokenExpiredListener {
 
     private fun navigateToLogin() = startActivity(
         Intent(this, LoginActivity::class.java).setFlags(
-            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        )
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK,
+        ),
     )
 
     private fun clearForLogout() {
