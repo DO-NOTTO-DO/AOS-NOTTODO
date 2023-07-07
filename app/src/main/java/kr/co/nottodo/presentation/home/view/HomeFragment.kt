@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
+import kr.co.nottodo.presentation.addition.view.AdditionActivity.Companion.FIRST_DATE
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
@@ -54,6 +55,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         clickFloatingBtn()
         setWeeklyDate()
         weeklyDayClick()
+        firsetDayGet()
     }
 
     private fun observerData() {
@@ -131,6 +133,13 @@ class HomeFragment : Fragment(), DialogCloseListener {
             homeViewModel.clickDay.value = weeklyData
             homeViewModel.getHomeDaily(weeklyData)
         }
+    }
+
+    private fun firsetDayGet() {
+        binding.weeklyCalendar.moveToDate(
+            arguments?.getString(FIRST_DATE)?.replace('.', '-')?.convertToLocalDate()
+                ?: LocalDate.now(),
+        )
     }
 
     override fun onDestroyView() {

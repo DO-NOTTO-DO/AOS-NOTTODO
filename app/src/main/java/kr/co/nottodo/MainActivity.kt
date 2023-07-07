@@ -19,10 +19,12 @@ import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityMainBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.achieve.AchieveFragment
+import kr.co.nottodo.presentation.addition.view.AdditionActivity.Companion.FIRST_DATE
 import kr.co.nottodo.presentation.home.view.HomeFragment
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 import kr.co.nottodo.presentation.mypage.view.MyPageFragment
 import kr.co.nottodo.presentation.recommendation.util.showToast
+import java.time.LocalDate
 
 class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     private lateinit var binding: ActivityMainBinding
@@ -51,7 +53,8 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     private fun askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
-                    this, Manifest.permission.POST_NOTIFICATIONS
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS,
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 // FCM SDK (and your app) can post notifications.
@@ -90,7 +93,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
                     R.id.menu_calendar -> AchieveFragment()
                     R.id.menu_my_page -> MyPageFragment()
                     else -> MyPageFragment()
-                }
+                },
             )
             true
         }
@@ -99,6 +102,12 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     private fun changeFragment(fragment: Fragment) {
         supportFragmentManager.commit {
             replace(R.id.fcv_main, fragment)
+        }
+        if (fragment is HomeFragment) {
+            val firstDate = intent.getStringExtra(FIRST_DATE) ?: LocalDate.now().toString()
+            val homeFragmentArgument = Bundle()
+            homeFragmentArgument.putString(FIRST_DATE, firstDate)
+            fragment.arguments = homeFragmentArgument
         }
     }
 
@@ -121,7 +130,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
                 doubleBackToExitPressedOnce = true
                 showToast("'뒤로'버튼 한번 더 누르시면 종료됩니다.")
 
-                Handler(Looper.getMainLooper()).postDelayed( {
+                Handler(Looper.getMainLooper()).postDelayed({
                     doubleBackToExitPressedOnce = false
                 }, 2000)
             }
