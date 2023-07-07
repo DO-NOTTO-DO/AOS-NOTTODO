@@ -63,7 +63,14 @@ class OnboardSecondFragment : Fragment() {
                 startVideoAfter200Millis()
             }
             setVideoPath(videoPath)
+            setOnCompletionListener {
+                showBtn()
+            }
         }
+    }
+
+    private fun showBtn() {
+        binding.btnOnboardSecond.visibility = View.VISIBLE
     }
 
     private fun startVideoAfter200Millis() {
@@ -71,8 +78,6 @@ class OnboardSecondFragment : Fragment() {
             binding.vvOnboardSecond.start()
             delay(200)
             binding.vvOnboardSecond.alpha = 1F
-            delay(4000)
-            binding.btnOnboardSecond.visibility = View.VISIBLE
         }
     }
 
