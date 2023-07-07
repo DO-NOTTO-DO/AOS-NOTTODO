@@ -60,7 +60,7 @@ class OnboardSecondFragment : Fragment() {
             "android.resource://" + requireContext().packageName + "/" + R.raw.video_logo_onboard_two
         with(binding.vvOnboardSecond) {
             setOnPreparedListener {
-                startVideoAfter200Millis()
+                startVideoAfter300Millis()
             }
             setVideoPath(videoPath)
             setOnCompletionListener {
@@ -73,10 +73,10 @@ class OnboardSecondFragment : Fragment() {
         binding.btnOnboardSecond.visibility = View.VISIBLE
     }
 
-    private fun startVideoAfter200Millis() {
+    private fun startVideoAfter300Millis() {
         lifecycleScope.launch {
             binding.vvOnboardSecond.start()
-            delay(200)
+            delay(300)
             binding.vvOnboardSecond.alpha = 1F
         }
     }
