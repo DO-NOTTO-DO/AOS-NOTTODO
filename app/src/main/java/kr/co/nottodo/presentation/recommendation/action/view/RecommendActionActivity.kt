@@ -122,7 +122,16 @@ class RecommendActionActivity : AppCompatActivity() {
 
     private fun writeDirectTvClickEvent() {
         binding.tvRecommendActionWriteDirect.setOnClickListener {
-            startActivity(Intent(this, AdditionActivity::class.java))
+            val recommendUiModel = RecommendUiModel(
+                title = dataFromRecommendMissionActivity.title,
+                situation = dataFromRecommendMissionActivity.situation,
+                actionList = emptyList()
+            )
+            startActivity(
+                Intent(this, AdditionActivity::class.java).putExtra(
+                    MISSION_ACTION_DETAIL, recommendUiModel
+                )
+            )
             if (!isFinishing) finish()
         }
     }

@@ -109,11 +109,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showOnboardForFirstUser() {
-        if (!SharedPreferences.getBoolean(DID_USER_WATCHED_ONBOARD)) startActivity(
-            Intent(
-                this, OnboardActivity::class.java
+        if (!SharedPreferences.getBoolean(DID_USER_WATCHED_ONBOARD)) {
+            startActivity(
+                Intent(
+                    this, OnboardActivity::class.java
+                )
             )
-        )
+            if (!isFinishing) finish()
+        }
     }
 
     private fun setAutoLogin() {
