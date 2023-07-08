@@ -27,22 +27,22 @@ class HomeNottodoDeleteFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        clickDelete()
-        clickCancle()
+        deleteOnClick()
+        cancleOnClick()
     }
 
     fun setDeleteButtonClickListener(buttonClickListener: DialogCloseListener) {
         this.buttonClickListener = buttonClickListener
     }
 
-    private fun clickDelete() {
+    private fun deleteOnClick() {
         binding.btnDeleteDialogDelete.setOnClickListener {
             buttonClickListener.onDeleteButtonClicked()
             dismiss()
         }
     }
 
-    private fun clickCancle() {
+    private fun cancleOnClick() {
         binding.btnDeleteDialogCancle.setOnClickListener {
             dismiss()
         }

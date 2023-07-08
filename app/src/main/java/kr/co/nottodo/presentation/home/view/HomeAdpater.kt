@@ -35,35 +35,33 @@ class HomeAdpater(
         private val todoItemClick: (Long, String) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: HomeDailyResponse.HomeDaily) {
-            Log.d("isCheckTodoOnBind", "onBind: ${data.situationName}")
-            binding.ivHomeTodoCheck.isChecked = isCheckTodo(data.completionStatus)
-            binding.tvHomeTodoSituation.text = data.situationName
-            binding.tvHomeTodo.text = data.title
-            binding.ivHomeTodoCheck.setOnClickListener {
-                todoItemClick(
-                    data.id,
-                    parseCheckTodo(binding.ivHomeTodoCheck.isChecked),
-                )
+            with(binding) {
+                ivHomeTodoCheck.isChecked = isCheckTodo(data.completionStatus)
+                tvHomeTodoSituation.text = data.situationName
+                tvHomeTodo.text = data.title
+                ivHomeTodoCheck.setOnClickListener {
+                    todoItemClick(
+                        data.id,
+                        parseCheckTodo(ivHomeTodoCheck.isChecked),
+                    )
+                }
+                clHomeClick.setOnClickListener { menuItemClick(data.id) }
             }
-            binding.clHomeClick.setOnClickListener { menuItemClick(data.id) }
         }
 
         private fun isCheckTodo(isCheck: String): Boolean = when (isCheck) {
             CHECKED -> {
-                Log.d("isCheckTodo1", "isCheckTodo: 1")
                 showCompleteTodoView()
                 true
             }
 
             else -> {
-                Log.d("isCheckTodo2", "isCheckTodo: ")
                 setUncompleteTodo()
                 false
             }
         }
 
         private fun showCompleteTodoView() {
-            Log.d("isCheckTodo3", "isCheckTodo: ")
             with(binding) {
                 clHomeCheckTodo.visibility = View.VISIBLE
                 vHomeCompleteTodo.visibility = View.VISIBLE
@@ -75,7 +73,6 @@ class HomeAdpater(
         }
 
         private fun setUncompleteTodo() {
-            Log.d("isCheckTodo4", "isCheckTodo: ")
             binding.clHomeMain.setBackgroundResource(R.drawable.rectangle_border_white_10)
             binding.clHomeCheckTodo.visibility = View.INVISIBLE // 회색
             binding.vHomeCompleteTodo.visibility = View.GONE
