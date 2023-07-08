@@ -62,8 +62,7 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun getDataFromRecommendActivity() {
         val recommendUiModel: RecommendUiModel =
-            intent.getParcelable(MISSION_ACTION_DETAIL, RecommendUiModel::class.java)
-                ?: return
+            intent.getParcelable(MISSION_ACTION_DETAIL, RecommendUiModel::class.java) ?: return
 
         with(viewModel) {
             mission.value = recommendUiModel.title
@@ -425,7 +424,7 @@ class AdditionActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnAdditionAdd.setOnClickListener {
+        binding.layoutAdditionAdd.setOnClickListener {
             if (binding.btnAdditionAdd.currentTextColor != getColor(R.color.gray_1_2a2a2e)) return@setOnClickListener
 
             var actionList: MutableList<String>? = mutableListOf()
