@@ -403,9 +403,8 @@ class ModificationActivity : AppCompatActivity() {
                 binding.btnModificationModify.setBackgroundResource(R.drawable.rectangle_gray_2_radius_26)
             }
         }
-        binding.btnModificationModify.setOnClickListener {
+        binding.layoutModificationModify.setOnClickListener {
             if (binding.btnModificationModify.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
-                // 낫투두 추가
                 viewModel.putModifyMission()
             }
         }
