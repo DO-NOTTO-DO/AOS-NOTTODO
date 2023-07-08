@@ -26,7 +26,6 @@ import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
-import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToPrettyDateString
 
 class ModificationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityModificationBinding
@@ -65,14 +64,14 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeGetMissionDatesErrorResponse() {
-        viewModel.getMissionDatesErrorResponse.observe(this) {errorMessage ->
+        viewModel.getMissionDatesErrorResponse.observe(this) { errorMessage ->
             showToast(errorMessage)
-            if(!isFinishing) finish()
+            if (!isFinishing) finish()
         }
     }
 
     private fun observeGetMissionDatesSuccessResponse() {
-        viewModel.getMissionDatesSuccessResponse.observe(this) {response ->
+        viewModel.getMissionDatesSuccessResponse.observe(this) { response ->
             viewModel.setMissionDates()
         }
     }
@@ -403,7 +402,7 @@ class ModificationActivity : AppCompatActivity() {
                 binding.btnModificationModify.setBackgroundResource(R.drawable.rectangle_gray_2_radius_26)
             }
         }
-        binding.layoutModificationModify.setOnClickListener {
+        binding.btnModificationModify.setOnClickListener {
             if (binding.btnModificationModify.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
                 viewModel.putModifyMission()
             }

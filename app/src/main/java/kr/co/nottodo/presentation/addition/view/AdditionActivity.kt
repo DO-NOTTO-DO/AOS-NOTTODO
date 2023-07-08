@@ -424,7 +424,7 @@ class AdditionActivity : AppCompatActivity() {
             }
         }
 
-        binding.layoutAdditionAdd.setOnClickListener {
+        binding.btnAdditionAdd.setOnClickListener {
             if (binding.btnAdditionAdd.currentTextColor != getColor(R.color.gray_1_2a2a2e)) return@setOnClickListener
 
             var actionList: MutableList<String>? = mutableListOf()
