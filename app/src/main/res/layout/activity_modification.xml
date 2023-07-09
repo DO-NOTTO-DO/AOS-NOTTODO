@@ -142,7 +142,7 @@
                             android:layout_marginStart="7dp"
                             android:text="@{vm.datesCountMinusOne}"
                             android:textAppearance="@style/M14"
-                            android:textColor="@color/white"
+                            android:textColor="@color/gray_4_9398aa"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/tv_modification_date"
                             app:layout_constraintTop_toTopOf="parent" />
