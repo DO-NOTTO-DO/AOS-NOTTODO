@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
 import kr.co.nottodo.data.model.Home.HomeDailyResponse
 import kr.co.nottodo.databinding.ItemListHomeTodoBinding
-import kr.co.nottodo.presentation.recommendation.util.DiffUtilItemCallback
+import kr.co.nottodo.util.DiffUtilItemCallback
 import timber.log.Timber
 
 class HomeAdpater(

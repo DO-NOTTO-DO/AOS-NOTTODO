@@ -15,7 +15,7 @@ import kr.co.nottodo.data.remote.model.modification.RequestModificationDto
 import kr.co.nottodo.data.remote.model.modification.ResponseGetMissionDates
 import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto
 import kr.co.nottodo.presentation.modification.view.ModificationActivity.Companion.NotTodoData
-import kr.co.nottodo.presentation.recommendation.util.getErrorMessage
+import kr.co.nottodo.util.getErrorMessage
 import kr.co.nottodo.view.calendar.monthly.util.achievementConvertStringToDate
 import kr.co.nottodo.view.calendar.monthly.util.isToday
 import kr.co.nottodo.view.calendar.monthly.util.isTomorrow

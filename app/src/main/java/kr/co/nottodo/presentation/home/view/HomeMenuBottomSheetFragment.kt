@@ -25,7 +25,7 @@ import kr.co.nottodo.databinding.ItemHomeBottomActionsBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.CLICK_DAY
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.presentation.modification.view.ModificationActivity
-import kr.co.nottodo.presentation.recommendation.util.getParcelable
+import kr.co.nottodo.util.getParcelable
 
 class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseListener {
     private var _binding: FragmentHomeMenuBottomSheetBinding? = null

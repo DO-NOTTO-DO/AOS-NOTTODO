@@ -1,4 +1,4 @@
-package kr.co.nottodo.presentation.recommendation.util
+package kr.co.nottodo.util
 
 import androidx.recyclerview.widget.DiffUtil
 

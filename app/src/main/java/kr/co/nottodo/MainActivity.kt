@@ -23,7 +23,7 @@ import kr.co.nottodo.presentation.addition.view.AdditionActivity.Companion.FIRST
 import kr.co.nottodo.presentation.home.view.HomeFragment
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 import kr.co.nottodo.presentation.mypage.view.MyPageFragment
-import kr.co.nottodo.presentation.recommendation.util.showToast
+import kr.co.nottodo.util.showToast
 import java.time.LocalDate
 
 class MainActivity : AppCompatActivity(), OnFragmentChangedListener {

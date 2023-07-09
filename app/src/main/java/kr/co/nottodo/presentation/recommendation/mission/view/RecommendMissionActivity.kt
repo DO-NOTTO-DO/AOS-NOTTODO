@@ -10,7 +10,7 @@ import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActi
 import kr.co.nottodo.presentation.recommendation.mission.adapter.RecommendMissionAdapter
 import kr.co.nottodo.presentation.recommendation.mission.viewmodel.RecommendMissionViewModel
 import kr.co.nottodo.presentation.recommendation.model.RecommendMissionUiModel
-import kr.co.nottodo.presentation.recommendation.util.showToast
+import kr.co.nottodo.util.showToast
 
 
 class RecommendMissionActivity : AppCompatActivity() {
