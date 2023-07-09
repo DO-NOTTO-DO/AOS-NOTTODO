@@ -21,26 +21,22 @@ data class ResponseModificationDto(
     @Serializable
     data class Modification(
         @SerialName("title") val title: String,
+        @SerialName("date") val date: String,
         @SerialName("situation") val situation: String,
         @SerialName("actions") val actions: List<Action>?,
         @SerialName("goal") val goal: String?,
     ) {
         @Serializable
         data class Action(
-            @SerialName("name")
-            val name: String,
+            @SerialName("name") val name: String,
         )
     }
 }
 
 @Serializable
 data class ResponseGetMissionDates(
-    @SerialName("status")
-    val status: Int,
-    @SerialName("success")
-    val success: Boolean,
-    @SerialName("message")
-    val message: String,
-    @SerialName("data")
-    val data: List<String>,
+    @SerialName("status") val status: Int,
+    @SerialName("success") val success: Boolean,
+    @SerialName("message") val message: String,
+    @SerialName("data") val data: List<String>,
 )
