@@ -26,6 +26,9 @@
     <!--home calendar-->
     <string name="home_calendar_todo_description">*달성 가능한 계획을 위해 다가올 일주일만 선택할 수 있어요</string>
     <string name="home_calendar_select_done">완료</string>
+    <!--home nottodo deleter-->
+    <string name="home_delete_answer">삭제하시겠습니까?</string>
+    <string name="home_nottodo_delete_warning_description">한 번 삭제하면 되돌릴 수 없어요.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -54,5 +57,10 @@
     <string name="url_privacy_policy">https://www.notion.so/teamnottodo/5af34df7da3649fc941312c5f533c1eb?pvs=4</string>
     <string name="and">및</string>
     <string name="wanna_start">시작할래요!</string>
+
+    <!--toast Lighting-->
+    <string name="duplicate_nottodo">이미 같은 내용이 있어요!\n낫투두 혹은 날짜를 변경하세요.</string>
+    <string name="three_nottodo">낫투두는 하루 최대 3개 추가할 수 있어요.\n꼭 개선할 것에만 집중해봐요:)</string>
+    <string name="success_save_not_todo">낫투두 다른 날짜에 추가 성공</string>
 
 </resources>

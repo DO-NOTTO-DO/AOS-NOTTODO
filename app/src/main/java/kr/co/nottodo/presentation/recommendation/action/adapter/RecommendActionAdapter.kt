@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.data.remote.model.recommendation.action.ResponseRecommendActionListDTO.Mission.Action
 import kr.co.nottodo.databinding.ItemRecommendActionBinding
 import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter.RecommendActionViewHolder
-import kr.co.nottodo.util.DiffUtilItemCallback
-import kr.co.nottodo.util.showNotTodoSnackBar
+import kr.co.nottodo.presentation.recommendation.util.DiffUtilItemCallback
+import kr.co.nottodo.presentation.recommendation.util.showNotTodoSnackBar
 
 class RecommendActionAdapter(
     private val plusSelectedActionsCount: () -> Unit,

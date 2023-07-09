@@ -23,14 +23,15 @@ import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity.Companion.MISSION_ACTION_DETAIL
 import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
-import kr.co.nottodo.util.addButtons
-import kr.co.nottodo.util.containToday
-import kr.co.nottodo.util.containTomorrow
-import kr.co.nottodo.util.getParcelable
-import kr.co.nottodo.util.hideKeyboard
-import kr.co.nottodo.util.showKeyboard
-import kr.co.nottodo.util.showNotTodoSnackBar
-import kr.co.nottodo.util.showToast
+import kr.co.nottodo.presentation.recommendation.util.addButtons
+import kr.co.nottodo.presentation.recommendation.util.containToday
+import kr.co.nottodo.presentation.recommendation.util.containTomorrow
+import kr.co.nottodo.presentation.recommendation.util.getParcelable
+import kr.co.nottodo.presentation.recommendation.util.hideKeyboard
+import kr.co.nottodo.presentation.recommendation.util.showKeyboard
+import kr.co.nottodo.presentation.recommendation.util.showNotTodoSnackBar
+import kr.co.nottodo.presentation.recommendation.util.showToast
+import kr.co.nottodo.view.calendar.monthly.util.achievementConvertStringToDate
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import java.util.Date
 
@@ -62,8 +63,7 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun getDataFromRecommendActivity() {
         val recommendUiModel: RecommendUiModel =
-            intent.getParcelable(MISSION_ACTION_DETAIL, RecommendUiModel::class.java)
-                ?: return
+            intent.getParcelable(MISSION_ACTION_DETAIL, RecommendUiModel::class.java) ?: return
 
         with(viewModel) {
             mission.value = recommendUiModel.title
@@ -210,18 +210,22 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeSuccessResponse() {
-        viewModel.additionResponse.observe(this) {
+        viewModel.additionResponse.observe(this) { response ->
             showToast("낫투두 생성 완료 !")
-            navigateToMain()
-            if (!isFinishing) finish()
+            val sortedList =
+                response.dates.sortedBy { date -> date.achievementConvertStringToDate() }
+            navigateToMain(sortedList.first().toString())
         }
     }
 
-    private fun navigateToMain() = startActivity(
-        Intent(this, MainActivity::class.java).setFlags(
-            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    private fun navigateToMain(firstDate: String) {
+        startActivity(
+            Intent(this, MainActivity::class.java).setFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            ).putExtra(FIRST_DATE, firstDate)
         )
-    )
+        if (!isFinishing) finish()
+    }
 
     private fun setActionBox(isActionFilled: Boolean) {
         if (isActionFilled) {
@@ -802,5 +806,6 @@ class AdditionActivity : AppCompatActivity() {
         const val situationOpenedDesc = "어떤 상황에서\n낫투두를 실천하고 싶나요?"
         const val actionOpenedDesc = "낫투두를 이루기 위해서\n어떤 행동이 필요한가요?"
         const val goalOpenedDesc = "낫투두를 통해서\n어떤 목표를 이루려 하나요?"
+        const val FIRST_DATE = "FIRST_DATE"
     }
 }

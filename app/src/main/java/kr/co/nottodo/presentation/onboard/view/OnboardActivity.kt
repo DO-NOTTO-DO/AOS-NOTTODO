@@ -5,9 +5,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ActivityOnboardBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
@@ -22,19 +19,11 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
         setContentView(binding.root)
 
         initFragments(savedInstanceState)
-        setTimer()
     }
 
     private fun initFragments(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             addFragment(OnboardFirstFragment())
-        }
-    }
-
-    private fun setTimer() {
-        lifecycleScope.launch {
-            delay(12000)
-            changeFragment(OnboardSecondFragment())
         }
     }
 
