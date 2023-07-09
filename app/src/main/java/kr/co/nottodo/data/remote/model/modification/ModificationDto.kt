@@ -21,6 +21,7 @@ data class ResponseModificationDto(
     @Serializable
     data class Modification(
         @SerialName("title") val title: String,
+        @SerialName("date") val date: String,
         @SerialName("situation") val situation: String,
         @SerialName("actions") val actions: List<Action>?,
         @SerialName("goal") val goal: String?,
