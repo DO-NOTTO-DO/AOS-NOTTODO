@@ -116,7 +116,7 @@
                             android:layout_marginStart="37dp"
                             android:text="@{vm.dateDesc}"
                             android:textAppearance="@style/M14"
-                            android:textColor="@color/white"
+                            android:textColor="@color/gray_4_9398aa"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/tv_modification_date_title_before"
                             app:layout_constraintTop_toTopOf="parent"
@@ -144,16 +144,6 @@
                             android:textColor="@color/white"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/tv_modification_date"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/iv_modification_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            android:src="@drawable/ic_date_picker"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
