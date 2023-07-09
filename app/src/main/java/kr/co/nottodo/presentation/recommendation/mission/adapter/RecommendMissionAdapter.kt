@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import kr.co.nottodo.data.remote.model.recommendation.mission.ResponseRecommendMissionListDto.Mission
 import kr.co.nottodo.databinding.ItemRecommendMissionBinding
-import kr.co.nottodo.presentation.recommendation.util.DiffUtilItemCallback
+import kr.co.nottodo.util.DiffUtilItemCallback
 
 class RecommendMissionAdapter(private val startRecommendActionActivity: (Int, String, String, String) -> Unit) :
     ListAdapter<Mission, RecommendMissionAdapter.RecommendMissionViewHolder>(

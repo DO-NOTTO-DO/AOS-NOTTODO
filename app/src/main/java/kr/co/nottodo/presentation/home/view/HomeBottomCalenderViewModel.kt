@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import kr.co.nottodo.data.model.Home.RequestHomeDoAnotherDay
 import kr.co.nottodo.data.remote.api.ServicePool
 import kr.co.nottodo.data.remote.api.home.HomeService
-import kr.co.nottodo.presentation.recommendation.util.getErrorMessage
+import kr.co.nottodo.util.getErrorMessage
 import timber.log.Timber
 
 class HomeBottomCalenderViewModel : ViewModel() {
