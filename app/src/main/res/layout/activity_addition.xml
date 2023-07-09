@@ -38,22 +38,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_addition_add"
+        <LinearLayout
+            android:id="@+id/layout_addition_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="18dp"
-            android:background="@drawable/rectangle_gray_2_radius_26"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:paddingHorizontal="15dp"
-            android:paddingVertical="4dp"
-            android:text="추가"
-            android:textAppearance="@style/M15"
-            android:textColor="@color/gray_3_5d5d6b"
+            android:paddingVertical="11dp"
             app:layout_constraintBottom_toBottomOf="@id/tv_addition_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_addition_title" />
+            app:layout_constraintTop_toTopOf="@id/tv_addition_title">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_addition_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle_gray_2_radius_26"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="4dp"
+                android:text="추가"
+                android:textAppearance="@style/M15"
+                android:textColor="@color/gray_3_5d5d6b" />
+        </LinearLayout>
 
         <View
             android:id="@+id/view_addition_line"

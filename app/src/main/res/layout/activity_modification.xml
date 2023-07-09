@@ -76,6 +76,7 @@
                 android:layout_height="wrap_content"
                 tools:context=".presentation.modification.view.ModificationActivity">
 
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_modification_date"
                     android:layout_width="0dp"
@@ -116,7 +117,7 @@
                             android:layout_marginStart="37dp"
                             android:text="@{vm.dateDesc}"
                             android:textAppearance="@style/M14"
-                            android:textColor="@color/gray_4_9398aa"
+                            android:textColor="@color/white"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/tv_modification_date_title_before"
                             app:layout_constraintTop_toTopOf="parent"
@@ -144,6 +145,16 @@
                             android:textColor="@color/white"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/tv_modification_date"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/iv_modification_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:src="@drawable/ic_date_picker"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -507,12 +518,14 @@
                             android:id="@+id/tv_modification_action_closed_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginVertical="18dp"
                             android:layout_marginStart="18dp"
                             android:text="실천방법"
                             android:textAppearance="@style/R14"
                             android:textColor="@color/gray_7_8e8e93"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tv_modification_action_closed_input" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/tv_modification_action_closed_input"
@@ -535,8 +548,9 @@
                             android:text="@string/addition_choice"
                             android:textAppearance="@style/R14"
                             android:textColor="@color/green_1_98ffa9"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tv_modification_action_closed_input" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
                             android:id="@+id/iv_modification_action_closed_check"
@@ -545,8 +559,9 @@
                             android:layout_marginEnd="16dp"
                             android:src="@drawable/ic_check"
                             android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tv_modification_action_closed_input" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -555,6 +570,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
+                        android:paddingHorizontal="18dp"
                         android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -565,7 +581,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
-                            android:layout_marginStart="18dp"
                             android:text="실천방법"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/green_1_98ffa9"
@@ -576,23 +591,19 @@
                             android:id="@+id/tv_modification_action_complete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:padding="10dp"
                             android:text="완료"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/gray_4_9398aa"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="@id/tv_modification_action_opened_title" />
 
                         <TextView
                             android:id="@+id/tv_modification_action_opened_desc"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="18dp"
                             android:layout_marginTop="13dp"
                             android:bufferType="spannable"
                             android:textAppearance="@style/Sb20"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_modification_action_opened_title" />
 
@@ -608,7 +619,7 @@
                             android:id="@+id/tv_modification_action_first"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="18dp"
+                            android:layout_marginStart="5dp"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/white"
                             android:visibility="gone"
@@ -619,7 +630,7 @@
                             android:id="@+id/iv_modification_action_first_delete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:layout_marginStart="5dp"
                             android:src="@drawable/ic_delete"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="@id/tv_modification_action_first"
@@ -630,7 +641,7 @@
                             android:id="@+id/tv_modification_action_second"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="18dp"
+                            android:layout_marginStart="5dp"
                             android:layout_marginTop="6dp"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/white"
@@ -642,7 +653,7 @@
                             android:id="@+id/iv_modification_action_second_delete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:layout_marginStart="5dp"
                             android:src="@drawable/ic_delete"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="@id/tv_modification_action_second"
@@ -653,7 +664,7 @@
                             android:id="@+id/tv_modification_action_third"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="18dp"
+                            android:layout_marginStart="5dp"
                             android:layout_marginTop="6dp"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/white"
@@ -665,7 +676,7 @@
                             android:id="@+id/iv_modification_action_third_delete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:layout_marginStart="5dp"
                             android:src="@drawable/ic_delete"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="@id/tv_modification_action_third"
@@ -676,7 +687,6 @@
                             android:id="@+id/et_modification_action"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="18dp"
                             android:backgroundTint="@color/gray_3_5d5d6b"
                             android:imeOptions="actionDone"
                             android:inputType="text"
@@ -696,13 +706,12 @@
                             android:textAppearance="@style/R12"
                             android:textColor="@color/gray_3_5d5d6b"
                             app:layout_constraintEnd_toEndOf="@id/et_modification_action"
-                            app:layout_constraintTop_toBottomOf="@id/et_modification_action" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_action_first" />
 
                         <TextView
                             android:id="@+id/tv_modification_action_example"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="18dp"
                             android:layout_marginTop="39dp"
                             android:text="예시)"
                             android:textAppearance="@style/R14"
