@@ -26,7 +26,6 @@ import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
-
 class ModificationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityModificationBinding
     private val viewModel by viewModels<ModificationViewModel>()

@@ -16,7 +16,7 @@ import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
 import kr.co.nottodo.presentation.onboard.view.OnboardActivity
-import kr.co.nottodo.util.showToast
+import kr.co.nottodo.presentation.recommendation.util.showToast
 import timber.log.Timber
 
 class LoginActivity : AppCompatActivity() {

@@ -43,7 +43,7 @@
         android:layout_marginTop="8dp"
         android:paddingStart="5dp"
         android:paddingEnd="8dp"
-        android:textAppearance="@style/Sb18"
+        android:textAppearance="@style/Sb15"
         app:layout_constraintStart_toStartOf="@id/tv_home_todo_situation"
         app:layout_constraintTop_toBottomOf="@id/tv_home_todo_situation"
         tools:text="@string/home_item_list_natodo" />
@@ -78,5 +78,13 @@
         app:layout_constraintStart_toEndOf="@id/iv_home_todo_check"
         app:layout_constraintTop_toTopOf="@id/cl_home_main" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_home_click"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_home_todo_check"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
