@@ -76,6 +76,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
             binding.weeklyCalendar.setNotToDoCount(notToDoCountList)
         }
         homeViewModel.patchCheckResult.observe(viewLifecycleOwner) {
+            homeViewModel.getHomeWeekly(binding.weeklyCalendar.getCurrentSundayDate().toString())
             homeViewModel.getHomeDaily(weeklyData)
         }
         homeViewModel.clickDay.observe(viewLifecycleOwner) { clickDay ->
@@ -167,6 +168,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
     override fun onDeleteButtonClicked() {
         Timber.tag("interface3").d("$weeklyData")
 //        homeViewModel.getHomeDaily(weeklyData)
+        homeViewModel.getHomeWeekly(binding.weeklyCalendar.getCurrentSundayDate().toString())
     }
 
     companion object {
