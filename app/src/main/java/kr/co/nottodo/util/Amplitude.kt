@@ -15,4 +15,8 @@ object Amplitude {
             )
         )
     }
+
+    fun trackEvent(eventName: String) {
+        amplitude.track(eventName)
+    }
 }
