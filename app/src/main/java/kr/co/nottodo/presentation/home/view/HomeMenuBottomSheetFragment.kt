@@ -142,6 +142,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         } else {
             binding.tvHomeBottomGoalEmpty.visibility = View.GONE
             binding.ivHomeBottomGoalEmpty.visibility = View.GONE
+            binding.tvHomeDialogGoalDescription.visibility = View.VISIBLE
             binding.tvHomeDialogGoalDescription.text = it
         }
     }
