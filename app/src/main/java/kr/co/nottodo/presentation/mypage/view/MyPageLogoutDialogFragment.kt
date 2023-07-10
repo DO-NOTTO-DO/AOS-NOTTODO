@@ -5,30 +5,34 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.presentation.login.view.LoginActivity
 
 class MyPageLogoutDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return activity?.let {
-            // Use the Builder class for convenient dialog construction
-            val builder = AlertDialog.Builder(it)
-            builder.setTitle("로그아웃 하시겠습니까?")
-            builder.setMessage("로그아웃을 하면\n다른 기기와 낫투두 기록을 연동하지 못해요.")
-                .setPositiveButton("로그아웃") { dialog, id ->
-                    logout()
-                }.setNegativeButton("취소") { _, _ ->
-                    dismiss()
-                }
-            // Create the AlertDialog object and return it
-            builder.create()
-        } ?: throw IllegalStateException("Activity cannot be null")
+        val builder = AlertDialog.Builder(requireActivity()).apply {
+            setTitle(getString(R.string.do_you_want_to_logout))
+            setMessage(getString(R.string.you_can_not_sync_history))
+            setPositiveButton(getString(R.string.logout)) { _, _ ->
+                logout()
+            }
+            setNegativeButton(getString(R.string.cancel)) { _, _ ->
+                dismiss()
+            }
+        }
+
+        return builder.create()
     }
 
     private fun logout() {
         SharedPreferences.clearForLogout()
-        startActivity(Intent(activity, LoginActivity::class.java))
-        if (activity?.isFinishing == false) activity?.finish()
+        startActivity(
+            Intent(
+                requireContext(), LoginActivity::class.java
+            ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        )
+        if (!requireActivity().isFinishing) requireActivity().finish()
     }
 }
