@@ -198,7 +198,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
     override fun onDeleteButtonClicked() {
         lifecycleScope.launch {
             viewModel.deleteTodo(requireArguments().getLong(MISSION_ID)).join()
-            Log.d("gethomeDaily 성공이이롱", "BottomSheet - 삭제하기")
             dialogDismissListener?.onDeleteButtonClicked()
             viewModel.getHomeDaily(modifyParcelizeExtra.date)
             dismiss()
