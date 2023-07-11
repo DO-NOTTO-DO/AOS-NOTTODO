@@ -15,6 +15,7 @@ import kr.co.nottodo.presentation.onboard.OnboardInterface
 import kr.co.nottodo.presentation.onboard.adapter.OnboardSituationAdapter
 import kr.co.nottodo.presentation.onboard.viewmodel.OnboardViewModel
 import kr.co.nottodo.util.NotTodoAmplitude
+import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 
 class OnboardFourthFragment : Fragment() {
@@ -43,7 +44,7 @@ class OnboardFourthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        NotTodoAmplitude.trackEvent(getString(R.string.view_onboarding_3))
+        trackEvent(getString(R.string.view_onboarding_3))
         initRecyclerView()
         initCompleteBtnClickListener()
         observeIsBtnClickable()

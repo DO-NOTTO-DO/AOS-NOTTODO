@@ -8,7 +8,7 @@ import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ItemOnboardThirdBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
 import kr.co.nottodo.presentation.onboard.view.OnboardFourthFragment
-import kr.co.nottodo.util.NotTodoAmplitude
+import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import java.util.Timer
 import kotlin.concurrent.schedule
 
@@ -49,7 +49,7 @@ class OnboardPainAdapter(
             with(binding) {
                 tvItemOnboardThird.text = itemList[position]
                 tvItemOnboardThird.setOnClickListener {
-                    NotTodoAmplitude.trackEventWithProperty(
+                    trackEventWithProperty(
                         root.context.getString(R.string.click_onboarding_next_2),
                         root.context.getString(R.string.onboard_select),
                         tvItemOnboardThird.text

@@ -12,6 +12,7 @@ import kr.co.nottodo.databinding.FragmentOnboardThirdBinding
 import kr.co.nottodo.presentation.onboard.adapter.OnboardPainAdapter
 import kr.co.nottodo.presentation.onboard.viewmodel.OnboardViewModel
 import kr.co.nottodo.util.NotTodoAmplitude
+import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 
 class OnboardThirdFragment : Fragment() {
     private var _binding: FragmentOnboardThirdBinding? = null
@@ -30,7 +31,7 @@ class OnboardThirdFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setViews()
-        NotTodoAmplitude.trackEvent(getString(R.string.view_onboarding_2))
+        trackEvent(getString(R.string.view_onboarding_2))
     }
 
     private fun setViews() {
