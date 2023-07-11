@@ -192,7 +192,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        dialogDismissListener?.onDismissAndDataPass("")
+        dialogDismissListener?.onDismissAndDataPass(null)
     }
 
     override fun onDismissAndDataPass(selectFirstDay: String?) {
