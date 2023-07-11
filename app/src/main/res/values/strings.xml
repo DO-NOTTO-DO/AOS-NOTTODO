@@ -73,5 +73,6 @@
     <string name="provider">provider</string>
     <string name="kakao">kakao</string>
     <string name="complete_signin">complete_signin</string>
+    <string name="view_onboarding_2">view_onboarding_2</string>
 
 </resources>

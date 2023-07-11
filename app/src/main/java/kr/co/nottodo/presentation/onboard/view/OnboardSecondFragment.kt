@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentOnboardSecondBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
+import kr.co.nottodo.util.Amplitude
 
 class OnboardSecondFragment : Fragment() {
     private var _binding: FragmentOnboardSecondBinding? = null
@@ -46,6 +47,7 @@ class OnboardSecondFragment : Fragment() {
 
     private fun setBtnClickEvent() {
         binding.btnOnboardSecond.setOnClickListener {
+            Amplitude.trackEvent(getString(R.string.view_onboarding_2))
             onboardInterface?.changeFragment(OnboardThirdFragment())
             onboardInterface?.showOnboardIndicator()
         }
