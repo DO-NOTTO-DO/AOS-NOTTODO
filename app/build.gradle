@@ -27,6 +27,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "KAKAO_NATIVE_APP_KEY", properties["kakao.native.app.key"]
         buildConfigField "String", "BASE_URL", properties["base.url"]
+        buildConfigField "String", "AMPLITUDE_API_KEY", properties["amplitude.api.key"]
     }
 
     buildTypes {
@@ -117,4 +118,6 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'
     // google oss licenses
     implementation("com.google.android.gms:play-services-oss-licenses:17.0.1")
+    // amplitude
+    implementation 'com.amplitude:analytics-android:1.10.2'
 }

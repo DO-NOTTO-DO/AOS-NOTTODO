@@ -382,7 +382,7 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun setFinishButton() {
-        binding.ivModificationDelete.setOnClickListener { finish() }
+        binding.ivModificationDelete.setOnClickListener { if (!isFinishing) finish() }
 
     }
 

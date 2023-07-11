@@ -38,8 +38,26 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
 
         setResultLaunchers()
         initBottomNavigationView(savedInstanceState)
-        askNotificationPermission()
+        requestPermissions()
         overrideBackPressed()
+    }
+
+    private fun requestPermissions() {
+        requestNotificationPermission()
+        requestPhoneStateOrNumbers()
+    }
+
+    private fun requestPhoneStateOrNumbers() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) Manifest.permission.READ_PHONE_NUMBERS else Manifest.permission.READ_PHONE_STATE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) return
+
+        val permissions: Array<String> = arrayOf(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) Manifest.permission.READ_PHONE_NUMBERS else Manifest.permission.READ_PHONE_STATE
+        )
+        requestPermissions(permissions, REQUEST_PHONE_STATE_OR_NUMBERS_CODE)
     }
 
     private fun setResultLaunchers() {
@@ -50,7 +68,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
         }
     }
 
-    private fun askNotificationPermission() {
+    private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
                     this,
@@ -140,5 +158,6 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
 
     companion object {
         const val BLANK = ""
+        const val REQUEST_PHONE_STATE_OR_NUMBERS_CODE = 0
     }
 }

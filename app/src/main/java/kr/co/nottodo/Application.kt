@@ -9,6 +9,7 @@ import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.data.remote.api.ApiFactory
 import kr.co.nottodo.listeners.OnTokenExpiredListener
 import kr.co.nottodo.presentation.login.view.LoginActivity
+import kr.co.nottodo.util.Amplitude.initAmplitude
 import kr.co.nottodo.util.NotTodoDebugTree
 import timber.log.Timber
 
@@ -19,10 +20,15 @@ class Application : Application(), OnTokenExpiredListener {
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         setupSharedPreferences()
         setupKakaoSdk()
-        setHttpConnection()
+        setupHttpConnection()
+        setupAmplitude()
     }
 
-    private fun setHttpConnection() {
+    private fun setupAmplitude() {
+        initAmplitude(applicationContext)
+    }
+
+    private fun setupHttpConnection() {
         (this as? OnTokenExpiredListener)?.let { ApiFactory.initRetrofit(it) }
     }
 
