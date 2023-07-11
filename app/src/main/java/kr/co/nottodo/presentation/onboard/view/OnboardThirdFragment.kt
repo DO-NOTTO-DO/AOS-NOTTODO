@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentOnboardThirdBinding
 import kr.co.nottodo.presentation.onboard.adapter.OnboardPainAdapter
 import kr.co.nottodo.presentation.onboard.viewmodel.OnboardViewModel
+import kr.co.nottodo.util.Amplitude
 
 class OnboardThirdFragment : Fragment() {
     private var _binding: FragmentOnboardThirdBinding? = null
@@ -27,7 +29,11 @@ class OnboardThirdFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setViews()
+        Amplitude.trackEvent(getString(R.string.view_onboarding_2))
+    }
 
+    private fun setViews() {
         initRecyclerView()
     }
 
@@ -37,9 +43,7 @@ class OnboardThirdFragment : Fragment() {
             viewModel.painList,
         )
         binding.rvOnboardThird.layoutManager = object : LinearLayoutManager(context) {
-            override fun canScrollVertically(): Boolean {
-                return false
-            }
+            override fun canScrollVertically() = false
         }
     }
 
