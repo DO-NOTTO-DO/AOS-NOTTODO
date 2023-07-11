@@ -7,13 +7,12 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="10dp"
     android:layout_marginBottom="19dp"
-    android:background="@drawable/rectangle_solid_gray_1_radius_10">
+    android:background="@drawable/rectangle_selector_onboard_item">
 
     <TextView
         android:id="@+id/tv_item_onboard_fourth"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:paddingVertical="16dp"
         android:textAppearance="@style/R15"
