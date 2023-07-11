@@ -2,9 +2,9 @@ package kr.co.nottodo.presentation.home.view
 
 import android.app.Activity.RESULT_OK
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +26,7 @@ import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.CLICK_DAY
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.presentation.modification.view.ModificationActivity
 import kr.co.nottodo.util.getParcelable
+import timber.log.Timber
 
 class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseListener {
     private var _binding: FragmentHomeMenuBottomSheetBinding? = null
@@ -137,10 +138,11 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         if (it.isNullOrEmpty()) {
             binding.tvHomeBottomGoalEmpty.visibility = View.VISIBLE
             binding.ivHomeBottomGoalEmpty.visibility = View.VISIBLE
-            binding.tvHomeDialogGoalDescription.visibility = View.GONE
+            binding.tvHomeDialogGoalDescription.visibility = View.INVISIBLE
         } else {
             binding.tvHomeBottomGoalEmpty.visibility = View.GONE
             binding.ivHomeBottomGoalEmpty.visibility = View.GONE
+            binding.tvHomeDialogGoalDescription.visibility = View.VISIBLE
             binding.tvHomeDialogGoalDescription.text = it
         }
     }
@@ -188,7 +190,13 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         const val MISSIONID = "MISSIONID"
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        dialogDismissListener?.onDismissAndDataPass(null)
+    }
+
     override fun onDismissAndDataPass(selectFirstDay: String?) {
+        Timber.d("interface $selectFirstDay")
         dialogDismissListener?.onDismissAndDataPass(selectFirstDay)
         if (!selectFirstDay.isNullOrEmpty()) {
             dismiss()
@@ -198,7 +206,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
     override fun onDeleteButtonClicked() {
         lifecycleScope.launch {
             viewModel.deleteTodo(requireArguments().getLong(MISSION_ID)).join()
-            Log.d("gethomeDaily 성공이이롱", "BottomSheet - 삭제하기")
             dialogDismissListener?.onDeleteButtonClicked()
             viewModel.getHomeDaily(modifyParcelizeExtra.date)
             dismiss()

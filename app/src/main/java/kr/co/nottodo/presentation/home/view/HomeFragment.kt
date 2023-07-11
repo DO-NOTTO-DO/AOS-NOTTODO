@@ -3,7 +3,6 @@ package kr.co.nottodo.presentation.home.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,7 +59,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
 
     private fun observerData() {
         homeViewModel.getHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
-            Log.d("gethomeDaily 성공이이롱", "observerData: ")
             if (homeDaily.isEmpty()) {
                 binding.clHomeMain.visibility = View.VISIBLE
                 binding.rvHomeTodoList.visibility = View.INVISIBLE
@@ -78,6 +76,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
             binding.weeklyCalendar.setNotToDoCount(notToDoCountList)
         }
         homeViewModel.patchCheckResult.observe(viewLifecycleOwner) {
+            homeViewModel.getHomeWeekly(binding.weeklyCalendar.getCurrentSundayDate().toString())
             homeViewModel.getHomeDaily(weeklyData)
         }
         homeViewModel.clickDay.observe(viewLifecycleOwner) { clickDay ->
@@ -169,6 +168,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
     override fun onDeleteButtonClicked() {
         Timber.tag("interface3").d("$weeklyData")
 //        homeViewModel.getHomeDaily(weeklyData)
+        homeViewModel.getHomeWeekly(binding.weeklyCalendar.getCurrentSundayDate().toString())
     }
 
     companion object {
