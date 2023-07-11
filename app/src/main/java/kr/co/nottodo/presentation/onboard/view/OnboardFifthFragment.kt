@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentOnboardFifthBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
 import kr.co.nottodo.presentation.onboard.adapter.OnboardMissionAdapter
 import kr.co.nottodo.presentation.onboard.viewmodel.OnboardViewModel
+import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 
 class OnboardFifthFragment : Fragment() {
     private var _binding: FragmentOnboardFifthBinding? = null
@@ -39,7 +41,7 @@ class OnboardFifthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        trackEvent(getString(R.string.view_onboarding_4))
         initRecyclerView()
         initNextLayoutClickListener()
     }
@@ -47,13 +49,13 @@ class OnboardFifthFragment : Fragment() {
     private fun initNextLayoutClickListener() {
         binding.layoutOnboardFifthNext.setOnClickListener {
             onboardInterface.changeFragment(OnboardSixthFragment())
+            trackEvent(getString(R.string.click_onboarding_next_4))
         }
     }
 
     private fun initRecyclerView() {
         binding.rvOnboardFifth.adapter = OnboardMissionAdapter(
-            requireContext(),
-            viewModel.missionList
+            requireContext(), viewModel.missionList
         )
         binding.rvOnboardFifth.layoutManager = object : LinearLayoutManager(context) {
             override fun canScrollVertically(): Boolean {

@@ -79,5 +79,9 @@
     <string name="onboard_select">onboard_select</string>
     <string name="view_onboarding_3">view_onboarding_3</string>
     <string name="click_onboarding_next_3">click_onboarding_next_3</string>
+    <string name="view_onboarding_4">view_onboarding_4</string>
+    <string name="click_onboarding_next_4">click_onboarding_next_4</string>
+    <string name="view_onboarding_5">view_onboarding_5</string>
+    <string name="click_onboarding_next_5">click_onboarding_next_5</string>
 
 </resources>
