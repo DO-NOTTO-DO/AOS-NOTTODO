@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentOnboardSecondBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
+import kr.co.nottodo.util.NotTodoAmplitude
 
 class OnboardSecondFragment : Fragment() {
     private var _binding: FragmentOnboardSecondBinding? = null
@@ -45,7 +46,8 @@ class OnboardSecondFragment : Fragment() {
     }
 
     private fun setBtnClickEvent() {
-        binding.btnOnboardSecond.setOnClickListener {
+        binding.btnOnboardSecondStart.setOnClickListener {
+            NotTodoAmplitude.trackEvent(getString(R.string.click_onboarding_start))
             onboardInterface?.changeFragment(OnboardThirdFragment())
             onboardInterface?.showOnboardIndicator()
         }
@@ -70,7 +72,7 @@ class OnboardSecondFragment : Fragment() {
     }
 
     private fun showBtn() {
-        binding.btnOnboardSecond.visibility = View.VISIBLE
+        binding.btnOnboardSecondStart.visibility = View.VISIBLE
     }
 
     private fun startVideoAfter300Millis() {

@@ -9,7 +9,7 @@ import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.data.remote.api.ApiFactory
 import kr.co.nottodo.listeners.OnTokenExpiredListener
 import kr.co.nottodo.presentation.login.view.LoginActivity
-import kr.co.nottodo.util.Amplitude.initAmplitude
+import kr.co.nottodo.util.NotTodoAmplitude.initAmplitude
 import kr.co.nottodo.util.NotTodoDebugTree
 import timber.log.Timber
 

@@ -16,6 +16,7 @@ import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
 import kr.co.nottodo.presentation.onboard.view.OnboardActivity
+import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.showToast
 import timber.log.Timber
 
@@ -25,11 +26,16 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setViews()
         showOnboardForFirstUser()
         setAutoLogin()
+        NotTodoAmplitude.trackEvent(getString(R.string.view_signin))
         observeGetTokenResult()
         setClickEvents()
+    }
+
+    private fun setViews() {
+        setContentView(binding.root)
     }
 
     private fun setClickEvents() {
@@ -76,6 +82,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.layoutLoginKakao.setOnClickListener {
+            NotTodoAmplitude.trackEventWithProperty(
+                getString(R.string.click_signin), getString(R.string.provider), getString(
+                    R.string.kakao
+                )
+            )
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                 // 카카오톡 로그인
                 UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
@@ -128,6 +139,11 @@ class LoginActivity : AppCompatActivity() {
 
     private fun observeGetTokenResult() {
         viewModel.getTokenResult.observe(this) { response ->
+            NotTodoAmplitude.trackEventWithProperty(
+                getString(R.string.complete_signin), getString(R.string.provider), getString(
+                    R.string.kakao
+                )
+            )
             startActivity(Intent(this, MainActivity::class.java))
             setUserInfo(response.data.accessToken)
             if (!isFinishing) finish()
