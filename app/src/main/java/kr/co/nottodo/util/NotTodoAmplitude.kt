@@ -5,7 +5,7 @@ import com.amplitude.android.Amplitude
 import com.amplitude.android.Configuration
 import kr.co.nottodo.BuildConfig
 
-object Amplitude {
+object NotTodoAmplitude {
     private lateinit var amplitude: Amplitude
 
     fun initAmplitude(applicationContext: Context) {
