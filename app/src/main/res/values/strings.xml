@@ -74,5 +74,7 @@
     <string name="kakao">kakao</string>
     <string name="complete_signin">complete_signin</string>
     <string name="view_onboarding_2">view_onboarding_2</string>
+    <string name="click_onboarding_start">click_onboarding_start</string>
+    <string name="click_onboarding_next_2">click_onboarding_next_2</string>
 
 </resources>

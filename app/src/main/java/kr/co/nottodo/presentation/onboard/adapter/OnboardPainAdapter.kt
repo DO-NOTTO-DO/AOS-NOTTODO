@@ -8,14 +8,14 @@ import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ItemOnboardThirdBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
 import kr.co.nottodo.presentation.onboard.view.OnboardFourthFragment
-import java.util.*
+import kr.co.nottodo.util.NotTodoAmplitude
+import java.util.Timer
 import kotlin.concurrent.schedule
 
 class OnboardPainAdapter(
     private val context: Context,
     private val itemList: List<String>,
-) :
-    RecyclerView.Adapter<OnboardPainAdapter.OnboardPainViewHolder>() {
+) : RecyclerView.Adapter<OnboardPainAdapter.OnboardPainViewHolder>() {
     lateinit var binding: ItemOnboardThirdBinding
     private val inflater by lazy { LayoutInflater.from(context) }
     lateinit var onboardInterface: OnboardInterface
@@ -48,6 +48,7 @@ class OnboardPainAdapter(
         ) {
             binding.tvItemOnboardThird.text = itemList[position]
             binding.layoutItemOnboardThird.setOnClickListener {
+                NotTodoAmplitude.trackEvent(binding.root.context.getString(R.string.click_onboarding_next_2))
                 it.setBackgroundResource(R.drawable.rectangle_solid_gray_1_stroke_green1_1_radius_10)
                 Timer().schedule(500) {
                     onboardInterface.changeFragment(OnboardFourthFragment())
