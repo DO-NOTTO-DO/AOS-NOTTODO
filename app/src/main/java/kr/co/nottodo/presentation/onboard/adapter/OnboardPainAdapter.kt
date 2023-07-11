@@ -48,7 +48,11 @@ class OnboardPainAdapter(
         ) {
             binding.tvItemOnboardThird.text = itemList[position]
             binding.layoutItemOnboardThird.setOnClickListener {
-                NotTodoAmplitude.trackEvent(binding.root.context.getString(R.string.click_onboarding_next_2))
+                NotTodoAmplitude.trackEventWithProperty(
+                    binding.root.context.getString(R.string.click_onboarding_next_2),
+                    binding.root.context.getString(R.string.onboard_select),
+                    binding.tvItemOnboardThird.text
+                )
                 it.setBackgroundResource(R.drawable.rectangle_solid_gray_1_stroke_green1_1_radius_10)
                 Timer().schedule(500) {
                     onboardInterface.changeFragment(OnboardFourthFragment())
