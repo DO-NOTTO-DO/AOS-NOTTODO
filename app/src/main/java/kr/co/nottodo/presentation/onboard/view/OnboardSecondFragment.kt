@@ -46,8 +46,8 @@ class OnboardSecondFragment : Fragment() {
     }
 
     private fun setBtnClickEvent() {
-        binding.btnOnboardSecond.setOnClickListener {
-            Amplitude.trackEvent(getString(R.string.view_onboarding_2))
+        binding.btnOnboardSecondStart.setOnClickListener {
+            Amplitude.trackEvent(getString(R.string.click_onboarding_start))
             onboardInterface?.changeFragment(OnboardThirdFragment())
             onboardInterface?.showOnboardIndicator()
         }
@@ -72,7 +72,7 @@ class OnboardSecondFragment : Fragment() {
     }
 
     private fun showBtn() {
-        binding.btnOnboardSecond.visibility = View.VISIBLE
+        binding.btnOnboardSecondStart.visibility = View.VISIBLE
     }
 
     private fun startVideoAfter300Millis() {
