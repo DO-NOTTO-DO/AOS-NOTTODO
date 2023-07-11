@@ -16,7 +16,6 @@ import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
 import kr.co.nottodo.presentation.onboard.view.OnboardActivity
-import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.showToast
@@ -31,7 +30,6 @@ class LoginActivity : AppCompatActivity() {
         setViews()
         showOnboardForFirstUser()
         setAutoLogin()
-        trackEvent(getString(R.string.view_signin))
         observeGetTokenResult()
         setClickEvents()
     }
@@ -136,6 +134,8 @@ class LoginActivity : AppCompatActivity() {
         if (!SharedPreferences.getString(USER_TOKEN).isNullOrBlank()) {
             startActivity(Intent(this, MainActivity::class.java))
             if (!isFinishing) finish()
+        } else {
+            trackEvent(getString(R.string.view_signin))
         }
     }
 
