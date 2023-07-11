@@ -17,6 +17,12 @@ object Amplitude {
     }
 
     fun trackEvent(eventName: String) {
-        amplitude.track(eventName)
+        amplitude.track(eventType = eventName)
+    }
+
+    fun <T> trackEventWithProperty(eventName: String, propertyName: String, propertyValue: T) {
+        amplitude.track(
+            eventType = eventName, eventProperties = mapOf(propertyName to propertyValue)
+        )
     }
 }
