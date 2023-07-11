@@ -107,10 +107,6 @@ class WeeklyViewHolder(
         tvWeeklyCalendarDay.background = null
     }
 
-    private fun ViewWeeklyCalendarDayBinding.bindNotToDoLevel1AchievementBackground() {
-
-    }
-
     private fun ViewWeeklyCalendarDayBinding.bindNotToDoLevel2AchievementBackground() {
         tvWeeklyCalendarDay.setBackgroundResource(
             R.drawable.half_circle_solid_gray
@@ -125,21 +121,17 @@ class WeeklyViewHolder(
 
     private fun ViewWeeklyCalendarDayBinding.bindNotToDoCountIndicator(notToDoCount: Float) {
         when (notToDoCount) {
-            in 0f..0.15f -> {
-                /** no - options **/
+            0f -> {
                 bindEmptyNotToDoAchievementBackground()
-            }
-            in 0.15f..0.5f -> {
-                bindNotToDoLevel1AchievementBackground()
                 bindDayTextColor(R.color.white)
             }
-            in 0.5f..0.75f -> {
-                bindNotToDoLevel2AchievementBackground()
-                bindDayTextColor(R.color.white)
-            }
-            in 0.75f..1f -> {
+            1f -> {
                 bindNotToDoLevel3AchievementBackground()
                 bindDayTextColor(R.color.black)
+            }
+            else -> {
+                bindNotToDoLevel2AchievementBackground()
+                bindDayTextColor(R.color.white)
             }
         }
     }
