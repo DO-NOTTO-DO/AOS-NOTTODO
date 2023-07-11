@@ -68,5 +68,10 @@
     <string name="do_you_want_to_logout">로그아웃 하시겠습니까?</string>
     <string name="cancel">취소</string>
     <string name="activity_can_not_be_null">Activity cannot be null</string>
+    <string name="view_signin">view_signin</string>
+    <string name="click_signin">click_signin</string>
+    <string name="provider">provider</string>
+    <string name="kakao">kakao</string>
+    <string name="complete_signin">complete_signin</string>
 
 </resources>
