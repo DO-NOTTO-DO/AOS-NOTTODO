@@ -77,5 +77,7 @@
     <string name="click_onboarding_start">click_onboarding_start</string>
     <string name="click_onboarding_next_2">click_onboarding_next_2</string>
     <string name="onboard_select">onboard_select</string>
+    <string name="view_onboarding_3">view_onboarding_3</string>
+    <string name="click_onboarding_next_3">click_onboarding_next_3</string>
 
 </resources>

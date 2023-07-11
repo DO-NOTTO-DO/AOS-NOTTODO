@@ -14,6 +14,8 @@ import kr.co.nottodo.databinding.FragmentOnboardFourthBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
 import kr.co.nottodo.presentation.onboard.adapter.OnboardSituationAdapter
 import kr.co.nottodo.presentation.onboard.viewmodel.OnboardViewModel
+import kr.co.nottodo.util.NotTodoAmplitude
+import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 
 class OnboardFourthFragment : Fragment() {
     private var _binding: FragmentOnboardFourthBinding? = null
@@ -41,6 +43,7 @@ class OnboardFourthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        NotTodoAmplitude.trackEvent(getString(R.string.view_onboarding_3))
         initRecyclerView()
         initCompleteBtnClickListener()
         observeIsBtnClickable()
@@ -51,6 +54,11 @@ class OnboardFourthFragment : Fragment() {
             if (isCompleteBtnClickable()) {
                 onboardInterface.changeFragment(OnboardFifthFragment())
                 onboardInterface.setIndicatorNext()
+                trackEventWithProperty(
+                    getString(R.string.click_onboarding_next_3),
+                    binding.root.context.getString(R.string.onboard_select),
+                    viewModel.getSelectedSituations()?.toList()
+                )
             }
         }
     }
@@ -62,10 +70,10 @@ class OnboardFourthFragment : Fragment() {
     }
 
     private fun observeIsBtnClickable() {
-        viewModel.isBtnClickable.observe(
+        viewModel.selectedSituationsCount.observe(
             viewLifecycleOwner
-        ) { isBtnClickable ->
-            if (isBtnClickable) {
+        ) { selectedSituationsCount ->
+            if (selectedSituationsCount > 0) {
                 setBtnClickable()
             } else {
                 setBtnNonClickable()
@@ -97,13 +105,11 @@ class OnboardFourthFragment : Fragment() {
         binding.rvOnboardFourth.adapter = OnboardSituationAdapter(
             requireContext(),
             viewModel.situationList,
-            viewModel.plusOneInSituationCount,
-            viewModel.minusOneInSituationCount
+            viewModel.addSituation,
+            viewModel.removeSituation
         )
         binding.rvOnboardFourth.layoutManager = object : GridLayoutManager(context, 2) {
-            override fun canScrollVertically(): Boolean {
-                return false
-            }
+            override fun canScrollVertically(): Boolean = false
         }
     }
 
