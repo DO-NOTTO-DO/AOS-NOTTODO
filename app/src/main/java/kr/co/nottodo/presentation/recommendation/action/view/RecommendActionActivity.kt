@@ -127,10 +127,10 @@ class RecommendActionActivity : AppCompatActivity() {
                 getString(R.string.title),
                 dataFromRecommendMissionActivity.title
             )
-            trackEventWithProperty(
+            if (selectedActionList != null) trackEventWithProperty(
                 getString(R.string.click_create_recommend_mission),
                 getString(R.string.action),
-                selectedActionList?.toTypedArray() ?: emptyArray()
+                selectedActionList.toTypedArray()
             )
             val recommendUiModel = RecommendUiModel(
                 title = dataFromRecommendMissionActivity.title,
