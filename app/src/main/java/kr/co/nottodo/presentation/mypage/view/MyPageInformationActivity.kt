@@ -80,7 +80,7 @@ class MyPageInformationActivity : AppCompatActivity(), OnDialogDismissListener {
             withdrawalFeedbackDialogFragment.show(
                 supportFragmentManager, withdrawalFeedbackDialogFragment.tag
             )
-            NotTodoAmplitude.trackEvent(getString(R.string.complete_withdrawal))
+            trackEvent(getString(R.string.complete_withdrawal))
         }
     }
 
