@@ -51,11 +51,13 @@ class MyPageFragment : Fragment() {
     }
 
     private fun setUserEmail() {
-        binding.tvMyPageEmail.text = SharedPreferences.getString(USER_EMAIL) ?: "연동된 이메일 정보가 없습니다."
+        binding.tvMyPageEmail.text =
+            SharedPreferences.getString(USER_EMAIL) ?: getString(R.string.no_email)
     }
 
     private fun setUserName() {
-        binding.tvMyPageName.text = SharedPreferences.getString(USER_NAME) ?: "익명의 도전자"
+        binding.tvMyPageName.text =
+            SharedPreferences.getString(USER_NAME) ?: getString(R.string.no_name)
     }
 
     private fun setClickEvents() {
@@ -138,7 +140,7 @@ class MyPageFragment : Fragment() {
 
     private fun setActivityBackgroundColor() {
         onFragmentChangedListener?.setActivityBackgroundColorBasedOnFragment(this@MyPageFragment)
-            ?: throw NullPointerException("onFragmentChangedListener is null")
+            ?: throw NullPointerException(getString(R.string.onfragmentchangedlistener_is_null))
     }
 
     override fun onDestroyView() {

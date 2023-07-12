@@ -97,5 +97,8 @@
     <string name="click_question">click_question</string>
     <string name="click_terms">click_terms</string>
     <string name="click_opensource">click_opensource</string>
+    <string name="no_email">연동된 이메일 정보가 없습니다.</string>
+    <string name="no_name">익명의 도전자</string>
+    <string name="onfragmentchangedlistener_is_null">onFragmentChangedListener is null</string>
 
 </resources>
