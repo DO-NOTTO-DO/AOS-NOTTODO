@@ -116,5 +116,14 @@
     <string name="click_self_create_action">click_self_create_action</string>
     <string name="click_create_recommend_mission">click_create_recommend_mission</string>
     <string name="action">action</string>
+    <string name="view_create_mission">view_create_mission</string>
+    <string name="click_mission_history">click_mission_history</string>
+    <string name="click_recommend_situation">click_recommend_situation</string>
+    <string name="date">date</string>
+    <string name="goal">goal</string>
+    <string name="click_create_mission">click_create_mission</string>
+    <string name="complete_create_mission">complete_create_mission</string>
+    <string name="appear_same_mission_issue_message">appear_same_mission_issue_message</string>
+    <string name="appear_maxed_issue_message">appear_maxed_issue_message</string>
 
 </resources>
