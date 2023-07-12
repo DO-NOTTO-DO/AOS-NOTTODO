@@ -107,5 +107,10 @@
     <string name="complete_push_off">complete_push_off</string>
     <string name="appear_withdrawal_modal">appear_withdrawal_modal</string>
     <string name="complete_withdrawal">complete_withdrawal</string>
+    <string name="view_recommend_mission">view_recommend_mission</string>
+    <string name="click_self_create_mission">click_self_create_mission</string>
+    <string name="click_recommend_mission">click_recommend_mission</string>
+    <string name="situation">situation</string>
+    <string name="title">title</string>
 
 </resources>
