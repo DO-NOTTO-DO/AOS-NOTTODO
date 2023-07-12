@@ -83,5 +83,19 @@
     <string name="click_onboarding_next_4">click_onboarding_next_4</string>
     <string name="view_onboarding_5">view_onboarding_5</string>
     <string name="click_onboarding_next_5">click_onboarding_next_5</string>
+    <string name="context_can_not_cast_as_onfragmentchangedlistener">context can not cast as OnFragmentChangedListener</string>
+    <string name="view_my_info">view_my_info</string>
+    <string name="click_my_info">click_my_info</string>
+    <string name="url_guide">https://teamnottodo.notion.site/f35a7f2d6d5c4b33b4d0949f6077e6cd</string>
+    <string name="url_faq">https://teamnottodo.notion.site/a6ef7036bde24e289e576ace099f39dc</string>
+    <string name="url_notice">https://teamnottodo.notion.site/a5dbb310ec1d43baae02b7e9bf0b3411</string>
+    <string name="url_contact">http://pf.kakao.com/_fUIQxj/chat</string>
+    <string name="url_polices">https://teamnottodo.notion.site/81594da775614d23900cdb2475eadb73</string>
+    <string name="click_guide">click_guide</string>
+    <string name="click_faq">click_faq</string>
+    <string name="click_notice">click_notice</string>
+    <string name="click_question">click_question</string>
+    <string name="click_terms">click_terms</string>
+    <string name="click_opensource">click_opensource</string>
 
 </resources>
