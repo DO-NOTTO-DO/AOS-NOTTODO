@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ActivityRecommendActionBinding
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter
@@ -15,9 +16,10 @@ import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionAc
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
 import kr.co.nottodo.presentation.recommendation.model.RecommendMissionUiModel
 import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
+import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
+import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.showToast
-import timber.log.Timber
 
 class RecommendActionActivity : AppCompatActivity() {
 
@@ -59,6 +61,16 @@ class RecommendActionActivity : AppCompatActivity() {
     }
 
     private fun getDataFromRecommendMissionActivity() {
+        trackEventWithProperty(
+            getString(R.string.view_recommend_mission_detail),
+            getString(R.string.situation),
+            dataFromRecommendMissionActivity.situation
+        )
+        trackEventWithProperty(
+            getString(R.string.view_recommend_mission_detail),
+            getString(R.string.title),
+            dataFromRecommendMissionActivity.title
+        )
         viewModel.setMissionId(
             dataFromRecommendMissionActivity.id
         )
@@ -105,7 +117,21 @@ class RecommendActionActivity : AppCompatActivity() {
     private fun continueBtnClickEvent() {
         binding.btnRecommendActionContinue.setOnClickListener {
             val selectedActionList = recommendActionAdapter?.getSelectedActionList()
-
+            trackEventWithProperty(
+                getString(R.string.click_create_recommend_mission),
+                getString(R.string.situation),
+                dataFromRecommendMissionActivity.situation
+            )
+            trackEventWithProperty(
+                getString(R.string.click_create_recommend_mission),
+                getString(R.string.title),
+                dataFromRecommendMissionActivity.title
+            )
+            trackEventWithProperty(
+                getString(R.string.click_create_recommend_mission),
+                getString(R.string.action),
+                selectedActionList?.toTypedArray() ?: emptyArray()
+            )
             val recommendUiModel = RecommendUiModel(
                 title = dataFromRecommendMissionActivity.title,
                 situation = dataFromRecommendMissionActivity.situation,
@@ -122,6 +148,7 @@ class RecommendActionActivity : AppCompatActivity() {
 
     private fun writeDirectTvClickEvent() {
         binding.tvRecommendActionWriteDirect.setOnClickListener {
+            trackEvent(getString(R.string.click_self_create_action))
             val recommendUiModel = RecommendUiModel(
                 title = dataFromRecommendMissionActivity.title,
                 situation = dataFromRecommendMissionActivity.situation,
@@ -155,7 +182,6 @@ class RecommendActionActivity : AppCompatActivity() {
     private fun setRecommendActionErrorObserver() {
         viewModel.recommendActionListErrorResponse.observe(this) { errorMessage ->
             showToast(errorMessage)
-            Timber.tag("okhttp").e(errorMessage)
         }
     }
 

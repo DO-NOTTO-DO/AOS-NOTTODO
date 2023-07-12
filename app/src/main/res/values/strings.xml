@@ -112,5 +112,9 @@
     <string name="click_recommend_mission">click_recommend_mission</string>
     <string name="situation">situation</string>
     <string name="title">title</string>
+    <string name="view_recommend_mission_detail">view_recommend_mission_detail</string>
+    <string name="click_self_create_action">click_self_create_action</string>
+    <string name="click_create_recommend_mission">click_create_recommend_mission</string>
+    <string name="action">action</string>
 
 </resources>
