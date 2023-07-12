@@ -10,12 +10,15 @@ import android.provider.Settings
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityMyPageInformationBinding
 import kr.co.nottodo.listeners.OnDialogDismissListener
 import kr.co.nottodo.presentation.login.view.LoginActivity
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 import kr.co.nottodo.presentation.mypage.viewmodel.MyPageInformationViewModel
+import kr.co.nottodo.util.NotTodoAmplitude
+import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.showToast
 
 
@@ -28,10 +31,32 @@ class MyPageInformationActivity : AppCompatActivity(), OnDialogDismissListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        trackEvent(getString(R.string.view_account_info))
+        setDataBinding()
         setViews()
         setClickEvents()
+        setCheckedChangeEvents()
         setObservers()
+    }
+
+    private fun setCheckedChangeEvents() {
+        setNotificationPermissionSwitchCheckedChangeEvent()
+    }
+
+    private fun setNotificationPermissionSwitchCheckedChangeEvent() {
+        binding.switchMyPageInformationNotificationPermission.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                trackEvent(getString(R.string.complete_push_on))
+            } else {
+                trackEvent(getString(R.string.complete_push_off))
+            }
+        }
+    }
+
+    private fun setDataBinding() {
+        binding = ActivityMyPageInformationBinding.inflate(layoutInflater)
+        binding.vm = viewModel
+        binding.lifecycleOwner = this
     }
 
     private fun setObservers() {
@@ -55,30 +80,24 @@ class MyPageInformationActivity : AppCompatActivity(), OnDialogDismissListener {
             withdrawalFeedbackDialogFragment.show(
                 supportFragmentManager, withdrawalFeedbackDialogFragment.tag
             )
+            NotTodoAmplitude.trackEvent(getString(R.string.complete_withdrawal))
         }
     }
 
     private fun setViews() {
-        setRootView()
+        setContentView(binding.root)
         setUserName()
         setUserEmail()
     }
 
-    private fun setRootView() {
-        binding = ActivityMyPageInformationBinding.inflate(layoutInflater)
-        binding.vm = viewModel
-        binding.lifecycleOwner = this
-        setContentView(binding.root)
-    }
-
     private fun setUserEmail() {
         binding.tvMyPageInformationEmail.text =
-            SharedPreferences.getString(LoginActivity.USER_EMAIL) ?: "연동된 이메일 정보가 없습니다."
+            SharedPreferences.getString(LoginActivity.USER_EMAIL) ?: getString(R.string.no_email)
     }
 
     private fun setUserName() {
         binding.tvMyPageInformationName.text =
-            SharedPreferences.getString(LoginActivity.USER_NAME) ?: "익명의 도전자"
+            SharedPreferences.getString(LoginActivity.USER_NAME) ?: getString(R.string.no_name)
     }
 
     override fun onResume() {
@@ -172,15 +191,3 @@ class MyPageInformationActivity : AppCompatActivity(), OnDialogDismissListener {
         logout()
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

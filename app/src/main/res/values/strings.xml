@@ -100,5 +100,12 @@
     <string name="no_email">연동된 이메일 정보가 없습니다.</string>
     <string name="no_name">익명의 도전자</string>
     <string name="onfragmentchangedlistener_is_null">onFragmentChangedListener is null</string>
+    <string name="view_account_info">view_account_info</string>
+    <string name="appear_logout_modal">appear_logout_modal</string>
+    <string name="complete_logout">complete_logout</string>
+    <string name="complete_push_on">complete_push_on</string>
+    <string name="complete_push_off">complete_push_off</string>
+    <string name="appear_withdrawal_modal">appear_withdrawal_modal</string>
+    <string name="complete_withdrawal">complete_withdrawal</string>
 
 </resources>
