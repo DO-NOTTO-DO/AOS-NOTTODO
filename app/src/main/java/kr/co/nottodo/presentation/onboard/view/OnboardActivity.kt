@@ -23,7 +23,7 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
 
     private fun initFragments(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
-            addFragment(OnboardSecondFragment())
+            addFragment(OnboardFirstFragment())
         }
     }
 
