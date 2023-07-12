@@ -77,6 +77,11 @@ class ModificationActivity : AppCompatActivity() {
     private fun observeGetMissionDatesSuccessResponse() {
         viewModel.getMissionDatesSuccessResponse.observe(this) { response ->
             viewModel.setMissionDates()
+            trackEventWithProperty(
+                getString(R.string.view_update_mission),
+                getString(R.string.date),
+                response.data.map { it.convertDateStringToInt() }.toTypedArray()
+            )
         }
     }
 
@@ -208,23 +213,25 @@ class ModificationActivity : AppCompatActivity() {
     private fun trackCompleteUpdateMission(notTodoData: Modification) {
         with(notTodoData) {
             trackEventWithProperty(
-                getString(R.string.view_update_mission),
+                getString(R.string.complete_update_mission),
                 getString(R.string.date),
                 viewModel.getDates()?.map { date -> date.convertDateStringToInt() }?.toTypedArray()
             )
-            if (goal != null) trackEventWithProperty(
-                getString(R.string.view_update_mission), getString(R.string.goal), goal
+            if (!goal.isNullOrBlank()) trackEventWithProperty(
+                getString(R.string.complete_update_mission), getString(R.string.goal), goal
             )
 
             trackEventWithProperty(
-                getString(R.string.view_update_mission), getString(R.string.title), title
+                getString(R.string.complete_update_mission), getString(R.string.title), title
             )
             trackEventWithProperty(
-                getString(R.string.view_update_mission), getString(R.string.situation), situation
+                getString(R.string.complete_update_mission),
+                getString(R.string.situation),
+                situation
             )
 
             if (!actions.isNullOrEmpty()) trackEventWithProperty(
-                getString(R.string.view_update_mission),
+                getString(R.string.complete_update_mission),
                 getString(R.string.action),
                 actions.toTypedArray()
             )
@@ -272,17 +279,12 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun trackViewUpdateMission(notTodoData: NotTodoData) {
         with(notTodoData) {
-            trackEventWithProperty(
-                getString(R.string.view_update_mission),
-                getString(R.string.date),
-                viewModel.getDates()?.map { date -> date.convertDateStringToInt() }?.toTypedArray()
-            )
-            if (goal != null) trackEventWithProperty(
+            if (!goal.isNullOrBlank()) trackEventWithProperty(
                 getString(R.string.view_update_mission), getString(R.string.goal), goal
             )
 
             trackEventWithProperty(
-                getString(R.string.view_update_mission), getString(R.string.title), title
+                getString(R.string.view_update_mission), getString(R.string.title), mission
             )
             trackEventWithProperty(
                 getString(R.string.view_update_mission), getString(R.string.situation), situation

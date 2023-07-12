@@ -127,5 +127,6 @@
     <string name="appear_maxed_issue_message">appear_maxed_issue_message</string>
     <string name="view_update_mission">view_update_mission</string>
     <string name="click_update_mission">click_update_mission</string>
+    <string name="complete_update_mission">complete_update_mission</string>
 
 </resources>
