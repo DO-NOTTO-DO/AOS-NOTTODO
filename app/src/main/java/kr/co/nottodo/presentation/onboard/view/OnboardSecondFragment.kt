@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentOnboardSecondBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
-import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 
 class OnboardSecondFragment : Fragment() {
@@ -20,7 +19,6 @@ class OnboardSecondFragment : Fragment() {
     private val binding: FragmentOnboardSecondBinding
         get() = requireNotNull(_binding)
     private var onboardInterface: OnboardInterface? = null
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -62,10 +60,10 @@ class OnboardSecondFragment : Fragment() {
         val videoPath =
             "android.resource://" + requireContext().packageName + "/" + R.raw.video_logo_onboard_two
         with(binding.vvOnboardSecond) {
+            setVideoPath(videoPath)
             setOnPreparedListener {
                 startVideoAfter300Millis()
             }
-            setVideoPath(videoPath)
             setOnCompletionListener {
                 showBtn()
             }
