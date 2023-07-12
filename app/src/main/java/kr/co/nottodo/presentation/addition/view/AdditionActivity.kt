@@ -255,7 +255,7 @@ class AdditionActivity : AppCompatActivity() {
                 situation
             )
 
-            if (actions != null) trackEventWithProperty(
+            if (!actions.isNullOrEmpty()) trackEventWithProperty(
                 getString(R.string.complete_create_mission),
                 getString(R.string.action),
                 actions.toTypedArray()
