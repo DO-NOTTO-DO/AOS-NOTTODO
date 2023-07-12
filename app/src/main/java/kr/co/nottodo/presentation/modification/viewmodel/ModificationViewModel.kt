@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import kr.co.nottodo.R
 import kr.co.nottodo.data.remote.api.ServicePool
 import kr.co.nottodo.data.remote.api.ServicePool.modificationService
 import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
@@ -15,8 +16,10 @@ import kr.co.nottodo.data.remote.model.modification.RequestModificationDto
 import kr.co.nottodo.data.remote.model.modification.ResponseGetMissionDates
 import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto
 import kr.co.nottodo.presentation.modification.view.ModificationActivity.Companion.NotTodoData
+import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.getErrorMessage
 import kr.co.nottodo.view.calendar.monthly.util.achievementConvertStringToDate
+import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToInt
 import kr.co.nottodo.view.calendar.monthly.util.isToday
 import kr.co.nottodo.view.calendar.monthly.util.isTomorrow
 
@@ -43,6 +46,7 @@ class ModificationViewModel : ViewModel() {
     }
 
     private val dates: MutableLiveData<List<String>> = MutableLiveData()
+    fun getDates() = dates.value
     val firstDate: LiveData<String> = dates.map { dates ->
         dates.last()
     }
