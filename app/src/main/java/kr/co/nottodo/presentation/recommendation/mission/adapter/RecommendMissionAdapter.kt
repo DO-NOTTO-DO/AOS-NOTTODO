@@ -1,13 +1,17 @@
 package kr.co.nottodo.presentation.recommendation.mission.adapter
 
+import android.graphics.Rect
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import coil.load
 import kr.co.nottodo.data.remote.model.recommendation.mission.ResponseRecommendMissionListDto.Mission
 import kr.co.nottodo.databinding.ItemRecommendMissionBinding
 import kr.co.nottodo.util.DiffUtilItemCallback
+import kr.co.nottodo.util.dpToPx
 
 class RecommendMissionAdapter(private val startRecommendActionActivity: (Int, String, String, String) -> Unit) :
     ListAdapter<Mission, RecommendMissionAdapter.RecommendMissionViewHolder>(
@@ -43,6 +47,27 @@ class RecommendMissionAdapter(private val startRecommendActionActivity: (Int, St
                         data.id, data.title, data.situation, data.image
                     )
                 }
+            }
+        }
+    }
+
+    class RecommendMissionItemDecoration() : ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State,
+        ) {
+            super.getItemOffsets(outRect, view, parent, state)
+
+            val position = parent.getChildAdapterPosition(view)
+            val itemCount = parent.adapter?.itemCount ?: 0
+
+            if (position == 0) {
+                outRect.top = view.context.dpToPx(6)
+            }
+            if (position == itemCount - 1) {
+                outRect.bottom = view.context.dpToPx(82)
             }
         }
     }
