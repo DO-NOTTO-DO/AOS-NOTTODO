@@ -8,7 +8,7 @@
     <string name="menu_main_my_page">마이 페이지</string>
 
     <!--home-->
-    <string name="home_empty_list">새로운 낫투두를 추가하고\n오늘 하루를 더 잘 살아보세요!</string>
+    <string name="home_empty_list">새로운 낫투두를 추가하고\n목표 달성을 위한 환경을 만들어보세요!</string>
     <string name="home_today_month">2023년 1월</string>
     <string name="home_item_list_situation">밥 먹을 때</string>
     <string name="home_item_list_natodo">배민 vip 탈출하기</string>
@@ -41,7 +41,7 @@
 
     <!--acheive-->
     <string name="achieve_achieve">성취</string>
-    <string name="achieve_description">SNS에 오늘의 낫투두를 공유하고\n낫투더들과 이야기 나눠보세요.</string>
+    <string name="achieve_description">&lt;매달 낫투두 성취 공유하고 선물받자!&gt;\n인스타 @nottodo_official을 확인해주세요 :)</string>
     <string name="achieve_dialog_noToDo">등록된 낫투두가 없습니다.</string>
 
     <!--notification-->
