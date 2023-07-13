@@ -126,9 +126,9 @@
                     android:id="@+id/tv_recommend_action_recommend_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="33dp"
+                    android:layout_marginStart="18dp"
                     android:layout_marginTop="48dp"
-                    android:text="실천행동 추천"
+                    android:text="실천방법 추천"
                     android:textAppearance="@style/Sb18"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
@@ -138,20 +138,31 @@
                     android:id="@+id/iv_recommend_action_recommend_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginBottom="2dp"
                     android:src="@drawable/ic_recommendation_action_info"
                     app:layout_constraintBottom_toBottomOf="@id/tv_recommend_action_recommend_title"
-                    app:layout_constraintStart_toEndOf="@id/tv_recommend_action_recommend_title"
-                    app:layout_constraintTop_toTopOf="@id/tv_recommend_action_recommend_title" />
+                    app:layout_constraintStart_toEndOf="@id/tv_recommend_action_recommend_title" />
+
+                <TextView
+                    android:id="@+id/tv_recommend_action_recommend_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="아래 추천 항목을 선택해 실천방법을 추가하세요"
+                    android:textAppearance="@style/L14"
+                    android:textColor="@color/gray_4_9398aa"
+                    app:layout_constraintStart_toStartOf="@id/tv_recommend_action_recommend_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_recommend_action_recommend_title" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_recommend_action"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="18dp"
-                    android:layout_marginTop="22dp"
+                    android:layout_marginTop="30dp"
                     android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@id/tv_recommend_action_recommend_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_recommend_action_recommend_desc"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_recommend_action" />
 

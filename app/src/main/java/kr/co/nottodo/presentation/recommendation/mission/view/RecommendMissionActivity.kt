@@ -9,6 +9,7 @@ import kr.co.nottodo.databinding.ActivityRecommendMissionBinding
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity
 import kr.co.nottodo.presentation.recommendation.mission.adapter.RecommendMissionAdapter
+import kr.co.nottodo.presentation.recommendation.mission.adapter.RecommendMissionAdapter.RecommendMissionItemDecoration
 import kr.co.nottodo.presentation.recommendation.mission.viewmodel.RecommendMissionViewModel
 import kr.co.nottodo.presentation.recommendation.model.RecommendMissionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
@@ -104,6 +105,7 @@ class RecommendMissionActivity : AppCompatActivity() {
             }
         recommendMissionAdapter = RecommendMissionAdapter(startRecommendActionActivity)
         binding.rvRecommendMission.adapter = recommendMissionAdapter
+        binding.rvRecommendMission.addItemDecoration(RecommendMissionItemDecoration())
     }
 
     private fun setData() {
