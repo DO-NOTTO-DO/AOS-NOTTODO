@@ -128,5 +128,10 @@
     <string name="view_update_mission">view_update_mission</string>
     <string name="click_update_mission">click_update_mission</string>
     <string name="complete_update_mission">complete_update_mission</string>
+    <string name="mission_desc">어떤 낫투두를 실천할까요?</string>
+    <string name="max_text_size_20">/20</string>
+    <string name="situation_desc">위 낫투두를\n어떤 상황에서 실천할까요?</string>
+    <string name="action_desc">어떤 방법으로\n낫투두에 도전할까요?</string>
+    <string name="goal_desc">낫투두를 통해서\n어떤 목표를 이루려 하나요?</string>
 
 </resources>
