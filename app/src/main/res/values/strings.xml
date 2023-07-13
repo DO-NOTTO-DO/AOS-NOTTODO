@@ -133,5 +133,9 @@
     <string name="situation_desc">위 낫투두를\n어떤 상황에서 실천할까요?</string>
     <string name="action_desc">어떤 방법으로\n낫투두에 도전할까요?</string>
     <string name="goal_desc">낫투두를 통해서\n어떤 목표를 이루려 하나요?</string>
+    <string name="ex_mission_youtube">낫투두 - 유튜브 보지않기</string>
+    <string name="ex_action_youtube">실천 방법 - 유튜브 프리미엄 구독 취소\n실천 방법 - 공부 중에 가방 안에 핸드폰 넣기</string>
+    <string name="ex_mission_work_out">운동 중 20분 이상 쉬지 않기</string>
+    <string name="ex_goal_work_out">근손실 막고 근육량 늘리기</string>
 
 </resources>

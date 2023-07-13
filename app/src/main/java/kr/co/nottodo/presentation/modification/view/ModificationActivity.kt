@@ -20,6 +20,7 @@ import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto.Modi
 import kr.co.nottodo.databinding.ActivityModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.home.view.HomeMenuBottomSheetFragment
+import kr.co.nottodo.presentation.modification.model.NotTodoData
 import kr.co.nottodo.presentation.modification.viewmodel.ModificationViewModel
 import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
@@ -513,7 +514,8 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun observeGoal() {
         viewModel.goal.observe(this) { goal ->
-            binding.tvModificationGoalTextCount.text = goal.length.toString() + maxTextSize
+            binding.tvModificationGoalTextCount.text =
+                goal.length.toString() + getString(R.string.max_text_size_20)
             if (goal.isNotBlank()) {
                 binding.layoutModificationGoalClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
@@ -541,7 +543,8 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun observeAction() {
         viewModel.action.observe(this) { action ->
-            binding.tvModificationActionTextCount.text = action.length.toString() + maxTextSize
+            binding.tvModificationActionTextCount.text =
+                action.length.toString() + action.length.toString() + getString(R.string.max_text_size_20)
         }
     }
 
@@ -627,7 +630,7 @@ class ModificationActivity : AppCompatActivity() {
     private fun observeSituation() {
         viewModel.situation.observe(this) { situation ->
             binding.tvModificationSituationTextCount.text =
-                situation.length.toString() + maxTextSize
+                situation.length.toString() + getString(R.string.max_text_size_20)
             if (situation.isNotBlank()) {
                 binding.layoutModificationSituationClosed.background =
                     AppCompatResources.getDrawable(
@@ -655,7 +658,8 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun observeMission() {
         viewModel.mission.observe(this) { mission ->
-            binding.tvModificationMissionTextCount.text = mission.length.toString() + maxTextSize
+            binding.tvModificationMissionTextCount.text =
+                mission.length.toString() + getString(R.string.max_text_size_20)
             if (mission.isNotBlank()) {
                 binding.layoutModificationMissionClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
@@ -799,7 +803,7 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun initOpenedDesc() {
-        val missionOpenedDesc = SpannableStringBuilder(missionOpenedDesc)
+        val missionOpenedDesc = SpannableStringBuilder(getString(R.string.mission_desc))
         missionOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.white)), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
@@ -810,43 +814,42 @@ class ModificationActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         missionOpenedDesc.setSpan(
-            ForegroundColorSpan(getColor(R.color.white)), 6, 15, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(getColor(R.color.white)), 6, 14, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         binding.tvModificationMissionOpenedDesc.text = missionOpenedDesc
 
         val situationOpenedDesc = SpannableStringBuilder(
-            situationOpenedDesc
+            getString(R.string.situation_desc)
         )
         situationOpenedDesc.setSpan(
+            ForegroundColorSpan(getColor(R.color.white)), 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        situationOpenedDesc.setSpan(
+            ForegroundColorSpan(getColor(R.color.green_1_98ffa9)),
+            10, 12,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        situationOpenedDesc.setSpan(
+            ForegroundColorSpan(getColor(R.color.white)), 12, 21, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        binding.tvModificationSituationOpenedDesc.text = situationOpenedDesc
+
+        val actionOpenedDesc = SpannableStringBuilder(getString(R.string.action_desc))
+        actionOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.white)), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        situationOpenedDesc.setSpan(
+        actionOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.green_1_98ffa9)),
             3,
             5,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        situationOpenedDesc.setSpan(
-            ForegroundColorSpan(getColor(R.color.white)), 5, 22, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        binding.tvModificationSituationOpenedDesc.text = situationOpenedDesc
-
-        val actionOpenedDesc = SpannableStringBuilder(actionOpenedDesc)
         actionOpenedDesc.setSpan(
-            ForegroundColorSpan(getColor(R.color.white)), 0, 16, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        actionOpenedDesc.setSpan(
-            ForegroundColorSpan(getColor(R.color.green_1_98ffa9)),
-            16,
-            18,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        actionOpenedDesc.setSpan(
-            ForegroundColorSpan(getColor(R.color.white)), 18, 26, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(getColor(R.color.white)), 5, 19, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         binding.tvModificationActionOpenedDesc.text = actionOpenedDesc
 
-        val goalOpenedDesc = SpannableStringBuilder(goalOpenedDesc)
+        val goalOpenedDesc = SpannableStringBuilder(getString(R.string.goal_desc))
         goalOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.white)), 0, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
@@ -865,21 +868,5 @@ class ModificationActivity : AppCompatActivity() {
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         hideKeyboard()
         return super.dispatchTouchEvent(ev)
-    }
-
-    companion object {
-        const val maxTextSize = "/20"
-        const val missionOpenedDesc = "어떤 낫투두를 설정해볼까요?"
-        const val situationOpenedDesc = "어떤 상황에서\n낫투두를 실천하고 싶나요?"
-        const val actionOpenedDesc = "낫투두를 이루기 위해서\n어떤 행동이 필요한가요?"
-        const val goalOpenedDesc = "낫투두를 통해서\n어떤 목표를 이루려 하나요?"
-
-        data class NotTodoData(
-            val mission: String,
-            val situation: String,
-            val actions: List<String>?,
-            val goal: String?,
-            val missionId: Long,
-        )
     }
 }
