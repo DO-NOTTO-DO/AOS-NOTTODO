@@ -16,7 +16,8 @@ import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
 import kr.co.nottodo.presentation.onboard.view.OnboardActivity
-import kr.co.nottodo.util.NotTodoAmplitude
+import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
+import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.showToast
 import timber.log.Timber
 
@@ -29,7 +30,6 @@ class LoginActivity : AppCompatActivity() {
         setViews()
         showOnboardForFirstUser()
         setAutoLogin()
-        NotTodoAmplitude.trackEvent(getString(R.string.view_signin))
         observeGetTokenResult()
         setClickEvents()
     }
@@ -82,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.layoutLoginKakao.setOnClickListener {
-            NotTodoAmplitude.trackEventWithProperty(
+            trackEventWithProperty(
                 getString(R.string.click_signin), getString(R.string.provider), getString(
                     R.string.kakao
                 )
@@ -134,12 +134,14 @@ class LoginActivity : AppCompatActivity() {
         if (!SharedPreferences.getString(USER_TOKEN).isNullOrBlank()) {
             startActivity(Intent(this, MainActivity::class.java))
             if (!isFinishing) finish()
+        } else {
+            trackEvent(getString(R.string.view_signin))
         }
     }
 
     private fun observeGetTokenResult() {
         viewModel.getTokenResult.observe(this) { response ->
-            NotTodoAmplitude.trackEventWithProperty(
+            trackEventWithProperty(
                 getString(R.string.complete_signin), getString(R.string.provider), getString(
                     R.string.kakao
                 )

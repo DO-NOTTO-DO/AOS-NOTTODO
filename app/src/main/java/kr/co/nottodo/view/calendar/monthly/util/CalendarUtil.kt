@@ -15,7 +15,7 @@ import java.util.Locale
 
 fun Calendar.toPrettyMonthString(
     style: Int = LONG,
-    locale: Locale = Locale.KOREA
+    locale: Locale = Locale.KOREA,
 ): String {
     val month = getDisplayName(MONTH, style, locale)
     val year = get(YEAR).toString()
@@ -57,8 +57,13 @@ fun String.convertToLocalDate(): LocalDate? {
     }.getOrNull()
 }
 
+// yyyy-MM-dd -> yyyy.MM.dd
 fun String.convertDateStringToPrettyDateString(): String {
     return this.replace('-', '.')
+}
+
+fun String.convertDateStringToInt(): Int {
+    return this.filter { char -> char != '.' }.toInt()
 }
 
 fun Date.convertDateToString(): String? {

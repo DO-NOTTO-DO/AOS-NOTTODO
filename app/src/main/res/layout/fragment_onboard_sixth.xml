@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:text="달성률을 높이기 위해선 필수!"
             android:textAppearance="@style/L13"
+            android:layout_marginStart="6dp"
             android:textColor="@color/green_1_98ffa9" />
 
     </LinearLayout>

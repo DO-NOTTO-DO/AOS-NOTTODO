@@ -143,6 +143,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
             override fun handleOnBackPressed() {
                 if (doubleBackToExitPressedOnce) {
                     if (!isFinishing) finish()
+                    return
                 }
 
                 doubleBackToExitPressedOnce = true

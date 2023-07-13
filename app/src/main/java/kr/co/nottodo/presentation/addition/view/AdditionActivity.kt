@@ -18,11 +18,14 @@ import kr.co.nottodo.MainActivity
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
+import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto.Addition
 import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity.Companion.MISSION_ACTION_DETAIL
 import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
+import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
+import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.containToday
 import kr.co.nottodo.util.containTomorrow
@@ -32,6 +35,7 @@ import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
 import kr.co.nottodo.view.calendar.monthly.util.achievementConvertStringToDate
+import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToInt
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import java.util.Date
 
@@ -47,6 +51,7 @@ class AdditionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        trackEvent(getString(R.string.view_create_mission))
         initDataBinding()
         setData()
         setViews()
@@ -170,6 +175,9 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private val setMissionName: (String) -> Unit = { missionName: String ->
+        trackEventWithProperty(
+            getString(R.string.click_mission_history), getString(R.string.title), missionName
+        )
         binding.etAdditionMission.setText(missionName)
         binding.etAdditionMission.requestFocus()
         binding.etAdditionMission.setSelection(binding.etAdditionMission.length())
@@ -206,15 +214,52 @@ class AdditionActivity : AppCompatActivity() {
             val errorMessageWithHtmlTag =
                 HtmlCompat.fromHtml(errorMessage, HtmlCompat.FROM_HTML_MODE_COMPACT)
             showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
+            trackAdditionFailureEvent(errorMessage)
+        }
+    }
+
+    private fun trackAdditionFailureEvent(errorMessage: String) {
+        when (errorMessage.first()) {
+            '해' -> trackEvent(getString(R.string.appear_same_mission_issue_message))
+            '낫' -> trackEvent(getString(R.string.appear_maxed_issue_message))
         }
     }
 
     private fun observeSuccessResponse() {
         viewModel.additionResponse.observe(this) { response ->
             showToast("낫투두 생성 완료 !")
+            trackCompleteCreateMission(response)
             val sortedList =
                 response.dates.sortedBy { date -> date.achievementConvertStringToDate() }
             navigateToMain(sortedList.first().toString())
+        }
+    }
+
+    private fun trackCompleteCreateMission(missionData: Addition) {
+        with(missionData) {
+            trackEventWithProperty(getString(R.string.complete_create_mission),
+                getString(R.string.date),
+                dates.map { date -> date.convertDateStringToInt() })
+
+            if (goal != null) trackEventWithProperty(
+                getString(R.string.complete_create_mission), getString(R.string.goal), goal
+            )
+
+            trackEventWithProperty(
+                getString(R.string.complete_create_mission), getString(R.string.title), title
+            )
+
+            trackEventWithProperty(
+                getString(R.string.complete_create_mission),
+                getString(R.string.situation),
+                situation
+            )
+
+            if (!actions.isNullOrEmpty()) trackEventWithProperty(
+                getString(R.string.complete_create_mission),
+                getString(R.string.action),
+                actions.toTypedArray()
+            )
         }
     }
 
@@ -445,14 +490,40 @@ class AdditionActivity : AppCompatActivity() {
                 binding.calendarAdditionDateOpened.selectedDays.mapNotNull { selectedDay ->
                     selectedDay.convertDateToString()
                 }
-            viewModel.postAddition(
-                RequestAdditionDto(
-                    title = binding.tvAdditionMissionClosedName.text.toString(),
-                    situation = binding.tvAdditionSituationName.text.toString(),
-                    actions = actionList,
-                    goal = goal,
-                    dates = dateList
-                )
+
+            val requestAdditionDto = RequestAdditionDto(
+                title = binding.tvAdditionMissionClosedName.text.toString(),
+                situation = binding.tvAdditionSituationName.text.toString(),
+                actions = actionList,
+                goal = goal,
+                dates = dateList
+            )
+            trackClickCreateMission(requestAdditionDto)
+            viewModel.postAddition(requestAdditionDto)
+        }
+    }
+
+    private fun trackClickCreateMission(missionData: RequestAdditionDto) {
+        with(missionData) {
+            trackEventWithProperty(getString(R.string.click_create_mission),
+                getString(R.string.date),
+                dates.map { date -> date.convertDateStringToInt() })
+
+            if (goal != null) trackEventWithProperty(
+                getString(R.string.click_create_mission), getString(R.string.goal), goal
+            )
+
+            trackEventWithProperty(
+                getString(R.string.click_create_mission), getString(R.string.title), title
+            )
+            trackEventWithProperty(
+                getString(R.string.click_create_mission), getString(R.string.situation), situation
+            )
+
+            if (actions != null) trackEventWithProperty(
+                getString(R.string.click_create_mission),
+                getString(R.string.action),
+                actions.toTypedArray()
             )
         }
     }

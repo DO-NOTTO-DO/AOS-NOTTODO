@@ -9,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.FragmentMyPageBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.USER_EMAIL
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.USER_NAME
+import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 
 class MyPageFragment : Fragment() {
     private var _binding: FragmentMyPageBinding? = null
@@ -24,7 +26,7 @@ class MyPageFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         onFragmentChangedListener = context as? OnFragmentChangedListener
-            ?: throw TypeCastException("context can not cast as OnFragmentChangedListener")
+            ?: throw TypeCastException(getString(R.string.context_can_not_cast_as_onfragmentchangedlistener))
     }
 
     override fun onCreateView(
@@ -37,6 +39,7 @@ class MyPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        trackEvent(getString(R.string.view_my_info))
         setActivityBackgroundColor()
         setClickEvents()
         setViews()
@@ -48,11 +51,13 @@ class MyPageFragment : Fragment() {
     }
 
     private fun setUserEmail() {
-        binding.tvMyPageEmail.text = SharedPreferences.getString(USER_EMAIL) ?: "연동된 이메일 정보가 없습니다."
+        binding.tvMyPageEmail.text =
+            SharedPreferences.getString(USER_EMAIL) ?: getString(R.string.no_email)
     }
 
     private fun setUserName() {
-        binding.tvMyPageName.text = SharedPreferences.getString(USER_NAME) ?: "익명의 도전자"
+        binding.tvMyPageName.text =
+            SharedPreferences.getString(USER_NAME) ?: getString(R.string.no_name)
     }
 
     private fun setClickEvents() {
@@ -67,16 +72,17 @@ class MyPageFragment : Fragment() {
 
     private fun setOssClickEvent() {
         binding.layoutMyPageOss.setOnClickListener {
+            trackEvent(getString(R.string.click_opensource))
             startActivity(Intent(requireContext(), OssLicensesMenuActivity::class.java))
         }
     }
 
     private fun setPoliciesClickEvent() {
         binding.layoutMyPagePolicies.setOnClickListener {
-            // 버튼을 클릭했을 때 실행할 코드
+            trackEvent(getString(R.string.click_terms))
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://teamnottodo.notion.site/81594da775614d23900cdb2475eadb73")
+                Uri.parse(getString(R.string.url_polices))
             )
             startActivity(intent)
         }
@@ -84,9 +90,9 @@ class MyPageFragment : Fragment() {
 
     private fun setContactClickEvent() {
         binding.layoutMyPageContact.setOnClickListener {
-            // 버튼을 클릭했을 때 실행할 코드
+            trackEvent(getString(R.string.click_question))
             val intent = Intent(
-                Intent.ACTION_VIEW, Uri.parse("http://pf.kakao.com/_fUIQxj/chat")
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_contact))
             )
             startActivity(intent)
         }
@@ -94,10 +100,10 @@ class MyPageFragment : Fragment() {
 
     private fun setNoticeClickEvent() {
         binding.layoutMyPageNotice.setOnClickListener {
-            // 버튼을 클릭했을 때 실행할 코드
+            trackEvent(getString(R.string.click_notice))
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://teamnottodo.notion.site/a5dbb310ec1d43baae02b7e9bf0b3411")
+                Uri.parse(getString(R.string.url_notice))
             )
             startActivity(intent)
         }
@@ -105,10 +111,10 @@ class MyPageFragment : Fragment() {
 
     private fun setQuestionClickEvent() {
         binding.layoutMyPageQuestion.setOnClickListener {
-            // 버튼을 클릭했을 때 실행할 코드
+            trackEvent(getString(R.string.click_faq))
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://teamnottodo.notion.site/a6ef7036bde24e289e576ace099f39dc")
+                Uri.parse(getString(R.string.url_faq))
             )
             startActivity(intent)
         }
@@ -116,10 +122,10 @@ class MyPageFragment : Fragment() {
 
     private fun setGuideClickEvent() {
         binding.layoutMyPageGuide.setOnClickListener {
-            // 버튼을 클릭했을 때 실행할 코드
+            trackEvent(getString(R.string.click_guide))
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://teamnottodo.notion.site/f35a7f2d6d5c4b33b4d0949f6077e6cd")
+                Uri.parse(getString(R.string.url_guide))
             )
             startActivity(intent)
         }
@@ -127,14 +133,14 @@ class MyPageFragment : Fragment() {
 
     private fun setNameClickEvent() {
         binding.layoutMypageName.setOnClickListener {
-            val intent = Intent(requireContext(), MyPageInformationActivity::class.java)
-            startActivity(intent)
+            trackEvent(getString(R.string.click_my_info))
+            startActivity(Intent(requireContext(), MyPageInformationActivity::class.java))
         }
     }
 
     private fun setActivityBackgroundColor() {
         onFragmentChangedListener?.setActivityBackgroundColorBasedOnFragment(this@MyPageFragment)
-            ?: throw NullPointerException("onFragmentChangedListener is null")
+            ?: throw NullPointerException(getString(R.string.onfragmentchangedlistener_is_null))
     }
 
     override fun onDestroyView() {

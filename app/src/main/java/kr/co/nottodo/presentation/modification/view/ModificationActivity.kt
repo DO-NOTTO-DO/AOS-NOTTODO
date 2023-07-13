@@ -16,16 +16,20 @@ import androidx.databinding.DataBindingUtil
 import kr.co.nottodo.MainActivity.Companion.BLANK
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.ParcelizeBottomDetail
+import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto.Modification
 import kr.co.nottodo.databinding.ActivityModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.home.view.HomeMenuBottomSheetFragment
 import kr.co.nottodo.presentation.modification.viewmodel.ModificationViewModel
+import kr.co.nottodo.util.NotTodoAmplitude
+import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
+import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToInt
 
 class ModificationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityModificationBinding
@@ -73,6 +77,11 @@ class ModificationActivity : AppCompatActivity() {
     private fun observeGetMissionDatesSuccessResponse() {
         viewModel.getMissionDatesSuccessResponse.observe(this) { response ->
             viewModel.setMissionDates()
+            trackEventWithProperty(
+                getString(R.string.view_update_mission),
+                getString(R.string.date),
+                response.data.map { it.convertDateStringToInt() }.toTypedArray()
+            )
         }
     }
 
@@ -88,6 +97,9 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private val setMissionName: (String) -> Unit = { missionName: String ->
+        trackEventWithProperty(
+            getString(R.string.click_mission_history), getString(R.string.title), missionName
+        )
         binding.etModificationMission.setText(missionName)
         binding.etModificationMission.requestFocus()
         binding.etModificationMission.setSelection(binding.etModificationMission.length())
@@ -190,10 +202,39 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeSuccessResponse() {
-        viewModel.modificationResponse.observe(this) {
+        viewModel.modificationResponse.observe(this) { response ->
             showToast("낫투두 수정 완료 !")
             setResult(RESULT_OK)
             if (!isFinishing) finish()
+            trackCompleteUpdateMission(response)
+        }
+    }
+
+    private fun trackCompleteUpdateMission(notTodoData: Modification) {
+        with(notTodoData) {
+            trackEventWithProperty(
+                getString(R.string.complete_update_mission),
+                getString(R.string.date),
+                viewModel.getDates()?.map { date -> date.convertDateStringToInt() }?.toTypedArray()
+            )
+            if (!goal.isNullOrBlank()) trackEventWithProperty(
+                getString(R.string.complete_update_mission), getString(R.string.goal), goal
+            )
+
+            trackEventWithProperty(
+                getString(R.string.complete_update_mission), getString(R.string.title), title
+            )
+            trackEventWithProperty(
+                getString(R.string.complete_update_mission),
+                getString(R.string.situation),
+                situation
+            )
+
+            if (!actions.isNullOrEmpty()) trackEventWithProperty(
+                getString(R.string.complete_update_mission),
+                getString(R.string.action),
+                actions.toTypedArray()
+            )
         }
     }
 
@@ -202,6 +243,14 @@ class ModificationActivity : AppCompatActivity() {
             val errorMessageWithHtmlTag =
                 HtmlCompat.fromHtml(errorMessage, HtmlCompat.FROM_HTML_MODE_COMPACT)
             showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
+            trackAdditionFailureEvent(errorMessage)
+        }
+    }
+
+    private fun trackAdditionFailureEvent(errorMessage: String) {
+        when (errorMessage.first()) {
+            '해' -> NotTodoAmplitude.trackEvent(getString(R.string.appear_same_mission_issue_message))
+            '낫' -> NotTodoAmplitude.trackEvent(getString(R.string.appear_maxed_issue_message))
         }
     }
 
@@ -211,18 +260,41 @@ class ModificationActivity : AppCompatActivity() {
         )
 
         if (dataFromHome != null) {
-            viewModel.setOriginalData(
-                NotTodoData(
-                    dataFromHome.title,
-                    dataFromHome.situation,
-                    dataFromHome.actions?.map { action -> action.name.toString() },
-                    dataFromHome.goal,
-                    dataFromHome.id
-                )
+            val notTodoData = NotTodoData(
+                dataFromHome.title,
+                dataFromHome.situation,
+                dataFromHome.actions?.map { action -> action.name.toString() },
+                dataFromHome.goal,
+                dataFromHome.id
             )
+            viewModel.setOriginalData(
+                notTodoData
+            )
+            trackViewUpdateMission(notTodoData)
         } else {
             showToast("오류로 인해 해당 낫투두를 수정할 수 없습니다.")
             if (!isFinishing) finish()
+        }
+    }
+
+    private fun trackViewUpdateMission(notTodoData: NotTodoData) {
+        with(notTodoData) {
+            if (!goal.isNullOrBlank()) trackEventWithProperty(
+                getString(R.string.view_update_mission), getString(R.string.goal), goal
+            )
+
+            trackEventWithProperty(
+                getString(R.string.view_update_mission), getString(R.string.title), mission
+            )
+            trackEventWithProperty(
+                getString(R.string.view_update_mission), getString(R.string.situation), situation
+            )
+
+            if (!actions.isNullOrEmpty()) trackEventWithProperty(
+                getString(R.string.view_update_mission),
+                getString(R.string.action),
+                actions.toTypedArray()
+            )
         }
     }
 
@@ -404,9 +476,38 @@ class ModificationActivity : AppCompatActivity() {
         }
         binding.btnModificationModify.setOnClickListener {
             if (binding.btnModificationModify.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
-                // 낫투두 추가
                 viewModel.putModifyMission()
+                trackClickUpdateMission()
             }
+        }
+    }
+
+    private fun trackClickUpdateMission() {
+        with(viewModel) {
+            trackEventWithProperty(
+                getString(R.string.click_update_mission),
+                getString(R.string.date),
+                viewModel.getDates()?.map { date -> date.convertDateStringToInt() }?.toTypedArray()
+            )
+
+            if (!goal.value.isNullOrBlank()) trackEventWithProperty(
+                getString(R.string.click_update_mission), getString(R.string.goal), goal.value
+            )
+
+            trackEventWithProperty(
+                getString(R.string.click_update_mission), getString(R.string.title), mission.value
+            )
+            trackEventWithProperty(
+                getString(R.string.click_update_mission),
+                getString(R.string.situation),
+                situation.value
+            )
+
+            if (!actionList.value.isNullOrEmpty()) trackEventWithProperty(
+                getString(R.string.click_update_mission),
+                getString(R.string.action),
+                actionList.value!!.toTypedArray()
+            )
         }
     }
 

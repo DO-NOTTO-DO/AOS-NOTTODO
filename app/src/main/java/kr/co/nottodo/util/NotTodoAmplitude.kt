@@ -11,7 +11,9 @@ object NotTodoAmplitude {
     fun initAmplitude(applicationContext: Context) {
         amplitude = Amplitude(
             Configuration(
-                apiKey = BuildConfig.AMPLITUDE_API_KEY, context = applicationContext
+                apiKey = BuildConfig.AMPLITUDE_API_KEY,
+                context = applicationContext,
+                trackingSessionEvents = false
             )
         )
     }

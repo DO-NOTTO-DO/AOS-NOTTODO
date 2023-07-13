@@ -1,10 +1,8 @@
 package kr.co.nottodo.presentation.onboard.viewmodel
 
 import androidx.annotation.DrawableRes
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import kr.co.nottodo.R
 
 class OnboardViewModel : ViewModel() {
@@ -20,17 +18,19 @@ class OnboardViewModel : ViewModel() {
         "언제나", "업무할 때", "공부할 때", "출근할 때", "퇴근할 때", "일어나자마자", "잠깐 쉴 때", "잠들기 직전", "기타"
     )
 
-    private val _situationCount: MutableLiveData<Int> = MutableLiveData(0)
-    val isBtnClickable: LiveData<Boolean> = _situationCount.map { count ->
-        count > 0
-    }
+    private val selectedSituations: MutableLiveData<MutableList<String>> = MutableLiveData(
+        mutableListOf()
+    )
 
-    val plusOneInSituationCount: () -> Unit = {
-        _situationCount.value = _situationCount.value?.plus(1)
+    fun getSelectedSituations() = selectedSituations.value
+    val selectedSituationsCount: MutableLiveData<Int> = MutableLiveData(0)
+    val addSituation: (String) -> Unit = { situation ->
+        selectedSituations.value?.add(situation)
+        selectedSituationsCount.value = selectedSituationsCount.value?.plus(1)
     }
-
-    val minusOneInSituationCount: () -> Unit = {
-        _situationCount.value = _situationCount.value?.minus(1)
+    val removeSituation: (String) -> Unit = { situation ->
+        selectedSituations.value?.remove(situation)
+        selectedSituationsCount.value = selectedSituationsCount.value?.minus(1)
     }
 
     val missionList: List<Mission> = listOf(
@@ -42,9 +42,7 @@ class OnboardViewModel : ViewModel() {
     )
 
     val actionList: List<String> = listOf(
-        "배고플 때마다 양치하기",
-        "삶은 계란으로 대신하기",
-        "집에 간식 사두지 않기"
+        "배고플 때마다 양치하기", "삶은 계란으로 대신하기", "집에 간식 사두지 않기"
     )
 
     data class Mission(
