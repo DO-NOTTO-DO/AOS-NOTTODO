@@ -146,11 +146,11 @@
     <string name="add">추가</string>
     <string name="date_kor">날짜</string>
     <string name="complete_kor">완료</string>
-    <string name="addition_nottodo_date">언제 낫투두를 실천할까요?</string>
+    <string name="when_nottodo_date">언제 낫투두를 실천할까요?</string>
     <string name="addition_date_guide">*달성 가능한 계획을 위해 다가올 일주일만 선택할 수 있어요</string>
     <string name="nottodo_kor">낫투두</string>
     <string name="cd_mission_check">낫투두 설정 완료</string>
-    <string name="addition_mission_guide">낫투두는 \'~않기\'로 작성하면 더 쉬워요.</string>
+    <string name="nottodo_guide">낫투두는 \'~않기\'로 작성하면 더 쉬워요.</string>
     <string name="text_watcher_init">0/20</string>
     <string name="nottodo_history">낫투두 입력 기록</string>
     <string name="situation_kor">상황</string>
@@ -176,5 +176,9 @@
     <string name="kakao_login_kor">카카오 로그인</string>
     <string name="cd_google_login_icon">구글 로그인 아이콘</string>
     <string name="google_login_kor">Google계정으로 로그인</string>
+    <string name="complete_modify_nottodo">낫투두 수정 완료 !</string>
+    <string name="error_modify_nottodo">오류로 인해 해당 낫투두를 수정할 수 없습니다.</string>
+    <string name="cd_delete_modification_view">낫투두 수정 창 닫기</string>
+    <string name="modification_modify_nottodo">낫투두 수정</string>
 
 </resources>
