@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentHomeDoAnotherBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
-import kr.co.nottodo.util.NotTodoAmplitude
+import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import kr.co.nottodo.view.calendar.monthly.util.convertStringToDate
 import timber.log.Timber
@@ -53,7 +53,7 @@ class HomeDoAnotherFragment : DialogFragment() {
     }
 
     private fun trackShowDoAnotherDay() {
-        NotTodoAmplitude.trackEvent(getString(R.string.appear_another_day_modal))
+        trackEvent(getString(R.string.appear_another_day_modal))
     }
 
     private fun formatSelectDays(): List<String> {
@@ -123,13 +123,13 @@ class HomeDoAnotherFragment : DialogFragment() {
 
             HAVE_THREE_NOTTODO -> {
                 Toast.makeText(context, R.string.three_nottodo, Toast.LENGTH_SHORT).show()
-                NotTodoAmplitude.trackEvent(getString(R.string.appear_maxed_issue_message))
+                trackEvent(getString(R.string.appear_maxed_issue_message))
             }
         }
     }
 
     override fun onDestroyView() {
-        NotTodoAmplitude.trackEvent(getString(R.string.close_another_day_modal))
+        trackEvent(getString(R.string.close_another_day_modal))
         super.onDestroyView()
         _binding = null
     }

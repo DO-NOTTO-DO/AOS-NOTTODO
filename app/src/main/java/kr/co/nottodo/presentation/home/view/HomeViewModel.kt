@@ -50,7 +50,8 @@ class HomeViewModel : ViewModel() {
             }.fold(
                 onSuccess = {
                     _getHomeDaily.value = it.data.toMutableList()
-                    Timber.tag("gethomeDaily 성공이이롱 ").d("HomeViewModel - getHomeDaily() : ${it.data}")
+                    Timber.tag("gethomeDaily 성공이이롱 ")
+                        .d("HomeViewModel - getHomeDaily() : ${it.data}")
                 },
                 onFailure = {
                     Timber.tag("gethomeDaily error지롱 ").d("${it.message}")

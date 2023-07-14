@@ -26,8 +26,9 @@ import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.CLICK_DAY
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.presentation.modification.view.ModificationActivity
 import kr.co.nottodo.util.NotTodoAmplitude
+import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
+import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.getParcelable
-import kr.co.nottodo.view.calendar.monthly.util.filterAndConvertToInt
 import timber.log.Timber
 
 class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseListener {
@@ -94,19 +95,19 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
     }
 
     private fun trackShowBottomSheet() {
-        NotTodoAmplitude.trackEvent(getString(R.string.appear_detail_mission))
+        trackEvent(getString(R.string.appear_detail_mission))
     }
 
     private fun trackClickEdit() {
-//        NotTodoAmplitude.trackEvent()
+// trackEvent()
     }
 
     private fun trackDestroy() {
-        NotTodoAmplitude.trackEvent(getString(R.string.close_detail_mission))
+        trackEvent(getString(R.string.close_detail_mission))
     }
 
     private fun trackClickDelete() {
-        NotTodoAmplitude.trackEvent(getString(R.string.click_delete_mission))
+        trackEvent(getString(R.string.click_delete_mission))
     }
 
     private fun showDeleteDialog() {
@@ -200,32 +201,32 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             }
     }
 
-    private fun trackCompleteAddMissionData(amplitudeDate: String) {
-        NotTodoAmplitude.trackEventWithProperty(
+    private fun trackCompleteAddMissionData() {
+        trackEventWithProperty(
             getString(R.string.complete_add_mission_another_day),
             getString(R.string.title),
             binding.tvHomeDialogSituation.text,
         )
-        NotTodoAmplitude.trackEventWithProperty(
+        trackEventWithProperty(
             getString(R.string.complete_add_mission_another_day),
             getString(R.string.situation),
             binding.tvHomeDialogNotodo.text,
         )
-        NotTodoAmplitude.trackEventWithProperty(
+        trackEventWithProperty(
             getString(R.string.complete_add_mission_another_day),
             getString(R.string.goal),
             binding.tvHomeDialogGoalDescription.text,
         )
-        NotTodoAmplitude.trackEventWithProperty(
+        trackEventWithProperty(
             getString(R.string.complete_add_mission_another_day),
             getString(R.string.action),
             binding.tvHomeDialogDoAction.text,
         )
-        NotTodoAmplitude.trackEventWithProperty(
-            getString(R.string.complete_add_mission_another_day),
-            getString(R.string.action),
-            amplitudeDate.map { amplitudeDate.filterAndConvertToInt() },
-        )
+//        trackEventWithProperty(
+//            getString(R.string.complete_add_mission_another_day),
+//            getString(R.string.action),
+//            amplitudeDate.map { amplitudeDate.filterAndConvertToInt() },
+//        )
     }
 
     override fun onDestroyView() {
@@ -248,7 +249,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         Timber.d("interface $selectFirstDay")
         dialogDismissListener?.onDismissAndDataPass(selectFirstDay)
         if (!selectFirstDay.isNullOrEmpty()) {
-            trackCompleteAddMissionData(selectFirstDay)
+            trackCompleteAddMissionData()
             dismiss()
         }
     }
