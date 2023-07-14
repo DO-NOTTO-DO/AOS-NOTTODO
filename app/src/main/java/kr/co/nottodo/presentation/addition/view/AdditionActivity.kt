@@ -495,7 +495,7 @@ class AdditionActivity : AppCompatActivity() {
             val dateList: List<String> =
                 binding.calendarAdditionDateOpened.selectedDays.mapNotNull { selectedDay ->
                     selectedDay.convertDateToString()
-                }
+                }.sortedDescending()
 
             val requestAdditionDto = RequestAdditionDto(
                 title = binding.tvAdditionMissionClosedName.text.toString(),
