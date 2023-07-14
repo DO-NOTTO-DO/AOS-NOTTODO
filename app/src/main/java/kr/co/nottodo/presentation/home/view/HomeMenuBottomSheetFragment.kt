@@ -25,7 +25,9 @@ import kr.co.nottodo.databinding.ItemHomeBottomActionsBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.CLICK_DAY
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.presentation.modification.view.ModificationActivity
+import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.getParcelable
+import kr.co.nottodo.view.calendar.monthly.util.filterAndConvertToInt
 import timber.log.Timber
 
 class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseListener {
@@ -55,6 +57,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         getMissionData()
         setOnClick()
         getModifyData()
+        trackShowBottomSheet()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -79,6 +82,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             val intent = Intent(requireActivity(), ModificationActivity::class.java)
             intent.putExtra(DETAIL, modifyParcelizeExtra)
             resultLauncher.launch(intent)
+            trackClickEdit()
         }
         binding.clHomeDoAnotherClickArea.setOnClickListener {
             val dialogFragment = HomeDoAnotherFragment()
@@ -87,6 +91,22 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             dialogFragment.show(childFragmentManager, "dialog_fragment")
         }
         binding.btnHomeDelete.setOnClickListener { showDeleteDialog() }
+    }
+
+    private fun trackShowBottomSheet() {
+        NotTodoAmplitude.trackEvent(getString(R.string.appear_detail_mission))
+    }
+
+    private fun trackClickEdit() {
+//        NotTodoAmplitude.trackEvent()
+    }
+
+    private fun trackDestroy() {
+        NotTodoAmplitude.trackEvent(getString(R.string.close_detail_mission))
+    }
+
+    private fun trackClickDelete() {
+        NotTodoAmplitude.trackEvent(getString(R.string.click_delete_mission))
     }
 
     private fun showDeleteDialog() {
@@ -180,7 +200,36 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             }
     }
 
+    private fun trackCompleteAddMissionData(amplitudeDate: String) {
+        NotTodoAmplitude.trackEventWithProperty(
+            getString(R.string.complete_add_mission_another_day),
+            getString(R.string.title),
+            binding.tvHomeDialogSituation.text,
+        )
+        NotTodoAmplitude.trackEventWithProperty(
+            getString(R.string.complete_add_mission_another_day),
+            getString(R.string.situation),
+            binding.tvHomeDialogNotodo.text,
+        )
+        NotTodoAmplitude.trackEventWithProperty(
+            getString(R.string.complete_add_mission_another_day),
+            getString(R.string.goal),
+            binding.tvHomeDialogGoalDescription.text,
+        )
+        NotTodoAmplitude.trackEventWithProperty(
+            getString(R.string.complete_add_mission_another_day),
+            getString(R.string.action),
+            binding.tvHomeDialogDoAction.text,
+        )
+        NotTodoAmplitude.trackEventWithProperty(
+            getString(R.string.complete_add_mission_another_day),
+            getString(R.string.action),
+            amplitudeDate.map { amplitudeDate.filterAndConvertToInt() },
+        )
+    }
+
     override fun onDestroyView() {
+        trackDestroy()
         _binding = null
         super.onDestroyView()
     }
@@ -199,11 +248,13 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         Timber.d("interface $selectFirstDay")
         dialogDismissListener?.onDismissAndDataPass(selectFirstDay)
         if (!selectFirstDay.isNullOrEmpty()) {
+            trackCompleteAddMissionData(selectFirstDay)
             dismiss()
         }
     }
 
     override fun onDeleteButtonClicked() {
+        trackClickDelete()
         lifecycleScope.launch {
             viewModel.deleteTodo(requireArguments().getLong(MISSION_ID)).join()
             dialogDismissListener?.onDeleteButtonClicked()
