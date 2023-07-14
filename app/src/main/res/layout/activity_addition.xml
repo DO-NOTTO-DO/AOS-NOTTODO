@@ -130,7 +130,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/view_addition_date_spacer"
                             app:layout_constraintTop_toTopOf="parent"
-                            tools:text="오늘" />
+                            android:text="@string/today" />
 
                         <TextView
                             android:id="@+id/tv_addition_date"
