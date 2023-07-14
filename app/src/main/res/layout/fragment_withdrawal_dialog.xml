@@ -3,10 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/rectangle_white_radius15"
-   >
+    android:background="@drawable/rectangle_white_radius15">
 
-    <!-- 이미지 -->
     <ImageView
         android:id="@+id/image_withdrawal"
         android:layout_width="wrap_content"
@@ -14,6 +12,7 @@
         android:layout_marginStart="70dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="70dp"
+        android:contentDescription="@string/cd_withdrawal"
         android:src="@drawable/ic_withdrawal2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
-        android:text="정말 낫투두와의 도전을\n그만 두시겠어요?"
+        android:text="@string/withdrawal_title"
         android:textAlignment="center"
         android:textAppearance="@style/Sb16"
         android:textColor="@android:color/black"
@@ -39,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
-        android:text="계정을 삭제하면 그 동안의\n기록이 모두 사라져요"
+        android:text="@string/withdrawal_desc"
         android:textAlignment="center"
         android:textAppearance="@style/R13"
         android:textColor="#9398AA"
@@ -52,10 +51,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="59dp"
+        android:layout_marginTop="26dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="26dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_description">
@@ -69,7 +68,7 @@
             android:layout_marginEnd="50dp"
             android:backgroundTint="@color/white"
             android:elevation="0dp"
-            android:text="취소"
+            android:text="@string/cancel"
             android:textAppearance="@style/M14"
             android:textColor="#9398AA"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -97,9 +96,9 @@
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/white"
             android:elevation="0dp"
-            android:text="회원탈퇴"
-            android:textColor="#FF6464"
+            android:text="@string/withdrawal_kor"
             android:textAppearance="@style/M14"
+            android:textColor="#FF6464"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/divider_withdrawal"
 

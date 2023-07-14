@@ -50,7 +50,7 @@
     <string name="channel_desc">낫투두 알림을 위한 채널</string>
     <!--my_page-->
     <string name="version">버전 정보 1.0.0</string>
-    <string name="user_withdrawal"><u>회원탈퇴</u></string>
+    <string name="withdrawal_kor_underline"><u>회원탈퇴</u></string>
     <string name="terms_of_use"><u>이용약관</u></string>
     <string name="privacy_policy"><u>개인정보 처리방침</u></string>
     <string name="url_terms_of_use">https://teamnottodo.notion.site/0c3c7c02857b46e1b16307ce7a8f6ca9?pvs=4</string>
@@ -189,5 +189,28 @@
     <string name="slash">/</string>
     <string name="recommend_mission_ui_model">recommendMissionUiModel</string>
     <string name="action_max_3">실천방법은 최대 3개만 추가할 수 있어요.</string>
+    <string name="my_information_kor">내 정보</string>
+    <string name="cd_my_page_image">내 프로필 사진</string>
+    <string name="nickname_kor">닉네임</string>
+    <string name="nottodo_guide_kor">낫투두 가이드</string>
+    <string name="frequently_question_kor">자주 묻는 질문</string>
+    <string name="notice_kor">공지사항</string>
+    <string name="cd_nottodo_guide_icon">낫투두 가이드 아이콘</string>
+    <string name="cd_frequently_question_guide">자주 묻는 질문 아이콘</string>
+    <string name="cd_notice_icon">공지사항 페이지로 이동하는 아이콘</string>
+    <string name="contact_kor">문의하기</string>
+    <string name="cd_contact_icon">문의하기 페이지로 이동하는 아이콘</string>
+    <string name="policies_kor">약관 및 정책</string>
+    <string name="cd_policies_icon">약관 및 정책 페이지로 이동하는 아이콘</string>
+    <string name="os_licenses_kor">오픈소스 라이선스</string>
+    <string name="cd_os_licenses_kor">오푼소스 라이선스 페이지로 이동하는 아이콘</string>
+    <string name="cd_withdrawal">회원탈퇴 이미지</string>
+    <string name="withdrawal_title">정말 낫투두와의 도전을\n그만 두시겠어요?</string>
+    <string name="withdrawal_desc">계정을 삭제하면 그 동안의\n기록이 모두 사라져요</string>
+    <string name="withdrawal_kor">회원탈퇴</string>
+    <string name="cd_feedback">피드백 이미지</string>
+    <string name="feedback_title">다시 돌아오셨을 때\n더 나은 모습으로 도전을 도울게요</string>
+    <string name="feedback_desc">더 나은 서비스가 될 수 있도록\n무엇이 불하셨는지 알려주시겠어요?</string>
+    <string name="feedback_btn_text">이런 점이 아쉬웠어요</string>
 
 </resources>
