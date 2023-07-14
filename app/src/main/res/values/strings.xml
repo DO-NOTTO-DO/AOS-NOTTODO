@@ -68,7 +68,6 @@
     <string name="you_can_not_sync_history">로그아웃을 하면\n다른 기기와 낫투두 기록을 연동하지 못해요.</string>
     <string name="do_you_want_to_logout">로그아웃 하시겠습니까?</string>
     <string name="cancel">취소</string>
-    <string name="activity_can_not_be_null">Activity cannot be null</string>
     <string name="view_signin">view_signin</string>
     <string name="click_signin">click_signin</string>
     <string name="provider">provider</string>
@@ -84,7 +83,6 @@
     <string name="click_onboarding_next_4">click_onboarding_next_4</string>
     <string name="view_onboarding_5">view_onboarding_5</string>
     <string name="click_onboarding_next_5">click_onboarding_next_5</string>
-    <string name="context_can_not_cast_as_onfragmentchangedlistener">context can not cast as OnFragmentChangedListener</string>
     <string name="view_my_info">view_my_info</string>
     <string name="click_my_info">click_my_info</string>
     <string name="url_guide">https://teamnottodo.notion.site/f35a7f2d6d5c4b33b4d0949f6077e6cd</string>
@@ -100,7 +98,6 @@
     <string name="click_opensource">click_opensource</string>
     <string name="no_email">연동된 이메일 정보가 없습니다.</string>
     <string name="no_name">익명의 도전자</string>
-    <string name="onfragmentchangedlistener_is_null">onFragmentChangedListener is null</string>
     <string name="view_account_info">view_account_info</string>
     <string name="appear_logout_modal">appear_logout_modal</string>
     <string name="complete_logout">complete_logout</string>
@@ -181,8 +178,12 @@
     <string name="cd_delete_modification_view">낫투두 수정 창 닫기</string>
     <string name="modification_modify_nottodo">낫투두 수정</string>
     <string name="package_package_name">package:%s</string>
-    <string name="context_can_not_cast_as_ondialogdismisslistener">context can not cast as OnDialogDismissListener</string>
+    <string name="context_can_not_cast_as">context can not cast as %s</string>
     <string name="url_feedback">https://forms.gle/sXWnpYjYFuhVXxB38</string>
-    <string name="ondialogdismisslistener_is_null">onDialogDismissListener is null</string>
+    <string name="_is_null">%s is null</string>
+    <string name="how_to_use">사용 방법</string>
+    <string name="on_dialog_dismiss_listener">OnDialogDismissListener</string>
+    <string name="onboard_interface">OnboardInterface</string>
+    <string name="on_fragment_changed_listener">OnFragmentChangedListener</string>
 
 </resources>

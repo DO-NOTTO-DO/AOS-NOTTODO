@@ -25,8 +25,13 @@ class MyPageFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        onFragmentChangedListener = context as? OnFragmentChangedListener
-            ?: throw TypeCastException(getString(R.string.context_can_not_cast_as_onfragmentchangedlistener))
+        onFragmentChangedListener =
+            context as? OnFragmentChangedListener ?: throw TypeCastException(
+                getString(
+                    R.string.context_can_not_cast_as,
+                    getString(R.string.on_fragment_changed_listener)
+                )
+            )
     }
 
     override fun onCreateView(
@@ -81,8 +86,7 @@ class MyPageFragment : Fragment() {
         binding.layoutMyPagePolicies.setOnClickListener {
             trackEvent(getString(R.string.click_terms))
             val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(getString(R.string.url_polices))
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_polices))
             )
             startActivity(intent)
         }
@@ -102,8 +106,7 @@ class MyPageFragment : Fragment() {
         binding.layoutMyPageNotice.setOnClickListener {
             trackEvent(getString(R.string.click_notice))
             val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(getString(R.string.url_notice))
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_notice))
             )
             startActivity(intent)
         }
@@ -113,8 +116,7 @@ class MyPageFragment : Fragment() {
         binding.layoutMyPageQuestion.setOnClickListener {
             trackEvent(getString(R.string.click_faq))
             val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(getString(R.string.url_faq))
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_faq))
             )
             startActivity(intent)
         }
@@ -124,8 +126,7 @@ class MyPageFragment : Fragment() {
         binding.layoutMyPageGuide.setOnClickListener {
             trackEvent(getString(R.string.click_guide))
             val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(getString(R.string.url_guide))
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_guide))
             )
             startActivity(intent)
         }
@@ -140,7 +141,11 @@ class MyPageFragment : Fragment() {
 
     private fun setActivityBackgroundColor() {
         onFragmentChangedListener?.setActivityBackgroundColorBasedOnFragment(this@MyPageFragment)
-            ?: throw NullPointerException(getString(R.string.onfragmentchangedlistener_is_null))
+            ?: throw NullPointerException(
+                getString(
+                    R.string._is_null, getString(R.string.on_fragment_changed_listener)
+                )
+            )
     }
 
     override fun onDestroyView() {

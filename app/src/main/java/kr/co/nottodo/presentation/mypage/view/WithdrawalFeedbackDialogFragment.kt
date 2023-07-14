@@ -24,7 +24,9 @@ class WithdrawalFeedbackDialogFragment : DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         onDialogDismissListener = context as? OnDialogDismissListener ?: throw TypeCastException(
-            getString(R.string.context_can_not_cast_as_ondialogdismisslistener)
+            getString(
+                R.string.context_can_not_cast_as, getString(R.string.on_dialog_dismiss_listener)
+            )
         )
     }
 
@@ -72,7 +74,8 @@ class WithdrawalFeedbackDialogFragment : DialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        onDialogDismissListener?.onDialogDismiss()
-            ?: throw NullPointerException(getString(R.string.ondialogdismisslistener_is_null))
+        onDialogDismissListener?.onDialogDismiss() ?: throw NullPointerException(
+            getString(R.string._is_null, getString(R.string.on_dialog_dismiss_listener))
+        )
     }
 }
