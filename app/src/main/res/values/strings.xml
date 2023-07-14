@@ -229,5 +229,14 @@
     <string name="cd_kakao_google_icon">카카오와 구글 아이콘</string>
     <string name="login_and_start">로그인하고 시작하기</string>
     <string name="onboard_third_title">좋아요!\n 어떤 고민이 있으신가요?</string>
+    <string name="cd_selected_action_check">선택된 실천 방법의 체크 표시</string>
+    <string name="cd_back">뒤로 가기</string>
+    <string name="recommend_action_title">실천방법 추천</string>
+    <string name="recommend_action_desc">아래 추천 항목을 선택해 실천방법을 추가하세요</string>
+    <string name="cd_recommend_action_notice">실천방법 정보 아이콘</string>
+    <string name="recommend_action_directly">필요 없어요 or 직접 입력할게요!</string>
+    <string name="continue_kor">계속하기</string>
+    <string name="cd_close_view">창 닫기</string>
+    <string name="directly_input_kor">직접 입력하기</string>
 
 </resources>
