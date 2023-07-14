@@ -212,5 +212,22 @@
     <string name="feedback_title">다시 돌아오셨을 때\n더 나은 모습으로 도전을 도울게요</string>
     <string name="feedback_desc">더 나은 서비스가 될 수 있도록\n무엇이 불하셨는지 알려주시겠어요?</string>
     <string name="feedback_btn_text">이런 점이 아쉬웠어요</string>
+    <string name="cd_nottodo_image">낫투두 이미지</string>
+    <string name="cd_onboard_indicator">현재 온보딩 섹션 표시 아이콘</string>
+    <string name="my_life">나의 일상</string>
+    <string name="onboard_fifth_title">먼저,\n하지 않을 일을 정해요</string>
+    <string name="onboard_fifth_next">그리고요?</string>
+    <string name="onboard_fourth_title">하루 중 어느 순간을\n가장 개선하고 싶으세요?</string>
+    <string name="onboard_fourth_desc">여러 개 선택할 수 있어요</string>
+    <string name="onboard_fourth_btn">사용법이 궁금해요</string>
+    <string name="onboard_sixth_tip">달성률을 높이기 위해선 필수!</string>
+    <string name="onboard_sixth_title">낫투두를 실천할 방법과\n환경을 정해요</string>
+    <string name="nottodo_example_image">낫투두 예시 이미지</string>
+    <string name="nottodo_example_before_sleep">취침 전</string>
+    <string name="nottodo_example_no_night_meal">자기 2시간 전 야식 먹지 않기</string>
+    <string name="cd_down_arrow">아래로 향하는 화살표</string>
+    <string name="cd_kakao_google_icon">카카오와 구글 아이콘</string>
+    <string name="login_and_start">로그인하고 시작하기</string>
+    <string name="onboard_third_title">좋아요!\n 어떤 고민이 있으신가요?</string>
 
 </resources>
