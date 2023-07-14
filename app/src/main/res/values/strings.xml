@@ -180,5 +180,9 @@
     <string name="error_modify_nottodo">오류로 인해 해당 낫투두를 수정할 수 없습니다.</string>
     <string name="cd_delete_modification_view">낫투두 수정 창 닫기</string>
     <string name="modification_modify_nottodo">낫투두 수정</string>
+    <string name="package_package_name">package:%s</string>
+    <string name="context_can_not_cast_as_ondialogdismisslistener">context can not cast as OnDialogDismissListener</string>
+    <string name="url_feedback">https://forms.gle/sXWnpYjYFuhVXxB38</string>
+    <string name="ondialogdismisslistener_is_null">onDialogDismissListener is null</string>
 
 </resources>

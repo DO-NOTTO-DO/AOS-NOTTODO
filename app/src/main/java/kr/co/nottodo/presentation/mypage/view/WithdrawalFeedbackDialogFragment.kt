@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
+import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentWithdrawalFeedbackDialogBinding
 import kr.co.nottodo.listeners.OnDialogDismissListener
 
@@ -22,8 +23,9 @@ class WithdrawalFeedbackDialogFragment : DialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        onDialogDismissListener = context as? OnDialogDismissListener
-            ?: throw TypeCastException("context can not cast as OnDialogDismissListener")
+        onDialogDismissListener = context as? OnDialogDismissListener ?: throw TypeCastException(
+            getString(R.string.context_can_not_cast_as_ondialogdismisslistener)
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +47,7 @@ class WithdrawalFeedbackDialogFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentWithdrawalFeedbackDialogBinding.inflate(inflater, container, false)
         return binding.root
@@ -56,8 +58,7 @@ class WithdrawalFeedbackDialogFragment : DialogFragment() {
 
         binding.btnFeedback.setOnClickListener {
             val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://forms.gle/sXWnpYjYFuhVXxB38")
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_feedback))
             )
             resultLauncher.launch(intent)
         }
@@ -72,6 +73,6 @@ class WithdrawalFeedbackDialogFragment : DialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         onDialogDismissListener?.onDialogDismiss()
-            ?: throw NullPointerException("onDialogDismissListener is null")
+            ?: throw NullPointerException(getString(R.string.ondialogdismisslistener_is_null))
     }
 }
