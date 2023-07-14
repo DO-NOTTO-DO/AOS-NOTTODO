@@ -8,20 +8,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentCustomDialogAchieveBinding
 import kr.co.nottodo.databinding.ItemAchieveDialogBinding
 import kr.co.nottodo.presentation.achieve.AchieveFragment.Companion.CLICK_DATE
+import kr.co.nottodo.util.NotTodoAmplitude
 
 class CustomDialogAchieveFragment() : DialogFragment() {
 
     private var _binding: FragmentCustomDialogAchieveBinding? = null
     private val binding get() = _binding!!
     private val achieveViewModel by viewModels<AchieveFragmentViewModel>()
+    private var totalAddMissionCount: Number = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentCustomDialogAchieveBinding.inflate(inflater, container, false)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -39,12 +42,13 @@ class CustomDialogAchieveFragment() : DialogFragment() {
 
     private fun setData() {
         achieveViewModel.getAchieveDialog.observe(viewLifecycleOwner) {
+            totalAddMissionCount = it.size
             if (it.isNullOrEmpty()) {
                 binding.tvAchieveNoTodo.visibility = View.VISIBLE
                 binding.layoutAchieveTodo.visibility = View.GONE
                 return@observe
             }
-            //동적추가
+            // 동적추가
             binding.tvAchieveNoTodo.visibility = View.INVISIBLE
             binding.layoutAchieveTodo.visibility = View.VISIBLE
             binding.layoutAchieveTodo.run {
@@ -67,9 +71,15 @@ class CustomDialogAchieveFragment() : DialogFragment() {
                 }
             }
         }
+        NotTodoAmplitude.trackEventWithProperty(
+            getString(R.string.appear_daily_mission_modal),
+            getString(R.string.total_add_mission),
+            totalAddMissionCount,
+        )
     }
 
     override fun onDestroyView() {
+        NotTodoAmplitude.trackEvent(getString(R.string.close_daily_mission_modal))
         super.onDestroyView()
         _binding = null
     }
