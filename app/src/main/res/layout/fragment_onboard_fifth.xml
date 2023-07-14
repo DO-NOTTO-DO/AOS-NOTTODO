@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
+    android:background="@color/black"
+    android:paddingHorizontal="25dp">
 
     <TextView
         android:id="@+id/tv_onboard_fifth_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="25dp"
         android:layout_marginTop="49dp"
         android:gravity="start"
-        android:text="먼저,\n하지 않을 일을 정해요"
+        android:text="@string/onboard_fifth_title"
         android:textAppearance="@style/M20"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,10 +24,9 @@
         android:id="@+id/rv_onboard_fifth"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="25dp"
         android:layout_marginVertical="45dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/layout_onboard_fifth_next"
+        app:layout_constraintBottom_toTopOf="@id/tv_onboard_fifth_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_onboard_fifth_title"
@@ -36,38 +35,24 @@
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="-94dp"
+        android:layout_marginTop="-153dp"
         android:layout_marginBottom="18dp"
         android:background="@drawable/bg_gradient_opacity_0_to_100"
-        app:layout_constraintBottom_toTopOf="@id/layout_onboard_fifth_next"
+        app:layout_constraintBottom_toTopOf="@id/tv_onboard_fifth_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_onboard_fifth" />
 
-    <LinearLayout
-        android:id="@+id/layout_onboard_fifth_next"
+    <TextView
+        android:id="@+id/tv_onboard_fifth_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="26dp"
         android:layout_marginBottom="38dp"
-        android:gravity="center_vertical"
+        android:drawablePadding="13dp"
+        android:text="@string/onboard_fifth_next"
+        android:textAppearance="@style/M16"
+        android:textColor="@color/white"
+        app:drawableEndCompat="@drawable/ic_next"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/tv_onboard_fifth_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="13dp"
-            android:text="그리고요?"
-            android:textAppearance="@style/M16"
-            android:textColor="@color/white" />
-
-        <ImageView
-            android:id="@+id/iv_onboard_fifth_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_next" />
-
-    </LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
