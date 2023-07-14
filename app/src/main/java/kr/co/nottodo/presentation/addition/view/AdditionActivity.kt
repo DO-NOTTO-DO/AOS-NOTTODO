@@ -227,7 +227,7 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun observeSuccessResponse() {
         viewModel.additionResponse.observe(this) { response ->
-            showToast("낫투두 생성 완료 !")
+            showToast(getString(R.string.complete_create_nottodo))
             trackCompleteCreateMission(response)
             val sortedList =
                 response.dates.sortedBy { date -> date.achievementConvertStringToDate() }
@@ -305,14 +305,21 @@ class AdditionActivity : AppCompatActivity() {
 
                 2 -> {
                     setActionBox(isActionFilled = true)
-                    binding.tvAdditionActionClosedInput.text =
-                        "${binding.tvAdditionActionFirst.text}\n${binding.tvAdditionActionSecond.text}"
+                    binding.tvAdditionActionClosedInput.text = getString(
+                        R.string.addition_action_2_text,
+                        binding.tvAdditionActionFirst.text,
+                        binding.tvAdditionActionSecond.text
+                    )
                 }
 
                 3 -> {
                     setActionBox(isActionFilled = true)
-                    binding.tvAdditionActionClosedInput.text =
-                        "${binding.tvAdditionActionFirst.text}\n${binding.tvAdditionActionSecond.text}\n${binding.tvAdditionActionThird.text}"
+                    binding.tvAdditionActionClosedInput.text = getString(
+                        R.string.addition_action_3_text,
+                        binding.tvAdditionActionFirst.text,
+                        binding.tvAdditionActionSecond.text,
+                        binding.tvAdditionActionThird.text
+                    )
                 }
             }
         }
@@ -530,8 +537,7 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun observeGoal() {
         viewModel.goal.observe(this) { goal ->
-            binding.tvAdditionGoalTextCount.text =
-                goal.length.toString() + getString(R.string.max_text_size_20)
+            binding.tvAdditionGoalTextCount.text = getString(R.string.max_text_size_20, goal.length)
             if (goal.isNotBlank()) {
                 binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
@@ -560,14 +566,14 @@ class AdditionActivity : AppCompatActivity() {
     private fun observeAction() {
         viewModel.action.observe(this) { action ->
             binding.tvAdditionActionTextCount.text =
-                action.length.toString() + getString(R.string.max_text_size_20)
+                getString(R.string.max_text_size_20, action.length)
         }
     }
 
     private fun observeSituation() {
         viewModel.situation.observe(this) { situation ->
             binding.tvAdditionSituationTextCount.text =
-                situation.length.toString() + getString(R.string.max_text_size_20)
+                getString(R.string.max_text_size_20, situation.length)
             if (situation.isNotBlank()) {
                 binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
@@ -594,7 +600,7 @@ class AdditionActivity : AppCompatActivity() {
     private fun observeMission() {
         viewModel.mission.observe(this) { mission ->
             binding.tvAdditionMissionTextCount.text =
-                mission.length.toString() + getString(R.string.max_text_size_20)
+                getString(R.string.max_text_size_20, mission.length)
             if (mission.isNotBlank()) {
                 binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
