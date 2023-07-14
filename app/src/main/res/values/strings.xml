@@ -185,5 +185,7 @@
     <string name="on_dialog_dismiss_listener">OnDialogDismissListener</string>
     <string name="onboard_interface">OnboardInterface</string>
     <string name="on_fragment_changed_listener">OnFragmentChangedListener</string>
+    <string name="url_android_resource">android.resource://</string>
+    <string name="slash">/</string>
 
 </resources>

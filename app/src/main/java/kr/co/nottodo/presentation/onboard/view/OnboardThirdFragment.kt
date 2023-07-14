@@ -11,7 +11,6 @@ import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentOnboardThirdBinding
 import kr.co.nottodo.presentation.onboard.adapter.OnboardPainAdapter
 import kr.co.nottodo.presentation.onboard.viewmodel.OnboardViewModel
-import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 
 class OnboardThirdFragment : Fragment() {

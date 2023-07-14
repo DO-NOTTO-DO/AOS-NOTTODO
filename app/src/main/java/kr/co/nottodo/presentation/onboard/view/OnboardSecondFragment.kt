@@ -22,8 +22,11 @@ class OnboardSecondFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        onboardInterface = context as? OnboardInterface
-            ?: throw TypeCastException("context can not cast as an OnboardInterface")
+        onboardInterface = context as? OnboardInterface ?: throw TypeCastException(
+            getString(
+                R.string.context_can_not_cast_as, getString(R.string.onboard_interface)
+            )
+        )
     }
 
     override fun onCreateView(
@@ -58,7 +61,7 @@ class OnboardSecondFragment : Fragment() {
 
     private fun setVideoView() {
         val videoPath =
-            "android.resource://" + requireContext().packageName + "/" + R.raw.video_logo_onboard_two
+            getString(R.string.url_android_resource) + requireContext().packageName + getString(R.string.slash) + R.raw.video_logo_onboard_two
         with(binding.vvOnboardSecond) {
             setVideoPath(videoPath)
             setOnPreparedListener {
