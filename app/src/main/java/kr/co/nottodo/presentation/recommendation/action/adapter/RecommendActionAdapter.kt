@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kr.co.nottodo.R
 import kr.co.nottodo.data.remote.model.recommendation.action.ResponseRecommendActionListDTO.Mission.Action
 import kr.co.nottodo.databinding.ItemRecommendActionBinding
 import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter.RecommendActionViewHolder
@@ -58,7 +59,7 @@ class RecommendActionAdapter(
                 if (!it.isSelected) {
                     if (isSelectedActionsCountThree.invoke()) {
                         binding.root.context.showNotTodoSnackBar(
-                            binding.root, "실천방법은 최대 3개만 추가할 수 있어요."
+                            binding.root, binding.root.context.getString(R.string.action_max_3)
                         )
                         return@setOnClickListener
                     }

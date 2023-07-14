@@ -187,5 +187,7 @@
     <string name="on_fragment_changed_listener">OnFragmentChangedListener</string>
     <string name="url_android_resource">android.resource://</string>
     <string name="slash">/</string>
+    <string name="recommend_mission_ui_model">recommendMissionUiModel</string>
+    <string name="action_max_3">실천방법은 최대 3개만 추가할 수 있어요.</string>
 
 </resources>
