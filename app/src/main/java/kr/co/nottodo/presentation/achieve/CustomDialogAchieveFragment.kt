@@ -13,13 +13,13 @@ import kr.co.nottodo.databinding.FragmentCustomDialogAchieveBinding
 import kr.co.nottodo.databinding.ItemAchieveDialogBinding
 import kr.co.nottodo.presentation.achieve.AchieveFragment.Companion.CLICK_DATE
 import kr.co.nottodo.util.NotTodoAmplitude
+import timber.log.Timber
 
 class CustomDialogAchieveFragment() : DialogFragment() {
 
     private var _binding: FragmentCustomDialogAchieveBinding? = null
     private val binding get() = _binding!!
     private val achieveViewModel by viewModels<AchieveFragmentViewModel>()
-    private var totalAddMissionCount: Number = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +41,7 @@ class CustomDialogAchieveFragment() : DialogFragment() {
     }
 
     private fun setData() {
+        var totalAddMissionCount = 0
         achieveViewModel.getAchieveDialog.observe(viewLifecycleOwner) {
             totalAddMissionCount = it.size
             if (it.isNullOrEmpty()) {
@@ -70,12 +71,12 @@ class CustomDialogAchieveFragment() : DialogFragment() {
                     addView(it.root)
                 }
             }
+            NotTodoAmplitude.trackEventWithProperty(
+                getString(R.string.appear_daily_mission_modal),
+                getString(R.string.total_add_mission),
+                it.size,
+            )
         }
-        NotTodoAmplitude.trackEventWithProperty(
-            getString(R.string.appear_daily_mission_modal),
-            getString(R.string.total_add_mission),
-            totalAddMissionCount,
-        )
     }
 
     override fun onDestroyView() {
