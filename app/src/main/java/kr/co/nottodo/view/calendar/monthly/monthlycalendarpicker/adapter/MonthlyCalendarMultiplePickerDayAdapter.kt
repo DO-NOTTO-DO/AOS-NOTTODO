@@ -121,10 +121,15 @@ class MonthlyCalendarMultiplePickerDayAdapter(
     @SuppressLint("NotifyDataSetChanged")
     fun setSelectedDay(date: Date) {
         if (selectedDateList.any { it.isTheSameDay(date) }) {
-            selectedDateList.remove(selectedDateList.find { it.isTheSameDay(date) })
+            if (selectedDateList.size > 1) {
+                selectedDateList.remove(selectedDateList.find { it.isTheSameDay(date) })
+            }
         } else {
             selectedDateList.add(date)
         }
         notifyDataSetChanged()
     }
+
+    /** 선택한 날 갯수 가져오는 함수 **/
+    fun getSelectedDateCount() = selectedDateList.size
 }

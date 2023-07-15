@@ -414,7 +414,9 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
         monthlyCalendarPickerClickListener?.onDayClick(view, date)
         monthlyCalendarMultiplePickerDayAdapter.setSelectedDay(date)
         if (selectedDays.any { it.isTheSameDay(date) }) {
-            selectedDays.remove(selectedDays.find { it.isTheSameDay(date) })
+            if (selectedDays.size > 1) {
+                selectedDays.remove(selectedDays.find { it.isTheSameDay(date) })
+            }
         } else {
             selectedDays.add(date)
         }
