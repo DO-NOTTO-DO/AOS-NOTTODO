@@ -17,6 +17,7 @@ import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto
 import kr.co.nottodo.presentation.modification.model.NotTodoData
 import kr.co.nottodo.util.getErrorMessage
 import kr.co.nottodo.view.calendar.monthly.util.achievementConvertStringToDate
+import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToInt
 import kr.co.nottodo.view.calendar.monthly.util.isToday
 import kr.co.nottodo.view.calendar.monthly.util.isTomorrow
 
@@ -43,7 +44,9 @@ class ModificationViewModel : ViewModel() {
     }
 
     private val dates: MutableLiveData<List<String>> = MutableLiveData()
-    fun getDates() = dates.value
+    fun getDateToIntList(): List<Int> =
+        dates.value?.map { date -> date.convertDateStringToInt() } ?: emptyList()
+
     val firstDate: LiveData<String> = dates.map { dates ->
         dates.last()
     }
