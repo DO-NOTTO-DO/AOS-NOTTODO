@@ -574,58 +574,57 @@ class ModificationActivity : AppCompatActivity() {
                     with(binding) {
                         etModificationAction.visibility = View.VISIBLE
                         tvModificationActionTextCount.visibility = View.VISIBLE
-                        requestFocusWithShowingKeyboard(binding.etModificationAction)
+                        requestFocusWithShowingKeyboard(etModificationAction)
                     }
                     viewModel.actionList.value = listOf()
                 }
 
                 1 -> {
                     setActionBox(isActionFilled = true)
-                    binding.tvModificationActionClosedInput.text =
-                        binding.tvModificationActionFirst.text
                     with(binding) {
+                        tvModificationActionClosedInput.text = tvModificationActionFirst.text
                         etModificationAction.visibility = View.VISIBLE
                         tvModificationActionTextCount.visibility = View.VISIBLE
-                        requestFocusWithShowingKeyboard(binding.etModificationAction)
+                        requestFocusWithShowingKeyboard(etModificationAction)
                         viewModel.actionList.value =
-                            listOf(binding.tvModificationActionFirst.text.toString())
+                            listOf(tvModificationActionFirst.text.toString())
                     }
                 }
 
                 2 -> {
                     setActionBox(isActionFilled = true)
-                    binding.tvModificationActionClosedInput.text = getString(
-                        R.string.addition_action_2_text,
-                        binding.tvModificationActionFirst.text,
-                        binding.tvModificationActionSecond.text
-                    )
                     with(binding) {
+                        tvModificationActionClosedInput.text = getString(
+                            R.string.addition_action_2_text,
+                            tvModificationActionFirst.text,
+                            tvModificationActionSecond.text
+                        )
                         etModificationAction.visibility = View.VISIBLE
                         tvModificationActionTextCount.visibility = View.VISIBLE
-                        requestFocusWithShowingKeyboard(binding.etModificationAction)
+                        requestFocusWithShowingKeyboard(etModificationAction)
                         viewModel.actionList.value = listOf(
-                            binding.tvModificationActionFirst.text.toString(),
-                            binding.tvModificationActionSecond.text.toString()
+                            tvModificationActionFirst.text.toString(),
+                            tvModificationActionSecond.text.toString()
                         )
                     }
                 }
 
                 3 -> {
                     setActionBox(isActionFilled = true)
-                    binding.tvModificationActionClosedInput.text = getString(
-                        R.string.addition_action_3_text,
-                        binding.tvModificationActionFirst.text,
-                        binding.tvModificationActionSecond.text,
-                        binding.tvModificationActionThird.text
-                    )
                     with(binding) {
+                        tvModificationActionClosedInput.text = getString(
+                            R.string.addition_action_3_text,
+                            tvModificationActionFirst.text,
+                            tvModificationActionSecond.text,
+                            tvModificationActionThird.text
+                        )
                         etModificationAction.visibility = View.GONE
                         tvModificationActionTextCount.visibility = View.GONE
                         hideKeyboard(root)
                         viewModel.actionList.value = listOf(
-                            binding.tvModificationActionFirst.text.toString(),
-                            binding.tvModificationActionSecond.text.toString(),
-                            binding.tvModificationActionThird.text.toString()
+                            tvModificationActionFirst.text.toString(),
+                            tvModificationActionSecond.text.toString(),
+                            tvModificationActionThird.text.toString()
                         )
                     }
                 }
