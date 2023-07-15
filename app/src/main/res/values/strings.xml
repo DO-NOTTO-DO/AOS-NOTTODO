@@ -8,7 +8,7 @@
     <string name="menu_main_my_page">마이 페이지</string>
 
     <!--home-->
-    <string name="home_empty_list">새로운 낫투두를 추가하고\n오늘 하루를 더 잘 살아보세요!</string>
+    <string name="home_empty_list">새로운 낫투두를 추가하고\n목표 달성을 위한 환경을 만들어보세요!</string>
     <string name="home_today_month">2023년 1월</string>
     <string name="home_item_list_situation">밥 먹을 때</string>
     <string name="home_item_list_natodo">배민 vip 탈출하기</string>
@@ -29,6 +29,24 @@
     <!--home nottodo deleter-->
     <string name="home_delete_answer">삭제하시겠습니까?</string>
     <string name="home_nottodo_delete_warning_description">한 번 삭제하면 되돌릴 수 없어요.</string>
+    <!--home amplitude-->
+    <string name="view_home">view_home</string>
+    <string name="click_return_today">click_return_today</string>
+    <string name="click_weekly_date">click_weekly_date</string>
+    <string name="complete_check_mission">complete_check_mission</string>
+    <string name="complete_uncheck_mission">complete_uncheck_mission</string>
+    <string name="click_edit_mission">click_edit_mission</string>
+    <string name="complete_delete_mission">complete_delete_mission</string>
+    <string name="click_delete_mission">click_delete_mission</string>
+    <!--section detail amplitude-->
+    <string name="appear_detail_mission">appear_detail_mission</string>
+    <string name="close_detail_mission">close_detail_mission</string>
+    <string name="appear_another_day_modal">appear_another_day_modal</string>
+    <string name="close_another_day_modal">close_another_day_modal</string>
+    <string name="complete_add_mission_another_day">complete_add_mission_another_day</string>
+    <string name="view_accomplish">view_accomplish</string>
+    <string name="appear_daily_mission_modal">appear_daily_mission_modal</string>
+    <string name="close_daily_mission_modal">close_daily_mission_modal</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -41,8 +59,10 @@
 
     <!--acheive-->
     <string name="achieve_achieve">성취</string>
-    <string name="achieve_description">SNS에 오늘의 낫투두를 공유하고\n낫투더들과 이야기 나눠보세요.</string>
+    <string name="achieve_description">&lt;매달 낫투두 성취 공유하고 선물받자!&gt;\n인스타 @nottodo_official을 확인해주세요 :)</string>
     <string name="achieve_dialog_noToDo">등록된 낫투두가 없습니다.</string>
+    <!--acheive apmplituede-->
+    <string name="total_add_mission">total_add_mission</string>
 
     <!--notification-->
     <string name="channel_id">kr.co.nottodo.channel</string>

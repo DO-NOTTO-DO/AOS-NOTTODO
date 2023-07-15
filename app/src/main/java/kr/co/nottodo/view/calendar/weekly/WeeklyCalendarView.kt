@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import kr.co.nottodo.R
+import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.view.calendar.monthly.util.dpToPx
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyDayClickListener
@@ -82,6 +83,7 @@ class WeeklyCalendarView @JvmOverloads constructor(
         setOnClickListener {
             weeklyCalendar.refresh()
             currentYearAndMonthTextView.text = yearMonthText
+            NotTodoAmplitude.trackEvent("click_return_today")
         }
     }
 

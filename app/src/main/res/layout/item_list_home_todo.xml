@@ -10,8 +10,8 @@
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/iv_home_todo_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="39dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="26dp"
         android:layout_marginBottom="25dp"

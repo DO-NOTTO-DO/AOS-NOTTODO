@@ -66,6 +66,10 @@ fun String.convertDateStringToInt(): Int {
     return this.filter { char -> char != '.' }.toInt()
 }
 
+fun String.filterAndConvertToInt(): Int {
+    return this.filter { char -> char != '-' }.toInt()
+}
+
 fun Date.convertDateToString(): String? {
     val dateFormat = SimpleDateFormat("yyyy.MM.dd")
     return runCatching {

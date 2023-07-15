@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentAchieveBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
+import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.view.calendar.monthly.util.convertStringToDate
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -44,6 +46,7 @@ class AchieveFragment : Fragment() {
         observeData()
         clickMonth()
         observeDailyData()
+        NotTodoAmplitude.trackEvent(getString(R.string.view_accomplish))
     }
 
     private fun setActivityBackgroundColor() {
