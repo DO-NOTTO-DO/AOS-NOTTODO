@@ -40,6 +40,13 @@ class ModificationActivity : AppCompatActivity() {
     private var isActionToggleVisible: Boolean = false
     private var isGoalToggleVisible: Boolean = false
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
+    private val dataFromHome: ParcelizeBottomDetail by lazy {
+        requireNotNull(
+            intent.getParcelable(
+                HomeMenuBottomSheetFragment.DETAIL, ParcelizeBottomDetail::class.java
+            )
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,10 +85,23 @@ class ModificationActivity : AppCompatActivity() {
     private fun observeGetMissionDatesSuccessResponse() {
         viewModel.getMissionDatesSuccessResponse.observe(this) { response ->
             viewModel.setMissionDates()
+            trackViewUpdateMission(dataFromHome, response.data.map { it.convertDateStringToInt() })
+        }
+    }
+
+    private fun trackViewUpdateMission(notTodoData: ParcelizeBottomDetail, dateIntList: List<Int>) {
+        with(notTodoData) {
+            val viewUpdateMissionEventPropertyMap = mutableMapOf(
+                getString(R.string.title) to title,
+                getString(R.string.situation) to situation,
+                getString(R.string.date) to dateIntList
+            )
+            if (!goal.isNullOrBlank()) viewUpdateMissionEventPropertyMap.plus(getString(R.string.goal) to goal)
+            if (!actions.isNullOrEmpty()) viewUpdateMissionEventPropertyMap.plus(
+                getString(R.string.action) to actions.toTypedArray()
+            )
             trackEventWithProperty(
-                getString(R.string.view_update_mission),
-                getString(R.string.date),
-                response.data.map { it.convertDateStringToInt() }.toTypedArray()
+                getString(R.string.view_update_mission), viewUpdateMissionEventPropertyMap
             )
         }
     }
@@ -212,29 +232,19 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun trackCompleteUpdateMission(notTodoData: Modification) {
+
         with(notTodoData) {
-            trackEventWithProperty(
-                getString(R.string.complete_update_mission),
-                getString(R.string.date),
-                viewModel.getDates()?.map { date -> date.convertDateStringToInt() }?.toTypedArray()
+            val completeUpdateMissionEventPropertyMap = mutableMapOf(
+                getString(R.string.date) to viewModel.getDateToIntList(),
+                getString(R.string.title) to title,
+                getString(R.string.situation) to situation
             )
-            if (!goal.isNullOrBlank()) trackEventWithProperty(
-                getString(R.string.complete_update_mission), getString(R.string.goal), goal
-            )
-
-            trackEventWithProperty(
-                getString(R.string.complete_update_mission), getString(R.string.title), title
+            if (!goal.isNullOrBlank()) completeUpdateMissionEventPropertyMap.plus(getString(R.string.goal) to goal)
+            if (!actions.isNullOrEmpty()) completeUpdateMissionEventPropertyMap.plus(
+                getString(R.string.action) to actions.toTypedArray()
             )
             trackEventWithProperty(
-                getString(R.string.complete_update_mission),
-                getString(R.string.situation),
-                situation
-            )
-
-            if (!actions.isNullOrEmpty()) trackEventWithProperty(
-                getString(R.string.complete_update_mission),
-                getString(R.string.action),
-                actions.toTypedArray()
+                getString(R.string.complete_update_mission), completeUpdateMissionEventPropertyMap
             )
         }
     }
@@ -256,47 +266,16 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun setDataFromHome() {
-        val dataFromHome = intent.getParcelable(
-            HomeMenuBottomSheetFragment.DETAIL, ParcelizeBottomDetail::class.java
+        val notTodoData = NotTodoData(
+            dataFromHome.title,
+            dataFromHome.situation,
+            dataFromHome.actions?.map { action -> action.name.toString() },
+            dataFromHome.goal,
+            dataFromHome.id
         )
-
-        if (dataFromHome != null) {
-            val notTodoData = NotTodoData(
-                dataFromHome.title,
-                dataFromHome.situation,
-                dataFromHome.actions?.map { action -> action.name.toString() },
-                dataFromHome.goal,
-                dataFromHome.id
-            )
-            viewModel.setOriginalData(
-                notTodoData
-            )
-            trackViewUpdateMission(notTodoData)
-        } else {
-            showToast(getString(R.string.error_modify_nottodo))
-            if (!isFinishing) finish()
-        }
-    }
-
-    private fun trackViewUpdateMission(notTodoData: NotTodoData) {
-        with(notTodoData) {
-            if (!goal.isNullOrBlank()) trackEventWithProperty(
-                getString(R.string.view_update_mission), getString(R.string.goal), goal
-            )
-
-            trackEventWithProperty(
-                getString(R.string.view_update_mission), getString(R.string.title), mission
-            )
-            trackEventWithProperty(
-                getString(R.string.view_update_mission), getString(R.string.situation), situation
-            )
-
-            if (!actions.isNullOrEmpty()) trackEventWithProperty(
-                getString(R.string.view_update_mission),
-                getString(R.string.action),
-                actions.toTypedArray()
-            )
-        }
+        viewModel.setOriginalData(
+            notTodoData
+        )
     }
 
     private fun setThirdAction() {
@@ -484,29 +463,18 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun trackClickUpdateMission() {
         with(viewModel) {
-            trackEventWithProperty(
-                getString(R.string.click_update_mission),
-                getString(R.string.date),
-                viewModel.getDates()?.map { date -> date.convertDateStringToInt() }?.toTypedArray()
+            val clickUpdateMissionEventPropertyMap = mutableMapOf(
+                getString(R.string.date) to getDateToIntList(),
+                getString(R.string.title) to mission.value.toString(),
+                getString(R.string.situation) to situation.value.toString()
             )
+            if (!goal.value.isNullOrBlank()) clickUpdateMissionEventPropertyMap.plus(getString(R.string.goal) to goal.value)
 
-            if (!goal.value.isNullOrBlank()) trackEventWithProperty(
-                getString(R.string.click_update_mission), getString(R.string.goal), goal.value
-            )
-
-            trackEventWithProperty(
-                getString(R.string.click_update_mission), getString(R.string.title), mission.value
+            if (!actionList.value.isNullOrEmpty()) clickUpdateMissionEventPropertyMap.plus(
+                getString(R.string.action) to actionList.value!!.toTypedArray()
             )
             trackEventWithProperty(
-                getString(R.string.click_update_mission),
-                getString(R.string.situation),
-                situation.value
-            )
-
-            if (!actionList.value.isNullOrEmpty()) trackEventWithProperty(
-                getString(R.string.click_update_mission),
-                getString(R.string.action),
-                actionList.value!!.toTypedArray()
+                getString(R.string.click_update_mission), clickUpdateMissionEventPropertyMap
             )
         }
     }

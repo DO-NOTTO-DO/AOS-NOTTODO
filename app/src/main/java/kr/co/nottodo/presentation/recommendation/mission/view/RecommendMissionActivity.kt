@@ -89,12 +89,10 @@ class RecommendMissionActivity : AppCompatActivity() {
         val startRecommendActionActivity =
             { id: Int, title: String, situation: String, image: String ->
                 trackEventWithProperty(
-                    getString(R.string.click_recommend_mission),
-                    getString(R.string.situation),
-                    situation
-                )
-                trackEventWithProperty(
-                    getString(R.string.click_recommend_mission), getString(R.string.title), title
+                    getString(R.string.click_recommend_mission), mapOf(
+                        getString(R.string.situation) to situation,
+                        getString(R.string.title) to title
+                    )
                 )
                 startActivity(
                     Intent(this, RecommendActionActivity::class.java).putExtra(
