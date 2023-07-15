@@ -31,6 +31,7 @@
                     android:id="@+id/iv_recommendation_action_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/cd_back"
                     android:paddingHorizontal="18dp"
                     android:paddingVertical="13dp"
                     android:src="@drawable/ic_recommendation_action_arrow_back"
@@ -44,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="20dp"
-                    android:text="낫투두 생성"
+                    android:text="@string/addition_create_nottodo"
                     android:textAppearance="@style/B18"
                     android:textColor="@color/white"
                     android:textSize="18sp"
@@ -92,9 +93,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:layout_marginEnd="15dp"
-                            android:text="유튜브 보지 않기"
                             android:textAppearance="@style/Sb18"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            tools:text="유튜브 보지 않기" />
                     </LinearLayout>
 
                     <ImageView
@@ -102,6 +103,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
+                        android:contentDescription="@string/cd_nottodo_image"
                         app:layout_constraintBottom_toBottomOf="@id/layout_recommend_action_mission_situation"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/layout_recommend_action_mission_situation"
@@ -115,6 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="29dp"
                     android:layout_marginTop="29dp"
+                    android:contentDescription="@string/cd_down_arrow"
                     android:src="@drawable/ic_recommendation_action_arrow"
                     app:layout_constraintBottom_toBottomOf="@id/layout_recommend_action_mission_situation_with_iv"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -128,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="48dp"
-                    android:text="실천방법 추천"
+                    android:text="@string/recommend_action_title"
                     android:textAppearance="@style/Sb18"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
@@ -140,6 +143,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:layout_marginBottom="2dp"
+                    android:contentDescription="@string/cd_recommend_action_notice"
                     android:src="@drawable/ic_recommendation_action_info"
                     app:layout_constraintBottom_toBottomOf="@id/tv_recommend_action_recommend_title"
                     app:layout_constraintStart_toEndOf="@id/tv_recommend_action_recommend_title" />
@@ -149,7 +153,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="아래 추천 항목을 선택해 실천방법을 추가하세요"
+                    android:text="@string/recommend_action_desc"
                     android:textAppearance="@style/L14"
                     android:textColor="@color/gray_4_9398aa"
                     app:layout_constraintStart_toStartOf="@id/tv_recommend_action_recommend_title"
@@ -172,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:padding="10dp"
-                    android:text="필요 없어요 or 직접 입력할게요!"
+                    android:text="@string/recommend_action_directly"
                     android:textAppearance="@style/R14"
                     android:textColor="@color/gray_4_9398aa"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -189,7 +193,7 @@
             android:layout_height="wrap_content"
             android:background="@color/bg_f2f2f7"
             android:paddingVertical="18dp"
-            android:text="계속하기"
+            android:text="@string/continue_kor"
             android:textAppearance="@style/Sb18"
             android:visibility="@{vm.isActionSelected ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent" />

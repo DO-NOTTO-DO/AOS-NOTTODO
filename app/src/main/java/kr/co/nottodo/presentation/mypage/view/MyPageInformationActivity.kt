@@ -152,7 +152,8 @@ class MyPageInformationActivity : AppCompatActivity(), OnDialogDismissListener {
         binding.layoutMyPageInformationAlarm.setOnClickListener {
             startActivity(
                 Intent(
-                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse(getString(R.string.package_package_name, packageName))
                 )
             )
         }

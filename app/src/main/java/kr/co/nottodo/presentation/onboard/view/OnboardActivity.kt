@@ -28,10 +28,7 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
     }
 
     private fun addFragment(fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.fcv_onboard, fragment)
-            .commit()
+        supportFragmentManager.commit { add(R.id.fcv_onboard, fragment) }
     }
 
     override fun changeFragment(fragment: Fragment) {
@@ -44,7 +41,7 @@ class OnboardActivity : AppCompatActivity(), OnboardInterface {
     override fun setIndicatorNext() {
         with(binding) {
             ivOnboardIndicator.setImageResource(R.drawable.ic_tutorial_second)
-            tvOnboardIndicator.text = "사용 방법"
+            tvOnboardIndicator.text = getString(R.string.how_to_use)
         }
     }
 

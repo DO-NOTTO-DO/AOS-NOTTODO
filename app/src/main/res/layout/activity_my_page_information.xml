@@ -291,7 +291,7 @@
             android:layout_marginBottom="11dp"
             android:paddingHorizontal="12dp"
             android:paddingVertical="12dp"
-            android:text="@string/user_withdrawal"
+            android:text="@string/withdrawal_kor_underline"
             android:textAppearance="@style/R12"
             android:textColor="@color/gray_4_9398aa"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -33,7 +33,11 @@ class RecommendActionActivity : AppCompatActivity() {
         if (recommendMissionUiModel == null) {
             if (!isFinishing) finish()
         }
-        recommendMissionUiModel!!
+        requireNotNull(recommendMissionUiModel) {
+            getString(
+                R.string._is_null, getString(R.string.recommend_mission_ui_model)
+            )
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

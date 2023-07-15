@@ -21,17 +21,6 @@ class LoginViewModel : ViewModel() {
     val getErrorResult: LiveData<String>
         get() = _getErrorResult
 
-    private var socialToken: String? = null
-    private var FCMToken: String? = null
-
-    fun setSocialToken(newSocialToken: String) {
-        socialToken = newSocialToken
-    }
-
-    fun setFCMToken(newFCMToken: String) {
-        FCMToken = newFCMToken
-    }
-
     fun login(socialToken: String, fcmToken: String) {
         viewModelScope.launch {
             kotlin.runCatching {

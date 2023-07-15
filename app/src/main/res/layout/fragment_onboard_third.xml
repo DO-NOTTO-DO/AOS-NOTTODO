@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="49dp"
-        android:text="좋아요!\n 어떤 고민이 있으신가요?"
+        android:text="@string/onboard_third_title"
         android:textAppearance="@style/M20"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"

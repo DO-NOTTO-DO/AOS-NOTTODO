@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:layout_marginTop="42dp"
-        android:text="내 정보"
+        android:text="@string/my_information_kor"
         android:textAppearance="@style/Sb18"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,11 +29,12 @@
         app:layout_constraintTop_toBottomOf="@id/tv_my_page_title">
 
         <ImageView
-            android:id="@+id/iv_my_page_name"
+            android:id="@+id/iv_my_page_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="12dp"
             android:layout_marginStart="13dp"
+            android:contentDescription="@string/cd_my_page_image"
             android:src="@drawable/ic_my_page_name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,14 +46,14 @@
             android:layout_marginStart="16dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_my_page_name"
+            app:layout_constraintStart_toEndOf="@id/iv_my_page_image"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tv_my_page_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="닉네임"
+                android:text="@string/nickname_kor"
                 android:textAppearance="@style/R15"
                 android:textColor="@color/white" />
 
@@ -60,9 +62,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="ghdtjgus123@kakao.com"
                 android:textAppearance="@style/R12"
-                android:textColor="@color/gray_4_9398aa" />
+                android:textColor="@color/gray_4_9398aa"
+                tools:text="ghdtjgus123@kakao.com" />
 
         </LinearLayout>
 
@@ -83,6 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:contentDescription="@string/cd_nottodo_guide_icon"
             android:src="@drawable/ic_my_page_tag"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:paddingVertical="17dp"
-            android:text="낫투두 가이드"
+            android:text="@string/nottodo_guide_kor"
             android:textAppearance="@style/R14"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -121,6 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:contentDescription="@string/cd_frequently_question_guide"
             android:src="@drawable/ic_my_page_question"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -132,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:paddingVertical="17dp"
-            android:text="자주 묻는 질문"
+            android:text="@string/frequently_question_kor"
             android:textAppearance="@style/R14"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -155,7 +159,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:paddingVertical="17dp"
-            android:text="공지사항"
+            android:text="@string/notice_kor"
             android:textAppearance="@style/R14"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -168,6 +172,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="13dp"
             android:layout_marginEnd="16dp"
+            android:contentDescription="@string/cd_notice_icon"
             android:src="@drawable/ic_my_page_arrow_right"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -193,7 +198,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:paddingVertical="17dp"
-            android:text="문의하기"
+            android:text="@string/contact_kor"
             android:textAppearance="@style/R14"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -206,6 +211,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="13dp"
             android:layout_marginEnd="16dp"
+            android:contentDescription="@string/cd_contact_icon"
             android:src="@drawable/ic_my_page_arrow_right"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -231,7 +237,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:paddingVertical="17dp"
-            android:text="약관 및 정책"
+            android:text="@string/policies_kor"
             android:textAppearance="@style/R14"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -244,6 +250,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="13dp"
             android:layout_marginEnd="16dp"
+            android:contentDescription="@string/cd_policies_icon"
             android:src="@drawable/ic_my_page_arrow_right"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -270,7 +277,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:paddingVertical="17dp"
-            android:text="오픈소스 라이선스"
+            android:text="@string/os_licenses_kor"
             android:textAppearance="@style/R14"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -283,6 +290,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="13dp"
             android:layout_marginEnd="16dp"
+            android:contentDescription="@string/cd_os_licenses_kor"
             android:src="@drawable/ic_my_page_arrow_right"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

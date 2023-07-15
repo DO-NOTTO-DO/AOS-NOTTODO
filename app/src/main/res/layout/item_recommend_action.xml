@@ -43,6 +43,7 @@
         android:id="@+id/iv_recommend_action_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/cd_selected_action_check"
         android:src="@drawable/ic_check"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
