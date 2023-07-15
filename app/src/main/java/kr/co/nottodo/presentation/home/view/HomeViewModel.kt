@@ -12,6 +12,9 @@ import kr.co.nottodo.data.remote.api.ServicePool
 import kr.co.nottodo.data.remote.api.home.HomeService
 import kr.co.nottodo.data.remote.model.home.ResponHomeMissionDetail
 import kr.co.nottodo.data.remote.model.home.ResponseHomeWeekly
+import kr.co.nottodo.util.NotTodoAmplitude
+import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
+import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithPropertyList
 import timber.log.Timber
 
 class HomeViewModel : ViewModel() {
@@ -78,12 +81,25 @@ class HomeViewModel : ViewModel() {
                         }
                     }
                     _patchCheckResult.value = it.data
+                    trackCheckTodo(isCheck, it.data.title, it.data.situationName)
                     Timber.d("todo 성공이이롱 ${it.data}")
                 },
                 onFailure = {
                     Timber.d("todo error지롱 ${it.message}")
                 },
             )
+        }
+    }
+
+    private fun trackCheckTodo(isCheck: String, title: String, situation: String) {
+        val trackList = mutableMapOf<String, CharSequence>().apply {
+            put("title", title)
+            put("situation", situation)
+        }
+        if (isCheck == "CHECKED") {
+            trackEventWithPropertyList("complete_check_mission", trackList)
+        } else {
+            trackEventWithPropertyList("complete_uncheck_mission", trackList)
         }
     }
 
@@ -120,24 +136,6 @@ class HomeViewModel : ViewModel() {
     }
 
     suspend fun deleteTodo(missionId: Long) =
-            /*
-            lifecycleScope.launch {
-                val deleteJob = async { postClickDelete(requireArguments().getLong(MISSION_ID)) }
-                deleteJob.await()
-                dialogDismissListener?.onDeleteButtonClicked()
-                dismiss()
-            }
-             */
-
-//        viewModelScope.launch {
-//            val sync =
-//                async {
-//                    kotlin.runCatching { homeService.deleteTodo(missionId) }.onSuccess {
-//                        _deleteTodo.value = true
-//                    }
-//                }
-//            sync.await()
-//        }
         viewModelScope.launch {
             runCatching {
                 homeService.deleteTodo(missionId)
@@ -151,5 +149,4 @@ class HomeViewModel : ViewModel() {
                 },
             )
         }
-//        _deleteTodo.value = false
 }

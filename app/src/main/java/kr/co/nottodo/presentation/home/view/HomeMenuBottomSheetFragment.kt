@@ -25,9 +25,8 @@ import kr.co.nottodo.databinding.ItemHomeBottomActionsBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.CLICK_DAY
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.presentation.modification.view.ModificationActivity
-import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
-import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
+import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithPropertyList
 import kr.co.nottodo.util.getParcelable
 import timber.log.Timber
 
@@ -41,6 +40,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
     private lateinit var modifyParcelizeExtra: ParcelizeBottomDetail
     private lateinit var clickDay: String
     private var dialogDismissListener: DialogCloseListener? = null
+    private lateinit var trackActions: List<ResponHomeMissionDetail.Action>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +58,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         getMissionData()
         setOnClick()
         getModifyData()
-        trackShowBottomSheet()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -83,7 +82,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             val intent = Intent(requireActivity(), ModificationActivity::class.java)
             intent.putExtra(DETAIL, modifyParcelizeExtra)
             resultLauncher.launch(intent)
-            trackClickEdit()
         }
         binding.clHomeDoAnotherClickArea.setOnClickListener {
             val dialogFragment = HomeDoAnotherFragment()
@@ -91,23 +89,25 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             dialogFragment.setDialogDismissListener(this)
             dialogFragment.show(childFragmentManager, "dialog_fragment")
         }
-        binding.btnHomeDelete.setOnClickListener { showDeleteDialog() }
-    }
-
-    private fun trackShowBottomSheet() {
-        trackEvent(getString(R.string.appear_detail_mission))
-    }
-
-    private fun trackClickEdit() {
-// trackEvent()
+        binding.btnHomeDelete.setOnClickListener {
+            showDeleteDialog()
+            trackListData(R.string.click_delete_mission)
+        }
     }
 
     private fun trackDestroy() {
         trackEvent(getString(R.string.close_detail_mission))
     }
 
-    private fun trackClickDelete() {
-        trackEvent(getString(R.string.click_delete_mission))
+    private fun trackListData(EventName: Int) {
+        val trackList = mutableMapOf<String, CharSequence>().apply {
+            put(getString(R.string.title), binding.tvHomeDialogNotodo.text)
+            put(getString(R.string.situation), binding.tvHomeDialogSituation.text)
+            put(getString(R.string.goal), binding.tvHomeDialogGoalDescription.text)
+            val actionCharSequence: CharSequence = trackActions.joinToString(",")
+            put(getString(R.string.action), actionCharSequence)
+        }
+        trackEventWithPropertyList(getString(EventName), trackList)
     }
 
     private fun showDeleteDialog() {
@@ -128,6 +128,8 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             }
             bundle.putLong(MISSION_ID, it.id)
             modifyParcelizeExtra = parcelizeData(it)
+            trackActions = it.actions ?: emptyList()
+            trackListData(R.string.appear_detail_mission)
         }
     }
 
@@ -201,34 +203,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             }
     }
 
-    private fun trackCompleteAddMissionData() {
-        trackEventWithProperty(
-            getString(R.string.complete_add_mission_another_day),
-            getString(R.string.title),
-            binding.tvHomeDialogSituation.text,
-        )
-        trackEventWithProperty(
-            getString(R.string.complete_add_mission_another_day),
-            getString(R.string.situation),
-            binding.tvHomeDialogNotodo.text,
-        )
-        trackEventWithProperty(
-            getString(R.string.complete_add_mission_another_day),
-            getString(R.string.goal),
-            binding.tvHomeDialogGoalDescription.text,
-        )
-        trackEventWithProperty(
-            getString(R.string.complete_add_mission_another_day),
-            getString(R.string.action),
-            binding.tvHomeDialogDoAction.text,
-        )
-//        trackEventWithProperty(
-//            getString(R.string.complete_add_mission_another_day),
-//            getString(R.string.action),
-//            amplitudeDate.map { amplitudeDate.filterAndConvertToInt() },
-//        )
-    }
-
     override fun onDestroyView() {
         trackDestroy()
         _binding = null
@@ -249,13 +223,13 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         Timber.d("interface $selectFirstDay")
         dialogDismissListener?.onDismissAndDataPass(selectFirstDay)
         if (!selectFirstDay.isNullOrEmpty()) {
-            trackCompleteAddMissionData()
+            trackEvent(getString(R.string.complete_add_mission_another_day))
             dismiss()
         }
     }
 
     override fun onDeleteButtonClicked() {
-        trackClickDelete()
+        trackListData(R.string.complete_delete_mission)
         lifecycleScope.launch {
             viewModel.deleteTodo(requireArguments().getLong(MISSION_ID)).join()
             dialogDismissListener?.onDeleteButtonClicked()
