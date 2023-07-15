@@ -223,7 +223,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         Timber.d("interface $selectFirstDay")
         dialogDismissListener?.onDismissAndDataPass(selectFirstDay)
         if (!selectFirstDay.isNullOrEmpty()) {
-            trackEvent(getString(R.string.complete_add_mission_another_day))
+            trackListData(R.string.complete_add_mission_another_day)
             dismiss()
         }
     }

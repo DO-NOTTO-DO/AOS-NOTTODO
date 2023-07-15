@@ -14,6 +14,8 @@ import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentHomeDoAnotherBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
+import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
+import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToInt
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import kr.co.nottodo.view.calendar.monthly.util.convertStringToDate
 import timber.log.Timber
@@ -84,6 +86,7 @@ class HomeDoAnotherFragment : DialogFragment() {
             Timber.tag("homeDoAnotherViemodel0").d("$it")
             val selectFirstDay = it[0]
             Timber.d("homeDoAnotherViemodel3", "$selectFirstDay")
+            trackDates(it)
             dialogDismissListener?.onDismissAndDataPass(selectFirstDay)
             dismiss()
         }
@@ -94,6 +97,15 @@ class HomeDoAnotherFragment : DialogFragment() {
             }
             binding.homeDoAnotherCalendar.setScheduledNotTodoDateList(dayList as List<Date>)
         }
+    }
+
+    private fun trackDates(dates: List<String>) {
+        dates.map { date -> date.convertDateStringToInt() }
+        trackEventWithProperty(
+            getString(R.string.complete_add_mission_another_day),
+            getString(R.string.date),
+            dates,
+        )
     }
 
     private fun formatDay(dayList: List<String>): List<String> {
