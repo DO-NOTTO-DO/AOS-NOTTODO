@@ -66,14 +66,11 @@ class RecommendActionActivity : AppCompatActivity() {
 
     private fun getDataFromRecommendMissionActivity() {
         trackEventWithProperty(
-            getString(R.string.view_recommend_mission_detail),
-            getString(R.string.situation),
-            dataFromRecommendMissionActivity.situation
-        )
-        trackEventWithProperty(
-            getString(R.string.view_recommend_mission_detail),
-            getString(R.string.title),
-            dataFromRecommendMissionActivity.title
+            getString(R.string.view_recommend_mission_detail), mapOf(
+                getString(R.string.situation) to dataFromRecommendMissionActivity.situation,
+                getString(R.string.title) to dataFromRecommendMissionActivity.title
+
+            )
         )
         viewModel.setMissionId(
             dataFromRecommendMissionActivity.id
@@ -121,21 +118,7 @@ class RecommendActionActivity : AppCompatActivity() {
     private fun continueBtnClickEvent() {
         binding.btnRecommendActionContinue.setOnClickListener {
             val selectedActionList = recommendActionAdapter?.getSelectedActionList()
-            trackEventWithProperty(
-                getString(R.string.click_create_recommend_mission),
-                getString(R.string.situation),
-                dataFromRecommendMissionActivity.situation
-            )
-            trackEventWithProperty(
-                getString(R.string.click_create_recommend_mission),
-                getString(R.string.title),
-                dataFromRecommendMissionActivity.title
-            )
-            if (selectedActionList != null) trackEventWithProperty(
-                getString(R.string.click_create_recommend_mission),
-                getString(R.string.action),
-                selectedActionList.toTypedArray()
-            )
+            trackClickCreateRecommendMissionEvent(selectedActionList)
             val recommendUiModel = RecommendUiModel(
                 title = dataFromRecommendMissionActivity.title,
                 situation = dataFromRecommendMissionActivity.situation,
@@ -148,6 +131,22 @@ class RecommendActionActivity : AppCompatActivity() {
             )
             if (!isFinishing) finish()
         }
+    }
+
+    private fun trackClickCreateRecommendMissionEvent(selectedActionList: List<String>?) {
+        val clickCreateRecommendMissionEventPropertyMap = mutableMapOf<String, Any>(
+            getString(R.string.situation) to dataFromRecommendMissionActivity.situation,
+            getString(R.string.title) to dataFromRecommendMissionActivity.title
+
+        )
+        if (selectedActionList != null) clickCreateRecommendMissionEventPropertyMap.plus(
+            getString(R.string.action) to selectedActionList.toTypedArray()
+        )
+
+        trackEventWithProperty(
+            getString(R.string.click_create_recommend_mission),
+            clickCreateRecommendMissionEventPropertyMap
+        )
     }
 
     private fun writeDirectTvClickEvent() {
