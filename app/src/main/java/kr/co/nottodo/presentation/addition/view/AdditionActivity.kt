@@ -237,28 +237,17 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun trackCompleteCreateMission(missionData: Addition) {
         with(missionData) {
-            trackEventWithProperty(getString(R.string.complete_create_mission),
-                getString(R.string.date),
-                dates.map { date -> date.convertDateStringToInt() })
-
-            if (goal != null) trackEventWithProperty(
-                getString(R.string.complete_create_mission), getString(R.string.goal), goal
+            val completeCreateMissionEventPropertyMap = mutableMapOf<String, Any>(
+                getString(R.string.date) to dates.map { date -> date.convertDateStringToInt() },
+                getString(R.string.title) to title,
+                getString(R.string.situation) to situation
             )
-
+            if (goal != null) completeCreateMissionEventPropertyMap.plus(getString(R.string.goal) to goal)
+            if (actions != null) completeCreateMissionEventPropertyMap.plus(
+                getString(R.string.action) to actions.toTypedArray()
+            )
             trackEventWithProperty(
-                getString(R.string.complete_create_mission), getString(R.string.title), title
-            )
-
-            trackEventWithProperty(
-                getString(R.string.complete_create_mission),
-                getString(R.string.situation),
-                situation
-            )
-
-            if (!actions.isNullOrEmpty()) trackEventWithProperty(
-                getString(R.string.complete_create_mission),
-                getString(R.string.action),
-                actions.toTypedArray()
+                getString(R.string.complete_create_mission), completeCreateMissionEventPropertyMap
             )
         }
     }
@@ -511,25 +500,17 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun trackClickCreateMission(missionData: RequestAdditionDto) {
         with(missionData) {
-            trackEventWithProperty(getString(R.string.click_create_mission),
-                getString(R.string.date),
-                dates.map { date -> date.convertDateStringToInt() })
-
-            if (goal != null) trackEventWithProperty(
-                getString(R.string.click_create_mission), getString(R.string.goal), goal
+            val clickCreateMissionEventPropertyMap = mutableMapOf<String, Any>(
+                getString(R.string.date) to dates.map { date -> date.convertDateStringToInt() },
+                getString(R.string.title) to title,
+                getString(R.string.situation) to situation
             )
-
-            trackEventWithProperty(
-                getString(R.string.click_create_mission), getString(R.string.title), title
+            if (goal != null) clickCreateMissionEventPropertyMap.plus(getString(R.string.goal) to goal)
+            if (actions != null) clickCreateMissionEventPropertyMap.plus(
+                getString(R.string.action) to actions.toTypedArray()
             )
             trackEventWithProperty(
-                getString(R.string.click_create_mission), getString(R.string.situation), situation
-            )
-
-            if (actions != null) trackEventWithProperty(
-                getString(R.string.click_create_mission),
-                getString(R.string.action),
-                actions.toTypedArray()
+                getString(R.string.click_create_mission), clickCreateMissionEventPropertyMap
             )
         }
     }
