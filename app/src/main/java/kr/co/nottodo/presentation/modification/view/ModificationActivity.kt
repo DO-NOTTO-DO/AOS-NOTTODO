@@ -204,7 +204,7 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun observeSuccessResponse() {
         viewModel.modificationResponse.observe(this) { response ->
-            showToast("낫투두 수정 완료 !")
+            showToast(getString(R.string.complete_modify_nottodo))
             setResult(RESULT_OK)
             if (!isFinishing) finish()
             trackCompleteUpdateMission(response)
@@ -273,7 +273,7 @@ class ModificationActivity : AppCompatActivity() {
             )
             trackViewUpdateMission(notTodoData)
         } else {
-            showToast("오류로 인해 해당 낫투두를 수정할 수 없습니다.")
+            showToast(getString(R.string.error_modify_nottodo))
             if (!isFinishing) finish()
         }
     }
@@ -341,8 +341,7 @@ class ModificationActivity : AppCompatActivity() {
         }
 
         binding.etModificationAction.setOnEditorActionListener { _, actionId, _ ->
-            //상황 추가 입력창 키보드 엔터 오버라이딩 -> 텍스트뷰 추가
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
+            if (actionId == EditorInfo.IME_ACTION_DONE && binding.etModificationAction.text.isNotBlank()) {
                 addAction(viewModel.actionCount.value)
             }
             return@setOnEditorActionListener true
@@ -515,7 +514,7 @@ class ModificationActivity : AppCompatActivity() {
     private fun observeGoal() {
         viewModel.goal.observe(this) { goal ->
             binding.tvModificationGoalTextCount.text =
-                goal.length.toString() + getString(R.string.max_text_size_20)
+                getString(R.string.max_text_size_20, goal.length)
             if (goal.isNotBlank()) {
                 binding.layoutModificationGoalClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
@@ -544,7 +543,7 @@ class ModificationActivity : AppCompatActivity() {
     private fun observeAction() {
         viewModel.action.observe(this) { action ->
             binding.tvModificationActionTextCount.text =
-                action.length.toString() + action.length.toString() + getString(R.string.max_text_size_20)
+                getString(R.string.max_text_size_20, action.length)
         }
     }
 
@@ -575,51 +574,57 @@ class ModificationActivity : AppCompatActivity() {
                     with(binding) {
                         etModificationAction.visibility = View.VISIBLE
                         tvModificationActionTextCount.visibility = View.VISIBLE
-                        requestFocusWithShowingKeyboard(binding.etModificationAction)
+                        requestFocusWithShowingKeyboard(etModificationAction)
                     }
                     viewModel.actionList.value = listOf()
                 }
 
                 1 -> {
                     setActionBox(isActionFilled = true)
-                    binding.tvModificationActionClosedInput.text =
-                        binding.tvModificationActionFirst.text
                     with(binding) {
+                        tvModificationActionClosedInput.text = tvModificationActionFirst.text
                         etModificationAction.visibility = View.VISIBLE
                         tvModificationActionTextCount.visibility = View.VISIBLE
-                        requestFocusWithShowingKeyboard(binding.etModificationAction)
+                        requestFocusWithShowingKeyboard(etModificationAction)
                         viewModel.actionList.value =
-                            listOf(binding.tvModificationActionFirst.text.toString())
+                            listOf(tvModificationActionFirst.text.toString())
                     }
                 }
 
                 2 -> {
                     setActionBox(isActionFilled = true)
-                    binding.tvModificationActionClosedInput.text =
-                        "${binding.tvModificationActionFirst.text}\n${binding.tvModificationActionSecond.text}"
                     with(binding) {
+                        tvModificationActionClosedInput.text = getString(
+                            R.string.addition_action_2_text,
+                            tvModificationActionFirst.text,
+                            tvModificationActionSecond.text
+                        )
                         etModificationAction.visibility = View.VISIBLE
                         tvModificationActionTextCount.visibility = View.VISIBLE
-                        requestFocusWithShowingKeyboard(binding.etModificationAction)
+                        requestFocusWithShowingKeyboard(etModificationAction)
                         viewModel.actionList.value = listOf(
-                            binding.tvModificationActionFirst.text.toString(),
-                            binding.tvModificationActionSecond.text.toString()
+                            tvModificationActionFirst.text.toString(),
+                            tvModificationActionSecond.text.toString()
                         )
                     }
                 }
 
                 3 -> {
                     setActionBox(isActionFilled = true)
-                    binding.tvModificationActionClosedInput.text =
-                        "${binding.tvModificationActionFirst.text}\n${binding.tvModificationActionSecond.text}\n${binding.tvModificationActionThird.text}"
                     with(binding) {
+                        tvModificationActionClosedInput.text = getString(
+                            R.string.addition_action_3_text,
+                            tvModificationActionFirst.text,
+                            tvModificationActionSecond.text,
+                            tvModificationActionThird.text
+                        )
                         etModificationAction.visibility = View.GONE
                         tvModificationActionTextCount.visibility = View.GONE
                         hideKeyboard(root)
                         viewModel.actionList.value = listOf(
-                            binding.tvModificationActionFirst.text.toString(),
-                            binding.tvModificationActionSecond.text.toString(),
-                            binding.tvModificationActionThird.text.toString()
+                            tvModificationActionFirst.text.toString(),
+                            tvModificationActionSecond.text.toString(),
+                            tvModificationActionThird.text.toString()
                         )
                     }
                 }
@@ -630,7 +635,7 @@ class ModificationActivity : AppCompatActivity() {
     private fun observeSituation() {
         viewModel.situation.observe(this) { situation ->
             binding.tvModificationSituationTextCount.text =
-                situation.length.toString() + getString(R.string.max_text_size_20)
+                getString(R.string.max_text_size_20, situation.length)
             if (situation.isNotBlank()) {
                 binding.layoutModificationSituationClosed.background =
                     AppCompatResources.getDrawable(
@@ -659,7 +664,7 @@ class ModificationActivity : AppCompatActivity() {
     private fun observeMission() {
         viewModel.mission.observe(this) { mission ->
             binding.tvModificationMissionTextCount.text =
-                mission.length.toString() + getString(R.string.max_text_size_20)
+                getString(R.string.max_text_size_20, mission.length)
             if (mission.isNotBlank()) {
                 binding.layoutModificationMissionClosed.background = AppCompatResources.getDrawable(
                     this, R.drawable.rectangle_solid_gray_1_radius_12
@@ -826,7 +831,8 @@ class ModificationActivity : AppCompatActivity() {
         )
         situationOpenedDesc.setSpan(
             ForegroundColorSpan(getColor(R.color.green_1_98ffa9)),
-            10, 12,
+            10,
+            12,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         situationOpenedDesc.setSpan(

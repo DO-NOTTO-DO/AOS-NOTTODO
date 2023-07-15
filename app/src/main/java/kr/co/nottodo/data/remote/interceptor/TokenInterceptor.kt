@@ -1,5 +1,7 @@
 package kr.co.nottodo.data.remote.interceptor
 
+import kr.co.nottodo.data.resource.PublicErrorCode.ERROR_CODE_401
+import kr.co.nottodo.data.resource.PublicPathString.AUTHORIZATION
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.listeners.OnTokenExpiredListener
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.USER_TOKEN
@@ -15,11 +17,11 @@ class TokenInterceptor(private val onTokenExpiredListener: OnTokenExpiredListene
             return chain.proceed(originalRequest)
         }
         val tokenAddedRequest = originalRequest.newBuilder().header(
-            "Authorization", userToken
+            AUTHORIZATION, userToken
         ).build()
 
         val response = chain.proceed(tokenAddedRequest)
-        if (response.code == 401) onTokenExpiredListener.onTokenExpired()
+        if (response.code == ERROR_CODE_401) onTokenExpiredListener.onTokenExpired()
         return response
     }
 }

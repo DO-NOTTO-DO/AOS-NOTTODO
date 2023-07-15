@@ -17,18 +17,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_flag" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="달성률을 높이기 위해선 필수!"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:text="@string/onboard_sixth_tip"
             android:textAppearance="@style/L13"
-            android:layout_marginStart="6dp"
-            android:textColor="@color/green_1_98ffa9" />
+            android:textColor="@color/green_1_98ffa9"
+            app:drawableStartCompat="@drawable/ic_flag" />
 
     </LinearLayout>
 
@@ -39,7 +36,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="49dp"
-        android:text="낫투두를 실천할 방법과\n환경을 정해요"
+        android:text="@string/onboard_sixth_title"
         android:textAppearance="@style/M20"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,6 +60,7 @@
             android:layout_height="0dp"
             android:layout_marginVertical="17dp"
             android:layout_marginStart="21dp"
+            android:contentDescription="@string/nottodo_example_image"
             android:src="@drawable/ic_night_meal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
@@ -87,7 +85,7 @@
                 android:background="@drawable/rectangle_solid_gray_8_radius_30"
                 android:paddingHorizontal="7dp"
                 android:paddingVertical="2dp"
-                android:text="취침 전"
+                android:text="@string/nottodo_example_before_sleep"
                 android:textAppearance="@style/R10"
                 android:textColor="@color/gray_6_e6e6f2" />
 
@@ -96,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="자기 2시간 전 야식 먹지 않기"
+                android:text="@string/nottodo_example_no_night_meal"
                 android:textAppearance="@style/R13"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -108,6 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
+        android:contentDescription="@string/cd_down_arrow"
         android:src="@drawable/ic_arrow_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -119,7 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="27dp"
         android:layout_marginTop="15dp"
-        android:text="실천 방법"
+        android:text="@string/action_kor"
         android:textAppearance="@style/R14"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
@@ -163,6 +162,7 @@
             android:layout_width="47dp"
             android:layout_height="26dp"
             android:layout_marginEnd="7dp"
+            android:contentDescription="@string/cd_kakao_google_icon"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_social_login" />
 
@@ -170,14 +170,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
-            android:text="로그인하고 시작하기"
+            android:drawablePadding="12dp"
+            android:text="@string/login_and_start"
             android:textAppearance="@style/M16"
-            android:textColor="@color/white" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_next" />
+            android:textColor="@color/white"
+            app:drawableEndCompat="@drawable/ic_next" />
 
     </LinearLayout>
 

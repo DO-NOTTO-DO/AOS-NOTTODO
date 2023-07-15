@@ -24,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
+            android:contentDescription="@string/cd_onboard_indicator"
             android:src="@drawable/ic_tutorial_first" />
 
         <TextView
@@ -31,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="나의 일상"
+            android:text="@string/my_life"
             android:textAppearance="@style/R15"
             android:textColor="@color/green_3_8ae49a" />
     </LinearLayout>

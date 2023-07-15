@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentOnboardFirstBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
 
@@ -19,7 +20,11 @@ class OnboardFirstFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         onboardInterface = context as? OnboardInterface
-            ?: throw TypeCastException("context can not cast as an OnboardInterface")
+            ?: throw TypeCastException(
+                context.getString(
+                    R.string.context_can_not_cast_as, getString(R.string.onboard_interface)
+                )
+            )
     }
 
     override fun onCreateView(

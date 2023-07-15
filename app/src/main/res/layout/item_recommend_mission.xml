@@ -28,13 +28,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="9dp"
-        android:text="유튜브 보지 않기"
         android:textAppearance="@style/Sb18"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/tv_recommendation_mission_situation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_recommendation_mission_situation"
-        app:layout_constraintTop_toTopOf="@id/tv_recommendation_mission_situation" />
+        app:layout_constraintTop_toTopOf="@id/tv_recommendation_mission_situation"
+        tools:text="유튜브 보지 않기" />
 
     <ImageView
         android:id="@+id/iv_recommendation_mission"
@@ -43,6 +43,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="6dp"
+        android:contentDescription="@string/cd_nottodo_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_recommendation_mission" />

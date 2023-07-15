@@ -66,14 +66,14 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setGoogleLoginBtnClickEvent() {
         binding.layoutLoginGoogle.setOnClickListener {
-            showToast("구글 로그인은 추후 업데이트 예정입니다")
+            showToast(getString(R.string.google_sign_in_later))
         }
     }
 
     private fun setKakaoLoginBtnClickEvent() {
         val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { socialToken, error ->
             if (error != null) {
-                Timber.e("로그인 실패 $error")
+                Timber.e(getString(R.string.failure_kakao_login, error))
             } else if (socialToken != null) {
                 FirebaseMessaging.getInstance().token.addOnSuccessListener { fcmToken ->
                     viewModel.login(socialToken = socialToken.accessToken, fcmToken = fcmToken)
@@ -92,7 +92,7 @@ class LoginActivity : AppCompatActivity() {
                 UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
                     // 로그인 실패 부분
                     if (error != null) {
-                        Timber.e("로그인 실패 $error")
+                        Timber.e(getString(R.string.failure_kakao_login, error))
                         // 사용자 취소
                         if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                             return@loginWithKakaoTalk
@@ -110,7 +110,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                Timber.d("카카오톡이 설치되어 있지 않습니다.")
+                Timber.d(getString(R.string.kakao_talk_not_installed))
                 // 카카오 이메일 로그인
                 UserApiClient.instance.loginWithKakaoAccount(
                     this, callback = kakaoLoginCallback
@@ -151,7 +151,7 @@ class LoginActivity : AppCompatActivity() {
             if (!isFinishing) finish()
         }
         viewModel.getErrorResult.observe(this) {
-            UserApiClient.instance.logout { showToast("오류 발생, 다시 로그인 해주세요.") }
+            UserApiClient.instance.logout { showToast(getString(R.string.error_login_again_please)) }
         }
     }
 

@@ -19,7 +19,7 @@ class OnboardFifthFragment : Fragment() {
     private var _binding: FragmentOnboardFifthBinding? = null
     private val binding: FragmentOnboardFifthBinding
         get() = requireNotNull(_binding)
-    lateinit var onboardInterface: OnboardInterface
+    private lateinit var onboardInterface: OnboardInterface
     private val viewModel by activityViewModels<OnboardViewModel>()
 
     override fun onAttach(context: Context) {
@@ -47,7 +47,7 @@ class OnboardFifthFragment : Fragment() {
     }
 
     private fun initNextLayoutClickListener() {
-        binding.layoutOnboardFifthNext.setOnClickListener {
+        binding.tvOnboardFifthNext.setOnClickListener {
             onboardInterface.changeFragment(OnboardSixthFragment())
             trackEvent(getString(R.string.click_onboarding_next_4))
         }
