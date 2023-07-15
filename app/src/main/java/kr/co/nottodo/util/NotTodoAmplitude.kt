@@ -13,8 +13,8 @@ object NotTodoAmplitude {
             Configuration(
                 apiKey = BuildConfig.AMPLITUDE_API_KEY,
                 context = applicationContext,
-                trackingSessionEvents = false
-            )
+                trackingSessionEvents = false,
+            ),
         )
     }
 
@@ -24,7 +24,23 @@ object NotTodoAmplitude {
 
     fun <T> trackEventWithProperty(eventName: String, propertyName: String, propertyValue: T) {
         amplitude.track(
-            eventType = eventName, eventProperties = mapOf(propertyName to propertyValue)
+            eventType = eventName,
+            eventProperties = mapOf(propertyName to propertyValue),
+        )
+    }
+
+    fun trackEventWithPropertyList(
+        eventName: String,
+        properties: MutableMap<String, CharSequence>,
+    ) {
+        val eventProperties = mutableMapOf<String, Any>()
+        properties.forEach { (propertyName, propertyValue) ->
+            eventProperties[propertyName] = propertyValue.toString()
+        }
+
+        amplitude.track(
+            eventType = eventName,
+            eventProperties = eventProperties,
         )
     }
 }

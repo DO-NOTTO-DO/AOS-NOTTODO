@@ -13,7 +13,6 @@ import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.addition.view.AdditionActivity.Companion.FIRST_DATE
 import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
-import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
@@ -84,7 +83,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
         homeViewModel.patchCheckResult.observe(viewLifecycleOwner) {
             homeViewModel.getHomeWeekly(binding.weeklyCalendar.getCurrentSundayDate().toString())
             homeViewModel.getHomeDaily(weeklyData)
-            trackRealDelete()
         }
         homeViewModel.clickDay.observe(viewLifecycleOwner) { clickDay ->
             bundle.putString(CLICK_DAY, clickDay)
@@ -134,35 +132,22 @@ class HomeFragment : Fragment(), DialogCloseListener {
 
     private fun weeklyDayClick() {
         binding.weeklyCalendar.setOnWeeklyDayClickListener { view, date ->
+            trackClickDay(date.toString())
             Timber.d("calender", "initMonth: $date")
             weeklyData = date.toString()
             homeViewModel.clickDay.value = weeklyData
             homeViewModel.getHomeDaily(weeklyData)
-            trackClickDay(weeklyData)
         }
     }
 
     private fun trackClickDay(weeklyList: String) {
-        val formatDay = weeklyList?.map { weeklyList.filterAndConvertToInt() }
+        val formatDay = weeklyList.filter { char -> char != '-' }.toInt()
         trackEventWithProperty(
             getString(R.string.click_weekly_date),
             getString(R.string.date),
-            formatDay?.toTypedArray(),
+            formatDay,
         )
     }
-
-    private fun trackRealDelete() {
-        NotTodoAmplitude.trackEvent(getString(R.string.complete_delete_mission))
-    }
-
-//    private fun trackCheckTodo(check: String) {
-//        if (check == "CHECKED") {
-//            NotTodoAmplitude.trackEventWithProperty(
-//                getString(R.string.complete_check_mission),
-//            )
-//        }
-//        // UNCHECKED
-//    }
 
     private fun firsetDayGet() {
         binding.weeklyCalendar.moveToDate(
