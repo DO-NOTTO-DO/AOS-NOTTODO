@@ -24,8 +24,13 @@ object NotTodoAmplitude {
 
     fun <T> trackEventWithProperty(eventName: String, propertyName: String, propertyValue: T) {
         amplitude.track(
-            eventType = eventName,
-            eventProperties = mapOf(propertyName to propertyValue),
+            eventType = eventName, eventProperties = mapOf(propertyName to propertyValue)
+        )
+    }
+
+    fun trackEventWithProperty(eventName: String, propertyMap: Map<String, Any>) {
+        amplitude.track(
+            eventType = eventName, eventProperties = propertyMap
         )
     }
 
@@ -39,8 +44,7 @@ object NotTodoAmplitude {
         }
 
         amplitude.track(
-            eventType = eventName,
-            eventProperties = eventProperties,
+            eventType = eventName, eventProperties = eventProperties
         )
     }
 }
