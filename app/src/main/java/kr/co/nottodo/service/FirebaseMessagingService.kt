@@ -60,7 +60,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
         if (ContextCompat.checkSelfPermission(
                 this, Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED || SharedPreferences.getBoolean(
+            ) == PackageManager.PERMISSION_GRANTED && SharedPreferences.getBoolean(
                 DID_USER_CHOOSE_TO_BE_NOTIFIED
             )
         ) {
