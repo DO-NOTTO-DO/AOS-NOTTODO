@@ -35,14 +35,17 @@
 
         <activity
             android:name=".presentation.onboard.view.OnboardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.addition.view.AdditionActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".presentation.login.view.LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,21 +54,25 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.modification.view.ModificationActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".presentation.mypage.view.MyPageInformationActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.recommendation.mission.view.RecommendMissionActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.recommendation.action.view.RecommendActionActivity"
-            android:exported="false" />
-
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
