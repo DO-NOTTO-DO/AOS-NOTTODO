@@ -156,8 +156,8 @@
     <string name="ex_mission_work_out">운동 중 20분 이상 쉬지 않기</string>
     <string name="ex_goal_work_out">근손실 막고 근육량 늘리기</string>
     <string name="complete_create_nottodo">낫투두 생성 완료 !</string>
-    <string name="addition_action_2_text">1%s\n2%s</string>
-    <string name="addition_action_3_text">1%s\n2%s\n3%s</string>
+    <string name="addition_action_2_text">%s\n%s</string>
+    <string name="addition_action_3_text">%s\n%s\n%s</string>
     <string name="cd_delete_addition_view">낫투두 생성 창 닫기</string>
     <string name="addition_create_nottodo">낫투두 생성</string>
     <string name="add">추가</string>
