@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.content.withStyledAttributes
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -45,7 +46,7 @@ import java.util.TimeZone
 class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyle: Int = 0
+    defStyle: Int = 0,
 ) : LinearLayout(context, attrs, defStyle), MonthlyCalendarPickerClickListener {
 
     private val timeZone = TimeZone.getDefault()
@@ -86,28 +87,22 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
         gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
         layoutParams =
             LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        addView(
-            ImageView(this.context).apply {
-                setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this.context,
-                        R.drawable.ic_left_arrow_monthly_calendar
-                    )
+        addView(ImageView(this.context).apply {
+            setImageDrawable(
+                ContextCompat.getDrawable(
+                    this.context, R.drawable.ic_left_arrow_monthly_calendar
                 )
-                setOnClickListener {
-                    calendar.add(Calendar.MONTH, -1)
-                    currentDate = calendar.toPrettyMonthString(locale = locale)
-                    initCalendarData()
-                }
-                setPadding(
-                    context.dpToPx(6),
-                    context.dpToPx(6),
-                    context.dpToPx(6),
-                    context.dpToPx(6)
-                )
-                addCircleRipple()
+            )
+            setOnClickListener {
+                calendar.add(Calendar.MONTH, -1)
+                currentDate = calendar.toPrettyMonthString(locale = locale)
+                initCalendarData()
             }
-        )
+            setPadding(
+                context.dpToPx(6), context.dpToPx(6), context.dpToPx(6), context.dpToPx(6)
+            )
+            addCircleRipple()
+        })
 
         addView(View(this.context).apply {
             layoutParams = LayoutParams(context.dpToPx(8), 0, 0f)
@@ -119,28 +114,22 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
             layoutParams = LayoutParams(context.dpToPx(8), 0, 0f)
         })
 
-        addView(
-            ImageView(this.context).apply {
-                setImageDrawable(
-                    ContextCompat.getDrawable(
-                        this.context,
-                        R.drawable.ic_right_arrow_monthly_calendar
-                    )
+        addView(ImageView(this.context).apply {
+            setImageDrawable(
+                ContextCompat.getDrawable(
+                    this.context, R.drawable.ic_right_arrow_monthly_calendar
                 )
-                setOnClickListener {
-                    calendar.add(Calendar.MONTH, 1)
-                    currentDate = calendar.toPrettyMonthString(locale = locale)
-                    initCalendarData()
-                }
-                setPadding(
-                    context.dpToPx(6),
-                    context.dpToPx(6),
-                    context.dpToPx(6),
-                    context.dpToPx(6)
-                )
-                addCircleRipple()
+            )
+            setOnClickListener {
+                calendar.add(Calendar.MONTH, 1)
+                currentDate = calendar.toPrettyMonthString(locale = locale)
+                initCalendarData()
             }
-        )
+            setPadding(
+                context.dpToPx(6), context.dpToPx(6), context.dpToPx(6), context.dpToPx(6)
+            )
+            addCircleRipple()
+        })
     }
 
     private val calendarPickerHeaderLinearLayout = LinearLayout(context).apply {
@@ -150,10 +139,7 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
             LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         setBackgroundColor(ContextCompat.getColor(context, R.color.gray_1_2a2a2e))
         setPadding(
-            context.dpToPx(20f),
-            context.dpToPx(8f),
-            context.dpToPx(20f),
-            context.dpToPx(8f)
+            context.dpToPx(20f), context.dpToPx(8f), context.dpToPx(20f), context.dpToPx(8f)
         )
 
         addView(calendarPickerHeaderContentView)
@@ -243,8 +229,7 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
                 1 -> {
                     monthlyCalendarDayList.addAll(
                         createStartEmptyView(
-                            proxyCalendarDayOfWeek,
-                            proxyCalendar
+                            proxyCalendarDayOfWeek, proxyCalendar
                         )
                     )
                     monthlyCalendarDayList.add(
@@ -268,8 +253,7 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
                     )
                     monthlyCalendarDayList.addAll(
                         createEndEmptyView(
-                            proxyCalendarDayOfWeek,
-                            proxyCalendar
+                            proxyCalendarDayOfWeek, proxyCalendar
                         )
                     )
                 }
@@ -291,7 +275,7 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
 
     private fun createEndEmptyView(
         dayOfWeek: Int,
-        proxyCalendar: Calendar
+        proxyCalendar: Calendar,
     ): List<MonthlyCalendarDay.Empty> {
         val nextCalendar = Calendar.getInstance().apply {
             set(Calendar.MONTH, proxyCalendar.get(Calendar.MONTH))
@@ -325,7 +309,7 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
 
     private fun createStartEmptyView(
         dayOfWeek: Int,
-        proxyCalendar: Calendar
+        proxyCalendar: Calendar,
     ): List<MonthlyCalendarDay.Empty> {
         val previousCalendar = Calendar.getInstance().apply {
             set(Calendar.MONTH, proxyCalendar.get(Calendar.MONTH))
@@ -364,8 +348,12 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
     }
 
     private fun getStyleableAttrs(attrs: AttributeSet) {
-        context.obtainStyledAttributes(attrs, R.styleable.MonthlyCalendarMultiplePicker).use {
-            isClickedCurrentDate = it.getBoolean(R.styleable.MonthlyCalendarMultiplePicker_isClickedCurrentDate, true)
+        context.withStyledAttributes(
+            attrs, R.styleable.MonthlyCalendarMultiplePicker
+        ) {
+            isClickedCurrentDate = getBoolean(
+                R.styleable.MonthlyCalendarMultiplePicker_isClickedCurrentDate, true
+            )
         }
     }
 
@@ -405,9 +393,13 @@ class MonthlyCalendarMultiplePicker @JvmOverloads constructor(
      */
     fun setScheduledNotTodoDateList(list: List<Date>) {
         val current7DayList = get7DateList()
-        monthlyCalendarMultiplePickerDayAdapter.submitScheduledNotTodoList(
-            list.filter { current7DayList.any { it.isTheSameDay(it) } }
-        )
+        monthlyCalendarMultiplePickerDayAdapter.submitScheduledNotTodoList(list.filter {
+            current7DayList.any {
+                it.isTheSameDay(
+                    it
+                )
+            }
+        })
     }
 
     override fun onDayClick(view: View, date: Date) {
