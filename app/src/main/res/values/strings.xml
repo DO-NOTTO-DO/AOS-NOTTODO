@@ -259,4 +259,6 @@
     <string name="cd_close_view">창 닫기</string>
     <string name="directly_input_kor">직접 입력하기</string>
 
+    <string name="net_work_error_message">네트워크에 연결할 수 없습니다. 확인 후 다시 시도해 주세요.</string>
+
 </resources>
