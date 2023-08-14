@@ -12,6 +12,7 @@ import kr.co.nottodo.databinding.FragmentAchieveBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.view.calendar.monthly.util.convertStringToDate
+import kr.co.nottodo.view.snackbar.NotTodoSnackbar
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -44,6 +45,7 @@ class AchieveFragment : Fragment() {
         setActivityBackgroundColor()
         initDay()
         observeData()
+        networkError()
         clickMonth()
         observeDailyData()
         NotTodoAmplitude.trackEvent(getString(R.string.view_accomplish))
@@ -60,6 +62,12 @@ class AchieveFragment : Fragment() {
                 it.actionDate.convertStringToDate() to it.percentage
             } ?: emptyList()
             binding.achieveCalender.setNotToDoPercentages(notTodoRate)
+        }
+    }
+
+    private fun networkError() {
+        achieveViewModel.errorMessage.observe(viewLifecycleOwner) {
+            NotTodoSnackbar(binding.root, getString(R.string.net_work_error_message)).show()
         }
     }
 
