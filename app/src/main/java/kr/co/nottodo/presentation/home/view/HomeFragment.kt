@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.snackbar.Snackbar
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
@@ -16,8 +17,8 @@ import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionAc
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
-import kr.co.nottodo.view.calendar.monthly.util.filterAndConvertToInt
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
+import kr.co.nottodo.view.snackbar.NotTodoSnackbar
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -54,8 +55,10 @@ class HomeFragment : Fragment(), DialogCloseListener {
         initAdapter()
         homeViewModel.getHomeDaily(weeklyData)
         setActivityBackgroundColor()
+        ObserverDailyTodo()
         observerData()
         clickFloatingBtn()
+        showErrorToast()
         setWeeklyDate()
         weeklyDayClick()
         firsetDayGet()
@@ -63,17 +66,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
     }
 
     private fun observerData() {
-        homeViewModel.getHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
-            if (homeDaily.isEmpty()) {
-                binding.clHomeMain.visibility = View.VISIBLE
-                binding.rvHomeTodoList.visibility = View.INVISIBLE
-                return@observe
-            }
-            binding.rvHomeTodoList.visibility = View.VISIBLE
-            binding.clHomeMain.visibility = View.INVISIBLE
-            homeAdapter.submitList(homeDaily.toList())
-        }
-
         homeViewModel.getHomeWeeklyResult.observe(viewLifecycleOwner) { weeklyCount ->
             val notToDoCountList = weeklyCount.map {
                 it.actionDate.convertToLocalDate() to it.percentage
@@ -86,6 +78,25 @@ class HomeFragment : Fragment(), DialogCloseListener {
         }
         homeViewModel.clickDay.observe(viewLifecycleOwner) { clickDay ->
             bundle.putString(CLICK_DAY, clickDay)
+        }
+    }
+
+    private fun showErrorToast() {
+        homeViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            NotTodoSnackbar(binding.root, getString(R.string.net_work_error_message)).show()
+        }
+    }
+
+    private fun ObserverDailyTodo() {
+        homeViewModel.getHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
+            if (homeDaily.isEmpty()) {
+                binding.clHomeMain.visibility = View.VISIBLE
+                binding.rvHomeTodoList.visibility = View.INVISIBLE
+                return@observe
+            }
+            binding.rvHomeTodoList.visibility = View.VISIBLE
+            binding.clHomeMain.visibility = View.INVISIBLE
+            homeAdapter.submitList(homeDaily.toList())
         }
     }
 
