@@ -15,7 +15,9 @@ import kr.co.nottodo.data.remote.model.modification.RequestModificationDto
 import kr.co.nottodo.data.remote.model.modification.ResponseGetMissionDates
 import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto
 import kr.co.nottodo.presentation.modification.model.NotTodoData
+import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.getErrorMessage
+import kr.co.nottodo.util.isConnectException
 import kr.co.nottodo.view.calendar.monthly.util.achievementConvertStringToDate
 import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToInt
 import kr.co.nottodo.view.calendar.monthly.util.isToday
@@ -130,7 +132,8 @@ class ModificationViewModel : ViewModel() {
                 )
             }.fold(onSuccess = { response -> _modificationResponse.value = response.data },
                 onFailure = { errorResponse ->
-                    _errorResponse.value = errorResponse.getErrorMessage()
+                    _errorResponse.value =
+                        if (errorResponse.isConnectException) NO_INTERNET_CONDITION_ERROR else errorResponse.getErrorMessage()
                 })
         }
     }
@@ -151,7 +154,8 @@ class ModificationViewModel : ViewModel() {
             }.fold(onSuccess = { response ->
                 _getRecommendSituationListSuccessResponse.value = response
             }, onFailure = { error ->
-                _getRecommendSituationListErrorResponse.value = error.message
+                _getRecommendSituationListErrorResponse.value =
+                    if (error.isConnectException) NO_INTERNET_CONDITION_ERROR else error.getErrorMessage()
             })
         }
     }
@@ -171,7 +175,8 @@ class ModificationViewModel : ViewModel() {
             }.fold(onSuccess = { response ->
                 _getRecentMissionListSuccessResponse.value = response
             }, onFailure = { error ->
-                _getRecentMissionListErrorResponse.value = error.getErrorMessage()
+                _getRecentMissionListErrorResponse.value =
+                    if (error.isConnectException) NO_INTERNET_CONDITION_ERROR else error.getErrorMessage()
             })
         }
     }
@@ -192,7 +197,8 @@ class ModificationViewModel : ViewModel() {
                 )
             }.fold(onSuccess = { response -> _getMissionDatesSuccessResponse.value = response },
                 onFailure = { errorResponse ->
-                    _getMissionDatesErrorResponse.value = errorResponse.getErrorMessage()
+                    _getMissionDatesErrorResponse.value =
+                        if (errorResponse.isConnectException) NO_INTERNET_CONDITION_ERROR else errorResponse.getErrorMessage()
                 })
         }
     }
