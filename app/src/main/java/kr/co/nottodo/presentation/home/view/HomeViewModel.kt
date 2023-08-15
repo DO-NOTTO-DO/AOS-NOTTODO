@@ -12,8 +12,6 @@ import kr.co.nottodo.data.remote.api.ServicePool
 import kr.co.nottodo.data.remote.api.home.HomeService
 import kr.co.nottodo.data.remote.model.home.ResponHomeMissionDetail
 import kr.co.nottodo.data.remote.model.home.ResponseHomeWeekly
-import kr.co.nottodo.util.NotTodoAmplitude
-import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithPropertyList
 import timber.log.Timber
 
@@ -46,6 +44,8 @@ class HomeViewModel : ViewModel() {
         MutableLiveData()
     val clickDay: MutableLiveData<String> = MutableLiveData()
 
+    val errorMessage: MutableLiveData<String> = MutableLiveData()
+
     fun getHomeDaily(date: String) {
         viewModelScope.launch {
             runCatching {
@@ -57,6 +57,7 @@ class HomeViewModel : ViewModel() {
                         .d("HomeViewModel - getHomeDaily() : ${it.data}")
                 },
                 onFailure = {
+                    errorMessage.value = it.message.toString()
                     Timber.tag("gethomeDaily error지롱 ").d("${it.message}")
                 },
             )
@@ -85,6 +86,7 @@ class HomeViewModel : ViewModel() {
                     Timber.d("todo 성공이이롱 ${it.data}")
                 },
                 onFailure = {
+                    errorMessage.value = it.message.toString()
                     Timber.d("todo error지롱 ${it.message}")
                 },
             )
@@ -113,6 +115,7 @@ class HomeViewModel : ViewModel() {
                     Timber.d("weekly 성공이이롱 ${it.data}")
                 },
                 onFailure = {
+                    errorMessage.value = it.message.toString()
                     Timber.d("weekly error지롱 ${it.message}")
                 },
             )
@@ -129,6 +132,7 @@ class HomeViewModel : ViewModel() {
                     Timber.d("bottom 성공이이롱 ${it.data}")
                 },
                 onFailure = {
+                    errorMessage.value = it.message.toString()
                     Timber.d("bottom error지롱 ${it.message}")
                 },
             )
@@ -145,6 +149,7 @@ class HomeViewModel : ViewModel() {
                     Timber.tag("delete").e("${it.message}")
                 },
                 onFailure = {
+                    errorMessage.value = it.message.toString()
                     Timber.d("delete error지롱 ${it.message}")
                 },
             )

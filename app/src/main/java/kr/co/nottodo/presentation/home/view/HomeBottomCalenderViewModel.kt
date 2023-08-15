@@ -62,6 +62,7 @@ class HomeBottomCalenderViewModel : ViewModel() {
                 },
                 onFailure = {
 //                    _getDoAnotherDay.value = it.
+                    _errorMessage.value = it.message
                     Timber.tag("1231233").d("error지롱123 ${it.message}")
                 },
             )

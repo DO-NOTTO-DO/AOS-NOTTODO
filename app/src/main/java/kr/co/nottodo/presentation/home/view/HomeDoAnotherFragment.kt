@@ -18,6 +18,7 @@ import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToInt
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import kr.co.nottodo.view.calendar.monthly.util.convertStringToDate
+import kr.co.nottodo.view.snackbar.NotTodoSnackbar
 import timber.log.Timber
 import java.util.Date
 
@@ -47,6 +48,7 @@ class HomeDoAnotherFragment : DialogFragment() {
         }
         observeDate()
         trackShowDoAnotherDay()
+        showErrorMessage()
     }
 
     // 인터페이스 설정 메서드
@@ -96,6 +98,12 @@ class HomeDoAnotherFragment : DialogFragment() {
                 it.convertStringToDate()
             }
             binding.homeDoAnotherCalendar.setScheduledNotTodoDateList(dayList as List<Date>)
+        }
+    }
+
+    private fun showErrorMessage() {
+        homeDoAnotherViemodel.errorMessage.observe(viewLifecycleOwner) {
+            NotTodoSnackbar(binding.root, getString(R.string.net_work_error_message)).show()
         }
     }
 
