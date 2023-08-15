@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.nottodo.data.remote.api.ServicePool.recommendActionListService
 import kr.co.nottodo.data.remote.model.recommendation.action.ResponseRecommendActionListDTO.Mission.Action
+import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
+import kr.co.nottodo.util.isConnectException
 
 class RecommendActionViewModel : ViewModel() {
     private var missionId: Int? = null
@@ -30,7 +32,10 @@ class RecommendActionViewModel : ViewModel() {
                 recommendActionListService.getRecommendActionList(missionId ?: return@launch)
             }.fold(onSuccess = { response ->
                 _recommendActionListSuccessResponse.value = response.data.recommendActions
-            }, onFailure = { error -> _recommendActionListErrorResponse.value = error.message })
+            }, onFailure = { error ->
+                _recommendActionListErrorResponse.value =
+                    if (error.isConnectException) NO_INTERNET_CONDITION_ERROR else error.message
+            })
         }
     }
 
