@@ -1,14 +1,13 @@
 package kr.co.nottodo.presentation.onboard.view
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentOnboardSecondBinding
 import kr.co.nottodo.presentation.onboard.OnboardInterface
@@ -56,33 +55,49 @@ class OnboardSecondFragment : Fragment() {
     }
 
     private fun setViews() {
-        setVideoView()
+        startAnimation()
     }
 
-    private fun setVideoView() {
-        val videoPath =
-            getString(R.string.url_android_resource) + requireContext().packageName + getString(R.string.slash) + R.raw.video_logo_onboard_two
-        with(binding.vvOnboardSecond) {
-            setVideoPath(videoPath)
-            setOnPreparedListener {
-                startVideoAfter300Millis()
+    private fun startAnimation() {
+        binding.layoutOnboardSecond.setTransitionListener(object : MotionLayout.TransitionListener {
+            override fun onTransitionStarted(
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int,
+            ) {
             }
-            setOnCompletionListener {
-                showBtn()
+
+            override fun onTransitionChange(
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int,
+                progress: Float,
+            ) {
             }
-        }
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                changeAlphaWithDuration(duration = 1000, startAlpha = 0f, endAlpha = 1f)
+            }
+
+            override fun onTransitionTrigger(
+                motionLayout: MotionLayout?,
+                triggerId: Int,
+                positive: Boolean,
+                progress: Float,
+            ) {
+            }
+        })
     }
 
-    private fun showBtn() {
-        binding.btnOnboardSecondStart.visibility = View.VISIBLE
-    }
-
-    private fun startVideoAfter300Millis() {
-        lifecycleScope.launch {
-            binding.vvOnboardSecond.start()
-            delay(300)
-            binding.vvOnboardSecond.alpha = 1F
+    private fun changeAlphaWithDuration(duration: Long, startAlpha: Float, endAlpha: Float) {
+        val alphaAnimator = ValueAnimator.ofFloat(0f, 1f)
+        alphaAnimator.duration = duration
+        alphaAnimator.addUpdateListener { animator ->
+            val animatedValue = animator.animatedValue as Float
+            binding.tvOnboardSecondDesc.alpha = animatedValue
+            binding.btnOnboardSecondStart.alpha = animatedValue
         }
+        alphaAnimator.start()
     }
 
     override fun onDetach() {
