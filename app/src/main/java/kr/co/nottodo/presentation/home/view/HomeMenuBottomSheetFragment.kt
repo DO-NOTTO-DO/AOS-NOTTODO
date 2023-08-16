@@ -28,6 +28,7 @@ import kr.co.nottodo.presentation.modification.view.ModificationActivity
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithPropertyList
 import kr.co.nottodo.util.getParcelable
+import kr.co.nottodo.view.snackbar.NotTodoSnackbar
 import timber.log.Timber
 
 class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseListener {
@@ -80,8 +81,12 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         binding.ivHomeDialogCancle.setOnClickListener { dismiss() }
         binding.tvHomeDialogEdit.setOnClickListener {
             val intent = Intent(requireActivity(), ModificationActivity::class.java)
-            intent.putExtra(DETAIL, modifyParcelizeExtra)
-            resultLauncher.launch(intent)
+            if (::modifyParcelizeExtra.isInitialized) {
+                intent.putExtra(DETAIL, modifyParcelizeExtra)
+                resultLauncher.launch(intent)
+            } else {
+                NotTodoSnackbar(binding.root, getString(R.string.net_work_error_message))
+            }
         }
         binding.clHomeDoAnotherClickArea.setOnClickListener {
             val dialogFragment = HomeDoAnotherFragment()
@@ -90,8 +95,10 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             dialogFragment.show(childFragmentManager, "dialog_fragment")
         }
         binding.btnHomeDelete.setOnClickListener {
-            showDeleteDialog()
-            trackListData(R.string.click_delete_mission)
+            if (::trackActions.isInitialized) {
+                showDeleteDialog()
+                trackListData(R.string.click_delete_mission)
+            }
         }
     }
 
