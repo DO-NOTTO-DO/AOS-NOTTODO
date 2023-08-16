@@ -18,7 +18,9 @@ import kr.co.nottodo.presentation.recommendation.model.RecommendMissionUiModel
 import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
+import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.getParcelable
+import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
 
 class RecommendActionActivity : AppCompatActivity() {
@@ -184,7 +186,10 @@ class RecommendActionActivity : AppCompatActivity() {
 
     private fun setRecommendActionErrorObserver() {
         viewModel.recommendActionListErrorResponse.observe(this) { errorMessage ->
-            showToast(errorMessage)
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) showNotTodoSnackBar(
+                binding.root, NO_INTERNET_CONDITION_ERROR
+            )
+            else showToast(errorMessage)
         }
     }
 

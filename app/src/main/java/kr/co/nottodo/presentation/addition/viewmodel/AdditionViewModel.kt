@@ -13,7 +13,9 @@ import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
 import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
+import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.getErrorMessage
+import kr.co.nottodo.util.isConnectException
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import java.util.Date
 
@@ -62,7 +64,8 @@ class AdditionViewModel : ViewModel() {
             kotlin.runCatching {
                 additionService.postMission(requestAdditionDto)
             }.fold(onSuccess = { _additionResponse.value = it.data }, onFailure = {
-                _errorResponse.value = it.getErrorMessage()
+                _errorResponse.value =
+                    if (it.isConnectException) NO_INTERNET_CONDITION_ERROR else it.getErrorMessage()
             })
         }
     }
@@ -83,7 +86,8 @@ class AdditionViewModel : ViewModel() {
             }.fold(onSuccess = { response ->
                 _getRecommendSituationListSuccessResponse.value = response
             }, onFailure = { error ->
-                _getRecommendSituationListErrorResponse.value = error.message
+                _getRecommendSituationListErrorResponse.value =
+                    if (error.isConnectException) NO_INTERNET_CONDITION_ERROR else error.message
             })
         }
     }
@@ -103,7 +107,8 @@ class AdditionViewModel : ViewModel() {
             }.fold(onSuccess = { response ->
                 _getRecentMissionListSuccessResponse.value = response
             }, onFailure = { error ->
-                _getRecentMissionListErrorResponse.value = error.message
+                _getRecentMissionListErrorResponse.value =
+                    if (error.isConnectException) NO_INTERNET_CONDITION_ERROR else error.message
             })
         }
     }

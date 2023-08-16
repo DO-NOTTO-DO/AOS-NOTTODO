@@ -18,6 +18,8 @@ import kr.co.nottodo.presentation.login.view.LoginActivity
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 import kr.co.nottodo.presentation.mypage.viewmodel.MyPageInformationViewModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
+import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
+import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
 
 
@@ -68,7 +70,10 @@ class MyPageInformationActivity : AppCompatActivity(), OnDialogDismissListener {
 
     private fun setWithdrawalErrorObserver() {
         viewModel.withdrawalErrorResponse.observe(this) { errorMessage ->
-            showToast(errorMessage)
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) showNotTodoSnackBar(
+                binding.root, NO_INTERNET_CONDITION_ERROR
+            )
+            else showToast(errorMessage)
         }
     }
 

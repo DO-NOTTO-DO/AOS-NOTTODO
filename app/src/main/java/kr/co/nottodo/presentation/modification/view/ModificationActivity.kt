@@ -24,6 +24,7 @@ import kr.co.nottodo.presentation.modification.model.NotTodoData
 import kr.co.nottodo.presentation.modification.viewmodel.ModificationViewModel
 import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
+import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.hideKeyboard
@@ -77,7 +78,9 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun observeGetMissionDatesErrorResponse() {
         viewModel.getMissionDatesErrorResponse.observe(this) { errorMessage ->
-            showToast(errorMessage)
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) showToast(NO_INTERNET_CONDITION_ERROR) else showToast(
+                errorMessage
+            )
             if (!isFinishing) finish()
         }
     }
@@ -113,7 +116,7 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun observeGetRecentMissionListErrorResponse() {
         viewModel.getRecentMissionListListErrorResponse.observe(this) { errorMessage ->
-            showToast(errorMessage)
+            if (errorMessage != NO_INTERNET_CONDITION_ERROR) showToast(errorMessage)
         }
     }
 
@@ -148,7 +151,9 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun observeGetRecommendSituationListErrorResponse() {
         viewModel.getRecommendSituationListErrorResponse.observe(this) { errorMessage ->
-            showToast(errorMessage)
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) showNotTodoSnackBar(
+                binding.root, NO_INTERNET_CONDITION_ERROR
+            ) else showToast(errorMessage)
         }
     }
 
@@ -251,10 +256,14 @@ class ModificationActivity : AppCompatActivity() {
 
     private fun observeFailureResponse() {
         viewModel.errorResponse.observe(this) { errorMessage ->
-            val errorMessageWithHtmlTag =
-                HtmlCompat.fromHtml(errorMessage, HtmlCompat.FROM_HTML_MODE_COMPACT)
-            showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
-            trackAdditionFailureEvent(errorMessage)
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) showNotTodoSnackBar(
+                binding.root, NO_INTERNET_CONDITION_ERROR
+            ) else {
+                val errorMessageWithHtmlTag =
+                    HtmlCompat.fromHtml(errorMessage, HtmlCompat.FROM_HTML_MODE_COMPACT)
+                showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
+                trackAdditionFailureEvent(errorMessage)
+            }
         }
     }
 

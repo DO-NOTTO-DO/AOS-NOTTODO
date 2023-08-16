@@ -4,6 +4,7 @@ import kotlinx.serialization.json.Json
 import kr.co.nottodo.data.remote.model.FailureResponseDto
 import retrofit2.HttpException
 import timber.log.Timber
+import java.net.ConnectException
 
 fun Throwable.getErrorMessage(): String {
     when (this) {
@@ -20,3 +21,6 @@ fun Throwable.getErrorMessage(): String {
         }
     }
 }
+
+val Throwable.isConnectException
+    get() = this is ConnectException

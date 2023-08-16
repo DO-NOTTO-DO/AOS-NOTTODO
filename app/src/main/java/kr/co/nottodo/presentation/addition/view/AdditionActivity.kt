@@ -26,6 +26,7 @@ import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActi
 import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
+import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.containToday
 import kr.co.nottodo.util.containTomorrow
@@ -170,7 +171,7 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun observeGetRecentMissionListErrorResponse() {
         viewModel.getRecentMissionListListErrorResponse.observe(this) { errorMessage ->
-            showToast(errorMessage)
+            if (errorMessage != NO_INTERNET_CONDITION_ERROR) showToast(errorMessage)
         }
     }
 
@@ -205,16 +206,22 @@ class AdditionActivity : AppCompatActivity() {
 
     private fun observeGetRecommendSituationListErrorResponse() {
         viewModel.getRecommendSituationListErrorResponse.observe(this) { errorMessage ->
-            showToast(errorMessage)
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) showNotTodoSnackBar(
+                binding.root, NO_INTERNET_CONDITION_ERROR
+            ) else showToast(errorMessage)
         }
     }
 
     private fun observeFailureResponse() {
         viewModel.errorResponse.observe(this) { errorMessage ->
-            val errorMessageWithHtmlTag =
-                HtmlCompat.fromHtml(errorMessage, HtmlCompat.FROM_HTML_MODE_COMPACT)
-            showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
-            trackAdditionFailureEvent(errorMessage)
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) showNotTodoSnackBar(
+                binding.root, NO_INTERNET_CONDITION_ERROR
+            ) else {
+                val errorMessageWithHtmlTag =
+                    HtmlCompat.fromHtml(errorMessage, HtmlCompat.FROM_HTML_MODE_COMPACT)
+                showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
+                trackAdditionFailureEvent(errorMessage)
+            }
         }
     }
 

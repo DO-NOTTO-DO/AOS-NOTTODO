@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.nottodo.data.remote.api.ServicePool.myPageService
+import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
+import kr.co.nottodo.util.isConnectException
 
 class MyPageInformationViewModel : ViewModel() {
 
@@ -22,7 +24,10 @@ class MyPageInformationViewModel : ViewModel() {
             }.fold(onSuccess = {
                 val isWithdrawalSuccess = withdrawalSuccessResponse.value
                 _withdrawalSuccessResponse.value = isWithdrawalSuccess ?: false
-            }, onFailure = { error -> _withdrawalErrorResponse.value = error.message })
+            }, onFailure = { error ->
+                _withdrawalErrorResponse.value =
+                    if (error.isConnectException) NO_INTERNET_CONDITION_ERROR else error.message
+            })
         }
     }
 
