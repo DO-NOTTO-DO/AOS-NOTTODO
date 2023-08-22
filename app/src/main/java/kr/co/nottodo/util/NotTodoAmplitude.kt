@@ -18,6 +18,10 @@ object NotTodoAmplitude {
         )
     }
 
+    fun setUserId(userId: String) {
+        amplitude.setUserId(userId)
+    }
+
     fun trackEvent(eventName: String) {
         amplitude.track(eventType = eventName)
     }
