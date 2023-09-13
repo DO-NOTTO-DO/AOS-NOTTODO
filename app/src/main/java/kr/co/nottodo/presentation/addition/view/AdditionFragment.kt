@@ -887,12 +887,17 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
         binding.rvAdditionMission.adapter = missionHistoryAdapter
     }
 
-    companion object {
-        const val FIRST_DATE = "FIRST_DATE"
+    override fun onDestroyView() {
+        missionHistoryAdapter = null
+        super.onDestroyView()
     }
 
     override fun setBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
     ): FragmentAdditionBinding = FragmentAdditionBinding.inflate(inflater, container, false)
+
+    companion object {
+        const val FIRST_DATE = "FIRST_DATE"
+    }
 }
