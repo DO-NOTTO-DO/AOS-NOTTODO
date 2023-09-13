@@ -40,11 +40,7 @@ import java.util.Date
 
 class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
     private val viewModel by viewModels<AdditionViewModel>()
-    private var isDateToggleVisible: Boolean = false
-    private var isMissionToggleVisible: Boolean = false
-    private var isSituationToggleVisible: Boolean = false
-    private var isActionToggleVisible: Boolean = false
-    private var isGoalToggleVisible: Boolean = false
+
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
     private val context by lazy { requireContext() }
     private val activity by lazy { requireActivity() }
@@ -78,8 +74,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
             mission.value = recommendUiModel.title
             situation.value = recommendUiModel.situation
         }
-        val recommendActionList = recommendUiModel.actionList
-        initActionList(recommendActionList)
+        initActionList(recommendUiModel.actionList)
     }
 
     private fun initActionList(actionList: List<String>) {
@@ -103,23 +98,29 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
     }
 
     private fun setFirstAction(firstAction: String) {
-        binding.tvAdditionActionFirst.text = firstAction
-        binding.tvAdditionActionFirst.visibility = View.VISIBLE
-        binding.ivAdditionActionFirstDelete.visibility = View.VISIBLE
+        binding.run {
+            tvAdditionActionFirst.text = firstAction
+            tvAdditionActionFirst.visibility = View.VISIBLE
+            ivAdditionActionFirstDelete.visibility = View.VISIBLE
+        }
     }
 
     private fun setSecondAction(secondAction: String) {
-        binding.tvAdditionActionSecond.text = secondAction
-        binding.tvAdditionActionSecond.visibility = View.VISIBLE
-        binding.ivAdditionActionSecondDelete.visibility = View.VISIBLE
+        binding.run {
+            tvAdditionActionSecond.text = secondAction
+            tvAdditionActionSecond.visibility = View.VISIBLE
+            ivAdditionActionSecondDelete.visibility = View.VISIBLE
+        }
     }
 
     private fun setThirdAction(thirdAction: String) {
-        binding.tvAdditionActionThird.text = thirdAction
-        binding.tvAdditionActionThird.visibility = View.VISIBLE
-        binding.ivAdditionActionThirdDelete.visibility = View.VISIBLE
-        binding.etAdditionAction.visibility = View.GONE
-        binding.tvAdditionActionTextCount.visibility = View.GONE
+        binding.run {
+            tvAdditionActionThird.text = thirdAction
+            tvAdditionActionThird.visibility = View.VISIBLE
+            ivAdditionActionThirdDelete.visibility = View.VISIBLE
+            etAdditionAction.visibility = View.GONE
+            tvAdditionActionTextCount.visibility = View.GONE
+        }
     }
 
     private fun initAdapters() {
@@ -622,7 +623,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
 
     private fun initToggles() {
         binding.layoutAdditionMissionClosed.setOnClickListener {
-            if (!isMissionToggleVisible) {
+            if (!viewModel.isMissionToggleVisible) {
                 openMissionToggle()
                 closeDateToggle()
                 closeSituationToggle()
@@ -634,7 +635,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
         }
 
         binding.layoutAdditionSituationClosed.setOnClickListener {
-            if (!isSituationToggleVisible) {
+            if (!viewModel.isSituationToggleVisible) {
                 openSituationToggle()
                 closeDateToggle()
                 closeMissionToggle()
@@ -646,7 +647,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
         }
 
         binding.layoutAdditionActionClosed.setOnClickListener {
-            if (!isActionToggleVisible) {
+            if (!viewModel.isActionToggleVisible) {
                 openActionToggle()
                 closeDateToggle()
                 closeMissionToggle()
@@ -658,7 +659,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
         }
 
         binding.layoutAdditionGoalClosed.setOnClickListener {
-            if (!isGoalToggleVisible) {
+            if (!viewModel.isGoalToggleVisible) {
                 openGoalToggle()
                 closeDateToggle()
                 closeMissionToggle()
@@ -670,7 +671,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
         }
 
         binding.layoutAdditionDateClosed.setOnClickListener {
-            if (!isDateToggleVisible) {
+            if (!viewModel.isDateToggleVisible) {
                 openDateToggle()
                 closeMissionToggle()
                 closeSituationToggle()
@@ -726,20 +727,20 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
     private fun closeDateToggle() {
         binding.layoutAdditionDateClosed.visibility = View.VISIBLE
         binding.layoutAdditionDateOpened.visibility = View.GONE
-        isDateToggleVisible = false
+        viewModel.isDateToggleVisible = false
         setDateDescTextView()
     }
 
     private fun openDateToggle() {
         binding.layoutAdditionDateClosed.visibility = View.GONE
         binding.layoutAdditionDateOpened.visibility = View.VISIBLE
-        isDateToggleVisible = true
+        viewModel.isDateToggleVisible = true
     }
 
     private fun closeGoalToggle() {
         binding.layoutAdditionGoalClosed.visibility = View.VISIBLE
         binding.layoutAdditionGoalOpened.visibility = View.GONE
-        isGoalToggleVisible = false
+        viewModel.isGoalToggleVisible = false
     }
 
     private fun requestFocusWithShowingKeyboard(editText: EditText) {
@@ -751,46 +752,46 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
     private fun openGoalToggle() {
         binding.layoutAdditionGoalClosed.visibility = View.GONE
         binding.layoutAdditionGoalOpened.visibility = View.VISIBLE
-        isGoalToggleVisible = true
+        viewModel.isGoalToggleVisible = true
         requestFocusWithShowingKeyboard(binding.etAdditionGoal)
     }
 
     private fun openActionToggle() {
         binding.layoutAdditionActionClosed.visibility = View.GONE
         binding.layoutAdditionActionOpened.visibility = View.VISIBLE
-        isActionToggleVisible = true
+        viewModel.isActionToggleVisible = true
         requestFocusWithShowingKeyboard(binding.etAdditionAction)
     }
 
     private fun closeActionToggle() {
         binding.layoutAdditionActionClosed.visibility = View.VISIBLE
         binding.layoutAdditionActionOpened.visibility = View.GONE
-        isActionToggleVisible = false
+        viewModel.isActionToggleVisible = false
     }
 
     private fun openSituationToggle() {
         binding.layoutAdditionSituationClosed.visibility = View.GONE
         binding.layoutAdditionSituationOpened.visibility = View.VISIBLE
-        isSituationToggleVisible = true
+        viewModel.isSituationToggleVisible = true
         requestFocusWithShowingKeyboard(binding.etAdditionSituation)
     }
 
     private fun closeSituationToggle() {
         binding.layoutAdditionSituationClosed.visibility = View.VISIBLE
         binding.layoutAdditionSituationOpened.visibility = View.GONE
-        isSituationToggleVisible = false
+        viewModel.isSituationToggleVisible = false
     }
 
     private fun closeMissionToggle() {
         binding.layoutAdditionMissionClosed.visibility = View.VISIBLE
         binding.layoutAdditionMissionOpened.visibility = View.GONE
-        isMissionToggleVisible = false
+        viewModel.isMissionToggleVisible = false
     }
 
     private fun openMissionToggle() {
         binding.layoutAdditionMissionClosed.visibility = View.GONE
         binding.layoutAdditionMissionOpened.visibility = View.VISIBLE
-        isMissionToggleVisible = true
+        viewModel.isMissionToggleVisible = true
         requestFocusWithShowingKeyboard(binding.etAdditionMission)
     }
 

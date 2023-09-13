@@ -21,6 +21,12 @@ import java.util.Date
 
 class AdditionViewModel : ViewModel() {
 
+    var isDateToggleVisible: Boolean = false
+    var isMissionToggleVisible: Boolean = false
+    var isSituationToggleVisible: Boolean = false
+    var isActionToggleVisible: Boolean = false
+    var isGoalToggleVisible: Boolean = false
+
     val date: MutableLiveData<String> = MutableLiveData(Date().convertDateToString())
 
     val mission: MutableLiveData<String> = MutableLiveData()
