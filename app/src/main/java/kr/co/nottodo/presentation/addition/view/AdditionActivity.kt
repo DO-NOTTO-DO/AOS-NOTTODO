@@ -213,7 +213,7 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeFailureResponse() {
-        viewModel.errorResponse.observe(this) { errorMessage ->
+        viewModel.postNottodoErrorMessage.observe(this) { errorMessage ->
             if (errorMessage == NO_INTERNET_CONDITION_ERROR) showNotTodoSnackBar(
                 binding.root, NO_INTERNET_CONDITION_ERROR
             ) else {
@@ -233,7 +233,7 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeSuccessResponse() {
-        viewModel.additionResponse.observe(this) { response ->
+        viewModel.postNottodoSuccessResponse.observe(this) { response ->
             showToast(getString(R.string.complete_create_nottodo))
             trackCompleteCreateMission(response)
             val sortedList =
@@ -501,7 +501,7 @@ class AdditionActivity : AppCompatActivity() {
                 dates = dateList
             )
             trackClickCreateMission(requestAdditionDto)
-            viewModel.postAddition(requestAdditionDto)
+            viewModel.postNottodo(requestAdditionDto)
         }
     }
 

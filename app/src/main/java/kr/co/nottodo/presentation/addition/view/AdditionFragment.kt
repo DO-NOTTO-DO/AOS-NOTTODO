@@ -24,7 +24,7 @@ import kr.co.nottodo.presentation.base.fragment.BaseViewBindingFragment
 import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity
 import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
 import kr.co.nottodo.util.NotTodoAmplitude
-import kr.co.nottodo.util.PublicString
+import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.containToday
 import kr.co.nottodo.util.containTomorrow
@@ -40,20 +40,23 @@ import java.util.Date
 
 class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
     private val viewModel by viewModels<AdditionViewModel>()
-
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
-    private val context by lazy { requireContext() }
-    private val activity by lazy { requireActivity() }
+    private val contextNonNull by lazy { requireContext() }
+    private val activityNonNull by lazy { requireActivity() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        NotTodoAmplitude.trackEvent(getString(R.string.view_create_mission))
+        trackEnterCreateMission()
         setData()
         setViews()
         setObservers()
         setClickEvent()
         setEnterKey()
+    }
+
+    private fun trackEnterCreateMission() {
+        NotTodoAmplitude.trackEvent(getString(R.string.view_create_mission))
     }
 
     private fun setData() {
@@ -64,11 +67,9 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
     }
 
     private fun getDataFromRecommendActivity() {
-        val recommendUiModel: RecommendUiModel =
-            activity.intent?.getParcelable(
-                RecommendActionActivity.MISSION_ACTION_DETAIL,
-                RecommendUiModel::class.java
-            ) ?: return
+        val recommendUiModel: RecommendUiModel = activityNonNull.intent?.getParcelable(
+            RecommendActionActivity.MISSION_ACTION_DETAIL, RecommendUiModel::class.java
+        ) ?: return
 
         with(viewModel) {
             mission.value = recommendUiModel.title
@@ -163,10 +164,14 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
         observeSituation()
         observeAction()
         observeGoal()
-        observeSuccessResponse()
-        observeFailureResponse()
         observeGetRecommendSituationList()
         observeGetRecentMissionListResponse()
+        observePostNottodoResponse()
+    }
+
+    private fun observePostNottodoResponse() {
+        observePostNottodoSuccessResponse()
+        observePostNottodoFailureResponse()
     }
 
     private fun observeGetRecentMissionListResponse() {
@@ -176,9 +181,28 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
 
     private fun observeGetRecentMissionListErrorResponse() {
         viewModel.getRecentMissionListListErrorResponse.observe(viewLifecycleOwner) { errorMessage ->
-            if (errorMessage != PublicString.NO_INTERNET_CONDITION_ERROR) context.showToast(
-                errorMessage
+            errorMessage.showErrorMessage()
+        }
+    }
+
+    private fun String.showErrorMessage(isHtmlTagExist: Boolean = false) {
+        when (this) {
+            NO_INTERNET_CONDITION_ERROR -> binding.root.showNotTodoSnackBar(
+                NO_INTERNET_CONDITION_ERROR
             )
+
+            else -> {
+                if (isHtmlTagExist) {
+                    val errorMessageWithHtmlTag =
+                        HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT)
+                    contextNonNull.showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
+                } else {
+                    binding.root.showNotTodoSnackBar(
+                        this
+                    )
+                    trackAdditionFailureEvent(this)
+                }
+            }
         }
     }
 
@@ -189,7 +213,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
         binding.etAdditionMission.setText(missionName)
         binding.etAdditionMission.requestFocus()
         binding.etAdditionMission.setSelection(binding.etAdditionMission.length())
-        context.showKeyboard(binding.etAdditionMission)
+        contextNonNull.showKeyboard(binding.etAdditionMission)
     }
 
     private fun observeGetRecentMissionListSuccessResponse() {
@@ -213,22 +237,13 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
 
     private fun observeGetRecommendSituationListErrorResponse() {
         viewModel.getRecommendSituationListErrorResponse.observe(viewLifecycleOwner) { errorMessage ->
-            if (errorMessage == PublicString.NO_INTERNET_CONDITION_ERROR) context.showNotTodoSnackBar(
-                binding.root, PublicString.NO_INTERNET_CONDITION_ERROR
-            ) else context.showToast(errorMessage)
+            errorMessage.showErrorMessage()
         }
     }
 
-    private fun observeFailureResponse() {
-        viewModel.errorResponse.observe(viewLifecycleOwner) { errorMessage ->
-            if (errorMessage == PublicString.NO_INTERNET_CONDITION_ERROR) context.showNotTodoSnackBar(
-                binding.root, PublicString.NO_INTERNET_CONDITION_ERROR
-            ) else {
-                val errorMessageWithHtmlTag =
-                    HtmlCompat.fromHtml(errorMessage, HtmlCompat.FROM_HTML_MODE_COMPACT)
-                context.showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
-                trackAdditionFailureEvent(errorMessage)
-            }
+    private fun observePostNottodoFailureResponse() {
+        viewModel.postNottodoErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage.showErrorMessage(isHtmlTagExist = true)
         }
     }
 
@@ -239,9 +254,9 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
         }
     }
 
-    private fun observeSuccessResponse() {
-        viewModel.additionResponse.observe(viewLifecycleOwner) { response ->
-            context.showToast(getString(R.string.complete_create_nottodo))
+    private fun observePostNottodoSuccessResponse() {
+        viewModel.postNottodoSuccessResponse.observe(viewLifecycleOwner) { response ->
+            contextNonNull.showToast(getString(R.string.complete_create_nottodo))
             trackCompleteCreateMission(response)
             val sortedList =
                 response.dates.sortedBy { date -> date.achievementConvertStringToDate() }
@@ -268,28 +283,28 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
 
     private fun navigateToMain(firstDate: String) {
         startActivity(
-            Intent(context, MainActivity::class.java).setFlags(
+            Intent(contextNonNull, MainActivity::class.java).setFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             ).putExtra(FIRST_DATE, firstDate)
         )
-        if (!activity.isFinishing) activity.finish()
+        if (!activityNonNull.isFinishing) activityNonNull.finish()
     }
 
     private fun setActionBox(isActionFilled: Boolean) {
         if (isActionFilled) {
             binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
-                context, R.drawable.rectangle_solid_gray_1_radius_12
+                contextNonNull, R.drawable.rectangle_solid_gray_1_radius_12
             )
             binding.ivAdditionActionClosedCheck.visibility = View.VISIBLE
             binding.tvAdditionActionClosedChoice.visibility = View.GONE
-            binding.tvAdditionActionClosedInput.setTextColor(context.getColor(R.color.white))
+            binding.tvAdditionActionClosedInput.setTextColor(contextNonNull.getColor(R.color.white))
         } else {
             binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
-                context, R.drawable.rectangle_stroke_1_gray_3_radius_12
+                contextNonNull, R.drawable.rectangle_stroke_1_gray_3_radius_12
             )
             binding.ivAdditionActionClosedCheck.visibility = View.GONE
             binding.tvAdditionActionClosedChoice.visibility = View.VISIBLE
-            binding.tvAdditionActionClosedInput.setTextColor(context.getColor(R.color.gray_3_5d5d6b))
+            binding.tvAdditionActionClosedInput.setTextColor(contextNonNull.getColor(R.color.gray_3_5d5d6b))
             binding.tvAdditionActionClosedInput.text = getString(R.string.addition_input)
         }
     }
@@ -332,7 +347,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
         binding.etAdditionMission.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeMissionToggle()
-                context.hideKeyboard(binding.root)
+                contextNonNull.hideKeyboard(binding.root)
             }
             return@setOnEditorActionListener false
         }
@@ -340,7 +355,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
         binding.etAdditionSituation.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeSituationToggle()
-                context.hideKeyboard(binding.root)
+                contextNonNull.hideKeyboard(binding.root)
             }
             return@setOnEditorActionListener false
         }
@@ -355,7 +370,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
         binding.etAdditionGoal.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeGoalToggle()
-                context.hideKeyboard(binding.root)
+                contextNonNull.hideKeyboard(binding.root)
             }
             return@setOnEditorActionListener false
         }
@@ -391,7 +406,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
                     ivAdditionActionThirdDelete.visibility = View.VISIBLE
                     etAdditionAction.visibility = View.GONE
                     tvAdditionActionTextCount.visibility = View.GONE
-                    context.hideKeyboard(root)
+                    contextNonNull.hideKeyboard(root)
                 }
                 viewModel.actionCount.value = 3
             }
@@ -462,7 +477,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
     }
 
     private fun setFinishButton() {
-        binding.ivAdditionDelete.setOnClickListener { if (!activity.isFinishing) activity.finish() }
+        binding.ivAdditionDelete.setOnClickListener { if (!activityNonNull.isFinishing) activityNonNull.finish() }
 
     }
 
@@ -475,16 +490,16 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
     private fun setAddButton() {
         viewModel.isAbleToAdd.observe(viewLifecycleOwner) { isAbleToAdd ->
             if (isAbleToAdd == true) {
-                binding.btnAdditionAdd.setTextColor(context.getColor(R.color.gray_1_2a2a2e))
+                binding.btnAdditionAdd.setTextColor(contextNonNull.getColor(R.color.gray_1_2a2a2e))
                 binding.btnAdditionAdd.setBackgroundResource(R.drawable.rectangle_green_2_radius_26)
             } else {
-                binding.btnAdditionAdd.setTextColor(context.getColor(R.color.gray_3_5d5d6b))
+                binding.btnAdditionAdd.setTextColor(contextNonNull.getColor(R.color.gray_3_5d5d6b))
                 binding.btnAdditionAdd.setBackgroundResource(R.drawable.rectangle_gray_2_radius_26)
             }
         }
 
         binding.btnAdditionAdd.setOnClickListener {
-            if (binding.btnAdditionAdd.currentTextColor != context.getColor(R.color.gray_1_2a2a2e)) return@setOnClickListener
+            if (binding.btnAdditionAdd.currentTextColor != contextNonNull.getColor(R.color.gray_1_2a2a2e)) return@setOnClickListener
 
             var actionList: MutableList<String>? = mutableListOf()
             if (!binding.tvAdditionActionFirst.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionFirst.text.toString())
@@ -508,7 +523,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
                 dates = dateList
             )
             trackClickCreateMission(requestAdditionDto)
-            viewModel.postAddition(requestAdditionDto)
+            viewModel.postNottodo(requestAdditionDto)
         }
     }
 
@@ -534,7 +549,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
             binding.tvAdditionGoalTextCount.text = getString(R.string.max_text_size_20, goal.length)
             if (goal.isNotBlank()) {
                 binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
-                    context, R.drawable.rectangle_solid_gray_1_radius_12
+                    contextNonNull, R.drawable.rectangle_solid_gray_1_radius_12
                 )
                 binding.ivAdditionGoalCheck.visibility = View.VISIBLE
                 binding.tvAdditionGoalClosedChoice.visibility = View.GONE
@@ -545,7 +560,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
 
             } else {
                 binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
-                    context, R.drawable.rectangle_stroke_1_gray_3_radius_12
+                    contextNonNull, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivAdditionGoalCheck.visibility = View.GONE
                 binding.tvAdditionGoalClosedChoice.visibility = View.VISIBLE
@@ -570,7 +585,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
                 getString(R.string.max_text_size_20, situation.length)
             if (situation.isNotBlank()) {
                 binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
-                    context, R.drawable.rectangle_solid_gray_1_radius_12
+                    contextNonNull, R.drawable.rectangle_solid_gray_1_radius_12
                 )
                 binding.ivAdditionSituationCheck.visibility = View.VISIBLE
                 with(binding.tvAdditionSituationName) {
@@ -580,7 +595,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
 
             } else {
                 binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
-                    context, R.drawable.rectangle_stroke_1_gray_3_radius_12
+                    contextNonNull, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivAdditionSituationCheck.visibility = View.GONE
                 with(binding.tvAdditionSituationName) {
@@ -597,7 +612,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
                 getString(R.string.max_text_size_20, mission.length)
             if (mission.isNotBlank()) {
                 binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
-                    context, R.drawable.rectangle_solid_gray_1_radius_12
+                    contextNonNull, R.drawable.rectangle_solid_gray_1_radius_12
                 )
                 binding.ivAdditionMissionClosedCheck.visibility = View.VISIBLE
                 with(binding.tvAdditionMissionClosedName) {
@@ -609,7 +624,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
 
             } else {
                 binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
-                    context, R.drawable.rectangle_stroke_1_gray_3_radius_12
+                    contextNonNull, R.drawable.rectangle_stroke_1_gray_3_radius_12
                 )
                 binding.ivAdditionMissionClosedCheck.visibility = View.GONE
                 with(binding.tvAdditionMissionClosedName) {
@@ -747,7 +762,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
     private fun requestFocusWithShowingKeyboard(editText: EditText) {
         editText.requestFocus()
         editText.setSelection(editText.length())
-        context.showKeyboard(editText)
+        contextNonNull.showKeyboard(editText)
     }
 
     private fun openGoalToggle() {
@@ -799,19 +814,19 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
     private fun initOpenedDesc() {
         val missionOpenedDesc = SpannableStringBuilder(getString(R.string.mission_desc))
         missionOpenedDesc.setSpan(
-            ForegroundColorSpan(context.getColor(R.color.white)),
+            ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
             0,
             2,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         missionOpenedDesc.setSpan(
-            ForegroundColorSpan(context.getColor(R.color.green_1_98ffa9)),
+            ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
             3,
             6,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         missionOpenedDesc.setSpan(
-            ForegroundColorSpan(context.getColor(R.color.white)),
+            ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
             6,
             14,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -822,19 +837,19 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
             getString(R.string.situation_desc)
         )
         situationOpenedDesc.setSpan(
-            ForegroundColorSpan(context.getColor(R.color.white)),
+            ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
             0,
             9,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         situationOpenedDesc.setSpan(
-            ForegroundColorSpan(context.getColor(R.color.green_1_98ffa9)),
+            ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
             10,
             12,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         situationOpenedDesc.setSpan(
-            ForegroundColorSpan(context.getColor(R.color.white)),
+            ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
             12,
             21,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -843,19 +858,19 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
 
         val actionOpenedDesc = SpannableStringBuilder(getString(R.string.action_desc))
         actionOpenedDesc.setSpan(
-            ForegroundColorSpan(context.getColor(R.color.white)),
+            ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
             0,
             2,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         actionOpenedDesc.setSpan(
-            ForegroundColorSpan(context.getColor(R.color.green_1_98ffa9)),
+            ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
             3,
             5,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         actionOpenedDesc.setSpan(
-            ForegroundColorSpan(context.getColor(R.color.white)),
+            ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
             5,
             19,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -864,19 +879,19 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
 
         val goalOpenedDesc = SpannableStringBuilder(getString(R.string.goal_desc))
         goalOpenedDesc.setSpan(
-            ForegroundColorSpan(context.getColor(R.color.white)),
+            ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
             0,
             11,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         goalOpenedDesc.setSpan(
-            ForegroundColorSpan(context.getColor(R.color.green_1_98ffa9)),
+            ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
             12,
             14,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         goalOpenedDesc.setSpan(
-            ForegroundColorSpan(context.getColor(R.color.white)),
+            ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
             14,
             24,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
