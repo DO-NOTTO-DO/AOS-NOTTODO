@@ -78,23 +78,14 @@ class AdditionFragment :
     }
 
     private fun initActionList(actionList: List<String>) {
-        viewModel.actionCount.value = actionList.size.also { size ->
-            when (size) {
-                1 -> {
-                    setFirstAction(actionList[0])
-                }
+        fun List<String>.second() = this[1]
+        fun List<String>.third() = this[2]
 
-                2 -> {
-                    setFirstAction(actionList[0])
-                    setSecondAction(actionList[1])
-                }
-
-                3 -> {
-                    setFirstAction(actionList[0])
-                    setSecondAction(actionList[1])
-                    setThirdAction(actionList[2])
-                }
-            }
+        actionList.run {
+            viewModel.actionCount.value = this.size
+            if (this.size >= 1) setFirstAction(this.first())
+            if (this.size >= 2) setSecondAction(this.second())
+            if (this.size >= 3) setThirdAction(this.third())
         }
     }
 
