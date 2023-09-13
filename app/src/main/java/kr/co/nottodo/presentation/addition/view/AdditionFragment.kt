@@ -148,13 +148,13 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
     }
 
     private fun setViews() {
-        initOpenedDesc()
-        initToggles()
-        initRecyclerViews()
+        setOpenedDesc()
+        setToggles()
+        setRecyclerViews()
         setActions()
     }
 
-    private fun initRecyclerViews() {
+    private fun setRecyclerViews() {
         initAdapters()
         initMissionHistoryRecyclerView()
     }
@@ -637,7 +637,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
         }
     }
 
-    private fun initToggles() {
+    private fun setToggles() {
         binding.layoutAdditionMissionClosed.setOnClickListener {
             if (!viewModel.isMissionToggleVisible) {
                 openMissionToggle()
@@ -811,7 +811,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
         requestFocusWithShowingKeyboard(binding.etAdditionMission)
     }
 
-    private fun initOpenedDesc() {
+    private fun setOpenedDesc() {
         val missionOpenedDesc = SpannableStringBuilder(getString(R.string.mission_desc))
         missionOpenedDesc.setSpan(
             ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
