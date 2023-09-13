@@ -115,14 +115,6 @@ class AdditionFragment :
         }
     }
 
-    private fun initAdapters() {
-        initMissionHistoryAdapter()
-    }
-
-    private fun initMissionHistoryAdapter() {
-        missionHistoryAdapter = MissionHistoryAdapter(setMissionName)
-    }
-
     private fun getRecommendSituationList() {
         viewModel.getRecommendSituationList()
     }
@@ -145,8 +137,13 @@ class AdditionFragment :
     }
 
     private fun setRecyclerViews() {
-        initAdapters()
-        initMissionHistoryRecyclerView()
+        setMissionHistoryRecyclerView()
+    }
+
+    private fun setMissionHistoryRecyclerView() {
+        missionHistoryAdapter = MissionHistoryAdapter(setMissionName).also { adapter ->
+            binding.rvAdditionMission.adapter = adapter
+        }
     }
 
     private fun setObservers() {
@@ -865,10 +862,6 @@ class AdditionFragment :
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         binding.tvAdditionGoalOpenedDesc.text = goalOpenedDesc
-    }
-
-    private fun initMissionHistoryRecyclerView() {
-        binding.rvAdditionMission.adapter = missionHistoryAdapter
     }
 
     override fun onDestroyView() {
