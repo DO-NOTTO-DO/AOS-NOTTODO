@@ -57,21 +57,24 @@ class AdditionViewModel : ViewModel() {
         return (isMissionFilled.value == true && isSituationFilled.value == true)
     }
 
-    private val _additionResponse: MutableLiveData<ResponseAdditionDto.Addition> = MutableLiveData()
-    val additionResponse: LiveData<ResponseAdditionDto.Addition>
-        get() = _additionResponse
+    private val _postNottodoSuccessResponse: MutableLiveData<ResponseAdditionDto.Addition> =
+        MutableLiveData()
+    val postNottodoSuccessResponse: LiveData<ResponseAdditionDto.Addition>
+        get() = _postNottodoSuccessResponse
 
-    private val _errorResponse: MutableLiveData<String> = MutableLiveData()
-    val errorResponse: LiveData<String>
-        get() = _errorResponse
+    private val _postNottodoErrorMessage: MutableLiveData<String> = MutableLiveData()
+    val postNottodoErrorMessage: LiveData<String>
+        get() = _postNottodoErrorMessage
 
-    fun postAddition(requestAdditionDto: RequestAdditionDto) {
+    fun postNottodo(requestAdditionDto: RequestAdditionDto) {
         viewModelScope.launch {
             kotlin.runCatching {
                 additionService.postMission(requestAdditionDto)
-            }.fold(onSuccess = { _additionResponse.value = it.data }, onFailure = {
-                _errorResponse.value =
-                    if (it.isConnectException) NO_INTERNET_CONDITION_ERROR else it.getErrorMessage()
+            }.fold(onSuccess = { successResponse ->
+                _postNottodoSuccessResponse.value = successResponse.data
+            }, onFailure = { errorResponse ->
+                _postNottodoErrorMessage.value =
+                    if (errorResponse.isConnectException) NO_INTERNET_CONDITION_ERROR else errorResponse.getErrorMessage()
             })
         }
     }
