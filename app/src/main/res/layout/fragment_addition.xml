@@ -8,6 +8,8 @@
         <variable
             name="vm"
             type="kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -91,6 +93,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_addition_date_closed"
                         android:layout_width="0dp"
+                        android:visibility="@{vm.dateToggleVisible ? View.GONE : View.VISIBLE }"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -175,7 +178,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
-                        android:visibility="gone"
+                        android:visibility="@{vm.dateToggleVisible ? View.VISIBLE : View.GONE }"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -259,6 +262,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_addition_mission_closed"
                         android:layout_width="0dp"
+                        android:visibility="@{vm.missionToggleVisible ? View.GONE : View.VISIBLE }"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_stroke_1_gray_3_radius_12"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -309,9 +313,9 @@
                         android:id="@+id/layout_addition_mission_opened"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:visibility="@{vm.missionToggleVisible ? View.VISIBLE : View.GONE }"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
                         android:paddingHorizontal="18dp"
-                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -411,6 +415,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_addition_situation_closed"
                         android:layout_width="0dp"
+                        android:visibility="@{vm.situationToggleVisible ? View.GONE : View.VISIBLE }"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -461,7 +466,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
                         android:paddingHorizontal="18dp"
-                        android:visibility="gone"
+                        android:visibility="@{vm.situationToggleVisible ? View.VISIBLE : View.GONE }"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -554,6 +559,7 @@
                         android:id="@+id/layout_addition_action_closed"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:visibility="@{vm.actionToggleVisible ? View.GONE : View.VISIBLE }"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -612,9 +618,9 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_addition_action_opened"
                         android:layout_width="0dp"
+                        android:visibility="@{vm.actionToggleVisible? View.VISIBLE : View.GONE }"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
-                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -817,6 +823,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_addition_goal_closed"
                         android:layout_width="0dp"
+                        android:visibility="@{vm.goalToggleVisible ? View.GONE : View.VISIBLE }"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -877,10 +884,10 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_addition_goal_opened"
                         android:layout_width="0dp"
+                        android:visibility="@{vm.goalToggleVisible ? View.VISIBLE : View.GONE }"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
                         android:paddingHorizontal="18dp"
-                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">

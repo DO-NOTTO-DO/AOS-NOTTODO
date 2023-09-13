@@ -144,11 +144,11 @@ class AdditionFragment :
         setAddButton()
         setFinishButton()
         setDeleteButtons()
+        setTogglesClickEvents()
     }
 
     private fun setViews() {
         setOpenedDesc()
-        setToggles()
         setRecyclerViews()
         setActions()
     }
@@ -636,72 +636,68 @@ class AdditionFragment :
         }
     }
 
-    private fun setToggles() {
-        binding.layoutAdditionMissionClosed.setOnClickListener {
-            if (!viewModel.isMissionToggleVisible) {
-                openMissionToggle()
-                closeDateToggle()
-                closeSituationToggle()
-                closeActionToggle()
-                closeGoalToggle()
-            } else {
-                closeMissionToggle()
-            }
-        }
+    private fun setTogglesClickEvents() {
+        setDateToggleClickEvent()
+        setMissionToggleClickEvent()
+        setSituationToggleClickEvent()
+        setActionToggleClickEvent()
+        setGoalToggleClickEvent()
+    }
 
-        binding.layoutAdditionSituationClosed.setOnClickListener {
-            if (!viewModel.isSituationToggleVisible) {
-                openSituationToggle()
-                closeDateToggle()
-                closeMissionToggle()
-                closeActionToggle()
-                closeGoalToggle()
-            } else {
-                closeSituationToggle()
-            }
-        }
-
-        binding.layoutAdditionActionClosed.setOnClickListener {
-            if (!viewModel.isActionToggleVisible) {
-                openActionToggle()
-                closeDateToggle()
-                closeMissionToggle()
-                closeSituationToggle()
-                closeGoalToggle()
-            } else {
-                closeActionToggle()
-            }
-        }
-
-        binding.layoutAdditionGoalClosed.setOnClickListener {
-            if (!viewModel.isGoalToggleVisible) {
-                openGoalToggle()
-                closeDateToggle()
-                closeMissionToggle()
-                closeSituationToggle()
-                closeActionToggle()
-            } else {
-                closeGoalToggle()
-            }
-        }
-
+    private fun setDateToggleClickEvent() {
         binding.layoutAdditionDateClosed.setOnClickListener {
-            if (!viewModel.isDateToggleVisible) {
-                openDateToggle()
-                closeMissionToggle()
-                closeSituationToggle()
-                closeActionToggle()
-                closeGoalToggle()
-
-            } else {
-                closeDateToggle()
-            }
+            openDateToggle()
+            closeMissionToggle()
+            closeSituationToggle()
+            closeActionToggle()
+            closeGoalToggle()
         }
+
         binding.tvAdditionDateOpenedComplete.setOnClickListener {
             closeDateToggle()
         }
+    }
+
+    private fun setMissionToggleClickEvent() {
+        binding.layoutAdditionMissionClosed.setOnClickListener {
+            openMissionToggle()
+            closeDateToggle()
+            closeSituationToggle()
+            closeActionToggle()
+            closeGoalToggle()
+        }
+    }
+
+    private fun setSituationToggleClickEvent() {
+        binding.layoutAdditionSituationClosed.setOnClickListener {
+            openSituationToggle()
+            closeDateToggle()
+            closeMissionToggle()
+            closeActionToggle()
+            closeGoalToggle()
+        }
+    }
+
+    private fun setActionToggleClickEvent() {
+        binding.layoutAdditionActionClosed.setOnClickListener {
+            openActionToggle()
+            closeDateToggle()
+            closeMissionToggle()
+            closeSituationToggle()
+            closeGoalToggle()
+        }
 
         binding.tvAdditionActionComplete.setOnClickListener {
+            closeActionToggle()
+        }
+    }
+
+    private fun setGoalToggleClickEvent() {
+        binding.layoutAdditionGoalClosed.setOnClickListener {
+            openGoalToggle()
+            closeDateToggle()
+            closeMissionToggle()
+            closeSituationToggle()
             closeActionToggle()
         }
     }
@@ -740,73 +736,55 @@ class AdditionFragment :
     }
 
     private fun closeDateToggle() {
-        binding.layoutAdditionDateClosed.visibility = View.VISIBLE
-        binding.layoutAdditionDateOpened.visibility = View.GONE
-        viewModel.isDateToggleVisible = false
+        viewModel.isDateToggleVisible.value = false
         setDateDescTextView()
     }
 
     private fun openDateToggle() {
-        binding.layoutAdditionDateClosed.visibility = View.GONE
-        binding.layoutAdditionDateOpened.visibility = View.VISIBLE
-        viewModel.isDateToggleVisible = true
+        viewModel.isDateToggleVisible.value = true
     }
 
     private fun closeGoalToggle() {
-        binding.layoutAdditionGoalClosed.visibility = View.VISIBLE
-        binding.layoutAdditionGoalOpened.visibility = View.GONE
-        viewModel.isGoalToggleVisible = false
+        viewModel.isGoalToggleVisible.value = false
     }
 
     private fun requestFocusWithShowingKeyboard(editText: EditText) {
-        editText.requestFocus()
-        editText.setSelection(editText.length())
-        contextNonNull.showKeyboard(editText)
+        editText.run {
+            requestFocus()
+            setSelection(editText.length())
+            contextNonNull.showKeyboard(this)
+        }
     }
 
     private fun openGoalToggle() {
-        binding.layoutAdditionGoalClosed.visibility = View.GONE
-        binding.layoutAdditionGoalOpened.visibility = View.VISIBLE
-        viewModel.isGoalToggleVisible = true
+        viewModel.isGoalToggleVisible.value = true
         requestFocusWithShowingKeyboard(binding.etAdditionGoal)
     }
 
     private fun openActionToggle() {
-        binding.layoutAdditionActionClosed.visibility = View.GONE
-        binding.layoutAdditionActionOpened.visibility = View.VISIBLE
-        viewModel.isActionToggleVisible = true
+        viewModel.isActionToggleVisible.value = true
         requestFocusWithShowingKeyboard(binding.etAdditionAction)
     }
 
     private fun closeActionToggle() {
-        binding.layoutAdditionActionClosed.visibility = View.VISIBLE
-        binding.layoutAdditionActionOpened.visibility = View.GONE
-        viewModel.isActionToggleVisible = false
+        viewModel.isActionToggleVisible.value = false
     }
 
     private fun openSituationToggle() {
-        binding.layoutAdditionSituationClosed.visibility = View.GONE
-        binding.layoutAdditionSituationOpened.visibility = View.VISIBLE
-        viewModel.isSituationToggleVisible = true
+        viewModel.isSituationToggleVisible.value = true
         requestFocusWithShowingKeyboard(binding.etAdditionSituation)
     }
 
     private fun closeSituationToggle() {
-        binding.layoutAdditionSituationClosed.visibility = View.VISIBLE
-        binding.layoutAdditionSituationOpened.visibility = View.GONE
-        viewModel.isSituationToggleVisible = false
+        viewModel.isSituationToggleVisible.value = false
     }
 
     private fun closeMissionToggle() {
-        binding.layoutAdditionMissionClosed.visibility = View.VISIBLE
-        binding.layoutAdditionMissionOpened.visibility = View.GONE
-        viewModel.isMissionToggleVisible = false
+        viewModel.isMissionToggleVisible.value = false
     }
 
     private fun openMissionToggle() {
-        binding.layoutAdditionMissionClosed.visibility = View.GONE
-        binding.layoutAdditionMissionOpened.visibility = View.VISIBLE
-        viewModel.isMissionToggleVisible = true
+        viewModel.isMissionToggleVisible.value = true
         requestFocusWithShowingKeyboard(binding.etAdditionMission)
     }
 
