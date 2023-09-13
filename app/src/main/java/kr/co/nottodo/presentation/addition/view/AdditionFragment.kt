@@ -78,23 +78,24 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
     }
 
     private fun initActionList(actionList: List<String>) {
-        when (actionList.size) {
-            1 -> {
-                setFirstAction(actionList[0])
-            }
+        viewModel.actionCount.value = actionList.size.also { size ->
+            when (size) {
+                1 -> {
+                    setFirstAction(actionList[0])
+                }
 
-            2 -> {
-                setFirstAction(actionList[0])
-                setSecondAction(actionList[1])
-            }
+                2 -> {
+                    setFirstAction(actionList[0])
+                    setSecondAction(actionList[1])
+                }
 
-            3 -> {
-                setFirstAction(actionList[0])
-                setSecondAction(actionList[1])
-                setThirdAction(actionList[2])
+                3 -> {
+                    setFirstAction(actionList[0])
+                    setSecondAction(actionList[1])
+                    setThirdAction(actionList[2])
+                }
             }
         }
-        viewModel.actionCount.value = actionList.size
     }
 
     private fun setFirstAction(firstAction: String) {
@@ -128,7 +129,7 @@ class AdditionFragment : BaseViewBindingFragment<FragmentAdditionBinding>() {
     }
 
     private fun initMissionHistoryAdapter() {
-        missionHistoryAdapter = MissionHistoryAdapter(context, setMissionName)
+        missionHistoryAdapter = MissionHistoryAdapter(setMissionName)
     }
 
     private fun getRecommendSituationList() {

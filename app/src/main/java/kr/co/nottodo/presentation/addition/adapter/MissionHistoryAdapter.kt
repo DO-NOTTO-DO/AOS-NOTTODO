@@ -9,12 +9,11 @@ import kr.co.nottodo.databinding.ItemAdditionMissionHistoryBinding
 import kr.co.nottodo.util.DiffUtilItemCallback
 
 class MissionHistoryAdapter(
-    private val context: Context,
     private val setMissionName: (String) -> Unit,
 ) : ListAdapter<String, MissionHistoryAdapter.AdditionViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdditionViewHolder {
         val binding =
-            ItemAdditionMissionHistoryBinding.inflate(LayoutInflater.from(context), parent, false)
+            ItemAdditionMissionHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AdditionViewHolder(binding, setMissionName)
     }
 
