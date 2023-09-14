@@ -14,6 +14,7 @@ import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
+import kr.co.nottodo.util.addSourceList
 import kr.co.nottodo.util.getErrorMessage
 import kr.co.nottodo.util.isConnectException
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
@@ -50,7 +51,11 @@ class AdditionViewModel : ViewModel() {
     val action: MutableLiveData<String> = MutableLiveData()
     val goal: MutableLiveData<String> = MutableLiveData()
 
-    val isAbleToAdd: MediatorLiveData<Boolean> = MediatorLiveData()
+    val isAbleToAdd: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+        addSourceList(isMissionFilled, isSituationFilled) {
+            _isAbleToAdd()
+        }
+    }
 
     val actionCount: MutableLiveData<Int> = MutableLiveData(0)
 
