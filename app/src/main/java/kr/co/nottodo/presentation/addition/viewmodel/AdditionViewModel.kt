@@ -57,20 +57,23 @@ class AdditionViewModel : ViewModel() {
         }
     }
 
-    val actionCount: MutableLiveData<Int> = MutableLiveData(0)
-
-    init {
-        isAbleToAdd.addSource(isMissionFilled) {
-            isAbleToAdd.value = _isAbleToAdd()
-        }
-        isAbleToAdd.addSource(isSituationFilled) {
-            isAbleToAdd.value = _isAbleToAdd()
-        }
-    }
-
     private fun _isAbleToAdd(): Boolean {
         return (isMissionFilled.value == true && isSituationFilled.value == true)
     }
+
+    val actionCount: MediatorLiveData<Int> = MediatorLiveData(0).apply {
+        addSourceList(isFirstActionExist, isSecondActionExist, isThirdActionExist) {
+            countActions()
+        }
+    }
+
+    private fun countActions(): Int {
+        if (isThirdActionExist.value == true) return 3
+        if (isSecondActionExist.value == true) return 2
+        if (isFirstActionExist.value == true) return 1
+        return 0
+    }
+
 
     private val _postNottodoSuccessResponse: MutableLiveData<ResponseAdditionDto.Addition> =
         MutableLiveData()
