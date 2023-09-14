@@ -74,10 +74,10 @@ class AdditionFragment :
             mission.value = recommendUiModel.title
             situation.value = recommendUiModel.situation
         }
-        initActionList(recommendUiModel.actionList)
+        setActionList(recommendUiModel.actionList)
     }
 
-    private fun initActionList(actionList: List<String>) {
+    private fun setActionList(actionList: List<String>) {
         fun List<String>.second() = this[1]
         fun List<String>.third() = this[2]
 
@@ -94,21 +94,11 @@ class AdditionFragment :
     }
 
     private fun setSecondAction(secondAction: String) {
-        binding.run {
-            tvAdditionActionSecond.text = secondAction
-            tvAdditionActionSecond.visibility = View.VISIBLE
-            ivAdditionActionSecondDelete.visibility = View.VISIBLE
-        }
+        viewModel.firstAction.value = secondAction
     }
 
     private fun setThirdAction(thirdAction: String) {
-        binding.run {
-            tvAdditionActionThird.text = thirdAction
-            tvAdditionActionThird.visibility = View.VISIBLE
-            ivAdditionActionThirdDelete.visibility = View.VISIBLE
-            etAdditionAction.visibility = View.GONE
-            tvAdditionActionTextCount.visibility = View.GONE
-        }
+        viewModel.firstAction.value = thirdAction
     }
 
     private fun getRecommendSituationList() {
