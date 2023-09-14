@@ -90,11 +90,7 @@ class AdditionFragment :
     }
 
     private fun setFirstAction(firstAction: String) {
-        binding.run {
-            tvAdditionActionFirst.text = firstAction
-            tvAdditionActionFirst.visibility = View.VISIBLE
-            ivAdditionActionFirstDelete.visibility = View.VISIBLE
-        }
+        viewModel.firstAction.value = firstAction
     }
 
     private fun setSecondAction(secondAction: String) {

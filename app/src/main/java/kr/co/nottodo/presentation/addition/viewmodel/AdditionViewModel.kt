@@ -27,6 +27,16 @@ class AdditionViewModel : ViewModel() {
     val isActionToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     val isGoalToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
 
+    val firstAction: MutableLiveData<String> = MutableLiveData("")
+    val isFirstActionExist: LiveData<Boolean> =
+        firstAction.map { firstAction -> !firstAction.isNullOrBlank() }
+    val secondAction: MutableLiveData<String> = MutableLiveData("")
+    val isSecondActionExist: LiveData<Boolean> =
+        secondAction.map { secondAction -> !secondAction.isNullOrBlank() }
+    val thirdAction: MutableLiveData<String> = MutableLiveData("")
+    val isThirdActionExist: LiveData<Boolean> =
+        thirdAction.map { thirdAction -> !thirdAction.isNullOrBlank() }
+
     val date: MutableLiveData<String> = MutableLiveData(Date().convertDateToString())
 
     val mission: MutableLiveData<String> = MutableLiveData()

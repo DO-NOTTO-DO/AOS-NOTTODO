@@ -93,8 +93,8 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_addition_date_closed"
                         android:layout_width="0dp"
-                        android:visibility="@{vm.dateToggleVisible ? View.GONE : View.VISIBLE }"
                         android:layout_height="wrap_content"
+                        android:visibility="@{vm.dateToggleVisible ? View.GONE : View.VISIBLE }"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -262,9 +262,9 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_addition_mission_closed"
                         android:layout_width="0dp"
-                        android:visibility="@{vm.missionToggleVisible ? View.GONE : View.VISIBLE }"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_stroke_1_gray_3_radius_12"
+                        android:visibility="@{vm.missionToggleVisible ? View.GONE : View.VISIBLE }"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -313,9 +313,9 @@
                         android:id="@+id/layout_addition_mission_opened"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:visibility="@{vm.missionToggleVisible ? View.VISIBLE : View.GONE }"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
                         android:paddingHorizontal="18dp"
+                        android:visibility="@{vm.missionToggleVisible ? View.VISIBLE : View.GONE }"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -415,8 +415,8 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_addition_situation_closed"
                         android:layout_width="0dp"
-                        android:visibility="@{vm.situationToggleVisible ? View.GONE : View.VISIBLE }"
                         android:layout_height="wrap_content"
+                        android:visibility="@{vm.situationToggleVisible ? View.GONE : View.VISIBLE }"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -618,9 +618,9 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_addition_action_opened"
                         android:layout_width="0dp"
-                        android:visibility="@{vm.actionToggleVisible? View.VISIBLE : View.GONE }"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
+                        android:visibility="@{vm.actionToggleVisible? View.VISIBLE : View.GONE }"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -674,9 +674,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="18dp"
+                            android:text="@{vm.firstAction}"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/white"
-                            android:visibility="gone"
+                            android:visibility="@{vm.isFirstActionExist() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/view_addition_action" />
 
@@ -687,7 +688,7 @@
                             android:contentDescription="@string/cd_delete_first_action"
                             android:padding="5dp"
                             android:src="@drawable/ic_delete"
-                            android:visibility="gone"
+                            android:visibility="@{vm.isFirstActionExist() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toBottomOf="@id/tv_addition_action_first"
                             app:layout_constraintStart_toEndOf="@id/tv_addition_action_first"
                             app:layout_constraintTop_toTopOf="@id/tv_addition_action_first" />
@@ -698,9 +699,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="18dp"
                             android:layout_marginTop="6dp"
+                            android:text="@{vm.secondAction}"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/white"
-                            android:visibility="gone"
+                            android:visibility="@{vm.isSecondActionExist() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_addition_action_first" />
 
@@ -711,7 +713,7 @@
                             android:contentDescription="@string/cd_delete_second_action"
                             android:padding="5dp"
                             android:src="@drawable/ic_delete"
-                            android:visibility="gone"
+                            android:visibility="@{vm.isSecondActionExist() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toBottomOf="@id/tv_addition_action_second"
                             app:layout_constraintStart_toEndOf="@id/tv_addition_action_second"
                             app:layout_constraintTop_toTopOf="@id/tv_addition_action_second" />
@@ -722,9 +724,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="18dp"
                             android:layout_marginTop="6dp"
+                            android:text="@{vm.thirdAction}"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/white"
-                            android:visibility="gone"
+                            android:visibility="@{vm.isThirdActionExist() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_addition_action_second" />
 
@@ -735,7 +738,7 @@
                             android:contentDescription="@string/cd_delete_third_action"
                             android:padding="5dp"
                             android:src="@drawable/ic_delete"
-                            android:visibility="gone"
+                            android:visibility="@{vm.isThirdActionExist() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toBottomOf="@id/tv_addition_action_third"
                             app:layout_constraintStart_toEndOf="@id/tv_addition_action_third"
                             app:layout_constraintTop_toTopOf="@id/tv_addition_action_third" />
@@ -823,8 +826,8 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_addition_goal_closed"
                         android:layout_width="0dp"
-                        android:visibility="@{vm.goalToggleVisible ? View.GONE : View.VISIBLE }"
                         android:layout_height="wrap_content"
+                        android:visibility="@{vm.goalToggleVisible ? View.GONE : View.VISIBLE }"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -884,10 +887,10 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_addition_goal_opened"
                         android:layout_width="0dp"
-                        android:visibility="@{vm.goalToggleVisible ? View.VISIBLE : View.GONE }"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
                         android:paddingHorizontal="18dp"
+                        android:visibility="@{vm.goalToggleVisible ? View.VISIBLE : View.GONE }"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
