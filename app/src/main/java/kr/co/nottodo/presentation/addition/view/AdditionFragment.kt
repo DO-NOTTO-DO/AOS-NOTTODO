@@ -50,8 +50,7 @@ class AdditionFragment :
         setData()
         setViews()
         setObservers()
-        setClickEvent()
-        setEnterKey()
+        setClickEvents()
     }
 
     private fun trackEnterCreateMission() {
@@ -109,11 +108,12 @@ class AdditionFragment :
         viewModel.getRecentMissionList()
     }
 
-    private fun setClickEvent() {
-        setAddButton()
-        setFinishButton()
-        setDeleteButtons()
+    private fun setClickEvents() {
+        setAddButtonClickEvent()
+        setFinishButtonClickEvent()
+        setDeleteButtonsClickEvents()
         setTogglesClickEvents()
+        setEnterKeyClickEvents()
     }
 
     private fun setViews() {
@@ -316,7 +316,7 @@ class AdditionFragment :
         }
     }
 
-    private fun setEnterKey() {
+    private fun setEnterKeyClickEvents() {
         binding.etAdditionMission.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeMissionToggle()
@@ -351,42 +351,27 @@ class AdditionFragment :
 
     private fun addAction(actionCount: Int) {
         when (actionCount) {
-            0 -> {
-                with(binding) {
-                    tvAdditionActionFirst.text = viewModel.action.value
-                    viewModel.action.value = MainActivity.BLANK
-                    tvAdditionActionFirst.visibility = View.VISIBLE
-                    ivAdditionActionFirstDelete.visibility = View.VISIBLE
-                }
-                viewModel.actionCount.value = 1
+            0 -> viewModel.run {
+                firstAction.value = action.value
+                action.value = ""
             }
 
-            1 -> {
-                with(binding) {
-                    tvAdditionActionSecond.text = viewModel.action.value
-                    viewModel.action.value = MainActivity.BLANK
-                    tvAdditionActionSecond.visibility = View.VISIBLE
-                    ivAdditionActionSecondDelete.visibility = View.VISIBLE
-                }
-                viewModel.actionCount.value = 2
+            1 -> viewModel.run {
+                secondAction.value = action.value
+                action.value = ""
             }
 
             2 -> {
-                with(binding) {
-                    tvAdditionActionThird.text = viewModel.action.value
-                    viewModel.action.value = MainActivity.BLANK
-                    tvAdditionActionThird.visibility = View.VISIBLE
-                    ivAdditionActionThirdDelete.visibility = View.VISIBLE
-                    etAdditionAction.visibility = View.GONE
-                    tvAdditionActionTextCount.visibility = View.GONE
-                    contextNonNull.hideKeyboard(root)
+                viewModel.run {
+                    thirdAction.value = action.value
+                    action.value = ""
                 }
-                viewModel.actionCount.value = 3
+                contextNonNull.hideKeyboard(binding.root)
             }
         }
     }
 
-    private fun setDeleteButtons() {
+    private fun setDeleteButtonsClickEvents() {
         binding.ivAdditionActionFirstDelete.setOnClickListener {
             when (viewModel.actionCount.value) {
                 1 -> {
@@ -449,9 +434,8 @@ class AdditionFragment :
         requestFocusWithShowingKeyboard(binding.etAdditionAction)
     }
 
-    private fun setFinishButton() {
+    private fun setFinishButtonClickEvent() {
         binding.ivAdditionDelete.setOnClickListener { if (!activityNonNull.isFinishing) activityNonNull.finish() }
-
     }
 
     private fun setSituationRecommendations(situationList: List<String>) {
@@ -460,7 +444,7 @@ class AdditionFragment :
         )
     }
 
-    private fun setAddButton() {
+    private fun setAddButtonClickEvent() {
         viewModel.isAbleToAdd.observe(viewLifecycleOwner) { isAbleToAdd ->
             if (isAbleToAdd == true) {
                 binding.btnAdditionAdd.setTextColor(contextNonNull.getColor(R.color.gray_1_2a2a2e))
