@@ -754,11 +754,11 @@ class AdditionFragment :
     }
 
     private fun setMissionOpenedDescSpan() {
-        val missionOpenedDesc = SpannableStringBuilder(getString(R.string.mission_desc)).apply {
+        SpannableStringBuilder(getString(R.string.mission_desc)).apply {
             setSpan(
                 ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
                 0,
-                2,
+                this.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
@@ -767,24 +767,17 @@ class AdditionFragment :
                 6,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
-                6,
-                14,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
-        binding.tvAdditionMissionOpenedDesc.text = missionOpenedDesc
+        }.also { spannedString -> binding.tvAdditionMissionOpenedDesc.text = spannedString }
     }
 
     private fun setSituationOpenedDescSpan() {
-        val situationOpenedDesc = SpannableStringBuilder(
+        SpannableStringBuilder(
             getString(R.string.situation_desc)
         ).apply {
             setSpan(
                 ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
                 0,
-                9,
+                this.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
@@ -793,22 +786,15 @@ class AdditionFragment :
                 12,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
-                12,
-                21,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
-        binding.tvAdditionSituationOpenedDesc.text = situationOpenedDesc
+        }.also { spannedString -> binding.tvAdditionSituationOpenedDesc.text = spannedString }
     }
 
     private fun setActionOpenedDescSpan() {
-        val actionOpenedDesc = SpannableStringBuilder(getString(R.string.action_desc)).apply {
+        SpannableStringBuilder(getString(R.string.action_desc)).apply {
             setSpan(
                 ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
                 0,
-                2,
+                this.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
@@ -817,22 +803,15 @@ class AdditionFragment :
                 5,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
-                5,
-                19,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
-        binding.tvAdditionActionOpenedDesc.text = actionOpenedDesc
+        }.also { spannedString -> binding.tvAdditionActionOpenedDesc.text = spannedString }
     }
 
     private fun setGoalOpenedDescSpan() {
-        val goalOpenedDesc = SpannableStringBuilder(getString(R.string.goal_desc)).apply {
+        SpannableStringBuilder(getString(R.string.goal_desc)).apply {
             setSpan(
                 ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
                 0,
-                11,
+                this.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
@@ -841,14 +820,7 @@ class AdditionFragment :
                 14,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
-                14,
-                24,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
-        binding.tvAdditionGoalOpenedDesc.text = goalOpenedDesc
+        }.also { spannedString -> binding.tvAdditionGoalOpenedDesc.text = spannedString }
     }
 
     override fun onDestroyView() {
