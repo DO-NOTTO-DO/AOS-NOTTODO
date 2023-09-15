@@ -132,6 +132,18 @@ class AdditionFragment :
         }
     }
 
+    private val setMissionName: (String) -> Unit = { missionName: String ->
+        NotTodoAmplitude.trackEventWithProperty(
+            getString(R.string.click_mission_history), getString(R.string.title), missionName
+        )
+        binding.etAdditionMission.run {
+            setText(missionName)
+            requestFocus()
+            setSelection(binding.etAdditionMission.length())
+        }
+        contextNonNull.showKeyboard(binding.etAdditionMission)
+    }
+
     private fun setObservers() {
         observeMission()
         observeSituation()
@@ -177,16 +189,6 @@ class AdditionFragment :
                 }
             }
         }
-    }
-
-    private val setMissionName: (String) -> Unit = { missionName: String ->
-        NotTodoAmplitude.trackEventWithProperty(
-            getString(R.string.click_mission_history), getString(R.string.title), missionName
-        )
-        binding.etAdditionMission.setText(missionName)
-        binding.etAdditionMission.requestFocus()
-        binding.etAdditionMission.setSelection(binding.etAdditionMission.length())
-        contextNonNull.showKeyboard(binding.etAdditionMission)
     }
 
     private fun observeGetRecentMissionListSuccessResponse() {
