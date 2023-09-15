@@ -660,23 +660,13 @@ class AdditionFragment :
         }
     }
 
-    private fun setDateDescTextView() {
-        val selectedDays: MutableList<Date> = binding.calendarAdditionDateOpened.selectedDays
+    private fun setDateDescTv() {
+        val selectedDays: MutableList<Date> =
+            binding.calendarAdditionDateOpened.selectedDays.apply {
+                sortDescending()
+            }
         if (selectedDays.isEmpty()) return
-
-        if (selectedDays.containToday()) {
-            binding.tvAdditionDateStartDesc.apply {
-                visibility = View.VISIBLE
-                text = getString(R.string.today)
-            }
-        } else if (selectedDays.containTomorrow()) {
-            binding.tvAdditionDateStartDesc.apply {
-                visibility = View.VISIBLE
-                text = getString(R.string.tomorrow)
-            }
-        } else {
-            binding.tvAdditionDateStartDesc.visibility = View.GONE
-        }
+        binding.tvAdditionDate.text = selectedDays.last().convertDateToString()
 
         if (selectedDays.size > 1) {
             binding.tvAdditionDateEndDesc.apply {
@@ -689,13 +679,23 @@ class AdditionFragment :
             }
         }
 
-        selectedDays.sortDescending()
-        binding.tvAdditionDate.text = selectedDays.last().convertDateToString()
+        if (selectedDays.containToday()) binding.tvAdditionDateStartDesc.apply {
+            visibility = View.VISIBLE
+            text = getString(R.string.today)
+            return
+        }
+        if (selectedDays.containTomorrow()) binding.tvAdditionDateStartDesc.apply {
+            visibility = View.VISIBLE
+            text = getString(R.string.tomorrow)
+            return
+        }
+
+        binding.tvAdditionDateStartDesc.visibility = View.GONE
     }
 
     private fun closeDateToggle() {
         viewModel.isDateToggleVisible.value = false
-        setDateDescTextView()
+        setDateDescTv()
     }
 
     private fun openDateToggle() {
