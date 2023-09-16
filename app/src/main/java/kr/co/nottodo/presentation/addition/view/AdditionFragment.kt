@@ -239,7 +239,7 @@ class AdditionFragment :
             trackCompleteCreateMission(response)
             val sortedList =
                 response.dates.sortedBy { date -> date.achievementConvertStringToDate() }
-            navigateToMain(sortedList.first().toString())
+            navigateToMainWithFirstDay(sortedList.first().toString())
         }
     }
 
@@ -260,7 +260,7 @@ class AdditionFragment :
         }
     }
 
-    private fun navigateToMain(firstDate: String) {
+    private fun navigateToMainWithFirstDay(firstDate: String) {
         startActivity(
             Intent(contextNonNull, MainActivity::class.java).setFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
