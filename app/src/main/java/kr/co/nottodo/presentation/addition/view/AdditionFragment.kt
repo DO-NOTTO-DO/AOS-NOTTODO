@@ -197,8 +197,8 @@ class AdditionFragment :
 
     private fun observeGetRecentMissionListSuccessResponse() {
         viewModel.getRecentMissionListSuccessResponse.observe(viewLifecycleOwner) { response ->
-            missionHistoryAdapter?.submitList(response.data.map {
-                it.title
+            missionHistoryAdapter?.submitList(response.data.map { recentMission ->
+                recentMission.title
             })
         }
     }
