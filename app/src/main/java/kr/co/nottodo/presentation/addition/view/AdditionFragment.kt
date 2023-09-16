@@ -133,15 +133,19 @@ class AdditionFragment :
     }
 
     private val setMissionName: (String) -> Unit = { missionName: String ->
-        NotTodoAmplitude.trackEventWithProperty(
-            getString(R.string.click_mission_history), getString(R.string.title), missionName
-        )
+        trackSetMissionName(missionName)
         binding.etAdditionMission.run {
             setText(missionName)
             requestFocus()
             setSelection(binding.etAdditionMission.length())
         }
         contextNonNull.showKeyboard(binding.etAdditionMission)
+    }
+
+    private fun trackSetMissionName(missionName: String) {
+        NotTodoAmplitude.trackEventWithProperty(
+            getString(R.string.click_mission_history), getString(R.string.title), missionName
+        )
     }
 
     private fun setObservers() {
