@@ -29,16 +29,6 @@ class AdditionViewModel : ViewModel() {
     val isActionToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     val isGoalToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    val firstAction: MutableLiveData<String> = MutableLiveData("")
-    val isFirstActionExist: LiveData<Boolean> =
-        firstAction.map { firstAction -> !firstAction.isNullOrBlank() }
-    val secondAction: MutableLiveData<String> = MutableLiveData("")
-    val isSecondActionExist: LiveData<Boolean> =
-        secondAction.map { secondAction -> !secondAction.isNullOrBlank() }
-    val thirdAction: MutableLiveData<String> = MutableLiveData("")
-    val isThirdActionExist: LiveData<Boolean> =
-        thirdAction.map { thirdAction -> !thirdAction.isNullOrBlank() }
-
     val date: MutableLiveData<String> = MutableLiveData(Date().convertDateToString())
 
     val mission: MutableLiveData<String> = MutableLiveData("")
@@ -58,6 +48,32 @@ class AdditionViewModel : ViewModel() {
     val action: MutableLiveData<String> = MutableLiveData("")
     val actionLengthCounter: LiveData<String> =
         action.map { action -> action.length.toString() + MAX_COUNT_20 }
+
+    val firstAction: MutableLiveData<String> = MutableLiveData("")
+    val isFirstActionExist: LiveData<Boolean> =
+        firstAction.map { firstAction -> !firstAction.isNullOrBlank() }
+
+    val secondAction: MutableLiveData<String> = MutableLiveData("")
+    val isSecondActionExist: LiveData<Boolean> =
+        secondAction.map { secondAction -> !secondAction.isNullOrBlank() }
+
+    val thirdAction: MutableLiveData<String> = MutableLiveData("")
+    val isThirdActionExist: LiveData<Boolean> =
+        thirdAction.map { thirdAction -> !thirdAction.isNullOrBlank() }
+
+    val actionCount: MediatorLiveData<Int> = MediatorLiveData(0).apply {
+        addSourceList(isFirstActionExist, isSecondActionExist, isThirdActionExist) {
+            countActions()
+        }
+    }
+
+    private fun countActions(): Int {
+        if (isThirdActionExist.value == true) return 3
+        if (isSecondActionExist.value == true) return 2
+        if (isFirstActionExist.value == true) return 1
+        return 0
+    }
+
     val goal: MutableLiveData<String> = MutableLiveData("")
     val isGoalFilled: LiveData<Boolean> = goal.map { goal -> goal.isNotBlank() }
     val goalLengthCounter: LiveData<String> = goal.map { goal ->
@@ -73,20 +89,6 @@ class AdditionViewModel : ViewModel() {
     private fun _isAbleToAdd(): Boolean {
         return (isMissionFilled.value == true && isSituationFilled.value == true)
     }
-
-    val actionCount: MediatorLiveData<Int> = MediatorLiveData(0).apply {
-        addSourceList(isFirstActionExist, isSecondActionExist, isThirdActionExist) {
-            countActions()
-        }
-    }
-
-    private fun countActions(): Int {
-        if (isThirdActionExist.value == true) return 3
-        if (isSecondActionExist.value == true) return 2
-        if (isFirstActionExist.value == true) return 1
-        return 0
-    }
-
 
     private val _postNottodoSuccessResponse: MutableLiveData<ResponseAdditionDto.Addition> =
         MutableLiveData()

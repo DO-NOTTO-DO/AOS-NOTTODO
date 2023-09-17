@@ -296,15 +296,15 @@ class AdditionFragment :
 
                 1 -> {
                     setActionBox(isActionFilled = true)
-                    binding.tvAdditionActionClosedInput.text = binding.tvAdditionActionFirst.text
+                    binding.tvAdditionActionClosedInput.text = viewModel.firstAction.value
                 }
 
                 2 -> {
                     setActionBox(isActionFilled = true)
                     binding.tvAdditionActionClosedInput.text = getString(
                         R.string.addition_action_2_text,
-                        binding.tvAdditionActionFirst.text,
-                        binding.tvAdditionActionSecond.text
+                        viewModel.firstAction.value,
+                        viewModel.secondAction.value
                     )
                 }
 
@@ -312,9 +312,9 @@ class AdditionFragment :
                     setActionBox(isActionFilled = true)
                     binding.tvAdditionActionClosedInput.text = getString(
                         R.string.addition_action_3_text,
-                        binding.tvAdditionActionFirst.text,
-                        binding.tvAdditionActionSecond.text,
-                        binding.tvAdditionActionThird.text
+                        viewModel.firstAction.value,
+                        viewModel.secondAction.value,
+                        viewModel.thirdAction.value
                     )
                 }
             }
@@ -377,66 +377,60 @@ class AdditionFragment :
     }
 
     private fun setDeleteButtonsClickEvents() {
+        firstDeleteBtnClickEvent()
+        secondDeleteBtnClickEvent()
+        thirdDeleteBtnClickEvent()
+    }
+
+    private fun firstDeleteBtnClickEvent() {
         binding.ivAdditionActionFirstDelete.setOnClickListener {
             when (viewModel.actionCount.value) {
                 1 -> {
-                    hideActionFirst()
-                    viewModel.actionCount.value = 0
+                    viewModel.firstAction.value = ""
                 }
 
                 2 -> {
-                    binding.tvAdditionActionFirst.text = binding.tvAdditionActionSecond.text
-                    hideActionSecond()
-                    viewModel.actionCount.value = 1
+                    viewModel.run {
+                        firstAction.value = secondAction.value
+                        secondAction.value = ""
+                    }
                 }
 
                 3 -> {
-                    binding.tvAdditionActionFirst.text = binding.tvAdditionActionSecond.text
-                    binding.tvAdditionActionSecond.text = binding.tvAdditionActionThird.text
-                    hideActionThird()
-                    viewModel.actionCount.value = 2
+                    viewModel.run {
+                        firstAction.value = secondAction.value
+                        secondAction.value = thirdAction.value
+                        thirdAction.value = ""
+                    }
+                    requestFocusWithShowingKeyboard(binding.etAdditionAction)
                 }
             }
         }
+    }
+
+    private fun secondDeleteBtnClickEvent() {
         binding.ivAdditionActionSecondDelete.setOnClickListener {
             when (viewModel.actionCount.value) {
                 2 -> {
-                    hideActionSecond()
-                    viewModel.actionCount.value = 1
+                    viewModel.secondAction.value = ""
                 }
 
                 3 -> {
-                    binding.tvAdditionActionSecond.text = binding.tvAdditionActionThird.text
-                    hideActionThird()
-                    viewModel.actionCount.value = 2
+                    viewModel.run {
+                        secondAction.value = thirdAction.value
+                        thirdAction.value = ""
+                    }
+                    requestFocusWithShowingKeyboard(binding.etAdditionAction)
                 }
             }
         }
+    }
+
+    private fun thirdDeleteBtnClickEvent() {
         binding.ivAdditionActionThirdDelete.setOnClickListener {
-            hideActionThird()
-            viewModel.actionCount.value = 2
+            viewModel.thirdAction.value = ""
+            requestFocusWithShowingKeyboard(binding.etAdditionAction)
         }
-    }
-
-    private fun hideActionFirst() {
-        binding.tvAdditionActionFirst.text = MainActivity.BLANK
-        binding.tvAdditionActionFirst.visibility = View.GONE
-        binding.ivAdditionActionFirstDelete.visibility = View.GONE
-    }
-
-    private fun hideActionSecond() {
-        binding.tvAdditionActionSecond.text = MainActivity.BLANK
-        binding.tvAdditionActionSecond.visibility = View.GONE
-        binding.ivAdditionActionSecondDelete.visibility = View.GONE
-    }
-
-    private fun hideActionThird() {
-        binding.tvAdditionActionThird.text = MainActivity.BLANK
-        binding.tvAdditionActionThird.visibility = View.GONE
-        binding.ivAdditionActionThirdDelete.visibility = View.GONE
-        binding.etAdditionAction.visibility = View.VISIBLE
-        binding.tvAdditionActionTextCount.visibility = View.VISIBLE
-        requestFocusWithShowingKeyboard(binding.etAdditionAction)
     }
 
     private fun setFinishButtonClickEvent() {
