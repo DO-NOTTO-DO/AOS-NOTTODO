@@ -13,6 +13,7 @@ import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
 import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
+import kr.co.nottodo.util.PublicString.MAX_MISSION_COUNT
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addSourceList
 import kr.co.nottodo.util.getErrorMessage
@@ -40,9 +41,12 @@ class AdditionViewModel : ViewModel() {
 
     val date: MutableLiveData<String> = MutableLiveData(Date().convertDateToString())
 
-    val mission: MutableLiveData<String> = MutableLiveData()
-    private val isMissionFilled: LiveData<Boolean> = mission.map { mission ->
+    val mission: MutableLiveData<String> = MutableLiveData("")
+    val isMissionFilled: LiveData<Boolean> = mission.map { mission ->
         mission.isNotBlank()
+    }
+    val missionCounter: LiveData<String> = mission.map { mission ->
+        mission.length.toString() + MAX_MISSION_COUNT
     }
     val situation: MutableLiveData<String> = MutableLiveData()
     private val isSituationFilled: LiveData<Boolean> = situation.map { situation ->

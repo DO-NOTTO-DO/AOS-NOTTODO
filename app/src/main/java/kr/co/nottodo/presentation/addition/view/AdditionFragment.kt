@@ -570,33 +570,8 @@ class AdditionFragment :
     }
 
     private fun observeMission() {
-        viewModel.mission.observe(viewLifecycleOwner) { mission ->
-            binding.tvAdditionMissionTextCount.text =
-                getString(R.string.max_text_size_20, mission.length)
-            if (mission.isNotBlank()) {
-                binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
-                    contextNonNull, R.drawable.rectangle_solid_gray_1_radius_12
-                )
-                binding.ivAdditionMissionClosedCheck.visibility = View.VISIBLE
-                with(binding.tvAdditionMissionClosedName) {
-                    text = viewModel.mission.value
-                    setTextColor(context.getColor(R.color.white))
-                }
-                binding.tvAdditionMissionRvTitle.visibility = View.GONE
-                binding.rvAdditionMission.visibility = View.GONE
-
-            } else {
-                binding.layoutAdditionMissionClosed.background = AppCompatResources.getDrawable(
-                    contextNonNull, R.drawable.rectangle_stroke_1_gray_3_radius_12
-                )
-                binding.ivAdditionMissionClosedCheck.visibility = View.GONE
-                with(binding.tvAdditionMissionClosedName) {
-                    text = getText(R.string.addition_input)
-                    setTextColor(context.getColor(R.color.gray_3_5d5d6b))
-                }
-                binding.tvAdditionMissionRvTitle.visibility = View.VISIBLE
-                binding.rvAdditionMission.visibility = View.VISIBLE
-            }
+        viewModel.isMissionFilled.observe(viewLifecycleOwner) { isMissionFilled ->
+            binding.layoutAdditionMissionClosed.isActivated = isMissionFilled
         }
     }
 
