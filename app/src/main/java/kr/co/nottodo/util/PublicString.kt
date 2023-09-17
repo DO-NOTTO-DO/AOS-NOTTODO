@@ -6,4 +6,5 @@ object PublicString {
 
     // Addition
     const val MAX_MISSION_COUNT = "/20"
+    const val MAX_ACTION_COUNT = "/20"
 }
