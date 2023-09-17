@@ -151,7 +151,6 @@ class AdditionFragment :
     private fun setObservers() {
         observeMission()
         observeSituation()
-        observeAction()
         observeGoal()
         observeGetRecommendSituationList()
         observeGetRecentMissionListResponse()
@@ -532,13 +531,6 @@ class AdditionFragment :
                     setTextColor(context.getColor(R.color.gray_3_5d5d6b))
                 }
             }
-        }
-    }
-
-    private fun observeAction() {
-        viewModel.action.observe(viewLifecycleOwner) { action ->
-            binding.tvAdditionActionTextCount.text =
-                getString(R.string.max_text_size_20, action.length)
         }
     }
 

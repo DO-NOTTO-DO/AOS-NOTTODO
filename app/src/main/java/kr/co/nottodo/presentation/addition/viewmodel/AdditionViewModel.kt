@@ -13,6 +13,7 @@ import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
 import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
+import kr.co.nottodo.util.PublicString.MAX_ACTION_COUNT
 import kr.co.nottodo.util.PublicString.MAX_MISSION_COUNT
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addSourceList
@@ -52,7 +53,8 @@ class AdditionViewModel : ViewModel() {
     private val isSituationFilled: LiveData<Boolean> = situation.map { situation ->
         situation.isNotBlank()
     }
-    val action: MutableLiveData<String> = MutableLiveData()
+    val action: MutableLiveData<String> = MutableLiveData("")
+    val actionLengthCounter = action.map { action -> action.length.toString() + MAX_ACTION_COUNT }
     val goal: MutableLiveData<String> = MutableLiveData()
 
     val isAbleToAdd: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
