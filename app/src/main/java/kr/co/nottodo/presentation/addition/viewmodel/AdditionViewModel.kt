@@ -45,7 +45,7 @@ class AdditionViewModel : ViewModel() {
     val isMissionFilled: LiveData<Boolean> = mission.map { mission ->
         mission.isNotBlank()
     }
-    val missionCounter: LiveData<String> = mission.map { mission ->
+    val missionLengthCounter: LiveData<String> = mission.map { mission ->
         mission.length.toString() + MAX_MISSION_COUNT
     }
     val situation: MutableLiveData<String> = MutableLiveData()
