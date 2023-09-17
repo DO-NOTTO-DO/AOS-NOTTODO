@@ -13,8 +13,7 @@ import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
 import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
-import kr.co.nottodo.util.PublicString.MAX_ACTION_COUNT
-import kr.co.nottodo.util.PublicString.MAX_MISSION_COUNT
+import kr.co.nottodo.util.PublicString.MAX_COUNT_20
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addSourceList
 import kr.co.nottodo.util.getErrorMessage
@@ -47,15 +46,23 @@ class AdditionViewModel : ViewModel() {
         mission.isNotBlank()
     }
     val missionLengthCounter: LiveData<String> = mission.map { mission ->
-        mission.length.toString() + MAX_MISSION_COUNT
+        mission.length.toString() + MAX_COUNT_20
     }
-    val situation: MutableLiveData<String> = MutableLiveData()
-    private val isSituationFilled: LiveData<Boolean> = situation.map { situation ->
+    val situation: MutableLiveData<String> = MutableLiveData("")
+    val situationLengthCounter: LiveData<String> = situation.map { situation ->
+        situation.length.toString() + MAX_COUNT_20
+    }
+    val isSituationFilled: LiveData<Boolean> = situation.map { situation ->
         situation.isNotBlank()
     }
     val action: MutableLiveData<String> = MutableLiveData("")
-    val actionLengthCounter = action.map { action -> action.length.toString() + MAX_ACTION_COUNT }
-    val goal: MutableLiveData<String> = MutableLiveData()
+    val actionLengthCounter: LiveData<String> =
+        action.map { action -> action.length.toString() + MAX_COUNT_20 }
+    val goal: MutableLiveData<String> = MutableLiveData("")
+    val isGoalFilled: LiveData<Boolean> = goal.map { goal -> goal.isNotBlank() }
+    val goalLengthCounter: LiveData<String> = goal.map { goal ->
+        goal.length.toString() + MAX_COUNT_20
+    }
 
     val isAbleToAdd: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         addSourceList(isMissionFilled, isSituationFilled) {

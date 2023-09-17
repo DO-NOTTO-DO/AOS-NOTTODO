@@ -507,57 +507,14 @@ class AdditionFragment :
     }
 
     private fun observeGoal() {
-        viewModel.goal.observe(viewLifecycleOwner) { goal ->
-            binding.tvAdditionGoalTextCount.text = getString(R.string.max_text_size_20, goal.length)
-            if (goal.isNotBlank()) {
-                binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
-                    contextNonNull, R.drawable.rectangle_solid_gray_1_radius_12
-                )
-                binding.ivAdditionGoalCheck.visibility = View.VISIBLE
-                binding.tvAdditionGoalClosedChoice.visibility = View.GONE
-                with(binding.tvAdditionGoalInput) {
-                    text = viewModel.goal.value
-                    setTextColor(context.getColor(R.color.white))
-                }
-
-            } else {
-                binding.layoutAdditionGoalClosed.background = AppCompatResources.getDrawable(
-                    contextNonNull, R.drawable.rectangle_stroke_1_gray_3_radius_12
-                )
-                binding.ivAdditionGoalCheck.visibility = View.GONE
-                binding.tvAdditionGoalClosedChoice.visibility = View.VISIBLE
-                with(binding.tvAdditionGoalInput) {
-                    text = getText(R.string.addition_input)
-                    setTextColor(context.getColor(R.color.gray_3_5d5d6b))
-                }
-            }
+        viewModel.isGoalFilled.observe(viewLifecycleOwner) { isGoalFilled ->
+            binding.layoutAdditionGoalClosed.isActivated = isGoalFilled
         }
     }
 
     private fun observeSituation() {
-        viewModel.situation.observe(viewLifecycleOwner) { situation ->
-            binding.tvAdditionSituationTextCount.text =
-                getString(R.string.max_text_size_20, situation.length)
-            if (situation.isNotBlank()) {
-                binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
-                    contextNonNull, R.drawable.rectangle_solid_gray_1_radius_12
-                )
-                binding.ivAdditionSituationCheck.visibility = View.VISIBLE
-                with(binding.tvAdditionSituationName) {
-                    text = viewModel.situation.value
-                    setTextColor(context.getColor(R.color.white))
-                }
-
-            } else {
-                binding.layoutAdditionSituationClosed.background = AppCompatResources.getDrawable(
-                    contextNonNull, R.drawable.rectangle_stroke_1_gray_3_radius_12
-                )
-                binding.ivAdditionSituationCheck.visibility = View.GONE
-                with(binding.tvAdditionSituationName) {
-                    text = getText(R.string.addition_input)
-                    setTextColor(context.getColor(R.color.gray_3_5d5d6b))
-                }
-            }
+        viewModel.isSituationFilled.observe(viewLifecycleOwner) { isSituationFilled ->
+            binding.layoutAdditionSituationClosed.isActivated = isSituationFilled
         }
     }
 
