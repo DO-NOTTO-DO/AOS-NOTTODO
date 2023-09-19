@@ -94,7 +94,7 @@ class AdditionViewModel : ViewModel() {
         goal.length.toString() + MAX_COUNT_20
     }
 
-    val isAbleToAdd: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+    val isAbleToPost: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         addSourceList(isMissionFilled, isSituationFilled) {
             _isAbleToAdd()
         }

@@ -45,14 +45,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="18dp"
-            android:background="@drawable/rectangle_gray_2_radius_26"
+            android:background="@drawable/rectangle_selector_addition_modification_complete"
+            android:enabled="@{vm.isAbleToPost()}"
             android:minWidth="0dp"
             android:minHeight="0dp"
             android:paddingHorizontal="15dp"
             android:paddingVertical="4dp"
             android:text="@string/add"
             android:textAppearance="@style/M15"
-            android:textColor="@color/gray_3_5d5d6b"
+            android:textColor="@{vm.isAbleToPost() ? @color/gray_1_2a2a2e : @color/gray_3_5d5d6b}"
             app:layout_constraintBottom_toBottomOf="@id/tv_addition_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_addition_title" />
@@ -600,9 +601,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
                             android:text="@string/addition_choice"
-                            android:visibility="@{vm.isFirstActionExist() ? View.GONE : View.VISIBLE}"
                             android:textAppearance="@style/R14"
                             android:textColor="@color/green_1_98ffa9"
+                            android:visibility="@{vm.isFirstActionExist() ? View.GONE : View.VISIBLE}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/tv_addition_action_closed_input" />
 

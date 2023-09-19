@@ -268,7 +268,7 @@ class AdditionFragment :
     }
 
     private fun setActions() {
-        viewModel.actionCount.observe(viewLifecycleOwner) { actionCount ->
+        viewModel.actionCount.observe(viewLifecycleOwner) {
             setActionBoxIsFilled()
         }
     }
@@ -400,16 +400,6 @@ class AdditionFragment :
     }
 
     private fun setAddButtonClickEvent() {
-        viewModel.isAbleToAdd.observe(viewLifecycleOwner) { isAbleToAdd ->
-            if (isAbleToAdd == true) {
-                binding.btnAdditionAdd.setTextColor(contextNonNull.getColor(R.color.gray_1_2a2a2e))
-                binding.btnAdditionAdd.setBackgroundResource(R.drawable.rectangle_green_2_radius_26)
-            } else {
-                binding.btnAdditionAdd.setTextColor(contextNonNull.getColor(R.color.gray_3_5d5d6b))
-                binding.btnAdditionAdd.setBackgroundResource(R.drawable.rectangle_gray_2_radius_26)
-            }
-        }
-
         binding.btnAdditionAdd.setOnClickListener {
             if (binding.btnAdditionAdd.currentTextColor != contextNonNull.getColor(R.color.gray_1_2a2a2e)) return@setOnClickListener
 

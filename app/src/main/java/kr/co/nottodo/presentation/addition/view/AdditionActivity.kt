@@ -466,7 +466,7 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun setAddButton() {
-        viewModel.isAbleToAdd.observe(this) { isAbleToAdd ->
+        viewModel.isAbleToPost.observe(this) { isAbleToAdd ->
             if (isAbleToAdd == true) {
                 binding.btnAdditionAdd.setTextColor(getColor(R.color.gray_1_2a2a2e))
                 binding.btnAdditionAdd.setBackgroundResource(R.drawable.rectangle_green_2_radius_26)
