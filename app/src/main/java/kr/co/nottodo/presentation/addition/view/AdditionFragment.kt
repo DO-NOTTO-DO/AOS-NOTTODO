@@ -517,6 +517,7 @@ class AdditionFragment :
 
         binding.tvAdditionActionComplete.setOnClickListener {
             closeActionToggle()
+            contextNonNull.hideKeyboard(binding.root)
         }
     }
 
@@ -598,7 +599,6 @@ class AdditionFragment :
 
     private fun closeActionToggle() {
         viewModel.isActionToggleVisible.value = false
-        contextNonNull.hideKeyboard(binding.root)
     }
 
     private fun openSituationToggle() {
