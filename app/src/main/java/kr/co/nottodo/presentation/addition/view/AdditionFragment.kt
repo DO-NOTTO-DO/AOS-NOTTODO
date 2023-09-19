@@ -17,7 +17,7 @@ import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
 import kr.co.nottodo.databinding.FragmentAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
-import kr.co.nottodo.presentation.base.fragment.BaseDataBindingFragment
+import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
 import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity
 import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
 import kr.co.nottodo.util.NotTodoAmplitude
@@ -36,7 +36,7 @@ import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import java.util.Date
 
 class AdditionFragment :
-    BaseDataBindingFragment<FragmentAdditionBinding>(R.layout.fragment_addition) {
+    DataBindingFragment<FragmentAdditionBinding>(R.layout.fragment_addition) {
     private val viewModel by viewModels<AdditionViewModel>()
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
     private val contextNonNull by lazy { requireContext() }
