@@ -8,7 +8,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.MainActivity
@@ -268,57 +267,14 @@ class AdditionFragment :
         if (!activityNonNull.isFinishing) activityNonNull.finish()
     }
 
-    private fun setActionBox(isActionFilled: Boolean) {
-        if (isActionFilled) {
-            binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
-                contextNonNull, R.drawable.rectangle_solid_gray_1_radius_12
-            )
-            binding.ivAdditionActionClosedCheck.visibility = View.VISIBLE
-            binding.tvAdditionActionClosedChoice.visibility = View.GONE
-            binding.tvAdditionActionClosedInput.setTextColor(contextNonNull.getColor(R.color.white))
-        } else {
-            binding.layoutAdditionActionClosed.background = AppCompatResources.getDrawable(
-                contextNonNull, R.drawable.rectangle_stroke_1_gray_3_radius_12
-            )
-            binding.ivAdditionActionClosedCheck.visibility = View.GONE
-            binding.tvAdditionActionClosedChoice.visibility = View.VISIBLE
-            binding.tvAdditionActionClosedInput.setTextColor(contextNonNull.getColor(R.color.gray_3_5d5d6b))
-            binding.tvAdditionActionClosedInput.text = getString(R.string.addition_input)
+    private fun setActions() {
+        viewModel.actionCount.observe(viewLifecycleOwner) { actionCount ->
+            setActionBoxIsFilled()
         }
     }
 
-    private fun setActions() {
-        viewModel.actionCount.observe(viewLifecycleOwner) { actionCount ->
-            when (actionCount) {
-                0 -> {
-                    setActionBox(isActionFilled = false)
-                }
-
-                1 -> {
-                    setActionBox(isActionFilled = true)
-                    binding.tvAdditionActionClosedInput.text = viewModel.firstAction.value
-                }
-
-                2 -> {
-                    setActionBox(isActionFilled = true)
-                    binding.tvAdditionActionClosedInput.text = getString(
-                        R.string.addition_action_2_text,
-                        viewModel.firstAction.value,
-                        viewModel.secondAction.value
-                    )
-                }
-
-                3 -> {
-                    setActionBox(isActionFilled = true)
-                    binding.tvAdditionActionClosedInput.text = getString(
-                        R.string.addition_action_3_text,
-                        viewModel.firstAction.value,
-                        viewModel.secondAction.value,
-                        viewModel.thirdAction.value
-                    )
-                }
-            }
-        }
+    private fun setActionBoxIsFilled() {
+        binding.layoutAdditionActionClosed.isActivated = viewModel.isFirstActionExist.value ?: false
     }
 
     private fun setEnterKeyClickEvents() {

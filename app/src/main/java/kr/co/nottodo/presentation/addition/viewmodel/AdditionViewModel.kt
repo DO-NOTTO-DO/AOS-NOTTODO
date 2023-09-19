@@ -74,6 +74,19 @@ class AdditionViewModel : ViewModel() {
         return 0
     }
 
+    val actionList: MediatorLiveData<String> = MediatorLiveData("").apply {
+        addSourceList(firstAction, secondAction, thirdAction) {
+            updateActionList()
+        }
+    }
+
+    private fun updateActionList(): String {
+        if (isThirdActionExist.value == true) return "${firstAction.value}\n${secondAction.value}\n${thirdAction.value}"
+        if (isSecondActionExist.value == true) return "${firstAction.value}\n${secondAction.value}"
+        if (isFirstActionExist.value == true) return "${firstAction.value}"
+        else return "입력하세요..."
+    }
+
     val goal: MutableLiveData<String> = MutableLiveData("")
     val isGoalFilled: LiveData<Boolean> = goal.map { goal -> goal.isNotBlank() }
     val goalLengthCounter: LiveData<String> = goal.map { goal ->
