@@ -13,6 +13,7 @@ import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
 import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
+import kr.co.nottodo.util.PublicString.INPUT
 import kr.co.nottodo.util.PublicString.MAX_COUNT_20
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addSourceList
@@ -84,7 +85,7 @@ class AdditionViewModel : ViewModel() {
         if (isThirdActionExist.value == true) return "${firstAction.value}\n${secondAction.value}\n${thirdAction.value}"
         if (isSecondActionExist.value == true) return "${firstAction.value}\n${secondAction.value}"
         if (isFirstActionExist.value == true) return "${firstAction.value}"
-        else return "입력하세요..."
+        else return INPUT
     }
 
     val goal: MutableLiveData<String> = MutableLiveData("")

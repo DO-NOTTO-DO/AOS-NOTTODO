@@ -6,4 +6,5 @@ object PublicString {
 
     // Addition
     const val MAX_COUNT_20 = "/20"
+    const val INPUT = "입력하세요..."
 }
