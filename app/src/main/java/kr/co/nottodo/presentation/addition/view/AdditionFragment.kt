@@ -401,12 +401,11 @@ class AdditionFragment :
 
     private fun setAddButtonClickEvent() {
         binding.btnAdditionAdd.setOnClickListener {
-            if (binding.btnAdditionAdd.currentTextColor != contextNonNull.getColor(R.color.gray_1_2a2a2e)) return@setOnClickListener
-
-            var actionList: MutableList<String>? = mutableListOf()
-            if (!binding.tvAdditionActionFirst.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionFirst.text.toString())
-            if (!binding.tvAdditionActionSecond.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionSecond.text.toString())
-            if (!binding.tvAdditionActionThird.text.isNullOrBlank()) actionList?.add(binding.tvAdditionActionThird.text.toString())
+            var actionList: MutableList<String>? = mutableListOf<String>().apply {
+                if (!viewModel.firstAction.value.isNullOrBlank()) add(viewModel.firstAction.value!!)
+                if (!viewModel.secondAction.value.isNullOrBlank()) add(viewModel.secondAction.value!!)
+                if (!viewModel.thirdAction.value.isNullOrBlank()) add(viewModel.thirdAction.value!!)
+            }
             if (actionList?.isEmpty() == true) actionList = null
 
             var goal: String? = viewModel.goal.value
@@ -418,8 +417,8 @@ class AdditionFragment :
                 }.sortedDescending()
 
             val requestAdditionDto = RequestAdditionDto(
-                title = binding.tvAdditionMissionClosedName.text.toString(),
-                situation = binding.tvAdditionSituationName.text.toString(),
+                title = viewModel.mission.value ?: throw NullPointerException(),
+                situation = viewModel.situation.value ?: throw NullPointerException(),
                 actions = actionList,
                 goal = goal,
                 dates = dateList
