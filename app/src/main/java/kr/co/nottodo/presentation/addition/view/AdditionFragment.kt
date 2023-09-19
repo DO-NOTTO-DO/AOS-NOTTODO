@@ -601,11 +601,14 @@ class AdditionFragment :
 
     private fun openActionToggle() {
         viewModel.isActionToggleVisible.value = true
-        requestFocusWithShowingKeyboard(binding.etAdditionAction)
+        if ((viewModel.actionCount.value
+                ?: 0) < 3
+        ) requestFocusWithShowingKeyboard(binding.etAdditionAction)
     }
 
     private fun closeActionToggle() {
         viewModel.isActionToggleVisible.value = false
+        contextNonNull.hideKeyboard(binding.root)
     }
 
     private fun openSituationToggle() {
