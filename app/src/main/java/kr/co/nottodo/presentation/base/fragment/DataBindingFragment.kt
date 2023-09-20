@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 
-abstract class BaseDataBindingFragment<DB : ViewDataBinding>(@LayoutRes private val layoutResId: Int) :
+abstract class DataBindingFragment<DB : ViewDataBinding>(@LayoutRes private val layoutResId: Int) :
     Fragment() {
 
     private var _binding: DB? = null
