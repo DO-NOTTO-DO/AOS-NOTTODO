@@ -180,7 +180,7 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun initMissionHistoryAdapter() {
-        missionHistoryAdapter = MissionHistoryAdapter(this, setMissionName)
+        missionHistoryAdapter = MissionHistoryAdapter(setMissionName)
     }
 
     private fun setClickEvent() {

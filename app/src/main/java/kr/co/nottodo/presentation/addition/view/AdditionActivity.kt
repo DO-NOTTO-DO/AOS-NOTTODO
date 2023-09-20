@@ -124,7 +124,7 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun initMissionHistoryAdapter() {
-        missionHistoryAdapter = MissionHistoryAdapter(this, setMissionName)
+        missionHistoryAdapter = MissionHistoryAdapter(setMissionName)
     }
 
     private fun getRecommendSituationList() {
@@ -213,7 +213,7 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeFailureResponse() {
-        viewModel.errorResponse.observe(this) { errorMessage ->
+        viewModel.postNottodoErrorMessage.observe(this) { errorMessage ->
             if (errorMessage == NO_INTERNET_CONDITION_ERROR) showNotTodoSnackBar(
                 binding.root, NO_INTERNET_CONDITION_ERROR
             ) else {
@@ -233,7 +233,7 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun observeSuccessResponse() {
-        viewModel.additionResponse.observe(this) { response ->
+        viewModel.postNottodoSuccessResponse.observe(this) { response ->
             showToast(getString(R.string.complete_create_nottodo))
             trackCompleteCreateMission(response)
             val sortedList =
@@ -466,7 +466,7 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun setAddButton() {
-        viewModel.isAbleToAdd.observe(this) { isAbleToAdd ->
+        viewModel.isAbleToPost.observe(this) { isAbleToAdd ->
             if (isAbleToAdd == true) {
                 binding.btnAdditionAdd.setTextColor(getColor(R.color.gray_1_2a2a2e))
                 binding.btnAdditionAdd.setBackgroundResource(R.drawable.rectangle_green_2_radius_26)
@@ -501,7 +501,7 @@ class AdditionActivity : AppCompatActivity() {
                 dates = dateList
             )
             trackClickCreateMission(requestAdditionDto)
-            viewModel.postAddition(requestAdditionDto)
+            viewModel.postNottodo(requestAdditionDto)
         }
     }
 
