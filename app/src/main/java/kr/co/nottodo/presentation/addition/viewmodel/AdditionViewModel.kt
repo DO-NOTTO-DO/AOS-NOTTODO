@@ -75,7 +75,7 @@ class AdditionViewModel : ViewModel() {
         return 0
     }
 
-    val actionList: MediatorLiveData<String> = MediatorLiveData("").apply {
+    val actionListToString: MediatorLiveData<String> = MediatorLiveData("").apply {
         addSourceList(firstAction, secondAction, thirdAction) {
             updateActionList()
         }
