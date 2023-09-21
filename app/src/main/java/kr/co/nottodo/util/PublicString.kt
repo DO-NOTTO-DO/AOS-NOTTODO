@@ -7,4 +7,9 @@ object PublicString {
     // Addition
     const val MAX_COUNT_20 = "/20"
     const val INPUT = "입력하세요..."
+
+    // Modification
+    const val MISSION_ID_IS_NULL = "mission id is null"
+    const val MISSION_IS_NULL = "mission is null"
+    const val SITUATION_IS_NULL = "situation is null"
 }
