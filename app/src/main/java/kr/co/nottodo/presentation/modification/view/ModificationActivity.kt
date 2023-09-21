@@ -115,7 +115,7 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeGetRecentMissionListErrorResponse() {
-        viewModel.getRecentMissionListListErrorResponse.observe(this) { errorMessage ->
+        viewModel.getRecentMissionListListErrorMessage.observe(this) { errorMessage ->
             if (errorMessage != NO_INTERNET_CONDITION_ERROR) showToast(errorMessage)
         }
     }
@@ -150,7 +150,7 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeGetRecommendSituationListErrorResponse() {
-        viewModel.getRecommendSituationListErrorResponse.observe(this) { errorMessage ->
+        viewModel.getRecommendSituationListErrorMessage.observe(this) { errorMessage ->
             if (errorMessage == NO_INTERNET_CONDITION_ERROR) showNotTodoSnackBar(
                 binding.root, NO_INTERNET_CONDITION_ERROR
             ) else showToast(errorMessage)
@@ -288,24 +288,24 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun setThirdAction() {
-        if (viewModel.actionList.value?.get(2) != null) {
-            binding.tvModificationActionThird.text = viewModel.actionList.value?.get(2) ?: BLANK
+        if (viewModel.actionListToString.value?.get(2) != null) {
+            binding.tvModificationActionThird.text = viewModel.actionListToString.value?.get(2) ?: BLANK
             binding.tvModificationActionThird.visibility = View.VISIBLE
             binding.ivModificationActionThirdDelete.visibility = View.VISIBLE
         }
     }
 
     private fun setSecondAction() {
-        if (viewModel.actionList.value?.get(1) != null) {
-            binding.tvModificationActionSecond.text = viewModel.actionList.value?.get(1) ?: BLANK
+        if (viewModel.actionListToString.value?.get(1) != null) {
+            binding.tvModificationActionSecond.text = viewModel.actionListToString.value?.get(1) ?: BLANK
             binding.tvModificationActionSecond.visibility = View.VISIBLE
             binding.ivModificationActionSecondDelete.visibility = View.VISIBLE
         }
     }
 
     private fun setFirstAction() {
-        if (viewModel.actionList.value?.get(0) != null) {
-            binding.tvModificationActionFirst.text = viewModel.actionList.value?.get(0) ?: BLANK
+        if (viewModel.actionListToString.value?.get(0) != null) {
+            binding.tvModificationActionFirst.text = viewModel.actionListToString.value?.get(0) ?: BLANK
             binding.tvModificationActionFirst.visibility = View.VISIBLE
             binding.ivModificationActionFirstDelete.visibility = View.VISIBLE
         }
@@ -464,7 +464,7 @@ class ModificationActivity : AppCompatActivity() {
         }
         binding.btnModificationModify.setOnClickListener {
             if (binding.btnModificationModify.currentTextColor == getColor(R.color.gray_1_2a2a2e)) {
-                viewModel.putModifyMission()
+                viewModel.modifyNottodo()
                 trackClickUpdateMission()
             }
         }
@@ -479,8 +479,8 @@ class ModificationActivity : AppCompatActivity() {
             )
             if (!goal.value.isNullOrBlank()) clickUpdateMissionEventPropertyMap.plus(getString(R.string.goal) to goal.value)
 
-            if (!actionList.value.isNullOrEmpty()) clickUpdateMissionEventPropertyMap.plus(
-                getString(R.string.action) to actionList.value!!.toTypedArray()
+            if (!actionListToString.value.isNullOrEmpty()) clickUpdateMissionEventPropertyMap.plus(
+                getString(R.string.action) to actionListToString.value!!.toTypedArray()
             )
             trackEventWithProperty(
                 getString(R.string.click_update_mission), clickUpdateMissionEventPropertyMap
@@ -553,7 +553,7 @@ class ModificationActivity : AppCompatActivity() {
                         tvModificationActionTextCount.visibility = View.VISIBLE
                         requestFocusWithShowingKeyboard(etModificationAction)
                     }
-                    viewModel.actionList.value = listOf()
+                    viewModel.actionListToString.value = listOf()
                 }
 
                 1 -> {
@@ -563,7 +563,7 @@ class ModificationActivity : AppCompatActivity() {
                         etModificationAction.visibility = View.VISIBLE
                         tvModificationActionTextCount.visibility = View.VISIBLE
                         requestFocusWithShowingKeyboard(etModificationAction)
-                        viewModel.actionList.value =
+                        viewModel.actionListToString.value =
                             listOf(tvModificationActionFirst.text.toString())
                     }
                 }
@@ -579,7 +579,7 @@ class ModificationActivity : AppCompatActivity() {
                         etModificationAction.visibility = View.VISIBLE
                         tvModificationActionTextCount.visibility = View.VISIBLE
                         requestFocusWithShowingKeyboard(etModificationAction)
-                        viewModel.actionList.value = listOf(
+                        viewModel.actionListToString.value = listOf(
                             tvModificationActionFirst.text.toString(),
                             tvModificationActionSecond.text.toString()
                         )
@@ -598,7 +598,7 @@ class ModificationActivity : AppCompatActivity() {
                         etModificationAction.visibility = View.GONE
                         tvModificationActionTextCount.visibility = View.GONE
                         hideKeyboard(root)
-                        viewModel.actionList.value = listOf(
+                        viewModel.actionListToString.value = listOf(
                             tvModificationActionFirst.text.toString(),
                             tvModificationActionSecond.text.toString(),
                             tvModificationActionThird.text.toString()
