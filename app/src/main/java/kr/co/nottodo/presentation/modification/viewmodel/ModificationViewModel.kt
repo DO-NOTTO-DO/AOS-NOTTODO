@@ -12,10 +12,15 @@ import kr.co.nottodo.data.remote.api.ServicePool.modificationService
 import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
 import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.modification.RequestModificationDto
-import kr.co.nottodo.data.remote.model.modification.ResponseGetMissionDates
 import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto
 import kr.co.nottodo.presentation.modification.model.NotTodoData
+import kr.co.nottodo.util.PublicString.INPUT
+import kr.co.nottodo.util.PublicString.MAX_COUNT_20
+import kr.co.nottodo.util.PublicString.MISSION_ID_IS_NULL
+import kr.co.nottodo.util.PublicString.MISSION_IS_NULL
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
+import kr.co.nottodo.util.PublicString.SITUATION_IS_NULL
+import kr.co.nottodo.util.addSourceList
 import kr.co.nottodo.util.getErrorMessage
 import kr.co.nottodo.util.isConnectException
 import kr.co.nottodo.view.calendar.monthly.util.achievementConvertStringToDate
@@ -24,6 +29,12 @@ import kr.co.nottodo.view.calendar.monthly.util.isToday
 import kr.co.nottodo.view.calendar.monthly.util.isTomorrow
 
 class ModificationViewModel : ViewModel() {
+
+    val isDateToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isMissionToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isSituationToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isActionToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isGoalToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private var originMission: String? = null
     private var originSituation: String? = null
@@ -43,6 +54,21 @@ class ModificationViewModel : ViewModel() {
         actionCount.value = data.actions?.size ?: 0
         goal.value = data.goal ?: ""
         missionId = data.missionId
+    }
+
+    private val _getMissionDatesErrorResponse: MutableLiveData<String> = MutableLiveData()
+    val getMissionDatesErrorResponse: LiveData<String> = _getMissionDatesErrorResponse
+
+    fun getMissionDates() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                modificationService.getMissionDates(requireNotNull(missionId?.toInt()) { MISSION_ID_IS_NULL })
+            }.fold(onSuccess = { response -> dates.value = response.data },
+                onFailure = { errorResponse ->
+                    _getMissionDatesErrorResponse.value =
+                        if (errorResponse.isConnectException) NO_INTERNET_CONDITION_ERROR else errorResponse.getErrorMessage()
+                })
+        }
     }
 
     private val dates: MutableLiveData<List<String>> = MutableLiveData()
@@ -68,71 +94,124 @@ class ModificationViewModel : ViewModel() {
             "그 외 ${dates.size - 1}일"
         }
     }
-    val mission: MutableLiveData<String> = MutableLiveData()
+
+    val mission: MutableLiveData<String> = MutableLiveData("")
     private val isMissionChanged: LiveData<Boolean> = mission.map { newMission ->
         originMission != newMission
     }
+    val isMissionFilled: LiveData<Boolean> = mission.map { mission ->
+        mission.isNotBlank()
+    }
+    val missionLengthCounter: LiveData<String> = mission.map { mission ->
+        mission.length.toString() + MAX_COUNT_20
+    }
 
-    val situation: MutableLiveData<String> = MutableLiveData()
+    val situation: MutableLiveData<String> = MutableLiveData("")
+    val isSituationFilled: LiveData<Boolean> = situation.map { situation ->
+        situation.isNotBlank()
+    }
     private val isSituationChanged: LiveData<Boolean> = situation.map { newSituation ->
         originSituation != newSituation
     }
+    val situationLengthCounter: LiveData<String> = situation.map { situation ->
+        situation.length.toString() + MAX_COUNT_20
+    }
 
-    val action: MutableLiveData<String> = MutableLiveData()
-    val actionCount: MutableLiveData<Int> = MutableLiveData()
-    val actionList: MutableLiveData<List<String>> = MutableLiveData()
+    private val actionList: MutableLiveData<List<String>> = MutableLiveData()
     private val isActionListChanged: LiveData<Boolean> = actionList.map { newActionList ->
         originalActionList != newActionList
     }
-    val goal: MutableLiveData<String> = MutableLiveData()
+
+    val action: MutableLiveData<String> = MutableLiveData("")
+    val actionLengthCounter: LiveData<String> =
+        action.map { action -> action.length.toString() + MAX_COUNT_20 }
+
+    val firstAction: MutableLiveData<String> = MutableLiveData("")
+    val isFirstActionExist: LiveData<Boolean> =
+        firstAction.map { firstAction -> !firstAction.isNullOrBlank() }
+
+    val secondAction: MutableLiveData<String> = MutableLiveData("")
+    val isSecondActionExist: LiveData<Boolean> =
+        secondAction.map { secondAction -> !secondAction.isNullOrBlank() }
+
+    val thirdAction: MutableLiveData<String> = MutableLiveData("")
+    val isThirdActionExist: LiveData<Boolean> =
+        thirdAction.map { thirdAction -> !thirdAction.isNullOrBlank() }
+
+    val actionCount: MediatorLiveData<Int> = MediatorLiveData(0).apply {
+        addSourceList(isFirstActionExist, isSecondActionExist, isThirdActionExist) {
+            countActions()
+        }
+    }
+
+    private fun countActions(): Int {
+        if (isThirdActionExist.value == true) return 3
+        if (isSecondActionExist.value == true) return 2
+        if (isFirstActionExist.value == true) return 1
+        return 0
+    }
+
+    val actionListToString: MediatorLiveData<String> = MediatorLiveData("").apply {
+        addSourceList(firstAction, secondAction, thirdAction) {
+            updateActionList()
+        }
+    }
+
+    private fun updateActionList(): String {
+        if (isThirdActionExist.value == true) return "${firstAction.value}\n${secondAction.value}\n${thirdAction.value}"
+        if (isSecondActionExist.value == true) return "${firstAction.value}\n${secondAction.value}"
+        if (isFirstActionExist.value == true) return "${firstAction.value}"
+        else return INPUT
+    }
+
+    val goal: MutableLiveData<String> = MutableLiveData("")
+    val isGoalFilled: LiveData<Boolean> = goal.map { goal -> goal.isNotBlank() }
     private val isGoalChanged: LiveData<Boolean> = goal.map { newGoal ->
         originGoal != newGoal
     }
+    val goalLengthCounter: LiveData<String> = goal.map { goal ->
+        goal.length.toString() + MAX_COUNT_20
+    }
 
-    val isAbleToModify: MediatorLiveData<Boolean> = MediatorLiveData()
-
-    init {
-        isAbleToModify.addSource(isMissionChanged) {
-            isAbleToModify.value = _isAbleToModify()
-        }
-        isAbleToModify.addSource(isSituationChanged) {
-            isAbleToModify.value = _isAbleToModify()
-        }
-        isAbleToModify.addSource(isActionListChanged) {
-            isAbleToModify.value = _isAbleToModify()
-        }
-        isAbleToModify.addSource(isGoalChanged) {
-            isAbleToModify.value = _isAbleToModify()
+    val isAbleToModify: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+        addSourceList(
+            isMissionChanged,
+            isSituationChanged,
+            isActionListChanged,
+            isGoalChanged,
+            isMissionFilled,
+            isSituationFilled
+        ) {
+            _isAbleToModify()
         }
     }
 
     private fun _isAbleToModify(): Boolean =
-        isMissionChanged.value == true || isSituationChanged.value == true || isActionListChanged.value == true || isGoalChanged.value == true
+        (isMissionChanged.value == true || isSituationChanged.value == true || isActionListChanged.value == true || isGoalChanged.value == true) && isMissionFilled.value == true && isSituationFilled.value == true
 
-    private val _modificationResponse: MutableLiveData<ResponseModificationDto.Modification> =
+    private val _modifyNottodoSuccessResponse: MutableLiveData<ResponseModificationDto.Modification> =
         MutableLiveData()
-    val modificationResponse: LiveData<ResponseModificationDto.Modification>
-        get() = _modificationResponse
+    val modifyNottodoSuccessResponse: LiveData<ResponseModificationDto.Modification>
+        get() = _modifyNottodoSuccessResponse
 
-    private val _errorResponse: MutableLiveData<String> = MutableLiveData()
-    val errorResponse: LiveData<String>
-        get() = _errorResponse
+    private val _modifyNottodoErrorMessage: MutableLiveData<String> = MutableLiveData()
+    val modifyNottodoErrorMessage: LiveData<String>
+        get() = _modifyNottodoErrorMessage
 
-    fun putModifyMission() {
+    fun modifyNottodo() {
         viewModelScope.launch {
             kotlin.runCatching {
                 modificationService.modifyMission(
-                    missionId ?: throw NullPointerException("mission Id is null"),
-                    RequestModificationDto(
-                        title = requireNotNull(mission.value),
-                        situation = requireNotNull(situation.value),
+                    requireNotNull(missionId) { MISSION_ID_IS_NULL }, RequestModificationDto(
+                        title = requireNotNull(mission.value) { MISSION_IS_NULL },
+                        situation = requireNotNull(situation.value) { SITUATION_IS_NULL },
                         actions = actionList.value,
                         goal = goal.value
                     )
                 )
-            }.fold(onSuccess = { response -> _modificationResponse.value = response.data },
+            }.fold(onSuccess = { response -> _modifyNottodoSuccessResponse.value = response.data },
                 onFailure = { errorResponse ->
-                    _errorResponse.value =
+                    _modifyNottodoErrorMessage.value =
                         if (errorResponse.isConnectException) NO_INTERNET_CONDITION_ERROR else errorResponse.getErrorMessage()
                 })
         }
@@ -143,9 +222,9 @@ class ModificationViewModel : ViewModel() {
     val getRecommendSituationListSuccessResponse: LiveData<ResponseRecommendSituationListDto> =
         _getRecommendSituationListSuccessResponse
 
-    private val _getRecommendSituationListErrorResponse: MutableLiveData<String> = MutableLiveData()
-    val getRecommendSituationListErrorResponse: LiveData<String> =
-        _getRecommendSituationListErrorResponse
+    private val _getRecommendSituationListErrorMessage: MutableLiveData<String> = MutableLiveData()
+    val getRecommendSituationListErrorMessage: LiveData<String> =
+        _getRecommendSituationListErrorMessage
 
     fun getRecommendSituationList() {
         viewModelScope.launch {
@@ -154,7 +233,7 @@ class ModificationViewModel : ViewModel() {
             }.fold(onSuccess = { response ->
                 _getRecommendSituationListSuccessResponse.value = response
             }, onFailure = { error ->
-                _getRecommendSituationListErrorResponse.value =
+                _getRecommendSituationListErrorMessage.value =
                     if (error.isConnectException) NO_INTERNET_CONDITION_ERROR else error.getErrorMessage()
             })
         }
@@ -165,8 +244,8 @@ class ModificationViewModel : ViewModel() {
     val getRecentMissionListSuccessResponse: LiveData<ResponseRecentMissionListDto> =
         _getRecentMissionListSuccessResponse
 
-    private val _getRecentMissionListErrorResponse: MutableLiveData<String> = MutableLiveData()
-    val getRecentMissionListListErrorResponse: LiveData<String> = _getRecentMissionListErrorResponse
+    private val _getRecentMissionListErrorMessage: MutableLiveData<String> = MutableLiveData()
+    val getRecentMissionListListErrorMessage: LiveData<String> = _getRecentMissionListErrorMessage
 
     fun getRecentMissionList() {
         viewModelScope.launch {
@@ -175,35 +254,9 @@ class ModificationViewModel : ViewModel() {
             }.fold(onSuccess = { response ->
                 _getRecentMissionListSuccessResponse.value = response
             }, onFailure = { error ->
-                _getRecentMissionListErrorResponse.value =
+                _getRecentMissionListErrorMessage.value =
                     if (error.isConnectException) NO_INTERNET_CONDITION_ERROR else error.getErrorMessage()
             })
         }
-    }
-
-    private val _getMissionDatesSuccessResponse: MutableLiveData<ResponseGetMissionDates> =
-        MutableLiveData()
-    val getMissionDatesSuccessResponse: LiveData<ResponseGetMissionDates> =
-        _getMissionDatesSuccessResponse
-
-    private val _getMissionDatesErrorResponse: MutableLiveData<String> = MutableLiveData()
-    val getMissionDatesErrorResponse: LiveData<String> = _getMissionDatesErrorResponse
-
-    fun getMissionDates() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                modificationService.getMissionDates(
-                    missionId?.toInt() ?: throw NullPointerException("invalid mission id")
-                )
-            }.fold(onSuccess = { response -> _getMissionDatesSuccessResponse.value = response },
-                onFailure = { errorResponse ->
-                    _getMissionDatesErrorResponse.value =
-                        if (errorResponse.isConnectException) NO_INTERNET_CONDITION_ERROR else errorResponse.getErrorMessage()
-                })
-        }
-    }
-
-    fun setMissionDates() {
-        dates.value = getMissionDatesSuccessResponse.value?.data ?: emptyList()
     }
 }
