@@ -130,10 +130,10 @@
                             android:text="@{vm.dateDesc}"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/white"
-                            android:visibility="visible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/view_modification_date_spacer"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="오늘" />
 
                         <TextView
                             android:id="@+id/tv_modification_date"
@@ -149,20 +149,21 @@
                             tools:text="2023.05.18" />
 
                         <TextView
-                            android:id="@+id/tv_addition_date_end_desc"
+                            android:id="@+id/tv_modification_date_end_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="7dp"
+                            android:text="@{vm.datesCountMinusOne}"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/white"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/tv_addition_date"
+                            app:layout_constraintStart_toEndOf="@+id/tv_modification_date"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="그 외 1일" />
 
                         <ImageView
-                            android:id="@+id/iv_addition_date"
+                            android:id="@+id/iv_modification_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
@@ -174,7 +175,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_date_opened"
+                        android:id="@+id/layout_modification_date_opened"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
@@ -184,7 +185,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_date_opened_complete"
+                            android:id="@+id/tv_modification_date_opened_complete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -197,20 +198,20 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_date_opened_title"
+                            android:id="@+id/tv_modification_date_opened_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="17dp"
                             android:text="@string/date_kor"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/green_1_98ffa9"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_addition_date_opened_complete"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_modification_date_opened_complete"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tv_addition_date_opened_complete" />
+                            app:layout_constraintTop_toTopOf="@id/tv_modification_date_opened_complete" />
 
 
                         <TextView
-                            android:id="@+id/tv_addition_date_opened_desc"
+                            android:id="@+id/tv_modification_date_opened_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="13dp"
@@ -218,18 +219,18 @@
                             android:text="@string/when_nottodo_date"
                             android:textAppearance="@style/M20"
                             android:textColor="@color/white"
-                            app:layout_constraintStart_toStartOf="@id/tv_addition_date_opened_title"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_date_opened_title" />
+                            app:layout_constraintStart_toStartOf="@id/tv_modification_date_opened_title"
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_date_opened_title" />
 
                         <kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker.MonthlyCalendarMultiplePicker
-                            android:id="@+id/calendar_addition_date_opened"
+                            android:id="@+id/calendar_modification_date_opened"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="12dp"
                             android:layout_marginTop="26dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_date_opened_desc" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_date_opened_desc" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -243,7 +244,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/calendar_addition_date_opened" />
+                            app:layout_constraintTop_toBottomOf="@id/calendar_modification_date_opened" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
