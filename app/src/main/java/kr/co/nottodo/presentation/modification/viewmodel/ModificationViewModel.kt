@@ -71,7 +71,7 @@ class ModificationViewModel : ViewModel() {
         }
     }
 
-    private val dates: MutableLiveData<List<String>> = MutableLiveData()
+    val dates: MutableLiveData<List<String>> = MutableLiveData()
     fun getDateToIntList(): List<Int> =
         dates.value?.map { date -> date.convertDateStringToInt() } ?: emptyList()
 

@@ -9,9 +9,12 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.core.text.HtmlCompat
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
+import kr.co.nottodo.data.local.ParcelizeBottomDetail
+import kr.co.nottodo.data.local.ParcelizeBottomDetail.Action
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
 import kr.co.nottodo.databinding.FragmentModificationBinding
@@ -41,15 +44,46 @@ class ModificationFragment :
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
     private val contextNonNull by lazy { requireContext() }
     private val activityNonNull by lazy { requireActivity() }
+    private val dataFromHome: ParcelizeBottomDetail by lazy {
+        // TODO : Safe Args를 통해 데이터 전달받기
+        ParcelizeBottomDetail(
+            id = 1L,
+            title = "낫투두 예시",
+            situation = "상황 예시",
+            actions = listOf(Action("실천 행동 1"), Action("실천 행동 2")),
+            count = 1,
+            goal = "",
+            date = "2023.09.22"
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        trackEnterCreateMission()
         setData()
         setViews()
         setObservers()
         setClickEvents()
+    }
+
+    private fun trackEnterUpdateMission(
+        notTodoData: ParcelizeBottomDetail,
+        dateIntList: List<Int>,
+    ) {
+        with(notTodoData) {
+            val viewUpdateMissionEventPropertyMap = mutableMapOf(
+                getString(R.string.title) to title,
+                getString(R.string.situation) to situation,
+                getString(R.string.date) to dateIntList
+            )
+            if (!goal.isNullOrBlank()) viewUpdateMissionEventPropertyMap.plus(getString(R.string.goal) to goal)
+            if (!actions.isNullOrEmpty()) viewUpdateMissionEventPropertyMap.plus(
+                getString(R.string.action) to actions.toTypedArray()
+            )
+            NotTodoAmplitude.trackEventWithProperty(
+                getString(R.string.view_update_mission), viewUpdateMissionEventPropertyMap
+            )
+        }
     }
 
     private fun trackEnterCreateMission() {
@@ -154,6 +188,26 @@ class ModificationFragment :
         observeGetRecommendSituationList()
         observeGetRecentMissionListResponse()
         observePostNottodoResponse()
+        observeGetMissionDatesResponse()
+
+    }
+
+    private fun observeGetMissionDatesResponse() {
+        observeGetMissionDatesSuccessResponse()
+        observeGetMissionDatesErrorResponse()
+    }
+
+    private fun observeGetMissionDatesSuccessResponse() {
+        viewModel.dates.observe(viewLifecycleOwner) { dates ->
+            trackEnterUpdateMission(dataFromHome, dates.map { it.convertDateStringToInt() })
+        }
+    }
+
+    private fun observeGetMissionDatesErrorResponse() {
+        viewModel.getMissionDatesErrorResponse.observe(this) { errorMessage ->
+            contextNonNull.showToast(if (errorMessage == NO_INTERNET_CONDITION_ERROR) NO_INTERNET_CONDITION_ERROR else errorMessage)
+            if (!activityNonNull.isFinishing) activityNonNull.finish()
+        }
     }
 
     private fun observePostNottodoResponse() {
