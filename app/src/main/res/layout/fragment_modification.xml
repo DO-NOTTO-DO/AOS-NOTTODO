@@ -821,7 +821,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_addition_goal"
+                    android:id="@+id/layout_modification_goal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="18dp"
@@ -829,10 +829,10 @@
                     android:background="@drawable/rectangle_stroke_1_gray_3_radius_12"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_addition_action">
+                    app:layout_constraintTop_toBottomOf="@id/layout_modification_action">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_goal_closed"
+                        android:id="@+id/layout_modification_goal_closed"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_selector_addition_modification_box"
@@ -843,7 +843,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_title"
+                            android:id="@+id/tv_modification_goal_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
@@ -856,7 +856,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_input"
+                            android:id="@+id/tv_modification_goal_input"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="82dp"
@@ -868,7 +868,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_closed_choice"
+                            android:id="@+id/tv_modification_goal_closed_choice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
@@ -881,7 +881,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
-                            android:id="@+id/iv_addition_goal_check"
+                            android:id="@+id/iv_modification_goal_check"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
@@ -895,7 +895,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_goal_opened"
+                        android:id="@+id/layout_modification_goal_opened"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
@@ -906,7 +906,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_opened_title"
+                            android:id="@+id/tv_modification_goal_opened_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
@@ -917,17 +917,17 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_opened_desc"
+                            android:id="@+id/tv_modification_goal_opened_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="13dp"
                             android:bufferType="spannable"
                             android:textAppearance="@style/Sb20"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_goal_opened_title" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_goal_opened_title" />
 
                         <EditText
-                            android:id="@+id/et_addition_goal"
+                            android:id="@+id/et_modification_goal"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="37dp"
@@ -942,21 +942,21 @@
                             android:textColor="@color/white"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_goal_opened_desc"
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_goal_opened_desc"
                             tools:ignore="TooManyViews" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_text_count"
+                            android:id="@+id/tv_modification_goal_text_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{vm.goalLengthCounter}"
                             android:textAppearance="@style/R12"
                             android:textColor="@color/gray_3_5d5d6b"
-                            app:layout_constraintEnd_toEndOf="@id/et_addition_goal"
-                            app:layout_constraintTop_toBottomOf="@id/et_addition_goal" />
+                            app:layout_constraintEnd_toEndOf="@id/et_modification_goal"
+                            app:layout_constraintTop_toBottomOf="@id/et_modification_goal" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_example"
+                            android:id="@+id/tv_modification_goal_example"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="39dp"
@@ -964,10 +964,10 @@
                             android:textAppearance="@style/R14"
                             android:textColor="@color/gray_3_5d5d6b"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/et_addition_goal" />
+                            app:layout_constraintTop_toBottomOf="@id/et_modification_goal" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_example_mission_title"
+                            android:id="@+id/tv_modification_goal_example_mission_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -977,22 +977,22 @@
                             android:text="@string/nottodo_kor"
                             android:textAppearance="@style/R12"
                             android:textColor="@color/gray_4_9398aa"
-                            app:layout_constraintStart_toStartOf="@id/tv_addition_goal_example"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_goal_example" />
+                            app:layout_constraintStart_toStartOf="@id/tv_modification_goal_example"
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_goal_example" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_example_mission_desc"
+                            android:id="@+id/tv_modification_goal_example_mission_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:text="@string/ex_mission_work_out"
                             android:textAppearance="@style/R14"
                             android:textColor="@color/gray_4_9398aa"
-                            app:layout_constraintStart_toEndOf="@id/tv_addition_goal_example_mission_title"
-                            app:layout_constraintTop_toTopOf="@id/tv_addition_goal_example_mission_title" />
+                            app:layout_constraintStart_toEndOf="@id/tv_modification_goal_example_mission_title"
+                            app:layout_constraintTop_toTopOf="@id/tv_modification_goal_example_mission_title" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_example_goal_title"
+                            android:id="@+id/tv_modification_goal_example_goal_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -1004,26 +1004,26 @@
                             android:textAppearance="@style/R12"
                             android:textColor="@color/gray_4_9398aa"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="@id/tv_addition_goal_example_mission_title"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_goal_example_mission_title" />
+                            app:layout_constraintStart_toStartOf="@id/tv_modification_goal_example_mission_title"
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_goal_example_mission_title" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_example_goal_desc"
+                            android:id="@+id/tv_modification_goal_example_goal_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:text="@string/ex_goal_work_out"
                             android:textAppearance="@style/R14"
                             android:textColor="@color/gray_4_9398aa"
-                            app:layout_constraintStart_toEndOf="@id/tv_addition_goal_example_goal_title"
-                            app:layout_constraintTop_toTopOf="@id/tv_addition_goal_example_goal_title" />
+                            app:layout_constraintStart_toEndOf="@id/tv_modification_goal_example_goal_title"
+                            app:layout_constraintTop_toTopOf="@id/tv_modification_goal_example_goal_title" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageView
-                    android:id="@+id/iv_addition_tip"
+                    android:id="@+id/iv_modification_tip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="32dp"
@@ -1033,7 +1033,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_addition_goal" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_modification_goal" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
