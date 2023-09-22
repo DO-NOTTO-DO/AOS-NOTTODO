@@ -251,17 +251,17 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_addition_mission"
+                    android:id="@+id/layout_modification_mission"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="18dp"
                     android:layout_marginTop="12dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_addition_date">
+                    app:layout_constraintTop_toBottomOf="@id/layout_modification_date">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_mission_closed"
+                        android:id="@+id/layout_modification_mission_closed"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_selector_addition_modification_box"
@@ -272,7 +272,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_mission_closed_title"
+                            android:id="@+id/tv_modification_mission_closed_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
@@ -285,7 +285,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
-                            android:id="@+id/iv_addition_mission_closed_check"
+                            android:id="@+id/iv_modification_mission_closed_check"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
@@ -297,7 +297,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_mission_closed_name"
+                            android:id="@+id/tv_modification_mission_closed_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="82dp"
@@ -311,7 +311,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_mission_opened"
+                        android:id="@+id/layout_modification_mission_opened"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
@@ -322,7 +322,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_mission_opened_title"
+                            android:id="@+id/tv_modification_mission_opened_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
@@ -333,17 +333,17 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_mission_opened_desc"
+                            android:id="@+id/tv_modification_mission_opened_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="13dp"
                             android:bufferType="spannable"
                             android:textAppearance="@style/Sb20"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_mission_opened_title" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_mission_opened_title" />
 
                         <EditText
-                            android:id="@+id/et_addition_mission"
+                            android:id="@+id/et_modification_mission"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="25dp"
@@ -359,21 +359,21 @@
                             android:textColorHint="@color/gray_4_9398aa"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_mission_opened_desc" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_mission_opened_desc" />
 
                         <TextView
-                            android:id="@+id/tv_addition_mission_text_count"
+                            android:id="@+id/tv_modification_mission_text_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingBottom="21dp"
                             android:text="@{vm.missionLengthCounter}"
                             android:textAppearance="@style/R12"
                             android:textColor="@color/gray_3_5d5d6b"
-                            app:layout_constraintEnd_toEndOf="@id/et_addition_mission"
-                            app:layout_constraintTop_toBottomOf="@id/et_addition_mission" />
+                            app:layout_constraintEnd_toEndOf="@id/et_modification_mission"
+                            app:layout_constraintTop_toBottomOf="@id/et_modification_mission" />
 
                         <TextView
-                            android:id="@+id/tv_addition_mission_rv_title"
+                            android:id="@+id/tv_modification_mission_rv_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="28dp"
@@ -382,10 +382,10 @@
                             android:textColor="@color/gray_4_9398aa"
                             android:visibility="@{vm.isMissionFilled() ? View.GONE : View.VISIBLE}"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/et_addition_mission" />
+                            app:layout_constraintTop_toBottomOf="@id/et_modification_mission" />
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_addition_mission"
+                            android:id="@+id/rv_modification_mission"
                             android:layout_width="0dp"
                             android:layout_height="120dp"
                             android:layout_marginTop="10dp"
@@ -399,7 +399,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_mission_rv_title" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_mission_rv_title" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
