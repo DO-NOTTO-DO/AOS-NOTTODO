@@ -69,19 +69,17 @@ class ModificationFragment :
         notTodoData: ParcelizeBottomDetail,
         dateIntList: List<Int>,
     ) {
-        with(notTodoData) {
-            val viewUpdateMissionEventPropertyMap = mutableMapOf(
+        notTodoData.run {
+            mapOf(
                 getString(R.string.title) to title,
                 getString(R.string.situation) to situation,
                 getString(R.string.date) to dateIntList
-            )
-            if (!goal.isNullOrBlank()) viewUpdateMissionEventPropertyMap.plus(getString(R.string.goal) to goal)
-            if (!actions.isNullOrEmpty()) viewUpdateMissionEventPropertyMap.plus(
-                getString(R.string.action) to actions.toTypedArray()
-            )
-            NotTodoAmplitude.trackEventWithProperty(
-                getString(R.string.view_update_mission), viewUpdateMissionEventPropertyMap
-            )
+            ).apply {
+                if (!goal.isNullOrBlank()) plus(getString(R.string.goal) to goal)
+                if (!actions.isNullOrEmpty()) plus(getString(R.string.action) to actions.toTypedArray())
+            }.also {
+                NotTodoAmplitude.trackEventWithProperty(getString(R.string.view_update_mission), it)
+            }
         }
     }
 
