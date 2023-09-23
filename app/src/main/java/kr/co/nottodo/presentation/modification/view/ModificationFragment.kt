@@ -518,26 +518,11 @@ class ModificationFragment :
     }
 
     private fun setTogglesClickEvents() {
-//        setDateToggleClickEvent()
         setMissionToggleClickEvent()
         setSituationToggleClickEvent()
         setActionToggleClickEvent()
         setGoalToggleClickEvent()
     }
-
-//    private fun setDateToggleClickEvent() {
-//        binding.layoutModificationDateClosed.setOnClickListener {
-//            openDateToggle()
-//            closeMissionToggle()
-//            closeSituationToggle()
-//            closeActionToggle()
-//            closeGoalToggle()
-//        }
-//
-//        binding.tvModificationDateOpenedComplete.setOnClickListener {
-//            closeDateToggle()
-//        }
-//    }
 
     private fun setMissionToggleClickEvent() {
         binding.layoutModificationMissionClosed.setOnClickListener {
