@@ -9,7 +9,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.core.text.HtmlCompat
-import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
@@ -161,18 +160,18 @@ class ModificationFragment :
 
     private fun setMissionHistoryRecyclerView() {
         missionHistoryAdapter = MissionHistoryAdapter(setMissionName).also { adapter ->
-            binding.rvAdditionMission.adapter = adapter
+            binding.rvModificationMission.adapter = adapter
         }
     }
 
     private val setMissionName: (String) -> Unit = { missionName: String ->
         trackSetMissionName(missionName)
-        binding.etAdditionMission.run {
+        binding.etModificationMission.run {
             setText(missionName)
             requestFocus()
-            setSelection(binding.etAdditionMission.length())
+            setSelection(this.length())
+            contextNonNull.showKeyboard(this)
         }
-        contextNonNull.showKeyboard(binding.etAdditionMission)
     }
 
     private fun trackSetMissionName(missionName: String) {
@@ -204,7 +203,7 @@ class ModificationFragment :
     }
 
     private fun observeGetMissionDatesErrorResponse() {
-        viewModel.getMissionDatesErrorResponse.observe(this) { errorMessage ->
+        viewModel.getMissionDatesErrorResponse.observe(viewLifecycleOwner) { errorMessage ->
             contextNonNull.showToast(if (errorMessage == NO_INTERNET_CONDITION_ERROR) NO_INTERNET_CONDITION_ERROR else errorMessage)
             if (!activityNonNull.isFinishing) activityNonNull.finish()
         }
@@ -328,11 +327,12 @@ class ModificationFragment :
     }
 
     private fun setActionBoxIsFilled() {
-        binding.layoutAdditionActionClosed.isActivated = viewModel.isFirstActionExist.value ?: false
+        binding.layoutModificationActionClosed.isActivated =
+            viewModel.isFirstActionExist.value ?: false
     }
 
     private fun setEnterKeyClickEvents() {
-        binding.etAdditionMission.setOnEditorActionListener { _, actionId, _ ->
+        binding.etModificationMission.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeMissionToggle()
                 contextNonNull.hideKeyboard(binding.root)
@@ -340,7 +340,7 @@ class ModificationFragment :
             return@setOnEditorActionListener false
         }
 
-        binding.etAdditionSituation.setOnEditorActionListener { _, actionId, _ ->
+        binding.etModificationSituation.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeSituationToggle()
                 contextNonNull.hideKeyboard(binding.root)
@@ -348,14 +348,14 @@ class ModificationFragment :
             return@setOnEditorActionListener false
         }
 
-        binding.etAdditionAction.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE && binding.etAdditionAction.text.isNotBlank()) {
+        binding.etModificationAction.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE && binding.etModificationAction.text.isNotBlank()) {
                 viewModel.actionCount.value?.let { addAction(it) }
             }
             return@setOnEditorActionListener true
         }
 
-        binding.etAdditionGoal.setOnEditorActionListener { _, actionId, _ ->
+        binding.etModificationGoal.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeGoalToggle()
                 contextNonNull.hideKeyboard(binding.root)
@@ -393,7 +393,7 @@ class ModificationFragment :
     }
 
     private fun firstDeleteBtnClickEvent() {
-        binding.ivAdditionActionFirstDelete.setOnClickListener {
+        binding.ivModificationActionFirstDelete.setOnClickListener {
             when (viewModel.actionCount.value) {
                 1 -> {
                     viewModel.firstAction.value = ""
@@ -412,14 +412,14 @@ class ModificationFragment :
                         secondAction.value = thirdAction.value
                         thirdAction.value = ""
                     }
-                    requestFocusWithShowingKeyboard(binding.etAdditionAction)
+                    requestFocusWithShowingKeyboard(binding.etModificationAction)
                 }
             }
         }
     }
 
     private fun secondDeleteBtnClickEvent() {
-        binding.ivAdditionActionSecondDelete.setOnClickListener {
+        binding.ivModificationActionSecondDelete.setOnClickListener {
             when (viewModel.actionCount.value) {
                 2 -> {
                     viewModel.secondAction.value = ""
@@ -430,31 +430,31 @@ class ModificationFragment :
                         secondAction.value = thirdAction.value
                         thirdAction.value = ""
                     }
-                    requestFocusWithShowingKeyboard(binding.etAdditionAction)
+                    requestFocusWithShowingKeyboard(binding.etModificationAction)
                 }
             }
         }
     }
 
     private fun thirdDeleteBtnClickEvent() {
-        binding.ivAdditionActionThirdDelete.setOnClickListener {
+        binding.ivModificationActionThirdDelete.setOnClickListener {
             viewModel.thirdAction.value = ""
-            requestFocusWithShowingKeyboard(binding.etAdditionAction)
+            requestFocusWithShowingKeyboard(binding.etModificationAction)
         }
     }
 
     private fun setFinishButtonClickEvent() {
-        binding.ivAdditionDelete.setOnClickListener { if (!activityNonNull.isFinishing) activityNonNull.finish() }
+        binding.ivModificationDelete.setOnClickListener { if (!activityNonNull.isFinishing) activityNonNull.finish() }
     }
 
     private fun setSituationRecommendations(situationList: List<String>) {
-        binding.layoutAdditionSituationRecommend.addButtons(
-            situationList, binding.etAdditionSituation
+        binding.layoutModificationSituationRecommend.addButtons(
+            situationList, binding.etModificationSituation
         )
     }
 
     private fun setAddButtonClickEvent() {
-        binding.btnAdditionAdd.setOnClickListener {
+        binding.btnModificationModify.setOnClickListener {
             var actionList: MutableList<String>? = mutableListOf<String>().apply {
                 if (!viewModel.firstAction.value.isNullOrBlank()) add(viewModel.firstAction.value!!)
                 if (!viewModel.secondAction.value.isNullOrBlank()) add(viewModel.secondAction.value!!)
@@ -466,7 +466,7 @@ class ModificationFragment :
             if (goal?.isBlank() == true) goal = null
 
             val dateList: List<String> =
-                binding.calendarAdditionDateOpened.selectedDays.mapNotNull { selectedDay ->
+                binding.calendarModificationDateOpened.selectedDays.mapNotNull { selectedDay ->
                     selectedDay.convertDateToString()
                 }.sortedDescending()
 
@@ -478,7 +478,7 @@ class ModificationFragment :
                 dates = dateList
             )
             trackClickCreateMission(requestAdditionDto)
-            viewModel.modifyNottodo(requestAdditionDto)
+            viewModel.modifyNottodo()
         }
     }
 
@@ -501,46 +501,46 @@ class ModificationFragment :
 
     private fun observeGoal() {
         viewModel.isGoalFilled.observe(viewLifecycleOwner) { isGoalFilled ->
-            binding.layoutAdditionGoalClosed.isActivated = isGoalFilled
+            binding.layoutModificationGoalClosed.isActivated = isGoalFilled
         }
     }
 
     private fun observeSituation() {
         viewModel.isSituationFilled.observe(viewLifecycleOwner) { isSituationFilled ->
-            binding.layoutAdditionSituationClosed.isActivated = isSituationFilled
+            binding.layoutModificationSituationClosed.isActivated = isSituationFilled
         }
     }
 
     private fun observeMission() {
         viewModel.isMissionFilled.observe(viewLifecycleOwner) { isMissionFilled ->
-            binding.layoutAdditionMissionClosed.isActivated = isMissionFilled
+            binding.layoutModificationMissionClosed.isActivated = isMissionFilled
         }
     }
 
     private fun setTogglesClickEvents() {
-        setDateToggleClickEvent()
+//        setDateToggleClickEvent()
         setMissionToggleClickEvent()
         setSituationToggleClickEvent()
         setActionToggleClickEvent()
         setGoalToggleClickEvent()
     }
 
-    private fun setDateToggleClickEvent() {
-        binding.layoutAdditionDateClosed.setOnClickListener {
-            openDateToggle()
-            closeMissionToggle()
-            closeSituationToggle()
-            closeActionToggle()
-            closeGoalToggle()
-        }
-
-        binding.tvAdditionDateOpenedComplete.setOnClickListener {
-            closeDateToggle()
-        }
-    }
+//    private fun setDateToggleClickEvent() {
+//        binding.layoutModificationDateClosed.setOnClickListener {
+//            openDateToggle()
+//            closeMissionToggle()
+//            closeSituationToggle()
+//            closeActionToggle()
+//            closeGoalToggle()
+//        }
+//
+//        binding.tvModificationDateOpenedComplete.setOnClickListener {
+//            closeDateToggle()
+//        }
+//    }
 
     private fun setMissionToggleClickEvent() {
-        binding.layoutAdditionMissionClosed.setOnClickListener {
+        binding.layoutModificationMissionClosed.setOnClickListener {
             openMissionToggle()
             closeDateToggle()
             closeSituationToggle()
@@ -550,7 +550,7 @@ class ModificationFragment :
     }
 
     private fun setSituationToggleClickEvent() {
-        binding.layoutAdditionSituationClosed.setOnClickListener {
+        binding.layoutModificationSituationClosed.setOnClickListener {
             openSituationToggle()
             closeDateToggle()
             closeMissionToggle()
@@ -560,7 +560,7 @@ class ModificationFragment :
     }
 
     private fun setActionToggleClickEvent() {
-        binding.layoutAdditionActionClosed.setOnClickListener {
+        binding.layoutModificationActionClosed.setOnClickListener {
             openActionToggle()
             closeDateToggle()
             closeMissionToggle()
@@ -568,14 +568,14 @@ class ModificationFragment :
             closeGoalToggle()
         }
 
-        binding.tvAdditionActionComplete.setOnClickListener {
+        binding.tvModificationActionComplete.setOnClickListener {
             closeActionToggle()
             contextNonNull.hideKeyboard(binding.root)
         }
     }
 
     private fun setGoalToggleClickEvent() {
-        binding.layoutAdditionGoalClosed.setOnClickListener {
+        binding.layoutModificationGoalClosed.setOnClickListener {
             openGoalToggle()
             closeDateToggle()
             closeMissionToggle()
@@ -586,35 +586,35 @@ class ModificationFragment :
 
     private fun setDateDescTv() {
         val selectedDays: MutableList<Date> =
-            binding.calendarAdditionDateOpened.selectedDays.apply {
+            binding.calendarModificationDateOpened.selectedDays.apply {
                 sortDescending()
             }
         if (selectedDays.isEmpty()) return
-        binding.tvAdditionDate.text = selectedDays.last().convertDateToString()
+        binding.tvModificationDate.text = selectedDays.last().convertDateToString()
 
         if (selectedDays.size > 1) {
-            binding.tvAdditionDateEndDesc.apply {
+            binding.tvModificationDateEndDesc.apply {
                 visibility = View.VISIBLE
                 text = getString(R.string.other_days, selectedDays.size - 1)
             }
         } else {
-            binding.tvAdditionDateEndDesc.apply {
+            binding.tvModificationDateEndDesc.apply {
                 visibility = View.GONE
             }
         }
 
-        if (selectedDays.containToday()) binding.tvAdditionDateStartDesc.apply {
+        if (selectedDays.containToday()) binding.tvModificationDateStartDesc.apply {
             visibility = View.VISIBLE
             text = getString(R.string.today)
             return
         }
-        if (selectedDays.containTomorrow()) binding.tvAdditionDateStartDesc.apply {
+        if (selectedDays.containTomorrow()) binding.tvModificationDateStartDesc.apply {
             visibility = View.VISIBLE
             text = getString(R.string.tomorrow)
             return
         }
 
-        binding.tvAdditionDateStartDesc.visibility = View.GONE
+        binding.tvModificationDateStartDesc.visibility = View.GONE
     }
 
     private fun closeDateToggle() {
@@ -640,14 +640,14 @@ class ModificationFragment :
 
     private fun openGoalToggle() {
         viewModel.isGoalToggleVisible.value = true
-        requestFocusWithShowingKeyboard(binding.etAdditionGoal)
+        requestFocusWithShowingKeyboard(binding.etModificationGoal)
     }
 
     private fun openActionToggle() {
         viewModel.isActionToggleVisible.value = true
         if ((viewModel.actionCount.value
                 ?: 0) < 3
-        ) requestFocusWithShowingKeyboard(binding.etAdditionAction)
+        ) requestFocusWithShowingKeyboard(binding.etModificationAction)
     }
 
     private fun closeActionToggle() {
@@ -656,7 +656,7 @@ class ModificationFragment :
 
     private fun openSituationToggle() {
         viewModel.isSituationToggleVisible.value = true
-        requestFocusWithShowingKeyboard(binding.etAdditionSituation)
+        requestFocusWithShowingKeyboard(binding.etModificationSituation)
     }
 
     private fun closeSituationToggle() {
@@ -669,7 +669,7 @@ class ModificationFragment :
 
     private fun openMissionToggle() {
         viewModel.isMissionToggleVisible.value = true
-        requestFocusWithShowingKeyboard(binding.etAdditionMission)
+        requestFocusWithShowingKeyboard(binding.etModificationMission)
     }
 
     private fun setOpenedDesc() {
@@ -693,7 +693,7 @@ class ModificationFragment :
                 6,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-        }.also { spannedString -> binding.tvAdditionMissionOpenedDesc.text = spannedString }
+        }.also { spannedString -> binding.tvModificationMissionOpenedDesc.text = spannedString }
     }
 
     private fun setSituationOpenedDescSpan() {
@@ -712,7 +712,7 @@ class ModificationFragment :
                 12,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-        }.also { spannedString -> binding.tvAdditionSituationOpenedDesc.text = spannedString }
+        }.also { spannedString -> binding.tvModificationSituationOpenedDesc.text = spannedString }
     }
 
     private fun setActionOpenedDescSpan() {
@@ -729,7 +729,7 @@ class ModificationFragment :
                 5,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-        }.also { spannedString -> binding.tvAdditionActionOpenedDesc.text = spannedString }
+        }.also { spannedString -> binding.tvModificationActionOpenedDesc.text = spannedString }
     }
 
     private fun setGoalOpenedDescSpan() {
@@ -746,7 +746,7 @@ class ModificationFragment :
                 14,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-        }.also { spannedString -> binding.tvAdditionGoalOpenedDesc.text = spannedString }
+        }.also { spannedString -> binding.tvModificationGoalOpenedDesc.text = spannedString }
     }
 
     override fun onDestroyView() {
