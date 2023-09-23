@@ -527,7 +527,6 @@ class ModificationFragment :
     private fun setMissionToggleClickEvent() {
         binding.layoutModificationMissionClosed.setOnClickListener {
             openMissionToggle()
-            closeDateToggle()
             closeSituationToggle()
             closeActionToggle()
             closeGoalToggle()
@@ -537,7 +536,6 @@ class ModificationFragment :
     private fun setSituationToggleClickEvent() {
         binding.layoutModificationSituationClosed.setOnClickListener {
             openSituationToggle()
-            closeDateToggle()
             closeMissionToggle()
             closeActionToggle()
             closeGoalToggle()
@@ -547,7 +545,6 @@ class ModificationFragment :
     private fun setActionToggleClickEvent() {
         binding.layoutModificationActionClosed.setOnClickListener {
             openActionToggle()
-            closeDateToggle()
             closeMissionToggle()
             closeSituationToggle()
             closeGoalToggle()
@@ -562,7 +559,6 @@ class ModificationFragment :
     private fun setGoalToggleClickEvent() {
         binding.layoutModificationGoalClosed.setOnClickListener {
             openGoalToggle()
-            closeDateToggle()
             closeMissionToggle()
             closeSituationToggle()
             closeActionToggle()
@@ -600,15 +596,6 @@ class ModificationFragment :
         }
 
         binding.tvModificationDateStartDesc.visibility = View.GONE
-    }
-
-    private fun closeDateToggle() {
-        viewModel.isDateToggleVisible.value = false
-        setDateDescTv()
-    }
-
-    private fun openDateToggle() {
-        viewModel.isDateToggleVisible.value = true
     }
 
     private fun closeGoalToggle() {
