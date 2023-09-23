@@ -20,6 +20,7 @@ import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto.Modi
 import kr.co.nottodo.databinding.FragmentModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
+import kr.co.nottodo.presentation.modification.model.NotTodoData
 import kr.co.nottodo.presentation.modification.viewmodel.ModificationViewModel
 import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity
 import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
@@ -59,7 +60,7 @@ class ModificationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setData()
+        getData()
         setViews()
         setObservers()
         setClickEvents()
@@ -83,11 +84,33 @@ class ModificationFragment :
         }
     }
 
-    private fun setData() {
+    private fun getData() {
         getRecentMissionList()
         getRecommendSituationList()
-        // TODO : Intent가 아닌 Bundle에서 받아와야 함
-        // getDataFromRecommendActivity()
+        getDataFromHome()
+        getMissionDates()
+    }
+
+    private fun getRecentMissionList() {
+        viewModel.getRecentMissionList()
+    }
+
+    private fun getRecommendSituationList() {
+        viewModel.getRecommendSituationList()
+    }
+
+    private fun getDataFromHome() {
+        NotTodoData(
+            dataFromHome.title,
+            dataFromHome.situation,
+            dataFromHome.actions?.map { action -> action.name.toString() },
+            dataFromHome.goal,
+            dataFromHome.id
+        ).also { viewModel.setOriginalData(it) }
+    }
+
+    private fun getMissionDates() {
+        viewModel.getMissionDates()
     }
 
     private fun getDataFromRecommendActivity() {
@@ -124,14 +147,6 @@ class ModificationFragment :
 
     private fun setThirdAction(thirdAction: String) {
         viewModel.firstAction.value = thirdAction
-    }
-
-    private fun getRecommendSituationList() {
-        viewModel.getRecommendSituationList()
-    }
-
-    private fun getRecentMissionList() {
-        viewModel.getRecentMissionList()
     }
 
     private fun setClickEvents() {
