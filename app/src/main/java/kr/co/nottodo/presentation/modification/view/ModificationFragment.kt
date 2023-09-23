@@ -22,14 +22,11 @@ import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
 import kr.co.nottodo.presentation.modification.model.NotTodoData
 import kr.co.nottodo.presentation.modification.viewmodel.ModificationViewModel
-import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity
-import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
 import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.containToday
 import kr.co.nottodo.util.containTomorrow
-import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showNotTodoSnackBar
@@ -111,42 +108,6 @@ class ModificationFragment :
 
     private fun getMissionDates() {
         viewModel.getMissionDates()
-    }
-
-    private fun getDataFromRecommendActivity() {
-        val recommendUiModel: RecommendUiModel = activityNonNull.intent?.getParcelable(
-            RecommendActionActivity.MISSION_ACTION_DETAIL, RecommendUiModel::class.java
-        ) ?: return
-
-        with(viewModel) {
-            mission.value = recommendUiModel.title
-            situation.value = recommendUiModel.situation
-        }
-        setActionList(recommendUiModel.actionList)
-    }
-
-    private fun setActionList(actionList: List<String>) {
-        fun List<String>.second() = this[1]
-        fun List<String>.third() = this[2]
-
-        actionList.run {
-            viewModel.actionCount.value = this.size
-            if (this.size >= 1) setFirstAction(this.first())
-            if (this.size >= 2) setSecondAction(this.second())
-            if (this.size >= 3) setThirdAction(this.third())
-        }
-    }
-
-    private fun setFirstAction(firstAction: String) {
-        viewModel.firstAction.value = firstAction
-    }
-
-    private fun setSecondAction(secondAction: String) {
-        viewModel.firstAction.value = secondAction
-    }
-
-    private fun setThirdAction(thirdAction: String) {
-        viewModel.firstAction.value = thirdAction
     }
 
     private fun setClickEvents() {
