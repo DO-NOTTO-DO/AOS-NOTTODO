@@ -8,6 +8,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.MainActivity
@@ -32,7 +33,6 @@ import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
-import kr.co.nottodo.view.calendar.monthly.util.achievementConvertStringToDate
 import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToInt
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import java.util.Date
@@ -186,7 +186,7 @@ class ModificationFragment :
         observeGoal()
         observeGetRecommendSituationList()
         observeGetRecentMissionListResponse()
-        observePostNottodoResponse()
+        observeModifyNottodoResponse()
         observeGetMissionDatesResponse()
 
     }
@@ -209,9 +209,9 @@ class ModificationFragment :
         }
     }
 
-    private fun observePostNottodoResponse() {
-        observePostNottodoSuccessResponse()
-        observePostNottodoFailureResponse()
+    private fun observeModifyNottodoResponse() {
+        observeModifyNottodoSuccessResponse()
+        observeModifyNottodoFailureResponse()
     }
 
     private fun observeGetRecentMissionListResponse() {
@@ -271,7 +271,7 @@ class ModificationFragment :
         }
     }
 
-    private fun observePostNottodoFailureResponse() {
+    private fun observeModifyNottodoFailureResponse() {
         viewModel.modifyNottodoErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
             errorMessage.showErrorMessage(isHtmlTagExist = true)
         }
@@ -284,13 +284,12 @@ class ModificationFragment :
         }
     }
 
-    private fun observePostNottodoSuccessResponse() {
+    private fun observeModifyNottodoSuccessResponse() {
         viewModel.modifyNottodoSuccessResponse.observe(viewLifecycleOwner) { response ->
-            contextNonNull.showToast(getString(R.string.complete_create_nottodo))
+            contextNonNull.showToast(getString(R.string.complete_modify_nottodo))
+            activityNonNull.setResult(AppCompatActivity.RESULT_OK)
+            if (!activityNonNull.isFinishing) activityNonNull.finish()
             trackCompleteModifyMission(response)
-            val sortedList =
-                response.dates.sortedBy { date -> date.achievementConvertStringToDate() }
-            navigateToMainWithFirstDay(sortedList.first().toString())
         }
     }
 
@@ -306,8 +305,7 @@ class ModificationFragment :
                 getString(R.string.action) to actions.toTypedArray()
             )
             NotTodoAmplitude.trackEventWithProperty(
-                getString(R.string.complete_update_mission),
-                completeModifyMissionEventPropertyMap
+                getString(R.string.complete_update_mission), completeModifyMissionEventPropertyMap
             )
         }
     }
