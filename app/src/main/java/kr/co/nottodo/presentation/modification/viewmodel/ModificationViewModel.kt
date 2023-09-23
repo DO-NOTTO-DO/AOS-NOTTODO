@@ -125,35 +125,30 @@ class ModificationViewModel : ViewModel() {
     val actionLengthCounter: LiveData<String> =
         action.map { action -> action.length.toString() + MAX_COUNT_20 }
 
-    val firstAction: MutableLiveData<String> = MutableLiveData("")
+    val firstAction: LiveData<String> = actionList.map { actionList ->
+        actionList.getOrNull(0) ?: ""
+    }
     val isFirstActionExist: LiveData<Boolean> =
-        firstAction.map { firstAction -> !firstAction.isNullOrBlank() }
+        firstAction.map { firstAction -> firstAction.isNotBlank() }
 
-    val secondAction: MutableLiveData<String> = MutableLiveData("")
+    val secondAction: LiveData<String> = actionList.map { actionList ->
+        actionList.getOrNull(1) ?: ""
+    }
     val isSecondActionExist: LiveData<Boolean> =
-        secondAction.map { secondAction -> !secondAction.isNullOrBlank() }
+        secondAction.map { secondAction -> secondAction.isNotBlank() }
 
-    val thirdAction: MutableLiveData<String> = MutableLiveData("")
+    val thirdAction: LiveData<String> = actionList.map { actionList ->
+        actionList.getOrNull(2) ?: ""
+    }
     val isThirdActionExist: LiveData<Boolean> =
-        thirdAction.map { thirdAction -> !thirdAction.isNullOrBlank() }
+        thirdAction.map { thirdAction -> thirdAction.isNotBlank() }
 
-    val actionCount: MediatorLiveData<Int> = MediatorLiveData(0).apply {
-        addSourceList(isFirstActionExist, isSecondActionExist, isThirdActionExist) {
-            countActions()
-        }
+    val actionCount: LiveData<Int> = actionList.map {
+        it.size
     }
 
-    private fun countActions(): Int {
-        if (isThirdActionExist.value == true) return 3
-        if (isSecondActionExist.value == true) return 2
-        if (isFirstActionExist.value == true) return 1
-        return 0
-    }
-
-    val actionListToString: MediatorLiveData<String> = MediatorLiveData("").apply {
-        addSourceList(firstAction, secondAction, thirdAction) {
-            updateActionList()
-        }
+    val actionListToString: LiveData<String> = actionList.map {
+        updateActionList()
     }
 
     private fun updateActionList(): String {
@@ -201,7 +196,8 @@ class ModificationViewModel : ViewModel() {
         viewModelScope.launch {
             kotlin.runCatching {
                 modificationService.modifyMission(
-                    requireNotNull(missionId) { MISSION_ID_IS_NULL }, RequestModificationDto(
+                    requireNotNull(missionId) { MISSION_ID_IS_NULL },
+                    RequestModificationDto(
                         title = requireNotNull(mission.value) { MISSION_IS_NULL },
                         situation = requireNotNull(situation.value) { SITUATION_IS_NULL },
                         actions = actionList.value,
