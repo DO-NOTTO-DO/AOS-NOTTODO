@@ -85,10 +85,6 @@ class ModificationFragment :
         }
     }
 
-    private fun trackEnterCreateMission() {
-        NotTodoAmplitude.trackEvent(getString(R.string.view_create_mission))
-    }
-
     private fun setData() {
         getRecentMissionList()
         getRecommendSituationList()
