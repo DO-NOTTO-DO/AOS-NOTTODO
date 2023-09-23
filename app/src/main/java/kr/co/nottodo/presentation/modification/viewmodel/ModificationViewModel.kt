@@ -30,7 +30,6 @@ import kr.co.nottodo.view.calendar.monthly.util.isTomorrow
 
 class ModificationViewModel : ViewModel() {
 
-    val isDateToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     val isMissionToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     val isSituationToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
     val isActionToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
