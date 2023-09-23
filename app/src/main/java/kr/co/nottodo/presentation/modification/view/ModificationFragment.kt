@@ -15,7 +15,7 @@ import kr.co.nottodo.R
 import kr.co.nottodo.data.local.ParcelizeBottomDetail
 import kr.co.nottodo.data.local.ParcelizeBottomDetail.Action
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
-import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
+import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto.Modification
 import kr.co.nottodo.databinding.FragmentModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
@@ -287,26 +287,27 @@ class ModificationFragment :
     private fun observePostNottodoSuccessResponse() {
         viewModel.modifyNottodoSuccessResponse.observe(viewLifecycleOwner) { response ->
             contextNonNull.showToast(getString(R.string.complete_create_nottodo))
-            trackCompleteCreateMission(response)
+            trackCompleteModifyMission(response)
             val sortedList =
                 response.dates.sortedBy { date -> date.achievementConvertStringToDate() }
             navigateToMainWithFirstDay(sortedList.first().toString())
         }
     }
 
-    private fun trackCompleteCreateMission(missionData: ResponseAdditionDto.Addition) {
+    private fun trackCompleteModifyMission(missionData: Modification) {
         with(missionData) {
-            val completeCreateMissionEventPropertyMap = mutableMapOf<String, Any>(
-                getString(R.string.date) to dates.map { date -> date.convertDateStringToInt() },
+            val completeModifyMissionEventPropertyMap = mutableMapOf(
+                getString(R.string.date) to viewModel.getDateToIntList(),
                 getString(R.string.title) to title,
                 getString(R.string.situation) to situation
             )
-            if (goal != null) completeCreateMissionEventPropertyMap.plus(getString(R.string.goal) to goal)
-            if (actions != null) completeCreateMissionEventPropertyMap.plus(
+            if (!goal.isNullOrBlank()) completeModifyMissionEventPropertyMap.plus(getString(R.string.goal) to goal)
+            if (!actions.isNullOrEmpty()) completeModifyMissionEventPropertyMap.plus(
                 getString(R.string.action) to actions.toTypedArray()
             )
             NotTodoAmplitude.trackEventWithProperty(
-                getString(R.string.complete_create_mission), completeCreateMissionEventPropertyMap
+                getString(R.string.complete_update_mission),
+                completeModifyMissionEventPropertyMap
             )
         }
     }
