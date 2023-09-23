@@ -50,7 +50,6 @@ class ModificationViewModel : ViewModel() {
         mission.value = data.mission
         situation.value = data.situation
         actionList.value = data.actions ?: emptyList()
-        actionCount.value = data.actions?.size ?: 0
         goal.value = data.goal ?: ""
         missionId = data.missionId
     }
@@ -143,8 +142,8 @@ class ModificationViewModel : ViewModel() {
     val isThirdActionExist: LiveData<Boolean> =
         thirdAction.map { thirdAction -> thirdAction.isNotBlank() }
 
-    val actionCount: LiveData<Int> = actionList.map {
-        it.size
+    val actionCount: LiveData<Int> = actionList.map { actionList ->
+        actionList.size
     }
 
     val actionListToString: LiveData<String> = actionList.map {
