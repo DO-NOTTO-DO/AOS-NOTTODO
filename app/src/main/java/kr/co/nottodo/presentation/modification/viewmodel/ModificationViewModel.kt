@@ -44,12 +44,12 @@ class ModificationViewModel : ViewModel() {
     fun setOriginalData(data: NotTodoData) {
         originMission = data.mission
         originSituation = data.situation
-        originalActionList = data.actions ?: emptyList()
+        originalActionList = data.actions?.toMutableList() ?: emptyList()
         originGoal = data.goal ?: ""
 
         mission.value = data.mission
         situation.value = data.situation
-        actionList.value = data.actions ?: emptyList()
+        actionList.value = data.actions?.toMutableList() ?: mutableListOf()
         goal.value = data.goal ?: ""
         missionId = data.missionId
     }
@@ -115,7 +115,7 @@ class ModificationViewModel : ViewModel() {
         situation.length.toString() + MAX_COUNT_20
     }
 
-    private val actionList: MutableLiveData<List<String>> = MutableLiveData()
+    val actionList: MutableLiveData<MutableList<String>> = MutableLiveData()
     private val isActionListChanged: LiveData<Boolean> = actionList.map { newActionList ->
         originalActionList != newActionList
     }
@@ -194,10 +194,8 @@ class ModificationViewModel : ViewModel() {
     fun modifyNottodo() {
         viewModelScope.launch {
             kotlin.runCatching {
-                modificationService.modifyMission(
-                    requireNotNull(missionId) { MISSION_ID_IS_NULL },
-                    RequestModificationDto(
-                        title = requireNotNull(mission.value) { MISSION_IS_NULL },
+                modificationService.modifyMission(requireNotNull(missionId) { MISSION_ID_IS_NULL },
+                    RequestModificationDto(title = requireNotNull(mission.value) { MISSION_IS_NULL },
                         situation = requireNotNull(situation.value) { SITUATION_IS_NULL },
                         actions = actionList.value,
                         goal = goal.value
