@@ -175,11 +175,11 @@ class ModificationViewModel : ViewModel() {
             isMissionFilled,
             isSituationFilled
         ) {
-            _isAbleToModify()
+            checkIsAbleToModify()
         }
     }
 
-    private fun _isAbleToModify(): Boolean =
+    private fun checkIsAbleToModify(): Boolean =
         (isMissionChanged.value == true || isSituationChanged.value == true || isActionListChanged.value == true || isGoalChanged.value == true) && isMissionFilled.value == true && isSituationFilled.value == true
 
     private val _modifyNottodoSuccessResponse: MutableLiveData<ResponseModificationDto.Modification> =
