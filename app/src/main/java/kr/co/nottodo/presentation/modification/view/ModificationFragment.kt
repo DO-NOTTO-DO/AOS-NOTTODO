@@ -15,7 +15,6 @@ import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.ParcelizeBottomDetail
 import kr.co.nottodo.data.local.ParcelizeBottomDetail.Action
-import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto.Modification
 import kr.co.nottodo.databinding.FragmentModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
@@ -111,7 +110,7 @@ class ModificationFragment :
     }
 
     private fun setClickEvents() {
-        setAddButtonClickEvent()
+        setModifyBtnClickEvent()
         setFinishButtonClickEvent()
         setDeleteButtonsClickEvents()
         setTogglesClickEvents()
@@ -336,18 +335,18 @@ class ModificationFragment :
     private fun addAction(actionCount: Int) {
         when (actionCount) {
             0 -> viewModel.run {
-                firstAction.value = action.value
+                actionList.value?.set(0, action.value ?: "")
                 action.value = ""
             }
 
             1 -> viewModel.run {
-                secondAction.value = action.value
+                actionList.value?.set(1, action.value ?: "")
                 action.value = ""
             }
 
             2 -> {
                 viewModel.run {
-                    thirdAction.value = action.value
+                    actionList.value?.set(2, action.value ?: "")
                     action.value = ""
                 }
                 contextNonNull.hideKeyboard(binding.root)
@@ -365,21 +364,21 @@ class ModificationFragment :
         binding.ivModificationActionFirstDelete.setOnClickListener {
             when (viewModel.actionCount.value) {
                 1 -> {
-                    viewModel.firstAction.value = ""
+                    viewModel.actionList.value?.set(0, "")
                 }
 
                 2 -> {
-                    viewModel.run {
-                        firstAction.value = secondAction.value
-                        secondAction.value = ""
+                    viewModel.actionList.value?.run {
+                        set(0, get(1))
+                        set(1, "")
                     }
                 }
 
                 3 -> {
-                    viewModel.run {
-                        firstAction.value = secondAction.value
-                        secondAction.value = thirdAction.value
-                        thirdAction.value = ""
+                    viewModel.actionList.value?.run {
+                        set(0, get(1))
+                        set(1, get(2))
+                        set(2, "")
                     }
                     requestFocusWithShowingKeyboard(binding.etModificationAction)
                 }
@@ -391,13 +390,13 @@ class ModificationFragment :
         binding.ivModificationActionSecondDelete.setOnClickListener {
             when (viewModel.actionCount.value) {
                 2 -> {
-                    viewModel.secondAction.value = ""
+                    viewModel.actionList.value?.set(1, "")
                 }
 
                 3 -> {
-                    viewModel.run {
-                        secondAction.value = thirdAction.value
-                        thirdAction.value = ""
+                    viewModel.actionList.value?.run {
+                        set(1, get(2))
+                        set(2, "")
                     }
                     requestFocusWithShowingKeyboard(binding.etModificationAction)
                 }
@@ -407,7 +406,7 @@ class ModificationFragment :
 
     private fun thirdDeleteBtnClickEvent() {
         binding.ivModificationActionThirdDelete.setOnClickListener {
-            viewModel.thirdAction.value = ""
+            viewModel.actionList.value?.set(2, "")
             requestFocusWithShowingKeyboard(binding.etModificationAction)
         }
     }
@@ -422,49 +421,27 @@ class ModificationFragment :
         )
     }
 
-    private fun setAddButtonClickEvent() {
+    private fun setModifyBtnClickEvent() {
         binding.btnModificationModify.setOnClickListener {
-            var actionList: MutableList<String>? = mutableListOf<String>().apply {
-                if (!viewModel.firstAction.value.isNullOrBlank()) add(viewModel.firstAction.value!!)
-                if (!viewModel.secondAction.value.isNullOrBlank()) add(viewModel.secondAction.value!!)
-                if (!viewModel.thirdAction.value.isNullOrBlank()) add(viewModel.thirdAction.value!!)
-            }
-            if (actionList?.isEmpty() == true) actionList = null
-
-            var goal: String? = viewModel.goal.value
-            if (goal?.isBlank() == true) goal = null
-
-            val dateList: List<String> =
-                binding.calendarModificationDateOpened.selectedDays.mapNotNull { selectedDay ->
-                    selectedDay.convertDateToString()
-                }.sortedDescending()
-
-            val requestAdditionDto = RequestAdditionDto(
-                title = viewModel.mission.value ?: throw NullPointerException(),
-                situation = viewModel.situation.value ?: throw NullPointerException(),
-                actions = actionList,
-                goal = goal,
-                dates = dateList
-            )
-            trackClickCreateMission(requestAdditionDto)
+            trackClickUpdateMission()
             viewModel.modifyNottodo()
         }
     }
 
-    private fun trackClickCreateMission(missionData: RequestAdditionDto) {
-        with(missionData) {
-            val clickCreateMissionEventPropertyMap = mutableMapOf<String, Any>(
-                getString(R.string.date) to dates.map { date -> date.convertDateStringToInt() },
-                getString(R.string.title) to title,
-                getString(R.string.situation) to situation
-            )
-            if (goal != null) clickCreateMissionEventPropertyMap.plus(getString(R.string.goal) to goal)
-            if (actions != null) clickCreateMissionEventPropertyMap.plus(
-                getString(R.string.action) to actions.toTypedArray()
-            )
-            NotTodoAmplitude.trackEventWithProperty(
-                getString(R.string.click_create_mission), clickCreateMissionEventPropertyMap
-            )
+    private fun trackClickUpdateMission() {
+        viewModel.run {
+            mapOf(
+                getString(R.string.date) to getDateToIntList(),
+                getString(R.string.title) to mission.value.toString(),
+                getString(R.string.situation) to situation.value.toString()
+            ).apply {
+                if (!goal.value.isNullOrBlank()) plus(getString(R.string.goal) to goal.value)
+                if (!actionList.value.isNullOrEmpty()) plus(getString(R.string.action) to actionList.value!!.toTypedArray())
+            }.also {
+                NotTodoAmplitude.trackEventWithProperty(
+                    getString(R.string.click_update_mission), it
+                )
+            }
         }
     }
 
