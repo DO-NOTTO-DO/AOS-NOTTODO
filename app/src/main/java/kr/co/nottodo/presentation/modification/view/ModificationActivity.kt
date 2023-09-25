@@ -86,26 +86,26 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeGetMissionDatesSuccessResponse() {
-        viewModel.getMissionDatesSuccessResponse.observe(this) { response ->
-            viewModel.setMissionDates()
-            trackViewUpdateMission(dataFromHome, response.data.map { it.convertDateStringToInt() })
+        viewModel.dates.observe(this) { dates ->
+            trackEnterUpdateMission(dataFromHome, dates.map { it.convertDateStringToInt() })
         }
     }
 
-    private fun trackViewUpdateMission(notTodoData: ParcelizeBottomDetail, dateIntList: List<Int>) {
-        with(notTodoData) {
-            val viewUpdateMissionEventPropertyMap = mutableMapOf(
+    private fun trackEnterUpdateMission(
+        notTodoData: ParcelizeBottomDetail,
+        dateIntList: List<Int>,
+    ) {
+        notTodoData.run {
+            mapOf(
                 getString(R.string.title) to title,
                 getString(R.string.situation) to situation,
                 getString(R.string.date) to dateIntList
-            )
-            if (!goal.isNullOrBlank()) viewUpdateMissionEventPropertyMap.plus(getString(R.string.goal) to goal)
-            if (!actions.isNullOrEmpty()) viewUpdateMissionEventPropertyMap.plus(
-                getString(R.string.action) to actions.toTypedArray()
-            )
-            trackEventWithProperty(
-                getString(R.string.view_update_mission), viewUpdateMissionEventPropertyMap
-            )
+            ).apply {
+                if (!goal.isNullOrBlank()) plus(getString(R.string.goal) to goal)
+                if (!actions.isNullOrEmpty()) plus(getString(R.string.action) to actions.toTypedArray())
+            }.also {
+                trackEventWithProperty(getString(R.string.view_update_mission), it)
+            }
         }
     }
 
@@ -164,7 +164,6 @@ class ModificationActivity : AppCompatActivity() {
         setActions()
         initAdapters()
         initRecyclerViews()
-        initActionList(viewModel.actionCount.value)
     }
 
     private fun initRecyclerViews() {
@@ -208,27 +207,8 @@ class ModificationActivity : AppCompatActivity() {
         viewModel.getRecentMissionList()
     }
 
-    private fun initActionList(actionCount: Int?) {
-        when (actionCount) {
-            1 -> {
-                setFirstAction()
-            }
-
-            2 -> {
-                setFirstAction()
-                setSecondAction()
-            }
-
-            3 -> {
-                setFirstAction()
-                setSecondAction()
-                setThirdAction()
-            }
-        }
-    }
-
     private fun observeSuccessResponse() {
-        viewModel.modificationResponse.observe(this) { response ->
+        viewModel.modifyNottodoSuccessResponse.observe(this) { response ->
             showToast(getString(R.string.complete_modify_nottodo))
             setResult(RESULT_OK)
             if (!isFinishing) finish()
@@ -255,7 +235,7 @@ class ModificationActivity : AppCompatActivity() {
     }
 
     private fun observeFailureResponse() {
-        viewModel.errorResponse.observe(this) { errorMessage ->
+        viewModel.modifyNottodoErrorMessage.observe(this) { errorMessage ->
             if (errorMessage == NO_INTERNET_CONDITION_ERROR) showNotTodoSnackBar(
                 binding.root, NO_INTERNET_CONDITION_ERROR
             ) else {
@@ -285,30 +265,6 @@ class ModificationActivity : AppCompatActivity() {
         viewModel.setOriginalData(
             notTodoData
         )
-    }
-
-    private fun setThirdAction() {
-        if (viewModel.actionListToString.value?.get(2) != null) {
-            binding.tvModificationActionThird.text = viewModel.actionListToString.value?.get(2) ?: BLANK
-            binding.tvModificationActionThird.visibility = View.VISIBLE
-            binding.ivModificationActionThirdDelete.visibility = View.VISIBLE
-        }
-    }
-
-    private fun setSecondAction() {
-        if (viewModel.actionListToString.value?.get(1) != null) {
-            binding.tvModificationActionSecond.text = viewModel.actionListToString.value?.get(1) ?: BLANK
-            binding.tvModificationActionSecond.visibility = View.VISIBLE
-            binding.ivModificationActionSecondDelete.visibility = View.VISIBLE
-        }
-    }
-
-    private fun setFirstAction() {
-        if (viewModel.actionListToString.value?.get(0) != null) {
-            binding.tvModificationActionFirst.text = viewModel.actionListToString.value?.get(0) ?: BLANK
-            binding.tvModificationActionFirst.visibility = View.VISIBLE
-            binding.ivModificationActionFirstDelete.visibility = View.VISIBLE
-        }
     }
 
     private fun setEnterKey() {
@@ -353,7 +309,6 @@ class ModificationActivity : AppCompatActivity() {
                     tvModificationActionFirst.visibility = View.VISIBLE
                     ivModificationActionFirstDelete.visibility = View.VISIBLE
                 }
-                viewModel.actionCount.value = 1
             }
 
             1 -> {
@@ -363,7 +318,6 @@ class ModificationActivity : AppCompatActivity() {
                     tvModificationActionSecond.visibility = View.VISIBLE
                     ivModificationActionSecondDelete.visibility = View.VISIBLE
                 }
-                viewModel.actionCount.value = 2
             }
 
             2 -> {
@@ -373,7 +327,6 @@ class ModificationActivity : AppCompatActivity() {
                     tvModificationActionThird.visibility = View.VISIBLE
                     ivModificationActionThirdDelete.visibility = View.VISIBLE
                 }
-                viewModel.actionCount.value = 3
             }
         }
     }
@@ -383,20 +336,17 @@ class ModificationActivity : AppCompatActivity() {
             when (viewModel.actionCount.value) {
                 1 -> {
                     hideActionFirst()
-                    viewModel.actionCount.value = 0
                 }
 
                 2 -> {
                     binding.tvModificationActionFirst.text = binding.tvModificationActionSecond.text
                     hideActionSecond()
-                    viewModel.actionCount.value = 1
                 }
 
                 3 -> {
                     binding.tvModificationActionFirst.text = binding.tvModificationActionSecond.text
                     binding.tvModificationActionSecond.text = binding.tvModificationActionThird.text
                     hideActionThird()
-                    viewModel.actionCount.value = 2
                 }
             }
         }
@@ -404,19 +354,16 @@ class ModificationActivity : AppCompatActivity() {
             when (viewModel.actionCount.value) {
                 2 -> {
                     hideActionSecond()
-                    viewModel.actionCount.value = 1
                 }
 
                 3 -> {
                     binding.tvModificationActionSecond.text = binding.tvModificationActionThird.text
                     hideActionThird()
-                    viewModel.actionCount.value = 2
                 }
             }
         }
         binding.ivModificationActionThirdDelete.setOnClickListener {
             hideActionThird()
-            viewModel.actionCount.value = 2
         }
     }
 
@@ -480,7 +427,7 @@ class ModificationActivity : AppCompatActivity() {
             if (!goal.value.isNullOrBlank()) clickUpdateMissionEventPropertyMap.plus(getString(R.string.goal) to goal.value)
 
             if (!actionListToString.value.isNullOrEmpty()) clickUpdateMissionEventPropertyMap.plus(
-                getString(R.string.action) to actionListToString.value!!.toTypedArray()
+                getString(R.string.action) to actionList.value!!.toTypedArray()
             )
             trackEventWithProperty(
                 getString(R.string.click_update_mission), clickUpdateMissionEventPropertyMap
@@ -553,7 +500,7 @@ class ModificationActivity : AppCompatActivity() {
                         tvModificationActionTextCount.visibility = View.VISIBLE
                         requestFocusWithShowingKeyboard(etModificationAction)
                     }
-                    viewModel.actionListToString.value = listOf()
+                    viewModel.actionList.value = mutableListOf()
                 }
 
                 1 -> {
@@ -563,8 +510,8 @@ class ModificationActivity : AppCompatActivity() {
                         etModificationAction.visibility = View.VISIBLE
                         tvModificationActionTextCount.visibility = View.VISIBLE
                         requestFocusWithShowingKeyboard(etModificationAction)
-                        viewModel.actionListToString.value =
-                            listOf(tvModificationActionFirst.text.toString())
+                        viewModel.actionList.value =
+                            mutableListOf(tvModificationActionFirst.text.toString())
                     }
                 }
 
@@ -579,7 +526,7 @@ class ModificationActivity : AppCompatActivity() {
                         etModificationAction.visibility = View.VISIBLE
                         tvModificationActionTextCount.visibility = View.VISIBLE
                         requestFocusWithShowingKeyboard(etModificationAction)
-                        viewModel.actionListToString.value = listOf(
+                        viewModel.actionList.value = mutableListOf(
                             tvModificationActionFirst.text.toString(),
                             tvModificationActionSecond.text.toString()
                         )
@@ -598,7 +545,7 @@ class ModificationActivity : AppCompatActivity() {
                         etModificationAction.visibility = View.GONE
                         tvModificationActionTextCount.visibility = View.GONE
                         hideKeyboard(root)
-                        viewModel.actionListToString.value = listOf(
+                        viewModel.actionList.value = mutableListOf(
                             tvModificationActionFirst.text.toString(),
                             tvModificationActionSecond.text.toString(),
                             tvModificationActionThird.text.toString()
