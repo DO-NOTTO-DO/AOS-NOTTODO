@@ -94,7 +94,7 @@
                         android:id="@+id/layout_modification_date_closed"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:visibility="@{vm.dateToggleVisible ? View.GONE : View.VISIBLE }"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -179,7 +179,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
-                        android:visibility="@{vm.dateToggleVisible ? View.VISIBLE : View.GONE }"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
