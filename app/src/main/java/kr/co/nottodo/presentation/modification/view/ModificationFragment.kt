@@ -1,6 +1,5 @@
 package kr.co.nottodo.presentation.modification.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -11,7 +10,6 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
-import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.ParcelizeBottomDetail
 import kr.co.nottodo.data.local.ParcelizeBottomDetail.Action
@@ -157,8 +155,62 @@ class ModificationFragment :
         observeGetRecentMissionListResponse()
         observeModifyNottodoResponse()
         observeGetMissionDatesResponse()
-
     }
+
+    private fun observeMission() {
+        viewModel.isMissionFilled.observe(viewLifecycleOwner) { isMissionFilled ->
+            binding.layoutModificationMissionClosed.isActivated = isMissionFilled
+        }
+    }
+
+    private fun observeSituation() {
+        viewModel.isSituationFilled.observe(viewLifecycleOwner) { isSituationFilled ->
+            binding.layoutModificationSituationClosed.isActivated = isSituationFilled
+        }
+    }
+
+    private fun observeGoal() {
+        viewModel.isGoalFilled.observe(viewLifecycleOwner) { isGoalFilled ->
+            binding.layoutModificationGoalClosed.isActivated = isGoalFilled
+        }
+    }
+
+    private fun observeGetRecommendSituationList() {
+        observeGetRecommendSituationListSuccessResponse()
+        observeGetRecommendSituationListErrorResponse()
+    }
+
+    private fun observeGetRecommendSituationListSuccessResponse() {
+        viewModel.getRecommendSituationListSuccessResponse.observe(viewLifecycleOwner) { response ->
+            setSituationRecommendations(response.data.map { situation -> situation.name })
+        }
+    }
+
+    private fun observeGetRecommendSituationListErrorResponse() {
+        viewModel.getRecommendSituationListErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage.showErrorMessage()
+        }
+    }
+
+    private fun observeGetRecentMissionListResponse() {
+        observeGetRecentMissionListSuccessResponse()
+        observeGetRecentMissionListErrorResponse()
+    }
+
+    private fun observeGetRecentMissionListSuccessResponse() {
+        viewModel.getRecentMissionListSuccessResponse.observe(viewLifecycleOwner) { response ->
+            missionHistoryAdapter?.submitList(response.data.map { recentMission ->
+                recentMission.title
+            })
+        }
+    }
+
+    private fun observeGetRecentMissionListErrorResponse() {
+        viewModel.getRecentMissionListListErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage.showErrorMessage()
+        }
+    }
+
 
     private fun observeGetMissionDatesResponse() {
         observeGetMissionDatesSuccessResponse()
@@ -183,76 +235,6 @@ class ModificationFragment :
         observeModifyNottodoFailureResponse()
     }
 
-    private fun observeGetRecentMissionListResponse() {
-        observeGetRecentMissionListSuccessResponse()
-        observeGetRecentMissionListErrorResponse()
-    }
-
-    private fun observeGetRecentMissionListErrorResponse() {
-        viewModel.getRecentMissionListListErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            errorMessage.showErrorMessage()
-        }
-    }
-
-    private fun String.showErrorMessage(isHtmlTagExist: Boolean = false) {
-        when (this) {
-            NO_INTERNET_CONDITION_ERROR -> binding.root.showNotTodoSnackBar(
-                NO_INTERNET_CONDITION_ERROR
-            )
-
-            else -> {
-                if (isHtmlTagExist) {
-                    val errorMessageWithHtmlTag =
-                        HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT)
-                    contextNonNull.showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
-                } else {
-                    binding.root.showNotTodoSnackBar(
-                        this
-                    )
-                    trackAdditionFailureEvent(this)
-                }
-            }
-        }
-    }
-
-    private fun observeGetRecentMissionListSuccessResponse() {
-        viewModel.getRecentMissionListSuccessResponse.observe(viewLifecycleOwner) { response ->
-            missionHistoryAdapter?.submitList(response.data.map { recentMission ->
-                recentMission.title
-            })
-        }
-    }
-
-    private fun observeGetRecommendSituationList() {
-        observeGetRecommendSituationListSuccessResponse()
-        observeGetRecommendSituationListErrorResponse()
-    }
-
-    private fun observeGetRecommendSituationListSuccessResponse() {
-        viewModel.getRecommendSituationListSuccessResponse.observe(viewLifecycleOwner) { response ->
-            setSituationRecommendations(response.data.map { situation -> situation.name })
-        }
-    }
-
-    private fun observeGetRecommendSituationListErrorResponse() {
-        viewModel.getRecommendSituationListErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            errorMessage.showErrorMessage()
-        }
-    }
-
-    private fun observeModifyNottodoFailureResponse() {
-        viewModel.modifyNottodoErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            errorMessage.showErrorMessage(isHtmlTagExist = true)
-        }
-    }
-
-    private fun trackAdditionFailureEvent(errorMessage: String) {
-        when (errorMessage.first()) {
-            '해' -> NotTodoAmplitude.trackEvent(getString(R.string.appear_same_mission_issue_message))
-            '낫' -> NotTodoAmplitude.trackEvent(getString(R.string.appear_maxed_issue_message))
-        }
-    }
-
     private fun observeModifyNottodoSuccessResponse() {
         viewModel.modifyNottodoSuccessResponse.observe(viewLifecycleOwner) { response ->
             contextNonNull.showToast(getString(R.string.complete_modify_nottodo))
@@ -264,28 +246,51 @@ class ModificationFragment :
 
     private fun trackCompleteModifyMission(missionData: Modification) {
         with(missionData) {
-            val completeModifyMissionEventPropertyMap = mutableMapOf(
+            mapOf(
                 getString(R.string.date) to viewModel.getDateToIntList(),
                 getString(R.string.title) to title,
                 getString(R.string.situation) to situation
-            )
-            if (!goal.isNullOrBlank()) completeModifyMissionEventPropertyMap.plus(getString(R.string.goal) to goal)
-            if (!actions.isNullOrEmpty()) completeModifyMissionEventPropertyMap.plus(
-                getString(R.string.action) to actions.toTypedArray()
-            )
-            NotTodoAmplitude.trackEventWithProperty(
-                getString(R.string.complete_update_mission), completeModifyMissionEventPropertyMap
-            )
+            ).apply {
+                if (!goal.isNullOrBlank()) plus(getString(R.string.goal) to goal)
+                if (!actions.isNullOrEmpty()) plus(getString(R.string.action) to actions.toTypedArray())
+            }.also {
+                NotTodoAmplitude.trackEventWithProperty(
+                    getString(R.string.complete_update_mission), it
+                )
+            }
         }
     }
 
-    private fun navigateToMainWithFirstDay(firstDate: String) {
-        startActivity(
-            Intent(contextNonNull, MainActivity::class.java).setFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            ).putExtra(FIRST_DATE, firstDate)
-        )
-        if (!activityNonNull.isFinishing) activityNonNull.finish()
+    private fun observeModifyNottodoFailureResponse() {
+        viewModel.modifyNottodoErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage.showErrorMessage(isHtmlTagExist = true)
+        }
+    }
+
+    private fun String.showErrorMessage(isHtmlTagExist: Boolean = false) {
+        when (this) {
+            NO_INTERNET_CONDITION_ERROR -> binding.root.showNotTodoSnackBar(
+                NO_INTERNET_CONDITION_ERROR
+            )
+
+            else -> {
+                if (isHtmlTagExist) {
+                    HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT).also { htmlText ->
+                        contextNonNull.showNotTodoSnackBar(binding.root, htmlText)
+                    }
+                } else {
+                    binding.root.showNotTodoSnackBar(this)
+                    trackModifyFailureEvent(this)
+                }
+            }
+        }
+    }
+
+    private fun trackModifyFailureEvent(errorMessage: String) {
+        when (errorMessage.first()) {
+            '해' -> NotTodoAmplitude.trackEvent(getString(R.string.appear_same_mission_issue_message))
+            '낫' -> NotTodoAmplitude.trackEvent(getString(R.string.appear_maxed_issue_message))
+        }
     }
 
     private fun setActions() {
@@ -442,24 +447,6 @@ class ModificationFragment :
                     getString(R.string.click_update_mission), it
                 )
             }
-        }
-    }
-
-    private fun observeGoal() {
-        viewModel.isGoalFilled.observe(viewLifecycleOwner) { isGoalFilled ->
-            binding.layoutModificationGoalClosed.isActivated = isGoalFilled
-        }
-    }
-
-    private fun observeSituation() {
-        viewModel.isSituationFilled.observe(viewLifecycleOwner) { isSituationFilled ->
-            binding.layoutModificationSituationClosed.isActivated = isSituationFilled
-        }
-    }
-
-    private fun observeMission() {
-        viewModel.isMissionFilled.observe(viewLifecycleOwner) { isMissionFilled ->
-            binding.layoutModificationMissionClosed.isActivated = isMissionFilled
         }
     }
 
