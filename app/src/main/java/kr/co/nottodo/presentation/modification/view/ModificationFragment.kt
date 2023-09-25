@@ -22,15 +22,11 @@ import kr.co.nottodo.presentation.modification.viewmodel.ModificationViewModel
 import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addButtons
-import kr.co.nottodo.util.containToday
-import kr.co.nottodo.util.containTomorrow
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
 import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToInt
-import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
-import java.util.Date
 
 class ModificationFragment :
     DataBindingFragment<FragmentModificationBinding>(R.layout.fragment_modification) {
@@ -56,8 +52,8 @@ class ModificationFragment :
 
         getData()
         setViews()
-        setObservers()
         setClickEvents()
+        setObservers()
     }
 
     private fun trackEnterUpdateMission(
@@ -107,18 +103,87 @@ class ModificationFragment :
         viewModel.getMissionDates()
     }
 
-    private fun setClickEvents() {
-        setModifyBtnClickEvent()
-        setFinishButtonClickEvent()
-        setDeleteButtonsClickEvents()
-        setTogglesClickEvents()
-        setEnterKeyClickEvents()
-    }
-
     private fun setViews() {
         setOpenedDesc()
         setRecyclerViews()
         setActions()
+    }
+
+    private fun setOpenedDesc() {
+        setMissionOpenedDescSpan()
+        setSituationOpenedDescSpan()
+        setActionOpenedDescSpan()
+        setGoalOpenedDescSpan()
+    }
+
+    private fun setMissionOpenedDescSpan() {
+        SpannableStringBuilder(getString(R.string.mission_desc)).apply {
+            setSpan(
+                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
+                0,
+                this.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            setSpan(
+                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
+                3,
+                6,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }.also { spannedString -> binding.tvModificationMissionOpenedDesc.text = spannedString }
+    }
+
+    private fun setSituationOpenedDescSpan() {
+        SpannableStringBuilder(
+            getString(R.string.situation_desc)
+        ).apply {
+            setSpan(
+                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
+                0,
+                this.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            setSpan(
+                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
+                10,
+                12,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }.also { spannedString -> binding.tvModificationSituationOpenedDesc.text = spannedString }
+    }
+
+    private fun setActionOpenedDescSpan() {
+        SpannableStringBuilder(getString(R.string.action_desc)).apply {
+            setSpan(
+                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
+                0,
+                this.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            setSpan(
+                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
+                3,
+                5,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }.also { spannedString -> binding.tvModificationActionOpenedDesc.text = spannedString }
+    }
+
+    private fun setGoalOpenedDescSpan() {
+        SpannableStringBuilder(getString(R.string.goal_desc)).apply {
+            setSpan(
+                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
+                0,
+                this.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            setSpan(
+                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
+                12,
+                14,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }.also { spannedString -> binding.tvModificationGoalOpenedDesc.text = spannedString }
     }
 
     private fun setRecyclerViews() {
@@ -147,152 +212,6 @@ class ModificationFragment :
         )
     }
 
-    private fun setObservers() {
-        observeMission()
-        observeSituation()
-        observeGoal()
-        observeGetRecommendSituationList()
-        observeGetRecentMissionListResponse()
-        observeModifyNottodoResponse()
-        observeGetMissionDatesResponse()
-    }
-
-    private fun observeMission() {
-        viewModel.isMissionFilled.observe(viewLifecycleOwner) { isMissionFilled ->
-            binding.layoutModificationMissionClosed.isActivated = isMissionFilled
-        }
-    }
-
-    private fun observeSituation() {
-        viewModel.isSituationFilled.observe(viewLifecycleOwner) { isSituationFilled ->
-            binding.layoutModificationSituationClosed.isActivated = isSituationFilled
-        }
-    }
-
-    private fun observeGoal() {
-        viewModel.isGoalFilled.observe(viewLifecycleOwner) { isGoalFilled ->
-            binding.layoutModificationGoalClosed.isActivated = isGoalFilled
-        }
-    }
-
-    private fun observeGetRecommendSituationList() {
-        observeGetRecommendSituationListSuccessResponse()
-        observeGetRecommendSituationListErrorResponse()
-    }
-
-    private fun observeGetRecommendSituationListSuccessResponse() {
-        viewModel.getRecommendSituationListSuccessResponse.observe(viewLifecycleOwner) { response ->
-            setSituationRecommendations(response.data.map { situation -> situation.name })
-        }
-    }
-
-    private fun observeGetRecommendSituationListErrorResponse() {
-        viewModel.getRecommendSituationListErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            errorMessage.showErrorMessage()
-        }
-    }
-
-    private fun observeGetRecentMissionListResponse() {
-        observeGetRecentMissionListSuccessResponse()
-        observeGetRecentMissionListErrorResponse()
-    }
-
-    private fun observeGetRecentMissionListSuccessResponse() {
-        viewModel.getRecentMissionListSuccessResponse.observe(viewLifecycleOwner) { response ->
-            missionHistoryAdapter?.submitList(response.data.map { recentMission ->
-                recentMission.title
-            })
-        }
-    }
-
-    private fun observeGetRecentMissionListErrorResponse() {
-        viewModel.getRecentMissionListListErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            errorMessage.showErrorMessage()
-        }
-    }
-
-
-    private fun observeGetMissionDatesResponse() {
-        observeGetMissionDatesSuccessResponse()
-        observeGetMissionDatesErrorResponse()
-    }
-
-    private fun observeGetMissionDatesSuccessResponse() {
-        viewModel.dates.observe(viewLifecycleOwner) { dates ->
-            trackEnterUpdateMission(dataFromHome, dates.map { it.convertDateStringToInt() })
-        }
-    }
-
-    private fun observeGetMissionDatesErrorResponse() {
-        viewModel.getMissionDatesErrorResponse.observe(viewLifecycleOwner) { errorMessage ->
-            contextNonNull.showToast(if (errorMessage == NO_INTERNET_CONDITION_ERROR) NO_INTERNET_CONDITION_ERROR else errorMessage)
-            if (!activityNonNull.isFinishing) activityNonNull.finish()
-        }
-    }
-
-    private fun observeModifyNottodoResponse() {
-        observeModifyNottodoSuccessResponse()
-        observeModifyNottodoFailureResponse()
-    }
-
-    private fun observeModifyNottodoSuccessResponse() {
-        viewModel.modifyNottodoSuccessResponse.observe(viewLifecycleOwner) { response ->
-            contextNonNull.showToast(getString(R.string.complete_modify_nottodo))
-            activityNonNull.setResult(AppCompatActivity.RESULT_OK)
-            if (!activityNonNull.isFinishing) activityNonNull.finish()
-            trackCompleteModifyMission(response)
-        }
-    }
-
-    private fun trackCompleteModifyMission(missionData: Modification) {
-        with(missionData) {
-            mapOf(
-                getString(R.string.date) to viewModel.getDateToIntList(),
-                getString(R.string.title) to title,
-                getString(R.string.situation) to situation
-            ).apply {
-                if (!goal.isNullOrBlank()) plus(getString(R.string.goal) to goal)
-                if (!actions.isNullOrEmpty()) plus(getString(R.string.action) to actions.toTypedArray())
-            }.also {
-                NotTodoAmplitude.trackEventWithProperty(
-                    getString(R.string.complete_update_mission), it
-                )
-            }
-        }
-    }
-
-    private fun observeModifyNottodoFailureResponse() {
-        viewModel.modifyNottodoErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            errorMessage.showErrorMessage(isHtmlTagExist = true)
-        }
-    }
-
-    private fun String.showErrorMessage(isHtmlTagExist: Boolean = false) {
-        when (this) {
-            NO_INTERNET_CONDITION_ERROR -> binding.root.showNotTodoSnackBar(
-                NO_INTERNET_CONDITION_ERROR
-            )
-
-            else -> {
-                if (isHtmlTagExist) {
-                    HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT).also { htmlText ->
-                        contextNonNull.showNotTodoSnackBar(binding.root, htmlText)
-                    }
-                } else {
-                    binding.root.showNotTodoSnackBar(this)
-                    trackModifyFailureEvent(this)
-                }
-            }
-        }
-    }
-
-    private fun trackModifyFailureEvent(errorMessage: String) {
-        when (errorMessage.first()) {
-            '해' -> NotTodoAmplitude.trackEvent(getString(R.string.appear_same_mission_issue_message))
-            '낫' -> NotTodoAmplitude.trackEvent(getString(R.string.appear_maxed_issue_message))
-        }
-    }
-
     private fun setActions() {
         viewModel.actionCount.observe(viewLifecycleOwner) {
             setActionBoxIsFilled()
@@ -302,6 +221,14 @@ class ModificationFragment :
     private fun setActionBoxIsFilled() {
         binding.layoutModificationActionClosed.isActivated =
             viewModel.isFirstActionExist.value ?: false
+    }
+
+    private fun setClickEvents() {
+        setEnterKeyClickEvents()
+        setModifyBtnClickEvent()
+        setFinishButtonClickEvent()
+        setDeleteButtonsClickEvents()
+        setTogglesClickEvents()
     }
 
     private fun setEnterKeyClickEvents() {
@@ -420,12 +347,6 @@ class ModificationFragment :
         binding.ivModificationDelete.setOnClickListener { if (!activityNonNull.isFinishing) activityNonNull.finish() }
     }
 
-    private fun setSituationRecommendations(situationList: List<String>) {
-        binding.layoutModificationSituationRecommend.addButtons(
-            situationList, binding.etModificationSituation
-        )
-    }
-
     private fun setModifyBtnClickEvent() {
         binding.btnModificationModify.setOnClickListener {
             trackClickUpdateMission()
@@ -498,43 +419,6 @@ class ModificationFragment :
         }
     }
 
-    private fun setDateDescTv() {
-        val selectedDays: MutableList<Date> =
-            binding.calendarModificationDateOpened.selectedDays.apply {
-                sortDescending()
-            }
-        if (selectedDays.isEmpty()) return
-        binding.tvModificationDate.text = selectedDays.last().convertDateToString()
-
-        if (selectedDays.size > 1) {
-            binding.tvModificationDateEndDesc.apply {
-                visibility = View.VISIBLE
-                text = getString(R.string.other_days, selectedDays.size - 1)
-            }
-        } else {
-            binding.tvModificationDateEndDesc.apply {
-                visibility = View.GONE
-            }
-        }
-
-        if (selectedDays.containToday()) binding.tvModificationDateStartDesc.apply {
-            visibility = View.VISIBLE
-            text = getString(R.string.today)
-            return
-        }
-        if (selectedDays.containTomorrow()) binding.tvModificationDateStartDesc.apply {
-            visibility = View.VISIBLE
-            text = getString(R.string.tomorrow)
-            return
-        }
-
-        binding.tvModificationDateStartDesc.visibility = View.GONE
-    }
-
-    private fun closeGoalToggle() {
-        viewModel.isGoalToggleVisible.value = false
-    }
-
     private fun requestFocusWithShowingKeyboard(editText: EditText) {
         editText.run {
             requestFocus()
@@ -543,9 +427,22 @@ class ModificationFragment :
         }
     }
 
-    private fun openGoalToggle() {
-        viewModel.isGoalToggleVisible.value = true
-        requestFocusWithShowingKeyboard(binding.etModificationGoal)
+    private fun openMissionToggle() {
+        viewModel.isMissionToggleVisible.value = true
+        requestFocusWithShowingKeyboard(binding.etModificationMission)
+    }
+
+    private fun closeMissionToggle() {
+        viewModel.isMissionToggleVisible.value = false
+    }
+
+    private fun openSituationToggle() {
+        viewModel.isSituationToggleVisible.value = true
+        requestFocusWithShowingKeyboard(binding.etModificationSituation)
+    }
+
+    private fun closeSituationToggle() {
+        viewModel.isSituationToggleVisible.value = false
     }
 
     private fun openActionToggle() {
@@ -559,99 +456,165 @@ class ModificationFragment :
         viewModel.isActionToggleVisible.value = false
     }
 
-    private fun openSituationToggle() {
-        viewModel.isSituationToggleVisible.value = true
-        requestFocusWithShowingKeyboard(binding.etModificationSituation)
+    private fun openGoalToggle() {
+        viewModel.isGoalToggleVisible.value = true
+        requestFocusWithShowingKeyboard(binding.etModificationGoal)
     }
 
-    private fun closeSituationToggle() {
-        viewModel.isSituationToggleVisible.value = false
+    private fun closeGoalToggle() {
+        viewModel.isGoalToggleVisible.value = false
     }
 
-    private fun closeMissionToggle() {
-        viewModel.isMissionToggleVisible.value = false
+    private fun setObservers() {
+        observeMission()
+        observeSituation()
+        observeGoal()
+        observeGetRecommendSituationList()
+        observeGetRecentMissionListResponse()
+        observeModifyNottodoResponse()
+        observeGetMissionDatesResponse()
     }
 
-    private fun openMissionToggle() {
-        viewModel.isMissionToggleVisible.value = true
-        requestFocusWithShowingKeyboard(binding.etModificationMission)
+    private fun observeMission() {
+        viewModel.isMissionFilled.observe(viewLifecycleOwner) { isMissionFilled ->
+            binding.layoutModificationMissionClosed.isActivated = isMissionFilled
+        }
     }
 
-    private fun setOpenedDesc() {
-        setMissionOpenedDescSpan()
-        setSituationOpenedDescSpan()
-        setActionOpenedDescSpan()
-        setGoalOpenedDescSpan()
+    private fun observeSituation() {
+        viewModel.isSituationFilled.observe(viewLifecycleOwner) { isSituationFilled ->
+            binding.layoutModificationSituationClosed.isActivated = isSituationFilled
+        }
     }
 
-    private fun setMissionOpenedDescSpan() {
-        SpannableStringBuilder(getString(R.string.mission_desc)).apply {
-            setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
-                0,
-                this.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
-                3,
-                6,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }.also { spannedString -> binding.tvModificationMissionOpenedDesc.text = spannedString }
+    private fun observeGoal() {
+        viewModel.isGoalFilled.observe(viewLifecycleOwner) { isGoalFilled ->
+            binding.layoutModificationGoalClosed.isActivated = isGoalFilled
+        }
     }
 
-    private fun setSituationOpenedDescSpan() {
-        SpannableStringBuilder(
-            getString(R.string.situation_desc)
-        ).apply {
-            setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
-                0,
-                this.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
-                10,
-                12,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }.also { spannedString -> binding.tvModificationSituationOpenedDesc.text = spannedString }
+    private fun observeGetRecommendSituationList() {
+        observeGetRecommendSituationListSuccessResponse()
+        observeGetRecommendSituationListErrorResponse()
     }
 
-    private fun setActionOpenedDescSpan() {
-        SpannableStringBuilder(getString(R.string.action_desc)).apply {
-            setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
-                0,
-                this.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
-                3,
-                5,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }.also { spannedString -> binding.tvModificationActionOpenedDesc.text = spannedString }
+    private fun observeGetRecommendSituationListSuccessResponse() {
+        viewModel.getRecommendSituationListSuccessResponse.observe(viewLifecycleOwner) { response ->
+            setSituationRecommendations(response.data.map { situation -> situation.name })
+        }
     }
 
-    private fun setGoalOpenedDescSpan() {
-        SpannableStringBuilder(getString(R.string.goal_desc)).apply {
-            setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
-                0,
-                this.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+    private fun setSituationRecommendations(situationList: List<String>) {
+        binding.layoutModificationSituationRecommend.addButtons(
+            situationList, binding.etModificationSituation
+        )
+    }
+
+    private fun observeGetRecommendSituationListErrorResponse() {
+        viewModel.getRecommendSituationListErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage.showErrorMessage()
+        }
+    }
+
+    private fun observeGetRecentMissionListResponse() {
+        observeGetRecentMissionListSuccessResponse()
+        observeGetRecentMissionListErrorResponse()
+    }
+
+    private fun observeGetRecentMissionListSuccessResponse() {
+        viewModel.getRecentMissionListSuccessResponse.observe(viewLifecycleOwner) { response ->
+            missionHistoryAdapter?.submitList(response.data.map { recentMission ->
+                recentMission.title
+            })
+        }
+    }
+
+    private fun observeGetRecentMissionListErrorResponse() {
+        viewModel.getRecentMissionListListErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage.showErrorMessage()
+        }
+    }
+
+
+    private fun observeGetMissionDatesResponse() {
+        observeGetMissionDatesSuccessResponse()
+        observeGetMissionDatesErrorResponse()
+    }
+
+    private fun observeGetMissionDatesSuccessResponse() {
+        viewModel.dates.observe(viewLifecycleOwner) { dates ->
+            trackEnterUpdateMission(dataFromHome, dates.map { it.convertDateStringToInt() })
+        }
+    }
+
+    private fun observeGetMissionDatesErrorResponse() {
+        viewModel.getMissionDatesErrorResponse.observe(viewLifecycleOwner) { errorMessage ->
+            contextNonNull.showToast(if (errorMessage == NO_INTERNET_CONDITION_ERROR) NO_INTERNET_CONDITION_ERROR else errorMessage)
+            if (!activityNonNull.isFinishing) activityNonNull.finish()
+        }
+    }
+
+    private fun observeModifyNottodoResponse() {
+        observeModifyNottodoSuccessResponse()
+        observeModifyNottodoFailureResponse()
+    }
+
+    private fun observeModifyNottodoSuccessResponse() {
+        viewModel.modifyNottodoSuccessResponse.observe(viewLifecycleOwner) { response ->
+            contextNonNull.showToast(getString(R.string.complete_modify_nottodo))
+            activityNonNull.setResult(AppCompatActivity.RESULT_OK)
+            if (!activityNonNull.isFinishing) activityNonNull.finish()
+            trackCompleteModifyMission(response)
+        }
+    }
+
+    private fun trackCompleteModifyMission(missionData: Modification) {
+        with(missionData) {
+            mapOf(
+                getString(R.string.date) to viewModel.getDateToIntList(),
+                getString(R.string.title) to title,
+                getString(R.string.situation) to situation
+            ).apply {
+                if (!goal.isNullOrBlank()) plus(getString(R.string.goal) to goal)
+                if (!actions.isNullOrEmpty()) plus(getString(R.string.action) to actions.toTypedArray())
+            }.also {
+                NotTodoAmplitude.trackEventWithProperty(
+                    getString(R.string.complete_update_mission), it
+                )
+            }
+        }
+    }
+
+    private fun observeModifyNottodoFailureResponse() {
+        viewModel.modifyNottodoErrorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage.showErrorMessage(isHtmlTagExist = true)
+        }
+    }
+
+    private fun String.showErrorMessage(isHtmlTagExist: Boolean = false) {
+        when (this) {
+            NO_INTERNET_CONDITION_ERROR -> binding.root.showNotTodoSnackBar(
+                NO_INTERNET_CONDITION_ERROR
             )
-            setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
-                12,
-                14,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }.also { spannedString -> binding.tvModificationGoalOpenedDesc.text = spannedString }
+
+            else -> {
+                if (isHtmlTagExist) {
+                    HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT).also { htmlText ->
+                        contextNonNull.showNotTodoSnackBar(binding.root, htmlText)
+                    }
+                } else {
+                    binding.root.showNotTodoSnackBar(this)
+                    trackModifyFailureEvent(this)
+                }
+            }
+        }
+    }
+
+    private fun trackModifyFailureEvent(errorMessage: String) {
+        when (errorMessage.first()) {
+            '해' -> NotTodoAmplitude.trackEvent(getString(R.string.appear_same_mission_issue_message))
+            '낫' -> NotTodoAmplitude.trackEvent(getString(R.string.appear_maxed_issue_message))
+        }
     }
 
     override fun onDestroyView() {
@@ -661,9 +624,5 @@ class ModificationFragment :
 
     override fun bindViewModelWithBinding() {
         binding.vm = viewModel
-    }
-
-    companion object {
-        const val FIRST_DATE = "FIRST_DATE"
     }
 }
