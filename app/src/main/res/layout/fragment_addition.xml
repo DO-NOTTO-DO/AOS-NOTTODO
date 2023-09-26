@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel" />
+            type="kr.co.nottodo.presentation.addition.viewmodel.AdditionNewViewModel" />
 
         <import type="android.view.View" />
     </data>
