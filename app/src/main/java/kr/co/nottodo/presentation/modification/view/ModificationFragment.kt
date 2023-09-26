@@ -18,7 +18,7 @@ import kr.co.nottodo.databinding.FragmentModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
 import kr.co.nottodo.presentation.modification.model.NotTodoData
-import kr.co.nottodo.presentation.modification.viewmodel.ModificationViewModel
+import kr.co.nottodo.presentation.modification.viewmodel.ModificationNewViewModel
 import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addButtons
@@ -30,7 +30,7 @@ import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToInt
 
 class ModificationFragment :
     DataBindingFragment<FragmentModificationBinding>(R.layout.fragment_modification) {
-    private val viewModel by viewModels<ModificationViewModel>()
+    private val viewModel by viewModels<ModificationNewViewModel>()
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
     private val contextNonNull by lazy { requireContext() }
     private val activityNonNull by lazy { requireActivity() }
