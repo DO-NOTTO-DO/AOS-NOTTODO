@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
@@ -135,7 +136,7 @@ class MyPageFragment : Fragment() {
     private fun setNameClickEvent() {
         binding.layoutMypageName.setOnClickListener {
             trackEvent(getString(R.string.click_my_info))
-            startActivity(Intent(requireContext(), MyPageInformationActivity::class.java))
+            findNavController().navigate(R.id.action_myPageFragment_to_myPageInformationFragment)
         }
     }
 
