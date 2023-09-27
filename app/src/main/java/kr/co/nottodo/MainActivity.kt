@@ -30,6 +30,11 @@ import kr.co.nottodo.util.showToast
 class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+    private val navController by lazy {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
+        navHostFragment.navController
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,26 +111,18 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     }
 
     private fun showAndHideBottomNavigationView() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
-        val navController = navHostFragment.navController
-
         AppBarConfiguration(
             setOf(
                 R.id.homeFragment, R.id.achieveFragment, R.id.myPageFragment
             )
         ).also {
             navController.addOnDestinationChangedListener { _, destination, _ ->
-                binding.bnvMain.isVisible =
-                    it.topLevelDestinations.contains(destination.id)
+                binding.bnvMain.isVisible = it.topLevelDestinations.contains(destination.id)
             }
         }
     }
 
     private fun setBottomNavigationViewWithNavController() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
-        val navController = navHostFragment.navController
         binding.bnvMain.setupWithNavController(navController)
     }
 
