@@ -10,6 +10,7 @@ import android.provider.Settings
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.FragmentMyPageInformationBinding
@@ -158,7 +159,7 @@ class MyPageInformationFragment :
 
     private fun setBackIvClickEvent() {
         binding.ivMyPageInformationBackArrow.setOnClickListener {
-            if (!activityNonNull.isFinishing) activityNonNull.finish()
+            findNavController().popBackStack()
         }
     }
 
