@@ -11,8 +11,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -100,6 +102,24 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
                 .setTopLeftCorner(CornerFamily.ROUNDED, radius).build()
 
         setBottomNavigationViewWithNavController()
+        showAndHideBottomNavigationView()
+    }
+
+    private fun showAndHideBottomNavigationView() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        AppBarConfiguration(
+            setOf(
+                R.id.homeFragment, R.id.achieveFragment, R.id.myPageFragment
+            )
+        ).also {
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                binding.bnvMain.isVisible =
+                    it.topLevelDestinations.contains(destination.id)
+            }
+        }
     }
 
     private fun setBottomNavigationViewWithNavController() {
