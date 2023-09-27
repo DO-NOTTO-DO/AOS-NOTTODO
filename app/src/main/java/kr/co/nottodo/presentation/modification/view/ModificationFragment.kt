@@ -32,8 +32,6 @@ class ModificationFragment :
     DataBindingFragment<FragmentModificationBinding>(R.layout.fragment_modification) {
     private val viewModel by viewModels<ModificationNewViewModel>()
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
-    private val contextNonNull by lazy { requireContext() }
-    private val activityNonNull by lazy { requireActivity() }
     private val dataFromHome: ParcelizeBottomDetail by lazy {
         // TODO : Safe Args를 통해 데이터 전달받기
         ParcelizeBottomDetail(

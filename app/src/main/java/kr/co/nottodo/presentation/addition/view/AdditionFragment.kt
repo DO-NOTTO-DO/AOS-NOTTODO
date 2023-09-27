@@ -39,8 +39,6 @@ class AdditionFragment :
     DataBindingFragment<FragmentAdditionBinding>(R.layout.fragment_addition) {
     private val viewModel by viewModels<AdditionNewViewModel>()
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
-    private val contextNonNull by lazy { requireContext() }
-    private val activityNonNull by lazy { requireActivity() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
