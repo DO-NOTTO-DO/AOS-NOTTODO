@@ -13,10 +13,7 @@ import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
 import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
-import kr.co.nottodo.util.PublicString.INPUT
-import kr.co.nottodo.util.PublicString.MAX_COUNT_20
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
-import kr.co.nottodo.util.addSourceList
 import kr.co.nottodo.util.getErrorMessage
 import kr.co.nottodo.util.isConnectException
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
@@ -24,79 +21,29 @@ import java.util.Date
 
 class AdditionViewModel : ViewModel() {
 
-    val isDateToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isMissionToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isSituationToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isActionToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isGoalToggleVisible: MutableLiveData<Boolean> = MutableLiveData(false)
-
     val date: MutableLiveData<String> = MutableLiveData(Date().convertDateToString())
 
-    val mission: MutableLiveData<String> = MutableLiveData("")
-    val isMissionFilled: LiveData<Boolean> = mission.map { mission ->
+    val mission: MutableLiveData<String> = MutableLiveData()
+    private val isMissionFilled: LiveData<Boolean> = mission.map { mission ->
         mission.isNotBlank()
     }
-    val missionLengthCounter: LiveData<String> = mission.map { mission ->
-        mission.length.toString() + MAX_COUNT_20
-    }
-    val situation: MutableLiveData<String> = MutableLiveData("")
-    val situationLengthCounter: LiveData<String> = situation.map { situation ->
-        situation.length.toString() + MAX_COUNT_20
-    }
-    val isSituationFilled: LiveData<Boolean> = situation.map { situation ->
+    val situation: MutableLiveData<String> = MutableLiveData()
+    private val isSituationFilled: LiveData<Boolean> = situation.map { situation ->
         situation.isNotBlank()
     }
-    val action: MutableLiveData<String> = MutableLiveData("")
-    val actionLengthCounter: LiveData<String> =
-        action.map { action -> action.length.toString() + MAX_COUNT_20 }
+    val action: MutableLiveData<String> = MutableLiveData()
+    val goal: MutableLiveData<String> = MutableLiveData()
 
-    val firstAction: MutableLiveData<String> = MutableLiveData("")
-    val isFirstActionExist: LiveData<Boolean> =
-        firstAction.map { firstAction -> !firstAction.isNullOrBlank() }
+    val isAbleToAdd: MediatorLiveData<Boolean> = MediatorLiveData()
 
-    val secondAction: MutableLiveData<String> = MutableLiveData("")
-    val isSecondActionExist: LiveData<Boolean> =
-        secondAction.map { secondAction -> !secondAction.isNullOrBlank() }
+    val actionCount: MutableLiveData<Int> = MutableLiveData(0)
 
-    val thirdAction: MutableLiveData<String> = MutableLiveData("")
-    val isThirdActionExist: LiveData<Boolean> =
-        thirdAction.map { thirdAction -> !thirdAction.isNullOrBlank() }
-
-    val actionCount: MediatorLiveData<Int> = MediatorLiveData(0).apply {
-        addSourceList(isFirstActionExist, isSecondActionExist, isThirdActionExist) {
-            countActions()
+    init {
+        isAbleToAdd.addSource(isMissionFilled) {
+            isAbleToAdd.value = _isAbleToAdd()
         }
-    }
-
-    private fun countActions(): Int {
-        if (isThirdActionExist.value == true) return 3
-        if (isSecondActionExist.value == true) return 2
-        if (isFirstActionExist.value == true) return 1
-        return 0
-    }
-
-    val actionList: MediatorLiveData<String> = MediatorLiveData("").apply {
-        addSourceList(firstAction, secondAction, thirdAction) {
-            updateActionList()
-        }
-    }
-
-    private fun updateActionList(): String {
-        if (isThirdActionExist.value == true) return "${firstAction.value}\n${secondAction.value}\n${thirdAction.value}"
-        if (isSecondActionExist.value == true) return "${firstAction.value}\n${secondAction.value}"
-        if (isFirstActionExist.value == true) return "${firstAction.value}"
-        else return INPUT
-    }
-
-    val goal: MutableLiveData<String> = MutableLiveData("")
-    val isGoalFilled: LiveData<Boolean> = goal.map { goal -> goal.isNotBlank() }
-    val goalLengthCounter: LiveData<String> = goal.map { goal ->
-        goal.length.toString() + MAX_COUNT_20
-    }
-
-    val isAbleToPost: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>().apply {
-        addSourceList(isMissionFilled, isSituationFilled) {
-            _isAbleToAdd()
+        isAbleToAdd.addSource(isSituationFilled) {
+            isAbleToAdd.value = _isAbleToAdd()
         }
     }
 
@@ -104,24 +51,21 @@ class AdditionViewModel : ViewModel() {
         return (isMissionFilled.value == true && isSituationFilled.value == true)
     }
 
-    private val _postNottodoSuccessResponse: MutableLiveData<ResponseAdditionDto.Addition> =
-        MutableLiveData()
-    val postNottodoSuccessResponse: LiveData<ResponseAdditionDto.Addition>
-        get() = _postNottodoSuccessResponse
+    private val _additionResponse: MutableLiveData<ResponseAdditionDto.Addition> = MutableLiveData()
+    val additionResponse: LiveData<ResponseAdditionDto.Addition>
+        get() = _additionResponse
 
-    private val _postNottodoErrorMessage: MutableLiveData<String> = MutableLiveData()
-    val postNottodoErrorMessage: LiveData<String>
-        get() = _postNottodoErrorMessage
+    private val _errorResponse: MutableLiveData<String> = MutableLiveData()
+    val errorResponse: LiveData<String>
+        get() = _errorResponse
 
-    fun postNottodo(requestAdditionDto: RequestAdditionDto) {
+    fun postAddition(requestAdditionDto: RequestAdditionDto) {
         viewModelScope.launch {
             kotlin.runCatching {
                 additionService.postMission(requestAdditionDto)
-            }.fold(onSuccess = { successResponse ->
-                _postNottodoSuccessResponse.value = successResponse.data
-            }, onFailure = { errorResponse ->
-                _postNottodoErrorMessage.value =
-                    if (errorResponse.isConnectException) NO_INTERNET_CONDITION_ERROR else errorResponse.getErrorMessage()
+            }.fold(onSuccess = { _additionResponse.value = it.data }, onFailure = {
+                _errorResponse.value =
+                    if (it.isConnectException) NO_INTERNET_CONDITION_ERROR else it.getErrorMessage()
             })
         }
     }

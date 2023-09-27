@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="kr.co.nottodo.presentation.addition.viewmodel.AdditionNewViewModel" />
+            type="kr.co.nottodo.presentation.modification.viewmodel.ModificationNewViewModel" />
 
         <import type="android.view.View" />
     </data>
@@ -18,21 +18,21 @@
         android:background="@color/black">
 
         <ImageView
-            android:id="@+id/iv_addition_delete"
+            android:id="@+id/iv_modification_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/cd_delete_addition_view"
+            android:contentDescription="@string/cd_delete_modification_view"
             android:src="@drawable/ic_cancel"
-            app:layout_constraintBottom_toBottomOf="@id/tv_addition_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_modification_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_addition_title" />
+            app:layout_constraintTop_toTopOf="@id/tv_modification_title" />
 
         <TextView
-            android:id="@+id/tv_addition_title"
+            android:id="@+id/tv_modification_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/addition_create_nottodo"
+            android:text="@string/modification_modify_nottodo"
             android:textAppearance="@style/M18"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -41,47 +41,46 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_addition_add"
+            android:id="@+id/btn_modification_modify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="18dp"
             android:background="@drawable/rectangle_selector_addition_modification_complete"
-            android:enabled="@{vm.isAbleToPost()}"
+            android:enabled="@{vm.isAbleToModify()}"
             android:minWidth="0dp"
             android:minHeight="0dp"
             android:paddingHorizontal="15dp"
             android:paddingVertical="4dp"
-            android:text="@string/add"
+            android:text="@string/complete_kor"
             android:textAppearance="@style/M15"
-            android:textColor="@{vm.isAbleToPost() ? @color/gray_1_2a2a2e : @color/gray_3_5d5d6b}"
-            app:layout_constraintBottom_toBottomOf="@id/tv_addition_title"
+            android:textColor="@{vm.isAbleToModify() ? @color/gray_1_2a2a2e : @color/gray_3_5d5d6b}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_modification_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_addition_title" />
+            app:layout_constraintTop_toTopOf="@id/tv_modification_title" />
 
         <View
-            android:id="@+id/view_addition_line"
+            android:id="@+id/view_modification_line"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="24dp"
             android:background="@color/gray_2_34343a"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_addition_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_modification_title" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_addition_line">
+            app:layout_constraintTop_toBottomOf="@id/view_modification_line">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:context=".presentation.addition.view.AdditionActivity">
+                android:layout_height="wrap_content">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_addition_date"
+                    android:id="@+id/layout_modification_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="18dp"
@@ -92,17 +91,17 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_date_closed"
+                        android:id="@+id/layout_modification_date_closed"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:visibility="@{vm.dateToggleVisible ? View.GONE : View.VISIBLE }"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_date_title_before"
+                            android:id="@+id/tv_modification_date_title_before"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
@@ -115,55 +114,56 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
-                            android:id="@+id/view_addition_date_spacer"
+                            android:id="@+id/view_modification_date_spacer"
                             android:layout_width="29dp"
                             android:layout_height="0dp"
                             app:layout_constraintBaseline_toBottomOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/tv_addition_date_title_before"
+                            app:layout_constraintStart_toEndOf="@id/tv_modification_date_title_before"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_date_start_desc"
+                            android:id="@+id/tv_modification_date_start_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="7dp"
-                            android:text="@string/today"
+                            android:text="@{vm.dateDesc}"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/white"
-                            android:visibility="visible"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/view_addition_date_spacer"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintStart_toEndOf="@id/view_modification_date_spacer"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="오늘" />
 
                         <TextView
-                            android:id="@+id/tv_addition_date"
+                            android:id="@+id/tv_modification_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="7dp"
-                            android:text="@{vm.date}"
+                            android:text="@{vm.firstDate}"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/gray_4_9398aa"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/tv_addition_date_start_desc"
+                            app:layout_constraintStart_toEndOf="@id/tv_modification_date_start_desc"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="2023.05.18" />
 
                         <TextView
-                            android:id="@+id/tv_addition_date_end_desc"
+                            android:id="@+id/tv_modification_date_end_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="7dp"
+                            android:text="@{vm.datesCountMinusOne}"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/white"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/tv_addition_date"
+                            app:layout_constraintStart_toEndOf="@+id/tv_modification_date"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="그 외 1일" />
 
                         <ImageView
-                            android:id="@+id/iv_addition_date"
+                            android:id="@+id/iv_modification_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
@@ -175,17 +175,17 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_date_opened"
+                        android:id="@+id/layout_modification_date_opened"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
-                        android:visibility="@{vm.dateToggleVisible ? View.VISIBLE : View.GONE }"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_date_opened_complete"
+                            android:id="@+id/tv_modification_date_opened_complete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -198,20 +198,20 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_date_opened_title"
+                            android:id="@+id/tv_modification_date_opened_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="17dp"
                             android:text="@string/date_kor"
                             android:textAppearance="@style/M14"
                             android:textColor="@color/green_1_98ffa9"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_addition_date_opened_complete"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_modification_date_opened_complete"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tv_addition_date_opened_complete" />
+                            app:layout_constraintTop_toTopOf="@id/tv_modification_date_opened_complete" />
 
 
                         <TextView
-                            android:id="@+id/tv_addition_date_opened_desc"
+                            android:id="@+id/tv_modification_date_opened_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="13dp"
@@ -219,18 +219,18 @@
                             android:text="@string/when_nottodo_date"
                             android:textAppearance="@style/M20"
                             android:textColor="@color/white"
-                            app:layout_constraintStart_toStartOf="@id/tv_addition_date_opened_title"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_date_opened_title" />
+                            app:layout_constraintStart_toStartOf="@id/tv_modification_date_opened_title"
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_date_opened_title" />
 
                         <kr.co.nottodo.view.calendar.monthly.monthlycalendarpicker.MonthlyCalendarMultiplePicker
-                            android:id="@+id/calendar_addition_date_opened"
+                            android:id="@+id/calendar_modification_date_opened"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="12dp"
                             android:layout_marginTop="26dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_date_opened_desc" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_date_opened_desc" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -244,24 +244,24 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/calendar_addition_date_opened" />
+                            app:layout_constraintTop_toBottomOf="@id/calendar_modification_date_opened" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_addition_mission"
+                    android:id="@+id/layout_modification_mission"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="18dp"
                     android:layout_marginTop="12dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_addition_date">
+                    app:layout_constraintTop_toBottomOf="@id/layout_modification_date">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_mission_closed"
+                        android:id="@+id/layout_modification_mission_closed"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_selector_addition_modification_box"
@@ -272,7 +272,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_mission_closed_title"
+                            android:id="@+id/tv_modification_mission_closed_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
@@ -285,7 +285,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
-                            android:id="@+id/iv_addition_mission_closed_check"
+                            android:id="@+id/iv_modification_mission_closed_check"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
@@ -297,7 +297,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_mission_closed_name"
+                            android:id="@+id/tv_modification_mission_closed_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="82dp"
@@ -311,7 +311,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_mission_opened"
+                        android:id="@+id/layout_modification_mission_opened"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
@@ -322,7 +322,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_mission_opened_title"
+                            android:id="@+id/tv_modification_mission_opened_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
@@ -333,17 +333,17 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_mission_opened_desc"
+                            android:id="@+id/tv_modification_mission_opened_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="13dp"
                             android:bufferType="spannable"
                             android:textAppearance="@style/Sb20"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_mission_opened_title" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_mission_opened_title" />
 
                         <EditText
-                            android:id="@+id/et_addition_mission"
+                            android:id="@+id/et_modification_mission"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="25dp"
@@ -359,21 +359,21 @@
                             android:textColorHint="@color/gray_4_9398aa"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_mission_opened_desc" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_mission_opened_desc" />
 
                         <TextView
-                            android:id="@+id/tv_addition_mission_text_count"
+                            android:id="@+id/tv_modification_mission_text_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingBottom="21dp"
                             android:text="@{vm.missionLengthCounter}"
                             android:textAppearance="@style/R12"
                             android:textColor="@color/gray_3_5d5d6b"
-                            app:layout_constraintEnd_toEndOf="@id/et_addition_mission"
-                            app:layout_constraintTop_toBottomOf="@id/et_addition_mission" />
+                            app:layout_constraintEnd_toEndOf="@id/et_modification_mission"
+                            app:layout_constraintTop_toBottomOf="@id/et_modification_mission" />
 
                         <TextView
-                            android:id="@+id/tv_addition_mission_rv_title"
+                            android:id="@+id/tv_modification_mission_rv_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="28dp"
@@ -382,10 +382,10 @@
                             android:textColor="@color/gray_4_9398aa"
                             android:visibility="@{vm.isMissionFilled() ? View.GONE : View.VISIBLE}"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/et_addition_mission" />
+                            app:layout_constraintTop_toBottomOf="@id/et_modification_mission" />
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_addition_mission"
+                            android:id="@+id/rv_modification_mission"
                             android:layout_width="0dp"
                             android:layout_height="120dp"
                             android:layout_marginTop="10dp"
@@ -399,13 +399,13 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_mission_rv_title" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_mission_rv_title" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_addition_situation"
+                    android:id="@+id/layout_modification_situation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="18dp"
@@ -413,10 +413,10 @@
                     android:background="@drawable/rectangle_stroke_1_gray_3_radius_12"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_addition_mission">
+                    app:layout_constraintTop_toBottomOf="@id/layout_modification_mission">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_situation_closed"
+                        android:id="@+id/layout_modification_situation_closed"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_selector_addition_modification_box"
@@ -427,7 +427,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_situation_title"
+                            android:id="@+id/tv_modification_situation_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
@@ -440,7 +440,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_situation_name"
+                            android:id="@+id/tv_modification_situation_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="82dp"
@@ -452,7 +452,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
-                            android:id="@+id/iv_addition_situation_check"
+                            android:id="@+id/iv_modification_situation_check"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
@@ -465,7 +465,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_situation_opened"
+                        android:id="@+id/layout_modification_situation_opened"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
@@ -476,7 +476,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_situation_opened_title"
+                            android:id="@+id/tv_modification_situation_opened_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
@@ -487,17 +487,17 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_situation_opened_desc"
+                            android:id="@+id/tv_modification_situation_opened_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="13dp"
                             android:bufferType="spannable"
                             android:textAppearance="@style/Sb20"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_situation_opened_title" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_situation_opened_title" />
 
                         <EditText
-                            android:id="@+id/et_addition_situation"
+                            android:id="@+id/et_modification_situation"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="37dp"
@@ -511,20 +511,20 @@
                             android:textColor="@color/white"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_situation_opened_desc" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_situation_opened_desc" />
 
                         <TextView
-                            android:id="@+id/tv_addition_situation_text_count"
+                            android:id="@+id/tv_modification_situation_text_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{vm.situationLengthCounter}"
                             android:textAppearance="@style/R12"
                             android:textColor="@color/gray_3_5d5d6b"
-                            app:layout_constraintEnd_toEndOf="@id/et_addition_situation"
-                            app:layout_constraintTop_toBottomOf="@id/et_addition_situation" />
+                            app:layout_constraintEnd_toEndOf="@id/et_modification_situation"
+                            app:layout_constraintTop_toBottomOf="@id/et_modification_situation" />
 
                         <TextView
-                            android:id="@+id/tv_addition_situation_recommend_title"
+                            android:id="@+id/tv_modification_situation_recommend_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="28dp"
@@ -532,24 +532,24 @@
                             android:textAppearance="@style/R14"
                             android:textColor="@color/white"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/et_addition_situation" />
+                            app:layout_constraintTop_toBottomOf="@id/et_modification_situation" />
 
                         <com.google.android.flexbox.FlexboxLayout
-                            android:id="@+id/layout_addition_situation_recommend"
+                            android:id="@+id/layout_modification_situation_recommend"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
                             android:paddingBottom="19dp"
                             app:flexWrap="wrap"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_situation_recommend_title" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_situation_recommend_title" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_addition_action"
+                    android:id="@+id/layout_modification_action"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="18dp"
@@ -557,10 +557,10 @@
                     android:background="@drawable/rectangle_stroke_1_gray_3_radius_12"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_addition_situation">
+                    app:layout_constraintTop_toBottomOf="@id/layout_modification_situation">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_action_closed"
+                        android:id="@+id/layout_modification_action_closed"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_selector_addition_modification_box"
@@ -571,7 +571,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_action_closed_title"
+                            android:id="@+id/tv_modification_action_closed_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="18dp"
@@ -579,10 +579,10 @@
                             android:textAppearance="@style/R14"
                             android:textColor="@color/gray_7_8e8e93"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tv_addition_action_closed_input" />
+                            app:layout_constraintTop_toTopOf="@id/tv_modification_action_closed_input" />
 
                         <TextView
-                            android:id="@+id/tv_addition_action_closed_input"
+                            android:id="@+id/tv_modification_action_closed_input"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
@@ -596,7 +596,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_action_closed_choice"
+                            android:id="@+id/tv_modification_action_closed_choice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
@@ -605,10 +605,10 @@
                             android:textColor="@color/green_1_98ffa9"
                             android:visibility="@{vm.isFirstActionExist() ? View.GONE : View.VISIBLE}"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tv_addition_action_closed_input" />
+                            app:layout_constraintTop_toTopOf="@id/tv_modification_action_closed_input" />
 
                         <ImageView
-                            android:id="@+id/iv_addition_action_closed_check"
+                            android:id="@+id/iv_modification_action_closed_check"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
@@ -622,7 +622,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_action_opened"
+                        android:id="@+id/layout_modification_action_opened"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
@@ -632,7 +632,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_action_opened_title"
+                            android:id="@+id/tv_modification_action_opened_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
@@ -644,7 +644,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_action_complete"
+                            android:id="@+id/tv_modification_action_complete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
@@ -656,7 +656,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_action_opened_desc"
+                            android:id="@+id/tv_modification_action_opened_desc"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="18dp"
@@ -665,18 +665,18 @@
                             android:textAppearance="@style/Sb20"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_action_opened_title" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_action_opened_title" />
 
                         <View
-                            android:id="@+id/view_addition_action"
+                            android:id="@+id/view_modification_action"
                             android:layout_width="0dp"
                             android:layout_height="38dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_action_opened_desc" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_action_opened_desc" />
 
                         <TextView
-                            android:id="@+id/tv_addition_action_first"
+                            android:id="@+id/tv_modification_action_first"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="18dp"
@@ -685,22 +685,22 @@
                             android:textColor="@color/white"
                             android:visibility="@{vm.isFirstActionExist() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/view_addition_action" />
+                            app:layout_constraintTop_toBottomOf="@id/view_modification_action" />
 
                         <ImageView
-                            android:id="@+id/iv_addition_action_first_delete"
+                            android:id="@+id/iv_modification_action_first_delete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/cd_delete_first_action"
                             android:padding="5dp"
                             android:src="@drawable/ic_delete"
                             android:visibility="@{vm.isFirstActionExist() ? View.VISIBLE : View.GONE}"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_addition_action_first"
-                            app:layout_constraintStart_toEndOf="@id/tv_addition_action_first"
-                            app:layout_constraintTop_toTopOf="@id/tv_addition_action_first" />
+                            app:layout_constraintBottom_toBottomOf="@id/tv_modification_action_first"
+                            app:layout_constraintStart_toEndOf="@id/tv_modification_action_first"
+                            app:layout_constraintTop_toTopOf="@id/tv_modification_action_first" />
 
                         <TextView
-                            android:id="@+id/tv_addition_action_second"
+                            android:id="@+id/tv_modification_action_second"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="18dp"
@@ -710,22 +710,22 @@
                             android:textColor="@color/white"
                             android:visibility="@{vm.isSecondActionExist() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_action_first" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_action_first" />
 
                         <ImageView
-                            android:id="@+id/iv_addition_action_second_delete"
+                            android:id="@+id/iv_modification_action_second_delete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/cd_delete_second_action"
                             android:padding="5dp"
                             android:src="@drawable/ic_delete"
                             android:visibility="@{vm.isSecondActionExist() ? View.VISIBLE : View.GONE}"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_addition_action_second"
-                            app:layout_constraintStart_toEndOf="@id/tv_addition_action_second"
-                            app:layout_constraintTop_toTopOf="@id/tv_addition_action_second" />
+                            app:layout_constraintBottom_toBottomOf="@id/tv_modification_action_second"
+                            app:layout_constraintStart_toEndOf="@id/tv_modification_action_second"
+                            app:layout_constraintTop_toTopOf="@id/tv_modification_action_second" />
 
                         <TextView
-                            android:id="@+id/tv_addition_action_third"
+                            android:id="@+id/tv_modification_action_third"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="18dp"
@@ -735,22 +735,22 @@
                             android:textColor="@color/white"
                             android:visibility="@{vm.isThirdActionExist() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_action_second" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_action_second" />
 
                         <ImageView
-                            android:id="@+id/iv_addition_action_third_delete"
+                            android:id="@+id/iv_modification_action_third_delete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/cd_delete_third_action"
                             android:padding="5dp"
                             android:src="@drawable/ic_delete"
                             android:visibility="@{vm.isThirdActionExist() ? View.VISIBLE : View.GONE}"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_addition_action_third"
-                            app:layout_constraintStart_toEndOf="@id/tv_addition_action_third"
-                            app:layout_constraintTop_toTopOf="@id/tv_addition_action_third" />
+                            app:layout_constraintBottom_toBottomOf="@id/tv_modification_action_third"
+                            app:layout_constraintStart_toEndOf="@id/tv_modification_action_third"
+                            app:layout_constraintTop_toTopOf="@id/tv_modification_action_third" />
 
                         <EditText
-                            android:id="@+id/et_addition_action"
+                            android:id="@+id/et_modification_action"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="18dp"
@@ -766,21 +766,21 @@
                             android:visibility="@{vm.actionCount == 3 ? View.GONE : View.VISIBLE}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_action_third" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_action_third" />
 
                         <TextView
-                            android:id="@+id/tv_addition_action_text_count"
+                            android:id="@+id/tv_modification_action_text_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{vm.actionLengthCounter}"
                             android:textAppearance="@style/R12"
                             android:textColor="@color/gray_3_5d5d6b"
                             android:visibility="@{vm.isThirdActionExist() ? View.GONE : View.VISIBLE}"
-                            app:layout_constraintEnd_toEndOf="@id/et_addition_action"
-                            app:layout_constraintTop_toBottomOf="@id/et_addition_action" />
+                            app:layout_constraintEnd_toEndOf="@id/et_modification_action"
+                            app:layout_constraintTop_toBottomOf="@id/et_modification_action" />
 
                         <TextView
-                            android:id="@+id/tv_addition_action_example"
+                            android:id="@+id/tv_modification_action_example"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="18dp"
@@ -789,21 +789,21 @@
                             android:textAppearance="@style/R14"
                             android:textColor="@color/gray_3_5d5d6b"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/et_addition_action" />
+                            app:layout_constraintTop_toBottomOf="@id/et_modification_action" />
 
                         <TextView
-                            android:id="@+id/tv_addition_action_example_mission"
+                            android:id="@+id/tv_modification_action_example_mission"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="@string/ex_mission_youtube"
                             android:textAppearance="@style/R14"
                             android:textColor="@color/bg_f2f2f7"
-                            app:layout_constraintStart_toEndOf="@id/tv_addition_action_example"
-                            app:layout_constraintTop_toTopOf="@id/tv_addition_action_example" />
+                            app:layout_constraintStart_toEndOf="@id/tv_modification_action_example"
+                            app:layout_constraintTop_toTopOf="@id/tv_modification_action_example" />
 
                         <TextView
-                            android:id="@+id/tv_addition_action_example_action"
+                            android:id="@+id/tv_modification_action_example_action"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -813,15 +813,15 @@
                             android:textAppearance="@style/R14"
                             android:textColor="@color/gray_4_9398aa"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="@id/tv_addition_action_example_mission"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_action_example_mission" />
+                            app:layout_constraintStart_toStartOf="@id/tv_modification_action_example_mission"
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_action_example_mission" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_addition_goal"
+                    android:id="@+id/layout_modification_goal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="18dp"
@@ -829,10 +829,10 @@
                     android:background="@drawable/rectangle_stroke_1_gray_3_radius_12"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_addition_action">
+                    app:layout_constraintTop_toBottomOf="@id/layout_modification_action">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_goal_closed"
+                        android:id="@+id/layout_modification_goal_closed"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_selector_addition_modification_box"
@@ -843,7 +843,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_title"
+                            android:id="@+id/tv_modification_goal_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
@@ -856,7 +856,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_input"
+                            android:id="@+id/tv_modification_goal_input"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="82dp"
@@ -868,7 +868,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_closed_choice"
+                            android:id="@+id/tv_modification_goal_closed_choice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
@@ -881,7 +881,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
-                            android:id="@+id/iv_addition_goal_check"
+                            android:id="@+id/iv_modification_goal_check"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
@@ -895,7 +895,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/layout_addition_goal_opened"
+                        android:id="@+id/layout_modification_goal_opened"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_solid_gray_1_stroke_gray3_1_radius_12"
@@ -906,7 +906,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_opened_title"
+                            android:id="@+id/tv_modification_goal_opened_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
@@ -917,17 +917,17 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_opened_desc"
+                            android:id="@+id/tv_modification_goal_opened_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="13dp"
                             android:bufferType="spannable"
                             android:textAppearance="@style/Sb20"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_goal_opened_title" />
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_goal_opened_title" />
 
                         <EditText
-                            android:id="@+id/et_addition_goal"
+                            android:id="@+id/et_modification_goal"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="37dp"
@@ -942,21 +942,21 @@
                             android:textColor="@color/white"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_goal_opened_desc"
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_goal_opened_desc"
                             tools:ignore="TooManyViews" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_text_count"
+                            android:id="@+id/tv_modification_goal_text_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{vm.goalLengthCounter}"
                             android:textAppearance="@style/R12"
                             android:textColor="@color/gray_3_5d5d6b"
-                            app:layout_constraintEnd_toEndOf="@id/et_addition_goal"
-                            app:layout_constraintTop_toBottomOf="@id/et_addition_goal" />
+                            app:layout_constraintEnd_toEndOf="@id/et_modification_goal"
+                            app:layout_constraintTop_toBottomOf="@id/et_modification_goal" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_example"
+                            android:id="@+id/tv_modification_goal_example"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="39dp"
@@ -964,10 +964,10 @@
                             android:textAppearance="@style/R14"
                             android:textColor="@color/gray_3_5d5d6b"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/et_addition_goal" />
+                            app:layout_constraintTop_toBottomOf="@id/et_modification_goal" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_example_mission_title"
+                            android:id="@+id/tv_modification_goal_example_mission_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -977,22 +977,22 @@
                             android:text="@string/nottodo_kor"
                             android:textAppearance="@style/R12"
                             android:textColor="@color/gray_4_9398aa"
-                            app:layout_constraintStart_toStartOf="@id/tv_addition_goal_example"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_goal_example" />
+                            app:layout_constraintStart_toStartOf="@id/tv_modification_goal_example"
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_goal_example" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_example_mission_desc"
+                            android:id="@+id/tv_modification_goal_example_mission_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:text="@string/ex_mission_work_out"
                             android:textAppearance="@style/R14"
                             android:textColor="@color/gray_4_9398aa"
-                            app:layout_constraintStart_toEndOf="@id/tv_addition_goal_example_mission_title"
-                            app:layout_constraintTop_toTopOf="@id/tv_addition_goal_example_mission_title" />
+                            app:layout_constraintStart_toEndOf="@id/tv_modification_goal_example_mission_title"
+                            app:layout_constraintTop_toTopOf="@id/tv_modification_goal_example_mission_title" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_example_goal_title"
+                            android:id="@+id/tv_modification_goal_example_goal_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -1004,26 +1004,26 @@
                             android:textAppearance="@style/R12"
                             android:textColor="@color/gray_4_9398aa"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="@id/tv_addition_goal_example_mission_title"
-                            app:layout_constraintTop_toBottomOf="@id/tv_addition_goal_example_mission_title" />
+                            app:layout_constraintStart_toStartOf="@id/tv_modification_goal_example_mission_title"
+                            app:layout_constraintTop_toBottomOf="@id/tv_modification_goal_example_mission_title" />
 
                         <TextView
-                            android:id="@+id/tv_addition_goal_example_goal_desc"
+                            android:id="@+id/tv_modification_goal_example_goal_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:text="@string/ex_goal_work_out"
                             android:textAppearance="@style/R14"
                             android:textColor="@color/gray_4_9398aa"
-                            app:layout_constraintStart_toEndOf="@id/tv_addition_goal_example_goal_title"
-                            app:layout_constraintTop_toTopOf="@id/tv_addition_goal_example_goal_title" />
+                            app:layout_constraintStart_toEndOf="@id/tv_modification_goal_example_goal_title"
+                            app:layout_constraintTop_toTopOf="@id/tv_modification_goal_example_goal_title" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageView
-                    android:id="@+id/iv_addition_tip"
+                    android:id="@+id/iv_modification_tip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="32dp"
@@ -1033,7 +1033,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_addition_goal" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_modification_goal" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
