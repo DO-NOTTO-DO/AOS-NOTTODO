@@ -42,20 +42,6 @@ class MyPageInformationFragment :
         setClickEvents()
     }
 
-    private fun setCheckedChangeEvents() {
-        setNotificationPermissionSwitchCheckedChangeEvent()
-    }
-
-    private fun setNotificationPermissionSwitchCheckedChangeEvent() {
-        binding.switchMyPageInformationNotificationPermission.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                trackEvent(getString(R.string.complete_push_on))
-            } else {
-                trackEvent(getString(R.string.complete_push_off))
-            }
-        }
-    }
-
     private fun setObservers() {
         setWithdrawalObserver()
     }
@@ -129,6 +115,20 @@ class MyPageInformationFragment :
             )
     }
 
+    private fun setCheckedChangeEvents() {
+        setNotificationPermissionSwitchCheckedChangeEvent()
+    }
+
+    private fun setNotificationPermissionSwitchCheckedChangeEvent() {
+        binding.switchMyPageInformationNotificationPermission.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                trackEvent(getString(R.string.complete_push_on))
+            } else {
+                trackEvent(getString(R.string.complete_push_off))
+            }
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         setDidUserChooseToBeNotified()
@@ -143,10 +143,10 @@ class MyPageInformationFragment :
 
 
     private fun setClickEvents() {
+        setAlarmLayoutClickEvent()
+        setMemberWithdrawalTvClickEvent()
         setLogoutTvClickEvent()
         setBackIvClickEvent()
-        setMemberWithdrawalTvClickEvent()
-        setAlarmLayoutClickEvent()
     }
 
     private fun setAlarmLayoutClickEvent() {
@@ -168,12 +168,6 @@ class MyPageInformationFragment :
         }
     }
 
-    private fun setBackIvClickEvent() {
-        binding.ivMyPageInformationBackArrow.setOnClickListener {
-            if (!activityNonNull.isFinishing) activityNonNull.finish()
-        }
-    }
-
     private fun setLogoutTvClickEvent() {
         binding.tvMyPageInformationLogout.setOnClickListener {
             startMyPageLogoutDialog()
@@ -184,6 +178,12 @@ class MyPageInformationFragment :
         myPageLogoutDialogFragment.show(
             activityNonNull.supportFragmentManager, myPageLogoutDialogFragment.tag
         )
+    }
+
+    private fun setBackIvClickEvent() {
+        binding.ivMyPageInformationBackArrow.setOnClickListener {
+            if (!activityNonNull.isFinishing) activityNonNull.finish()
+        }
     }
 
     override fun onDialogDismiss() {
