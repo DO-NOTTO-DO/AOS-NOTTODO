@@ -16,16 +16,14 @@ import kr.co.nottodo.view.calendar.weekly.adapter.WeeklyAdapter
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarViewChangeYearMonthTextListener
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyDayClickListener
-import timber.log.Timber
 import java.time.DayOfWeek
 import java.time.LocalDate
 
 class WeeklyCalendar @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : RecyclerView(context, attrs, defStyleAttr),
-    OnWeeklyDayClickListener {
+    defStyleAttr: Int = 0,
+) : RecyclerView(context, attrs, defStyleAttr), OnWeeklyDayClickListener {
 
     companion object {
         private const val SWIPE_THRESHOLD = 100
@@ -80,7 +78,7 @@ class WeeklyCalendar @JvmOverloads constructor(
     }
 
     /** 가장 최근 낫투두 등록한 날짜로 이동하는 함수 **/
-    fun moveToDate(date : LocalDate) {
+    fun moveToDate(date: LocalDate) {
         selectedDate = date
         weeklyAdapter.setSelectedDay(selectedDate)
         this@WeeklyCalendar.scheduleLayoutAnimation()
@@ -115,7 +113,7 @@ class WeeklyCalendar @JvmOverloads constructor(
     }
 
     fun setOnWeeklyCalendarViewChangeYearMonthTextListener(
-        onWeeklyCalendarViewChangeYearMonthTextListener: OnWeeklyCalendarViewChangeYearMonthTextListener
+        onWeeklyCalendarViewChangeYearMonthTextListener: OnWeeklyCalendarViewChangeYearMonthTextListener,
     ) {
         this.onWeeklyCalendarViewChangeYearMonthTextListener =
             onWeeklyCalendarViewChangeYearMonthTextListener
@@ -169,10 +167,10 @@ class WeeklyCalendar @JvmOverloads constructor(
             override fun onSingleTapUp(e: MotionEvent): Boolean = false
 
             override fun onScroll(
-                e1: MotionEvent,
+                e1: MotionEvent?,
                 e2: MotionEvent,
                 distanceX: Float,
-                distanceY: Float
+                distanceY: Float,
             ): Boolean {
                 return true
             }
@@ -182,13 +180,16 @@ class WeeklyCalendar @JvmOverloads constructor(
             }
 
             override fun onFling(
-                e1: MotionEvent,
+                e1: MotionEvent?,
                 e2: MotionEvent,
                 velocityX: Float,
-                velocityY: Float
+                velocityY: Float,
             ): Boolean {
                 val result = false
                 try {
+                    if (e1 == null) {
+                        return result
+                    }
                     val diffY = e2.y - e1.y
                     val diffX = e2.x - e1.x
                     if (Math.abs(diffX) > Math.abs(diffY)) {
