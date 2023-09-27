@@ -28,7 +28,7 @@ class MyPageInformationFragment :
     DataBindingFragment<FragmentMyPageInformationBinding>(R.layout.fragment_my_page_information),
     OnDialogDismissListener {
 
-    private val viewModel by viewModels<MyPageInformationViewModel>()
+    private val viewModel: MyPageInformationViewModel by viewModels()
     private val withdrawalDialogFragment by lazy { WithdrawalDialogFragment() }
     private val withdrawalFeedbackDialogFragment by lazy { WithdrawalFeedbackDialogFragment() }
     private val myPageLogoutDialogFragment by lazy { MyPageLogoutDialogFragment() }
@@ -36,38 +36,14 @@ class MyPageInformationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        trackEvent(getString(R.string.view_account_info))
+        trackEnterMyPageInformation()
         setViews()
-        setObservers()
         setClickEvents()
+        setObservers()
     }
 
-    private fun setObservers() {
-        setWithdrawalObserver()
-    }
-
-    private fun setWithdrawalObserver() {
-        setWithdrawalSuccessObserver()
-        setWithdrawalErrorObserver()
-    }
-
-    private fun setWithdrawalErrorObserver() {
-        viewModel.withdrawalErrorResponse.observe(viewLifecycleOwner) { errorMessage ->
-            if (errorMessage == NO_INTERNET_CONDITION_ERROR) contextNonNull.showNotTodoSnackBar(
-                binding.root, NO_INTERNET_CONDITION_ERROR
-            )
-            else contextNonNull.showToast(errorMessage)
-        }
-    }
-
-    private fun setWithdrawalSuccessObserver() {
-        viewModel.withdrawalSuccessResponse.observe(viewLifecycleOwner) {
-            withdrawalDialogFragment.dismiss()
-            withdrawalFeedbackDialogFragment.show(
-                activityNonNull.supportFragmentManager, withdrawalFeedbackDialogFragment.tag
-            )
-            trackEvent(getString(R.string.complete_withdrawal))
-        }
+    private fun trackEnterMyPageInformation() {
+        trackEvent(getString(R.string.view_account_info))
     }
 
     private fun setViews() {
@@ -185,6 +161,35 @@ class MyPageInformationFragment :
             if (!activityNonNull.isFinishing) activityNonNull.finish()
         }
     }
+
+    private fun setObservers() {
+        setWithdrawalObserver()
+    }
+
+    private fun setWithdrawalObserver() {
+        setWithdrawalSuccessObserver()
+        setWithdrawalErrorObserver()
+    }
+
+    private fun setWithdrawalErrorObserver() {
+        viewModel.withdrawalErrorResponse.observe(viewLifecycleOwner) { errorMessage ->
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) contextNonNull.showNotTodoSnackBar(
+                binding.root, NO_INTERNET_CONDITION_ERROR
+            )
+            else contextNonNull.showToast(errorMessage)
+        }
+    }
+
+    private fun setWithdrawalSuccessObserver() {
+        viewModel.withdrawalSuccessResponse.observe(viewLifecycleOwner) {
+            withdrawalDialogFragment.dismiss()
+            withdrawalFeedbackDialogFragment.show(
+                activityNonNull.supportFragmentManager, withdrawalFeedbackDialogFragment.tag
+            )
+            trackEvent(getString(R.string.complete_withdrawal))
+        }
+    }
+
 
     override fun onDialogDismiss() {
         logout()
