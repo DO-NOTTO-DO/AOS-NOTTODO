@@ -12,19 +12,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityMainBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.achieve.AchieveFragment
-import kr.co.nottodo.presentation.addition.view.AdditionActivity.Companion.FIRST_DATE
 import kr.co.nottodo.presentation.home.view.HomeFragment
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 import kr.co.nottodo.presentation.mypage.view.MyPageFragment
 import kr.co.nottodo.util.showToast
-import java.time.LocalDate
 
 class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     private lateinit var binding: ActivityMainBinding
@@ -37,7 +36,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
         setContentView(binding.root)
 
         setResultLaunchers()
-        initBottomNavigationView(savedInstanceState)
+        initBottomNavigationView()
         requestPermissions()
         overrideBackPressed()
     }
@@ -90,7 +89,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
         }
     }
 
-    private fun initBottomNavigationView(savedInstanceState: Bundle?) {
+    private fun initBottomNavigationView() {
         binding.bnvMain.itemIconTintList = null
 
         val radius = resources.getDimension(R.dimen.bnv_radius)
@@ -100,33 +99,14 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
                 .setTopRightCorner(CornerFamily.ROUNDED, radius)
                 .setTopLeftCorner(CornerFamily.ROUNDED, radius).build()
 
-        if (savedInstanceState == null) {
-            changeFragment(HomeFragment())
-        }
-
-        binding.bnvMain.setOnItemSelectedListener {
-            changeFragment(
-                when (it.itemId) {
-                    R.id.menu_home -> HomeFragment()
-                    R.id.menu_calendar -> AchieveFragment()
-                    R.id.menu_my_page -> MyPageFragment()
-                    else -> MyPageFragment()
-                },
-            )
-            true
-        }
+        setBottomNavigationViewWithNavController()
     }
 
-    private fun changeFragment(fragment: Fragment) {
-        supportFragmentManager.commit {
-            replace(R.id.fcv_main, fragment)
-        }
-        if (fragment is HomeFragment) {
-            val firstDate = intent.getStringExtra(FIRST_DATE) ?: LocalDate.now().toString()
-            val homeFragmentArgument = Bundle()
-            homeFragmentArgument.putString(FIRST_DATE, firstDate)
-            fragment.arguments = homeFragmentArgument
-        }
+    private fun setBottomNavigationViewWithNavController() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.bnvMain.setupWithNavController(navController)
     }
 
     override fun setActivityBackgroundColorBasedOnFragment(thisFragment: Fragment) {
