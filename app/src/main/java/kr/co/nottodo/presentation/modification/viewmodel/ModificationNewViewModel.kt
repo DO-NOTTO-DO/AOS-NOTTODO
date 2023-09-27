@@ -14,12 +14,15 @@ import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.modification.RequestModificationDto
 import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto
 import kr.co.nottodo.presentation.modification.model.NotTodoData
+import kr.co.nottodo.util.PublicString.EMPTY_STRING
 import kr.co.nottodo.util.PublicString.INPUT
 import kr.co.nottodo.util.PublicString.MAX_COUNT_20
 import kr.co.nottodo.util.PublicString.MISSION_ID_IS_NULL
 import kr.co.nottodo.util.PublicString.MISSION_IS_NULL
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.PublicString.SITUATION_IS_NULL
+import kr.co.nottodo.util.PublicString.TODAY
+import kr.co.nottodo.util.PublicString.TOMORROW
 import kr.co.nottodo.util.addSourceList
 import kr.co.nottodo.util.getErrorMessage
 import kr.co.nottodo.util.isConnectException
@@ -45,12 +48,12 @@ class ModificationNewViewModel : ViewModel() {
         originMission = data.mission
         originSituation = data.situation
         originalActionList = data.actions?.toMutableList() ?: emptyList()
-        originGoal = data.goal ?: ""
+        originGoal = data.goal ?: EMPTY_STRING
 
         mission.value = data.mission
         situation.value = data.situation
         actionList.value = data.actions?.toMutableList() ?: mutableListOf()
-        goal.value = data.goal ?: ""
+        goal.value = data.goal ?: EMPTY_STRING
         missionId = data.missionId
     }
 
@@ -78,22 +81,22 @@ class ModificationNewViewModel : ViewModel() {
     }
     val dateDesc: LiveData<String> = firstDate.map { firstDate ->
         val date = firstDate.achievementConvertStringToDate()
-        if (date?.isToday() == true) "오늘"
+        if (date?.isToday() == true) TODAY
         else if (date?.isTomorrow() == true) {
-            "내일"
+            TOMORROW
         } else {
-            ""
+            EMPTY_STRING
         }
     }
     val datesCountMinusOne: LiveData<String> = dates.map { dates ->
         if (dates.size == 1) {
-            ""
+            EMPTY_STRING
         } else {
             "그 외 ${dates.size - 1}일"
         }
     }
 
-    val mission: MutableLiveData<String> = MutableLiveData("")
+    val mission: MutableLiveData<String> = MutableLiveData(EMPTY_STRING)
     private val isMissionChanged: LiveData<Boolean> = mission.map { newMission ->
         originMission != newMission
     }
@@ -104,7 +107,7 @@ class ModificationNewViewModel : ViewModel() {
         mission.length.toString() + MAX_COUNT_20
     }
 
-    val situation: MutableLiveData<String> = MutableLiveData("")
+    val situation: MutableLiveData<String> = MutableLiveData(EMPTY_STRING)
     val isSituationFilled: LiveData<Boolean> = situation.map { situation ->
         situation.isNotBlank()
     }
@@ -120,24 +123,24 @@ class ModificationNewViewModel : ViewModel() {
         originalActionList != newActionList
     }
 
-    val action: MutableLiveData<String> = MutableLiveData("")
+    val action: MutableLiveData<String> = MutableLiveData(EMPTY_STRING)
     val actionLengthCounter: LiveData<String> =
         action.map { action -> action.length.toString() + MAX_COUNT_20 }
 
     val firstAction: LiveData<String> = actionList.map { actionList ->
-        actionList.getOrNull(0) ?: ""
+        actionList.getOrNull(0) ?: EMPTY_STRING
     }
     val isFirstActionExist: LiveData<Boolean> =
         firstAction.map { firstAction -> firstAction.isNotBlank() }
 
     val secondAction: LiveData<String> = actionList.map { actionList ->
-        actionList.getOrNull(1) ?: ""
+        actionList.getOrNull(1) ?: EMPTY_STRING
     }
     val isSecondActionExist: LiveData<Boolean> =
         secondAction.map { secondAction -> secondAction.isNotBlank() }
 
     val thirdAction: LiveData<String> = actionList.map { actionList ->
-        actionList.getOrNull(2) ?: ""
+        actionList.getOrNull(2) ?: EMPTY_STRING
     }
     val isThirdActionExist: LiveData<Boolean> =
         thirdAction.map { thirdAction -> thirdAction.isNotBlank() }
@@ -157,7 +160,7 @@ class ModificationNewViewModel : ViewModel() {
         else return INPUT
     }
 
-    val goal: MutableLiveData<String> = MutableLiveData("")
+    val goal: MutableLiveData<String> = MutableLiveData(EMPTY_STRING)
     val isGoalFilled: LiveData<Boolean> = goal.map { goal -> goal.isNotBlank() }
     private val isGoalChanged: LiveData<Boolean> = goal.map { newGoal ->
         originGoal != newGoal
