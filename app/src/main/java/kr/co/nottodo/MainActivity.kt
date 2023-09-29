@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
         setContentView(binding.root)
 
         setResultLaunchers()
-        initBottomNavigationView()
+        setBottomNavigationView()
         requestPermissions()
         overrideBackPressed()
     }
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
         }
     }
 
-    private fun initBottomNavigationView() {
+    private fun setBottomNavigationView() {
         binding.bnvMain.itemIconTintList = null
 
         val radius = resources.getDimension(R.dimen.bnv_radius)
@@ -107,10 +107,10 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
                 .setTopLeftCorner(CornerFamily.ROUNDED, radius).build()
 
         setBottomNavigationViewWithNavController()
-        showAndHideBottomNavigationView()
+        setBottomNavigationViewVisibility()
     }
 
-    private fun showAndHideBottomNavigationView() {
+    private fun setBottomNavigationViewVisibility() {
         AppBarConfiguration(
             setOf(
                 R.id.homeFragment, R.id.achieveFragment, R.id.myPageFragment
