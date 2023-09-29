@@ -138,6 +138,11 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     private fun overrideBackPressed() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                if (!binding.bnvMain.isVisible) {
+                    navController.popBackStack()
+                    return
+                }
+
                 if (doubleBackToExitPressedOnce) {
                     if (!isFinishing) finish()
                     return
