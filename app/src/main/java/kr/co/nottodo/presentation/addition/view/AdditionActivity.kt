@@ -22,8 +22,8 @@ import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto.Addition
 import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
-import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity.Companion.MISSION_ACTION_DETAIL
-import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
+import kr.co.nottodo.presentation.recommend.action.view.RecommendActionActivity.Companion.MISSION_ACTION_DETAIL
+import kr.co.nottodo.presentation.recommend.model.RecommendUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR

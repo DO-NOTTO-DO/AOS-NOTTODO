@@ -66,11 +66,11 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.recommendation.mission.view.RecommendMissionActivity"
+            android:name=".presentation.recommend.mission.view.RecommendMissionActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.recommendation.action.view.RecommendActionActivity"
+            android:name=".presentation.recommend.action.view.RecommendActionActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

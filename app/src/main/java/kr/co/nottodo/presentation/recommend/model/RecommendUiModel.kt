@@ -1,4 +1,4 @@
-package kr.co.nottodo.presentation.recommendation.model
+package kr.co.nottodo.presentation.recommend.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

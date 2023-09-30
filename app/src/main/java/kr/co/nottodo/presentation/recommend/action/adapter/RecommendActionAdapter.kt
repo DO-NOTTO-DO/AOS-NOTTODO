@@ -1,4 +1,4 @@
-package kr.co.nottodo.presentation.recommendation.action.adapter
+package kr.co.nottodo.presentation.recommend.action.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
 import kr.co.nottodo.data.remote.model.recommendation.action.ResponseRecommendActionListDTO.Mission.Action
 import kr.co.nottodo.databinding.ItemRecommendActionBinding
-import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter.RecommendActionViewHolder
+import kr.co.nottodo.presentation.recommend.action.adapter.RecommendActionAdapter.RecommendActionViewHolder
 import kr.co.nottodo.util.DiffUtilItemCallback
 import kr.co.nottodo.util.showNotTodoSnackBar
 

@@ -1,4 +1,4 @@
-package kr.co.nottodo.presentation.recommendation.mission.view
+package kr.co.nottodo.presentation.recommend.mission.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,11 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ActivityRecommendMissionBinding
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
-import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity
-import kr.co.nottodo.presentation.recommendation.mission.adapter.RecommendMissionAdapter
-import kr.co.nottodo.presentation.recommendation.mission.adapter.RecommendMissionAdapter.RecommendMissionItemDecoration
-import kr.co.nottodo.presentation.recommendation.mission.viewmodel.RecommendMissionViewModel
-import kr.co.nottodo.presentation.recommendation.model.RecommendMissionUiModel
+import kr.co.nottodo.presentation.recommend.action.view.RecommendActionActivity
+import kr.co.nottodo.presentation.recommend.mission.adapter.RecommendMissionAdapter
+import kr.co.nottodo.presentation.recommend.mission.adapter.RecommendMissionAdapter.RecommendMissionItemDecoration
+import kr.co.nottodo.presentation.recommend.mission.viewmodel.RecommendMissionViewModel
+import kr.co.nottodo.presentation.recommend.model.RecommendMissionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
