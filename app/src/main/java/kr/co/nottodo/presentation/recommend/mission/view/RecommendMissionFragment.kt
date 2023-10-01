@@ -28,56 +28,20 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        trackEvent(getString(R.string.view_recommend_mission))
+
+        enterRecommendMissionView()
         setData()
         setViews()
         setClickEvents()
         setObservers()
     }
 
-    private fun setObservers() {
-        setRecommendMissionObserver()
+    private fun enterRecommendMissionView() {
+        trackEvent(getString(R.string.view_recommend_mission))
     }
 
-    private fun setRecommendMissionObserver() {
-        setRecommendMissionSuccessObserver()
-        setRecommendMissionFailureObserver()
-    }
-
-    private fun setRecommendMissionFailureObserver() {
-        viewModel.recommendMissionListErrorResponse.observe(this) { errorMessage ->
-            if (errorMessage == NO_INTERNET_CONDITION_ERROR) requireContext().showNotTodoSnackBar(
-                binding.root, NO_INTERNET_CONDITION_ERROR
-            ) else {
-                requireContext().showToast(errorMessage)
-            }
-            recommendMissionAdapter?.submitList(emptyList())
-        }
-    }
-
-    private fun setRecommendMissionSuccessObserver() {
-        viewModel.recommendMissionListSuccessResponse.observe(this) { missionList ->
-            recommendMissionAdapter?.submitList(missionList)
-        }
-    }
-
-    private fun setClickEvents() {
-        setDestroyBtnClickEvent()
-        setWriteDirectlyBtnClickEvent()
-    }
-
-    private fun setWriteDirectlyBtnClickEvent() {
-        binding.fabRecommendMissionWriteDirectly.setOnClickListener {
-            trackEvent(getString(R.string.click_self_create_mission))
-            startActivity(Intent(requireContext(), AdditionActivity::class.java))
-            if (!requireActivity().isFinishing) requireActivity().finish()
-        }
-    }
-
-    private fun setDestroyBtnClickEvent() {
-        binding.ivRecommendMissionDestroy.setOnClickListener {
-            if (!requireActivity().isFinishing) requireActivity().finish()
-        }
+    private fun setData() {
+        viewModel.getRecommendMissionList()
     }
 
     private fun setViews() {
@@ -109,13 +73,58 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
                 if (!requireActivity().isFinishing) requireActivity().finish()
             }
         recommendMissionAdapter = RecommendMissionAdapter(startRecommendActionActivity)
-        binding.rvRecommendMission.adapter = recommendMissionAdapter
-        binding.rvRecommendMission.addItemDecoration(RecommendMissionItemDecoration())
+        binding.rvRecommendMission.apply {
+            adapter = recommendMissionAdapter
+            addItemDecoration(RecommendMissionItemDecoration())
+        }
     }
 
-    private fun setData() {
-        viewModel.getRecommendMissionList()
+    private fun setClickEvents() {
+        setDestroyBtnClickEvent()
+        setWriteDirectlyBtnClickEvent()
     }
+
+    private fun setDestroyBtnClickEvent() {
+        binding.ivRecommendMissionDestroy.setOnClickListener {
+            if (!requireActivity().isFinishing) requireActivity().finish()
+        }
+    }
+
+    private fun setWriteDirectlyBtnClickEvent() {
+        binding.fabRecommendMissionWriteDirectly.setOnClickListener {
+            trackEvent(getString(R.string.click_self_create_mission))
+            startActivity(Intent(requireContext(), AdditionActivity::class.java))
+            if (!requireActivity().isFinishing) requireActivity().finish()
+        }
+    }
+
+
+    private fun setObservers() {
+        setRecommendMissionObserver()
+    }
+
+    private fun setRecommendMissionObserver() {
+        setRecommendMissionSuccessObserver()
+        setRecommendMissionFailureObserver()
+    }
+
+    private fun setRecommendMissionSuccessObserver() {
+        viewModel.recommendMissionListSuccessResponse.observe(this) { missionList ->
+            recommendMissionAdapter?.submitList(missionList)
+        }
+    }
+
+    private fun setRecommendMissionFailureObserver() {
+        viewModel.recommendMissionListErrorResponse.observe(this) { errorMessage ->
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) requireContext().showNotTodoSnackBar(
+                binding.root, NO_INTERNET_CONDITION_ERROR
+            ) else {
+                requireContext().showToast(errorMessage)
+            }
+            recommendMissionAdapter?.submitList(emptyList())
+        }
+    }
+
 
     override fun setBinding(
         inflater: LayoutInflater,
