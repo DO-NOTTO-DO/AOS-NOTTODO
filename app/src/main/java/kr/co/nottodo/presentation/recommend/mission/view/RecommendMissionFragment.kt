@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentRecommendMissionBinding
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
@@ -25,6 +26,7 @@ import kr.co.nottodo.util.showToast
 class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBinding>() {
     private val viewModel: RecommendMissionViewModel by viewModels()
     private var recommendMissionAdapter: RecommendMissionAdapter? = null
+    private val navController by lazy { findNavController() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +88,7 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
 
     private fun setDestroyBtnClickEvent() {
         binding.ivRecommendMissionDestroy.setOnClickListener {
-            if (!requireActivity().isFinishing) requireActivity().finish()
+            navController.popBackStack()
         }
     }
 
