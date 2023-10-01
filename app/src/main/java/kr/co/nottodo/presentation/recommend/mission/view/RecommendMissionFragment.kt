@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.viewModels
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentRecommendMissionBinding
@@ -46,10 +45,10 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
 
     private fun setRecommendMissionFailureObserver() {
         viewModel.recommendMissionListErrorResponse.observe(this) { errorMessage ->
-            if (errorMessage == NO_INTERNET_CONDITION_ERROR) showNotTodoSnackBar(
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) requireContext().showNotTodoSnackBar(
                 binding.root, NO_INTERNET_CONDITION_ERROR
             ) else {
-                showToast(errorMessage)
+                requireContext().showToast(errorMessage)
             }
             recommendMissionAdapter?.submitList(emptyList())
         }
@@ -69,19 +68,18 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
     private fun setWriteDirectlyBtnClickEvent() {
         binding.fabRecommendMissionWriteDirectly.setOnClickListener {
             trackEvent(getString(R.string.click_self_create_mission))
-            startActivity(Intent(this, AdditionActivity::class.java))
-            if (!isFinishing) finish()
+            startActivity(Intent(requireContext(), AdditionActivity::class.java))
+            if (!requireActivity().isFinishing) requireActivity().finish()
         }
     }
 
     private fun setDestroyBtnClickEvent() {
         binding.ivRecommendMissionDestroy.setOnClickListener {
-            if (!isFinishing) finish()
+            if (!requireActivity().isFinishing) requireActivity().finish()
         }
     }
 
     private fun setViews() {
-        setContentView(binding.root)
         setRecyclerViews()
     }
 
@@ -103,11 +101,11 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
                     )
                 )
                 startActivity(
-                    Intent(this, RecommendActionActivity::class.java).putExtra(
+                    Intent(requireContext(), RecommendActionActivity::class.java).putExtra(
                         MISSION_DETAIL, RecommendMissionUiModel(id, title, situation, image)
                     )
                 )
-                if (!isFinishing) finish()
+                if (!requireActivity().isFinishing) requireActivity().finish()
             }
         recommendMissionAdapter = RecommendMissionAdapter(startRecommendActionActivity)
         binding.rvRecommendMission.adapter = recommendMissionAdapter
