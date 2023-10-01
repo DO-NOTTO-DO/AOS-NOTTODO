@@ -17,4 +17,7 @@ object PublicString {
     const val SITUATION_IS_NULL = "situation is null"
     const val TODAY = "오늘"
     const val TOMORROW = "내일"
+
+    // Recommend
+    const val MISSION_DETAIL = "MISSION_DETAIL"
 }

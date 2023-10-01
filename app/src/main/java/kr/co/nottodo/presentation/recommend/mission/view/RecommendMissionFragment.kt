@@ -16,6 +16,7 @@ import kr.co.nottodo.presentation.recommend.mission.viewmodel.RecommendMissionVi
 import kr.co.nottodo.presentation.recommend.model.RecommendMissionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
+import kr.co.nottodo.util.PublicString.MISSION_DETAIL
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
@@ -114,10 +115,6 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
 
     private fun setData() {
         viewModel.getRecommendMissionList()
-    }
-
-    companion object {
-        const val MISSION_DETAIL = "MISSION_DETAIL"
     }
 
     override fun setBinding(
