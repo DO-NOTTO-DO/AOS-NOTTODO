@@ -2,13 +2,16 @@ package kr.co.nottodo.presentation.recommend.action.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentRecommendActionBinding
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
-import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
+import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.recommend.action.adapter.RecommendActionAdapter
 import kr.co.nottodo.presentation.recommend.action.view.RecommendActionActivity.Companion.MISSION_ACTION_DETAIL
 import kr.co.nottodo.presentation.recommend.action.viewmodel.RecommendActionViewModel
@@ -23,8 +26,7 @@ import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
 
-class RecommendActionFragment :
-    DataBindingFragment<FragmentRecommendActionBinding>(R.layout.fragment_recommend_action) {
+class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBinding>() {
 
     private var recommendActionAdapter: RecommendActionAdapter? = null
     private val viewModel by viewModels<RecommendActionViewModel>()
@@ -181,6 +183,7 @@ class RecommendActionFragment :
 
     private fun setObservers() {
         setRecommendActionObservers()
+        setIsActionSelectedObserver()
     }
 
     private fun setRecommendActionObservers() {
@@ -203,7 +206,15 @@ class RecommendActionFragment :
         }
     }
 
-    override fun bindViewModelWithBinding() {
-        binding.vm = viewModel
+    private fun setIsActionSelectedObserver() {
+        viewModel.isActionSelected.observe(viewLifecycleOwner) { isActionSelected ->
+            binding.btnRecommendActionContinue.isVisible = isActionSelected
+        }
     }
+
+    override fun setBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+    ): FragmentRecommendActionBinding =
+        FragmentRecommendActionBinding.inflate(inflater, container, false)
 }
