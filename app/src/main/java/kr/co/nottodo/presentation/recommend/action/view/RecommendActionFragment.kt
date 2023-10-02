@@ -68,7 +68,6 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
             getString(R.string.view_recommend_mission_detail), mapOf(
                 getString(R.string.situation) to dataFromRecommendMissionActivity.situation,
                 getString(R.string.title) to dataFromRecommendMissionActivity.title
-
             )
         )
     }
@@ -156,7 +155,10 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
     }
 
     private fun Map<String, Any>.trackCreateRecommendMissionEvent() {
-        trackEventWithProperty(getString(R.string.click_create_recommend_mission), this)
+        trackEventWithProperty(
+            getString(R.string.click_create_recommend_mission),
+            this@trackCreateRecommendMissionEvent
+        )
     }
 
     private fun writeDirectTvClickEvent() {
