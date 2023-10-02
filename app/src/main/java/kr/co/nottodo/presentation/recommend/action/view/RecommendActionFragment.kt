@@ -2,14 +2,13 @@ package kr.co.nottodo.presentation.recommend.action.view
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import kr.co.nottodo.R
-import kr.co.nottodo.databinding.ActivityRecommendActionBinding
+import kr.co.nottodo.databinding.FragmentRecommendActionBinding
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
+import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
 import kr.co.nottodo.presentation.recommend.action.adapter.RecommendActionAdapter
 import kr.co.nottodo.presentation.recommend.action.viewmodel.RecommendActionViewModel
 import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity
@@ -23,17 +22,17 @@ import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
 
-class RecommendActionFragment : AppCompatActivity() {
+class RecommendActionFragment :
+    DataBindingFragment<FragmentRecommendActionBinding>(R.layout.fragment_recommend_action) {
 
-    private val binding by lazy { ActivityRecommendActionBinding.inflate(layoutInflater) }
     private var recommendActionAdapter: RecommendActionAdapter? = null
     private val viewModel by viewModels<RecommendActionViewModel>()
     private val dataFromRecommendMissionActivity by lazy {
-        val recommendMissionUiModel = intent.getParcelable(
+        val recommendMissionUiModel = requireActivity().intent.getParcelable(
             MISSION_DETAIL, RecommendMissionUiModel::class.java
         )
         if (recommendMissionUiModel == null) {
-            if (!isFinishing) finish()
+            if (!requireActivity().isFinishing) requireActivity().finish()
         }
         requireNotNull(recommendMissionUiModel) {
             getString(
@@ -44,17 +43,11 @@ class RecommendActionFragment : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setDataBinding()
+
         setData()
         setViews()
-        overrideBackPressed()
         setClickEvents()
         setObservers()
-    }
-
-    private fun setDataBinding() {
-        binding.lifecycleOwner = this
-        binding.vm = viewModel
     }
 
     private fun setData() {
@@ -80,7 +73,6 @@ class RecommendActionFragment : AppCompatActivity() {
     }
 
     private fun setViews() {
-        setContentView(binding.root)
         setRecommendActionRecyclerView()
         setMissionTextView()
         setSituationTextView()
@@ -106,7 +98,7 @@ class RecommendActionFragment : AppCompatActivity() {
             isSelectedActionsCountThree = viewModel.isSelectedActionsCountThree
         )
         binding.rvRecommendAction.adapter = recommendActionAdapter
-        binding.rvRecommendAction.layoutManager = object : LinearLayoutManager(this) {
+        binding.rvRecommendAction.layoutManager = object : LinearLayoutManager(requireContext()) {
             override fun canScrollVertically(): Boolean = false
         }
     }
@@ -127,11 +119,11 @@ class RecommendActionFragment : AppCompatActivity() {
                 actionList = selectedActionList ?: emptyList()
             )
             startActivity(
-                Intent(this, AdditionActivity::class.java).putExtra(
+                Intent(context, AdditionActivity::class.java).putExtra(
                     MISSION_ACTION_DETAIL, recommendUiModel
                 )
             )
-            if (!isFinishing) finish()
+            if (!requireActivity().isFinishing) requireActivity().finish()
         }
     }
 
@@ -160,18 +152,18 @@ class RecommendActionFragment : AppCompatActivity() {
                 actionList = emptyList()
             )
             startActivity(
-                Intent(this, AdditionActivity::class.java).putExtra(
+                Intent(context, AdditionActivity::class.java).putExtra(
                     MISSION_ACTION_DETAIL, recommendUiModel
                 )
             )
-            if (!isFinishing) finish()
+            if (!requireActivity().isFinishing) requireActivity().finish()
         }
     }
 
     private fun backIvClickEvent() {
         binding.ivRecommendationActionBack.setOnClickListener {
-            startActivity(Intent(this, RecommendMissionActivity::class.java))
-            if (!isFinishing) finish()
+            startActivity(Intent(context, RecommendMissionActivity::class.java))
+            if (!requireActivity().isFinishing) requireActivity().finish()
         }
     }
 
@@ -186,10 +178,10 @@ class RecommendActionFragment : AppCompatActivity() {
 
     private fun setRecommendActionErrorObserver() {
         viewModel.recommendActionListErrorResponse.observe(this) { errorMessage ->
-            if (errorMessage == NO_INTERNET_CONDITION_ERROR) showNotTodoSnackBar(
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) requireContext().showNotTodoSnackBar(
                 binding.root, NO_INTERNET_CONDITION_ERROR
             )
-            else showToast(errorMessage)
+            else requireContext().showToast(errorMessage)
         }
     }
 
@@ -199,20 +191,9 @@ class RecommendActionFragment : AppCompatActivity() {
         }
     }
 
-    private fun overrideBackPressed() {
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                startActivity(
-                    Intent(
-                        this@RecommendActionFragment, RecommendMissionActivity::class.java
-                    )
-                )
-                if (!isFinishing) finish()
-            }
-        }
-        onBackPressedDispatcher.addCallback(this, callback)
+    override fun bindViewModelWithBinding() {
+        binding.vm = viewModel
     }
-
 
     companion object {
         const val MISSION_ACTION_DETAIL = "MISSION_ACTION_DETAIL"
