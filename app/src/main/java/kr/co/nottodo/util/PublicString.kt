@@ -20,4 +20,5 @@ object PublicString {
 
     // Recommend
     const val MISSION_DETAIL = "MISSION_DETAIL"
+    const val MISSION_ACTION_DETAIL = "MISSION_ACTION_DETAIL"
 }

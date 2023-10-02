@@ -10,6 +10,7 @@ import kr.co.nottodo.databinding.FragmentRecommendActionBinding
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
 import kr.co.nottodo.presentation.recommend.action.adapter.RecommendActionAdapter
+import kr.co.nottodo.presentation.recommend.action.view.RecommendActionActivity.Companion.MISSION_ACTION_DETAIL
 import kr.co.nottodo.presentation.recommend.action.viewmodel.RecommendActionViewModel
 import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity
 import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
@@ -193,9 +194,5 @@ class RecommendActionFragment :
 
     override fun bindViewModelWithBinding() {
         binding.vm = viewModel
-    }
-
-    companion object {
-        const val MISSION_ACTION_DETAIL = "MISSION_ACTION_DETAIL"
     }
 }
