@@ -13,8 +13,8 @@ import kr.co.nottodo.util.isConnectException
 
 class RecommendActionViewModel : ViewModel() {
     private var missionId: Int? = null
-    fun setMissionId(_missionId: Int) {
-        missionId = _missionId
+    fun setMissionId(missionId: Int) {
+        this.missionId = missionId
     }
 
     private val _recommendActionListSuccessResponse: MutableLiveData<List<Action>> =
