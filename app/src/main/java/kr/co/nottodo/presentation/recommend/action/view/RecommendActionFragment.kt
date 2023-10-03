@@ -13,7 +13,6 @@ import kr.co.nottodo.databinding.FragmentRecommendActionBinding
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.recommend.action.adapter.RecommendActionAdapter
-import kr.co.nottodo.presentation.recommend.action.view.RecommendActionActivity.Companion.MISSION_ACTION_DETAIL
 import kr.co.nottodo.presentation.recommend.action.viewmodel.RecommendActionViewModel
 import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity
 import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
@@ -21,6 +20,7 @@ import kr.co.nottodo.presentation.recommend.model.RecommendMissionUiModel
 import kr.co.nottodo.presentation.recommend.model.RecommendUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
+import kr.co.nottodo.util.PublicString.MISSION_ACTION_DETAIL
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.showNotTodoSnackBar
