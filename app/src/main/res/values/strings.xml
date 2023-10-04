@@ -260,5 +260,17 @@
     <string name="directly_input_kor">직접 입력하기</string>
 
     <string name="net_work_error_message">네트워크에 연결할 수 없습니다. 확인 후 다시 시도해 주세요.</string>
+    <string name="account_information">계정 정보</string>
+    <string name="cd_no_notification_permission">알림이 꺼져있음을 알리는 아이콘</string>
+    <string name="my_page_information_alarm_title">알림을 켜고 더 쉽게 낫투두를 달성하세요!</string>
+    <string name="my_page_information_alarm_desc">바로 알람 설정으로 이동하기</string>
+    <string name="cd_move">이동하기</string>
+    <string name="my_page_information_username">유저명</string>
+    <string name="username_example_kor">익명의 도전자</string>
+    <string name="email_kor">이메일</string>
+    <string name="no_email_kor">연동된 이메일 정보가 없습니다</string>
+    <string name="linked_account_kor">연결된 계정</string>
+    <string name="kakao_talk_kor">카카오톡</string>
+    <string name="push_alarm_setting_kor">푸시 알람 설정</string>
 
 </resources>

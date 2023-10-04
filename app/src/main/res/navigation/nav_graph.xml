@@ -18,5 +18,13 @@
     <fragment
         android:id="@+id/myPageFragment"
         android:name="kr.co.nottodo.presentation.mypage.view.MyPageFragment"
-        android:label="MyPageFragment" />
+        android:label="MyPageFragment">
+        <action
+            android:id="@+id/action_myPageFragment_to_myPageInformationFragment"
+            app:destination="@id/myPageInformationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myPageInformationFragment"
+        android:name="kr.co.nottodo.presentation.mypage.view.MyPageInformationFragment"
+        android:label="MyPageInformationFragment" />
 </navigation>

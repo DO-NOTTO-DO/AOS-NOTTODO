@@ -38,4 +38,8 @@ class MyPageLogoutDialogFragment : DialogFragment() {
         )
         if (!requireActivity().isFinishing) requireActivity().finish()
     }
+
+    companion object {
+        fun newInstance() = MyPageLogoutDialogFragment()
+    }
 }

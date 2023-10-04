@@ -11,8 +11,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -28,6 +30,11 @@ import kr.co.nottodo.util.showToast
 class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+    private val navController by lazy {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
+        navHostFragment.navController
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +43,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
         setContentView(binding.root)
 
         setResultLaunchers()
-        initBottomNavigationView()
+        setBottomNavigationView()
         requestPermissions()
         overrideBackPressed()
     }
@@ -89,7 +96,7 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
         }
     }
 
-    private fun initBottomNavigationView() {
+    private fun setBottomNavigationView() {
         binding.bnvMain.itemIconTintList = null
 
         val radius = resources.getDimension(R.dimen.bnv_radius)
@@ -100,12 +107,22 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
                 .setTopLeftCorner(CornerFamily.ROUNDED, radius).build()
 
         setBottomNavigationViewWithNavController()
+        setBottomNavigationViewVisibility()
+    }
+
+    private fun setBottomNavigationViewVisibility() {
+        AppBarConfiguration(
+            setOf(
+                R.id.homeFragment, R.id.achieveFragment, R.id.myPageFragment
+            )
+        ).also {
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                binding.bnvMain.isVisible = it.topLevelDestinations.contains(destination.id)
+            }
+        }
     }
 
     private fun setBottomNavigationViewWithNavController() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
-        val navController = navHostFragment.navController
         binding.bnvMain.setupWithNavController(navController)
     }
 
@@ -121,6 +138,11 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     private fun overrideBackPressed() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                if (!binding.bnvMain.isVisible) {
+                    navController.popBackStack()
+                    return
+                }
+
                 if (doubleBackToExitPressedOnce) {
                     if (!isFinishing) finish()
                     return
