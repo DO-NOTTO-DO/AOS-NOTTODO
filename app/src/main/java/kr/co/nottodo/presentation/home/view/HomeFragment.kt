@@ -1,18 +1,17 @@
 package kr.co.nottodo.presentation.home.view
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.addition.view.AdditionActivity.Companion.FIRST_DATE
-import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
@@ -122,9 +121,8 @@ class HomeFragment : Fragment(), DialogCloseListener {
     }
 
     private fun clickFloatingBtn() {
-        val intent = Intent(context, RecommendMissionActivity::class.java)
         binding.ftbHomeAdd.setOnClickListener {
-            startActivity(intent)
+            findNavController().navigate(R.id.action_homeFragment_to_recommendMissionFragment)
         }
     }
 
