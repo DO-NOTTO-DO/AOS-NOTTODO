@@ -117,13 +117,13 @@ class ModificationFragment :
     private fun setMissionOpenedDescSpan() {
         SpannableStringBuilder(getString(R.string.mission_desc)).apply {
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
+                ForegroundColorSpan(requireContext().getColor(R.color.white)),
                 0,
                 this.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
+                ForegroundColorSpan(requireContext().getColor(R.color.green_1_98ffa9)),
                 3,
                 6,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -136,13 +136,13 @@ class ModificationFragment :
             getString(R.string.situation_desc)
         ).apply {
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
+                ForegroundColorSpan(requireContext().getColor(R.color.white)),
                 0,
                 this.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
+                ForegroundColorSpan(requireContext().getColor(R.color.green_1_98ffa9)),
                 10,
                 12,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -153,13 +153,13 @@ class ModificationFragment :
     private fun setActionOpenedDescSpan() {
         SpannableStringBuilder(getString(R.string.action_desc)).apply {
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
+                ForegroundColorSpan(requireContext().getColor(R.color.white)),
                 0,
                 this.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
+                ForegroundColorSpan(requireContext().getColor(R.color.green_1_98ffa9)),
                 3,
                 5,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -170,13 +170,13 @@ class ModificationFragment :
     private fun setGoalOpenedDescSpan() {
         SpannableStringBuilder(getString(R.string.goal_desc)).apply {
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
+                ForegroundColorSpan(requireContext().getColor(R.color.white)),
                 0,
                 this.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
+                ForegroundColorSpan(requireContext().getColor(R.color.green_1_98ffa9)),
                 12,
                 14,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -200,7 +200,7 @@ class ModificationFragment :
             setText(missionName)
             requestFocus()
             setSelection(this.length())
-            contextNonNull.showKeyboard(this)
+            requireContext().showKeyboard(this)
         }
     }
 
@@ -233,7 +233,7 @@ class ModificationFragment :
         binding.etModificationMission.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeMissionToggle()
-                contextNonNull.hideKeyboard(binding.root)
+                requireContext().hideKeyboard(binding.root)
             }
             return@setOnEditorActionListener false
         }
@@ -241,7 +241,7 @@ class ModificationFragment :
         binding.etModificationSituation.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeSituationToggle()
-                contextNonNull.hideKeyboard(binding.root)
+                requireContext().hideKeyboard(binding.root)
             }
             return@setOnEditorActionListener false
         }
@@ -256,7 +256,7 @@ class ModificationFragment :
         binding.etModificationGoal.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeGoalToggle()
-                contextNonNull.hideKeyboard(binding.root)
+                requireContext().hideKeyboard(binding.root)
             }
             return@setOnEditorActionListener false
         }
@@ -279,7 +279,7 @@ class ModificationFragment :
                     actionList.value?.set(2, action.value ?: "")
                     action.value = ""
                 }
-                contextNonNull.hideKeyboard(binding.root)
+                requireContext().hideKeyboard(binding.root)
             }
         }
     }
@@ -342,7 +342,7 @@ class ModificationFragment :
     }
 
     private fun setFinishButtonClickEvent() {
-        binding.ivModificationDelete.setOnClickListener { if (!activityNonNull.isFinishing) activityNonNull.finish() }
+        binding.ivModificationDelete.setOnClickListener { if (!requireActivity().isFinishing) requireActivity().finish() }
     }
 
     private fun setModifyBtnClickEvent() {
@@ -404,7 +404,7 @@ class ModificationFragment :
 
         binding.tvModificationActionComplete.setOnClickListener {
             closeActionToggle()
-            contextNonNull.hideKeyboard(binding.root)
+            requireContext().hideKeyboard(binding.root)
         }
     }
 
@@ -421,7 +421,7 @@ class ModificationFragment :
         editText.run {
             requestFocus()
             setSelection(editText.length())
-            contextNonNull.showKeyboard(this)
+            requireContext().showKeyboard(this)
         }
     }
 
@@ -547,8 +547,8 @@ class ModificationFragment :
 
     private fun observeGetMissionDatesErrorResponse() {
         viewModel.getMissionDatesErrorResponse.observe(viewLifecycleOwner) { errorMessage ->
-            contextNonNull.showToast(if (errorMessage == NO_INTERNET_CONDITION_ERROR) NO_INTERNET_CONDITION_ERROR else errorMessage)
-            if (!activityNonNull.isFinishing) activityNonNull.finish()
+            requireContext().showToast(if (errorMessage == NO_INTERNET_CONDITION_ERROR) NO_INTERNET_CONDITION_ERROR else errorMessage)
+            if (!requireActivity().isFinishing) requireActivity().finish()
         }
     }
 
@@ -559,9 +559,9 @@ class ModificationFragment :
 
     private fun observeModifyNottodoSuccessResponse() {
         viewModel.modifyNottodoSuccessResponse.observe(viewLifecycleOwner) { response ->
-            contextNonNull.showToast(getString(R.string.complete_modify_nottodo))
-            activityNonNull.setResult(AppCompatActivity.RESULT_OK)
-            if (!activityNonNull.isFinishing) activityNonNull.finish()
+            requireContext().showToast(getString(R.string.complete_modify_nottodo))
+            requireActivity().setResult(AppCompatActivity.RESULT_OK)
+            if (!requireActivity().isFinishing) requireActivity().finish()
             trackCompleteModifyMission(response)
         }
     }
@@ -598,7 +598,7 @@ class ModificationFragment :
             else -> {
                 if (isHtmlTagExist) {
                     HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT).also { htmlText ->
-                        contextNonNull.showNotTodoSnackBar(binding.root, htmlText)
+                        requireContext().showNotTodoSnackBar(binding.root, htmlText)
                     }
                 } else {
                     binding.root.showNotTodoSnackBar(this)

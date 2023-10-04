@@ -62,7 +62,7 @@ class AdditionFragment :
     }
 
     private fun getDataFromRecommendActivity() {
-        val recommendUiModel: RecommendUiModel = activityNonNull.intent?.getParcelable(
+        val recommendUiModel: RecommendUiModel = requireActivity().intent?.getParcelable(
             RecommendActionActivity.MISSION_ACTION_DETAIL, RecommendUiModel::class.java
         ) ?: return
 
@@ -136,7 +136,7 @@ class AdditionFragment :
             requestFocus()
             setSelection(binding.etAdditionMission.length())
         }
-        contextNonNull.showKeyboard(binding.etAdditionMission)
+        requireContext().showKeyboard(binding.etAdditionMission)
     }
 
     private fun trackSetMissionName(missionName: String) {
@@ -180,7 +180,7 @@ class AdditionFragment :
                 if (isHtmlTagExist) {
                     val errorMessageWithHtmlTag =
                         HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT)
-                    contextNonNull.showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
+                    requireContext().showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
                 } else {
                     binding.root.showNotTodoSnackBar(
                         this
@@ -231,7 +231,7 @@ class AdditionFragment :
 
     private fun observePostNottodoSuccessResponse() {
         viewModel.postNottodoSuccessResponse.observe(viewLifecycleOwner) { response ->
-            contextNonNull.showToast(getString(R.string.complete_create_nottodo))
+            requireContext().showToast(getString(R.string.complete_create_nottodo))
             trackCompleteCreateMission(response)
             val sortedList =
                 response.dates.sortedBy { date -> date.achievementConvertStringToDate() }
@@ -258,11 +258,11 @@ class AdditionFragment :
 
     private fun navigateToMainWithFirstDay(firstDate: String) {
         startActivity(
-            Intent(contextNonNull, MainActivity::class.java).setFlags(
+            Intent(requireContext(), MainActivity::class.java).setFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             ).putExtra(FIRST_DATE, firstDate)
         )
-        if (!activityNonNull.isFinishing) activityNonNull.finish()
+        if (!requireActivity().isFinishing) requireActivity().finish()
     }
 
     private fun setActions() {
@@ -279,7 +279,7 @@ class AdditionFragment :
         binding.etAdditionMission.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeMissionToggle()
-                contextNonNull.hideKeyboard(binding.root)
+                requireContext().hideKeyboard(binding.root)
             }
             return@setOnEditorActionListener false
         }
@@ -287,7 +287,7 @@ class AdditionFragment :
         binding.etAdditionSituation.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeSituationToggle()
-                contextNonNull.hideKeyboard(binding.root)
+                requireContext().hideKeyboard(binding.root)
             }
             return@setOnEditorActionListener false
         }
@@ -302,7 +302,7 @@ class AdditionFragment :
         binding.etAdditionGoal.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 closeGoalToggle()
-                contextNonNull.hideKeyboard(binding.root)
+                requireContext().hideKeyboard(binding.root)
             }
             return@setOnEditorActionListener false
         }
@@ -325,7 +325,7 @@ class AdditionFragment :
                     thirdAction.value = action.value
                     action.value = ""
                 }
-                contextNonNull.hideKeyboard(binding.root)
+                requireContext().hideKeyboard(binding.root)
             }
         }
     }
@@ -388,7 +388,7 @@ class AdditionFragment :
     }
 
     private fun setFinishButtonClickEvent() {
-        binding.ivAdditionDelete.setOnClickListener { if (!activityNonNull.isFinishing) activityNonNull.finish() }
+        binding.ivAdditionDelete.setOnClickListener { if (!requireActivity().isFinishing) requireActivity().finish() }
     }
 
     private fun setSituationRecommendations(situationList: List<String>) {
@@ -514,7 +514,7 @@ class AdditionFragment :
 
         binding.tvAdditionActionComplete.setOnClickListener {
             closeActionToggle()
-            contextNonNull.hideKeyboard(binding.root)
+            requireContext().hideKeyboard(binding.root)
         }
     }
 
@@ -578,7 +578,7 @@ class AdditionFragment :
         editText.run {
             requestFocus()
             setSelection(editText.length())
-            contextNonNull.showKeyboard(this)
+            requireContext().showKeyboard(this)
         }
     }
 
@@ -626,13 +626,13 @@ class AdditionFragment :
     private fun setMissionOpenedDescSpan() {
         SpannableStringBuilder(getString(R.string.mission_desc)).apply {
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
+                ForegroundColorSpan(requireContext().getColor(R.color.white)),
                 0,
                 this.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
+                ForegroundColorSpan(requireContext().getColor(R.color.green_1_98ffa9)),
                 3,
                 6,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -645,13 +645,13 @@ class AdditionFragment :
             getString(R.string.situation_desc)
         ).apply {
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
+                ForegroundColorSpan(requireContext().getColor(R.color.white)),
                 0,
                 this.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
+                ForegroundColorSpan(requireContext().getColor(R.color.green_1_98ffa9)),
                 10,
                 12,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -662,13 +662,13 @@ class AdditionFragment :
     private fun setActionOpenedDescSpan() {
         SpannableStringBuilder(getString(R.string.action_desc)).apply {
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
+                ForegroundColorSpan(requireContext().getColor(R.color.white)),
                 0,
                 this.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
+                ForegroundColorSpan(requireContext().getColor(R.color.green_1_98ffa9)),
                 3,
                 5,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -679,13 +679,13 @@ class AdditionFragment :
     private fun setGoalOpenedDescSpan() {
         SpannableStringBuilder(getString(R.string.goal_desc)).apply {
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.white)),
+                ForegroundColorSpan(requireContext().getColor(R.color.white)),
                 0,
                 this.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             setSpan(
-                ForegroundColorSpan(contextNonNull.getColor(R.color.green_1_98ffa9)),
+                ForegroundColorSpan(requireContext().getColor(R.color.green_1_98ffa9)),
                 12,
                 14,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE

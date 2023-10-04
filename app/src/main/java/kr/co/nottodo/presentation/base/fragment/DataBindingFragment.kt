@@ -15,9 +15,6 @@ abstract class DataBindingFragment<DB : ViewDataBinding>(@LayoutRes private val 
     private var _binding: DB? = null
     protected val binding get() = requireNotNull(_binding) { "binding is null" }
 
-    protected val contextNonNull by lazy { requireContext() }
-    protected val activityNonNull by lazy { requireActivity() }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

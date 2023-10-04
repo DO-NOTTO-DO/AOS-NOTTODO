@@ -77,7 +77,7 @@ class MyPageInformationFragment :
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             viewModel.setIsNotificationPermissionValid(
                 isNotificationPermissionValid = ContextCompat.checkSelfPermission(
-                    contextNonNull, Manifest.permission.POST_NOTIFICATIONS
+                    requireContext(), Manifest.permission.POST_NOTIFICATIONS
                 ) == PERMISSION_GRANTED
             )
         } else {
@@ -131,7 +131,12 @@ class MyPageInformationFragment :
             startActivity(
                 Intent(
                     Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.parse(getString(R.string.package_package_name, contextNonNull.packageName))
+                    Uri.parse(
+                        getString(
+                            R.string.package_package_name,
+                            requireContext().packageName
+                        )
+                    )
                 )
             )
         }
@@ -140,7 +145,7 @@ class MyPageInformationFragment :
     private fun setMemberWithdrawalTvClickEvent() {
         binding.tvMyPageInformationMemberWithdrawal.setOnClickListener {
             withdrawalDialogFragment.show(
-                activityNonNull.supportFragmentManager, withdrawalDialogFragment.tag
+                requireActivity().supportFragmentManager, withdrawalDialogFragment.tag
             )
         }
     }
@@ -153,7 +158,7 @@ class MyPageInformationFragment :
 
     private fun startMyPageLogoutDialog() {
         myPageLogoutDialogFragment.show(
-            activityNonNull.supportFragmentManager, myPageLogoutDialogFragment.tag
+            requireActivity().supportFragmentManager, myPageLogoutDialogFragment.tag
         )
     }
 
@@ -174,10 +179,10 @@ class MyPageInformationFragment :
 
     private fun setWithdrawalErrorObserver() {
         viewModel.withdrawalErrorResponse.observe(viewLifecycleOwner) { errorMessage ->
-            if (errorMessage == NO_INTERNET_CONDITION_ERROR) contextNonNull.showNotTodoSnackBar(
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) requireContext().showNotTodoSnackBar(
                 binding.root, NO_INTERNET_CONDITION_ERROR
             )
-            else contextNonNull.showToast(errorMessage)
+            else requireContext().showToast(errorMessage)
         }
     }
 
@@ -185,7 +190,7 @@ class MyPageInformationFragment :
         viewModel.withdrawalSuccessResponse.observe(viewLifecycleOwner) {
             withdrawalDialogFragment.dismiss()
             withdrawalFeedbackDialogFragment.show(
-                activityNonNull.supportFragmentManager, withdrawalFeedbackDialogFragment.tag
+                requireActivity().supportFragmentManager, withdrawalFeedbackDialogFragment.tag
             )
             trackEvent(getString(R.string.complete_withdrawal))
         }
@@ -198,8 +203,8 @@ class MyPageInformationFragment :
 
     private fun logout() {
         SharedPreferences.clearForLogout()
-        startActivity(Intent(contextNonNull, LoginActivity::class.java))
-        if (!activityNonNull.isFinishing) activityNonNull.finish()
+        startActivity(Intent(requireContext(), LoginActivity::class.java))
+        if (!requireActivity().isFinishing) requireActivity().finish()
     }
 
     override fun bindViewModelWithBinding() {
