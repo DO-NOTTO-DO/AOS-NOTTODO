@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="kr.co.nottodo.presentation.home.view.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_recommendMissionFragment"
+            app:destination="@id/recommendMissionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/achieveFragment"
         android:name="kr.co.nottodo.presentation.achieve.AchieveFragment"
@@ -27,4 +31,8 @@
         android:id="@+id/myPageInformationFragment"
         android:name="kr.co.nottodo.presentation.mypage.view.MyPageInformationFragment"
         android:label="MyPageInformationFragment" />
+    <fragment
+        android:id="@+id/recommendMissionFragment"
+        android:name="kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionFragment"
+        android:label="RecommendMissionFragment" />
 </navigation>
