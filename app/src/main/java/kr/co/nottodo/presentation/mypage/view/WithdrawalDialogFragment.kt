@@ -52,4 +52,8 @@ class WithdrawalDialogFragment : DialogFragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    companion object {
+        fun newInstance() = WithdrawalDialogFragment()
+    }
 }

@@ -78,4 +78,8 @@ class WithdrawalFeedbackDialogFragment : DialogFragment() {
             getString(R.string._is_null, getString(R.string.on_dialog_dismiss_listener))
         )
     }
+
+    companion object {
+        fun newInstance() = WithdrawalFeedbackDialogFragment()
+    }
 }

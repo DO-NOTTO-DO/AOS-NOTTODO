@@ -30,9 +30,9 @@ class MyPageInformationFragment :
     OnDialogDismissListener {
 
     private val viewModel: MyPageInformationViewModel by viewModels()
-    private val withdrawalDialogFragment by lazy { WithdrawalDialogFragment() }
-    private val withdrawalFeedbackDialogFragment by lazy { WithdrawalFeedbackDialogFragment() }
-    private val myPageLogoutDialogFragment by lazy { MyPageLogoutDialogFragment() }
+    private val withdrawalDialogFragment by lazy { WithdrawalDialogFragment.newInstance() }
+    private val withdrawalFeedbackDialogFragment by lazy { WithdrawalFeedbackDialogFragment.newInstance() }
+    private val myPageLogoutDialogFragment by lazy { MyPageLogoutDialogFragment.newInstance() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -130,11 +130,9 @@ class MyPageInformationFragment :
         binding.layoutMyPageInformationAlarm.setOnClickListener {
             startActivity(
                 Intent(
-                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.parse(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse(
                         getString(
-                            R.string.package_package_name,
-                            requireContext().packageName
+                            R.string.package_package_name, requireContext().packageName
                         )
                     )
                 )
