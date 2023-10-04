@@ -8,12 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.snackbar.Snackbar
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.addition.view.AdditionActivity.Companion.FIRST_DATE
-import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
+import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate

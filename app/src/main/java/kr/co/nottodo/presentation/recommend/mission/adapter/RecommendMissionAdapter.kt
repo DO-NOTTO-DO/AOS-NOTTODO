@@ -1,4 +1,4 @@
-package kr.co.nottodo.presentation.recommendation.mission.adapter
+package kr.co.nottodo.presentation.recommend.mission.adapter
 
 import android.graphics.Rect
 import android.view.LayoutInflater

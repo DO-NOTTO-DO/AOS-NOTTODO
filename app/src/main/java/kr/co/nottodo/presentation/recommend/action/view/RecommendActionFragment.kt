@@ -1,39 +1,41 @@
-package kr.co.nottodo.presentation.recommendation.action.view
+package kr.co.nottodo.presentation.recommend.action.view
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import kr.co.nottodo.R
-import kr.co.nottodo.databinding.ActivityRecommendActionBinding
+import kr.co.nottodo.databinding.FragmentRecommendActionBinding
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
-import kr.co.nottodo.presentation.recommendation.action.adapter.RecommendActionAdapter
-import kr.co.nottodo.presentation.recommendation.action.viewmodel.RecommendActionViewModel
-import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity
-import kr.co.nottodo.presentation.recommendation.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
-import kr.co.nottodo.presentation.recommendation.model.RecommendMissionUiModel
-import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
+import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
+import kr.co.nottodo.presentation.recommend.action.adapter.RecommendActionAdapter
+import kr.co.nottodo.presentation.recommend.action.viewmodel.RecommendActionViewModel
+import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity
+import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
+import kr.co.nottodo.presentation.recommend.model.RecommendMissionUiModel
+import kr.co.nottodo.presentation.recommend.model.RecommendUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
+import kr.co.nottodo.util.PublicString.MISSION_ACTION_DETAIL
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
 
-class RecommendActionActivity : AppCompatActivity() {
+class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBinding>() {
 
-    private val binding by lazy { ActivityRecommendActionBinding.inflate(layoutInflater) }
     private var recommendActionAdapter: RecommendActionAdapter? = null
     private val viewModel by viewModels<RecommendActionViewModel>()
     private val dataFromRecommendMissionActivity by lazy {
-        val recommendMissionUiModel = intent.getParcelable(
+        val recommendMissionUiModel = requireActivity().intent.getParcelable(
             MISSION_DETAIL, RecommendMissionUiModel::class.java
         )
         if (recommendMissionUiModel == null) {
-            if (!isFinishing) finish()
+            if (!requireActivity().isFinishing) requireActivity().finish()
         }
         requireNotNull(recommendMissionUiModel) {
             getString(
@@ -44,17 +46,11 @@ class RecommendActionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setDataBinding()
+
         setData()
         setViews()
-        overrideBackPressed()
         setClickEvents()
         setObservers()
-    }
-
-    private fun setDataBinding() {
-        binding.lifecycleOwner = this
-        binding.vm = viewModel
     }
 
     private fun setData() {
@@ -62,29 +58,29 @@ class RecommendActionActivity : AppCompatActivity() {
         getRecommendActionList()
     }
 
-    private fun getRecommendActionList() {
-        viewModel.getRecommendActionList()
+    private fun getDataFromRecommendMissionActivity() {
+        trackEnterRecommendActionView()
+        viewModel.setMissionId(dataFromRecommendMissionActivity.id)
     }
 
-    private fun getDataFromRecommendMissionActivity() {
+    private fun trackEnterRecommendActionView() {
         trackEventWithProperty(
             getString(R.string.view_recommend_mission_detail), mapOf(
                 getString(R.string.situation) to dataFromRecommendMissionActivity.situation,
                 getString(R.string.title) to dataFromRecommendMissionActivity.title
-
             )
-        )
-        viewModel.setMissionId(
-            dataFromRecommendMissionActivity.id
         )
     }
 
+    private fun getRecommendActionList() {
+        viewModel.getRecommendActionList()
+    }
+
     private fun setViews() {
-        setContentView(binding.root)
-        setRecommendActionRecyclerView()
         setMissionTextView()
         setSituationTextView()
         setMissionImageView()
+        setRecommendActionRecyclerView()
     }
 
     private fun setMissionTextView() {
@@ -105,92 +101,96 @@ class RecommendActionActivity : AppCompatActivity() {
             minusSelectedActionsCount = viewModel.minusSelectedActionsCount,
             isSelectedActionsCountThree = viewModel.isSelectedActionsCountThree
         )
-        binding.rvRecommendAction.adapter = recommendActionAdapter
-        binding.rvRecommendAction.layoutManager = object : LinearLayoutManager(this) {
-            override fun canScrollVertically(): Boolean = false
+
+        binding.rvRecommendAction.run {
+            adapter = recommendActionAdapter
+            layoutManager = object : LinearLayoutManager(requireContext()) {
+                override fun canScrollVertically(): Boolean = false
+            }
         }
     }
 
     private fun setClickEvents() {
         backIvClickEvent()
-        writeDirectTvClickEvent()
         continueBtnClickEvent()
+        writeDirectTvClickEvent()
+    }
+
+    private fun backIvClickEvent() {
+        binding.ivRecommendationActionBack.setOnClickListener {
+            startActivity(Intent(context, RecommendMissionActivity::class.java))
+            if (!requireActivity().isFinishing) requireActivity().finish()
+        }
     }
 
     private fun continueBtnClickEvent() {
         binding.btnRecommendActionContinue.setOnClickListener {
             val selectedActionList = recommendActionAdapter?.getSelectedActionList()
             trackClickCreateRecommendMissionEvent(selectedActionList)
-            val recommendUiModel = RecommendUiModel(
+
+            RecommendUiModel(
                 title = dataFromRecommendMissionActivity.title,
                 situation = dataFromRecommendMissionActivity.situation,
                 actionList = selectedActionList ?: emptyList()
-            )
-            startActivity(
-                Intent(this, AdditionActivity::class.java).putExtra(
-                    MISSION_ACTION_DETAIL, recommendUiModel
+            ).also {
+                startActivity(
+                    Intent(context, AdditionActivity::class.java).putExtra(
+                        MISSION_ACTION_DETAIL, it
+                    )
                 )
-            )
-            if (!isFinishing) finish()
+                if (!requireActivity().isFinishing) requireActivity().finish()
+            }
         }
     }
 
     private fun trackClickCreateRecommendMissionEvent(selectedActionList: List<String>?) {
-        val clickCreateRecommendMissionEventPropertyMap = mutableMapOf<String, Any>(
+        mutableMapOf<String, Any>(
             getString(R.string.situation) to dataFromRecommendMissionActivity.situation,
             getString(R.string.title) to dataFromRecommendMissionActivity.title
+        ).apply {
+            if (selectedActionList != null) plus(getString(R.string.action) to selectedActionList.toTypedArray())
+        }.also {
+            it.trackCreateRecommendMissionEvent()
+        }
+    }
 
-        )
-        if (selectedActionList != null) clickCreateRecommendMissionEventPropertyMap.plus(
-            getString(R.string.action) to selectedActionList.toTypedArray()
-        )
-
+    private fun Map<String, Any>.trackCreateRecommendMissionEvent() {
         trackEventWithProperty(
             getString(R.string.click_create_recommend_mission),
-            clickCreateRecommendMissionEventPropertyMap
+            this@trackCreateRecommendMissionEvent
         )
     }
 
     private fun writeDirectTvClickEvent() {
         binding.tvRecommendActionWriteDirect.setOnClickListener {
-            trackEvent(getString(R.string.click_self_create_action))
-            val recommendUiModel = RecommendUiModel(
+            trackSelfCreateActionEvent()
+            RecommendUiModel(
                 title = dataFromRecommendMissionActivity.title,
                 situation = dataFromRecommendMissionActivity.situation,
                 actionList = emptyList()
-            )
-            startActivity(
-                Intent(this, AdditionActivity::class.java).putExtra(
-                    MISSION_ACTION_DETAIL, recommendUiModel
+            ).also {
+                startActivity(
+                    Intent(context, AdditionActivity::class.java).putExtra(
+                        MISSION_ACTION_DETAIL, it
+                    )
                 )
-            )
-            if (!isFinishing) finish()
+                if (!requireActivity().isFinishing) requireActivity().finish()
+            }
         }
     }
 
-    private fun backIvClickEvent() {
-        binding.ivRecommendationActionBack.setOnClickListener {
-            startActivity(Intent(this, RecommendMissionActivity::class.java))
-            if (!isFinishing) finish()
-        }
+    private fun trackSelfCreateActionEvent() {
+        trackEvent(getString(R.string.click_self_create_action))
     }
 
     private fun setObservers() {
         setRecommendActionObservers()
+        setIsActionSelectedObserver()
     }
 
     private fun setRecommendActionObservers() {
         setRecommendActionSuccessObserver()
         setRecommendActionErrorObserver()
-    }
-
-    private fun setRecommendActionErrorObserver() {
-        viewModel.recommendActionListErrorResponse.observe(this) { errorMessage ->
-            if (errorMessage == NO_INTERNET_CONDITION_ERROR) showNotTodoSnackBar(
-                binding.root, NO_INTERNET_CONDITION_ERROR
-            )
-            else showToast(errorMessage)
-        }
     }
 
     private fun setRecommendActionSuccessObserver() {
@@ -199,22 +199,24 @@ class RecommendActionActivity : AppCompatActivity() {
         }
     }
 
-    private fun overrideBackPressed() {
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                startActivity(
-                    Intent(
-                        this@RecommendActionActivity, RecommendMissionActivity::class.java
-                    )
-                )
-                if (!isFinishing) finish()
-            }
+    private fun setRecommendActionErrorObserver() {
+        viewModel.recommendActionListErrorResponse.observe(this) { errorMessage ->
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) requireContext().showNotTodoSnackBar(
+                binding.root, NO_INTERNET_CONDITION_ERROR
+            )
+            else requireContext().showToast(errorMessage)
         }
-        onBackPressedDispatcher.addCallback(this, callback)
     }
 
-
-    companion object {
-        const val MISSION_ACTION_DETAIL = "MISSION_ACTION_DETAIL"
+    private fun setIsActionSelectedObserver() {
+        viewModel.isActionSelected.observe(viewLifecycleOwner) { isActionSelected ->
+            binding.btnRecommendActionContinue.isVisible = isActionSelected
+        }
     }
+
+    override fun setBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+    ): FragmentRecommendActionBinding =
+        FragmentRecommendActionBinding.inflate(inflater, container, false)
 }

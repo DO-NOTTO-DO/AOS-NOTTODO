@@ -18,8 +18,8 @@ import kr.co.nottodo.databinding.FragmentAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionNewViewModel
 import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
-import kr.co.nottodo.presentation.recommendation.action.view.RecommendActionActivity
-import kr.co.nottodo.presentation.recommendation.model.RecommendUiModel
+import kr.co.nottodo.presentation.recommend.action.view.RecommendActionActivity
+import kr.co.nottodo.presentation.recommend.model.RecommendUiModel
 import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addButtons
