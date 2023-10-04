@@ -151,7 +151,11 @@ class MyPageFragment : Fragment() {
 
     override fun onDestroyView() {
         _binding = null
-        onFragmentChangedListener = null
         super.onDestroyView()
+    }
+
+    override fun onDetach() {
+        onFragmentChangedListener = null
+        super.onDetach()
     }
 }
