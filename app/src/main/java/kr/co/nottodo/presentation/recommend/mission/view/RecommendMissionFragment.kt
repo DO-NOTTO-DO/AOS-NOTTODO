@@ -3,6 +3,7 @@ package kr.co.nottodo.presentation.recommend.mission.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -22,14 +23,13 @@ import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
 
-
 class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBinding>() {
     private val viewModel: RecommendMissionViewModel by viewModels()
     private var recommendMissionAdapter: RecommendMissionAdapter? = null
     private val navController by lazy { findNavController() }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         enterRecommendMissionView()
         setData()
@@ -111,13 +111,13 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
     }
 
     private fun setRecommendMissionSuccessObserver() {
-        viewModel.recommendMissionListSuccessResponse.observe(this) { missionList ->
+        viewModel.recommendMissionListSuccessResponse.observe(viewLifecycleOwner) { missionList ->
             recommendMissionAdapter?.submitList(missionList)
         }
     }
 
     private fun setRecommendMissionFailureObserver() {
-        viewModel.recommendMissionListErrorResponse.observe(this) { errorMessage ->
+        viewModel.recommendMissionListErrorResponse.observe(viewLifecycleOwner) { errorMessage ->
             if (errorMessage == NO_INTERNET_CONDITION_ERROR) requireContext().showNotTodoSnackBar(
                 binding.root, NO_INTERNET_CONDITION_ERROR
             ) else {
@@ -126,7 +126,6 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
             recommendMissionAdapter?.submitList(emptyList())
         }
     }
-
 
     override fun setBinding(
         inflater: LayoutInflater,
