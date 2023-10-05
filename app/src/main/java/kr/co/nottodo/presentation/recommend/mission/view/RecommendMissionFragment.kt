@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import kr.co.nottodo.R
+import kr.co.nottodo.data.remote.model.recommendation.mission.ResponseRecommendMissionListDto.Mission
 import kr.co.nottodo.databinding.FragmentRecommendMissionBinding
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
@@ -56,18 +57,15 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
     }
 
     private fun setAdapter() {
-        val navigateToRecommendActionFragment =
-            { id: Int, title: String, situation: String, image: String ->
+        { missionData: Mission ->
+            missionData.run {
                 trackClickRecommendMission(title, situation)
-
-                val recommendMissionUiModel = RecommendMissionUiModel(id, title, situation, image)
-                val action =
-                    RecommendMissionFragmentDirections.actionRecommendMissionFragmentToRecommendActionFragment(
-                        recommendMissionUiModel
-                    )
-                findNavController().navigate(action)
+                navigateToRecommendActionFragment(missionData)
             }
-        recommendMissionAdapter = RecommendMissionAdapter(navigateToRecommendActionFragment)
+        }.also { itemClickEvent ->
+            recommendMissionAdapter = RecommendMissionAdapter(itemClickEvent)
+        }
+
         binding.rvRecommendMission.apply {
             adapter = recommendMissionAdapter
             addItemDecoration(RecommendMissionItemDecoration())
@@ -80,6 +78,17 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
                 getString(R.string.situation) to situation, getString(R.string.title) to title
             )
         )
+    }
+
+    private fun navigateToRecommendActionFragment(data: Mission) {
+        data.run {
+            val recommendMissionUiModel = RecommendMissionUiModel(id, title, situation, image)
+            RecommendMissionFragmentDirections.actionRecommendMissionFragmentToRecommendActionFragment(
+                recommendMissionUiModel
+            ).also { directions ->
+                findNavController().navigate(directions)
+            }
+        }
     }
 
     private fun setClickEvents() {

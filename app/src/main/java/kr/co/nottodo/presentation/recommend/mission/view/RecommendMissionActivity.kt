@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import kr.co.nottodo.R
+import kr.co.nottodo.data.remote.model.recommendation.mission.ResponseRecommendMissionListDto.Mission
 import kr.co.nottodo.databinding.ActivityRecommendMissionBinding
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.recommend.action.view.RecommendActionActivity
@@ -93,19 +94,24 @@ class RecommendMissionActivity : AppCompatActivity() {
 
     private fun setAdapter() {
         val startRecommendActionActivity =
-            { id: Int, title: String, situation: String, image: String ->
-                trackEventWithProperty(
-                    getString(R.string.click_recommend_mission), mapOf(
-                        getString(R.string.situation) to situation,
-                        getString(R.string.title) to title
+            { missionData: Mission ->
+                missionData.run {
+                    trackEventWithProperty(
+                        getString(R.string.click_recommend_mission), mapOf(
+                            getString(R.string.situation) to situation,
+                            getString(R.string.title) to title
+                        )
                     )
-                )
-                startActivity(
-                    Intent(this, RecommendActionActivity::class.java).putExtra(
-                        MISSION_DETAIL, RecommendMissionUiModel(id, title, situation, image)
+                    startActivity(
+                        Intent(
+                            this@RecommendMissionActivity,
+                            RecommendActionActivity::class.java
+                        ).putExtra(
+                            MISSION_DETAIL, RecommendMissionUiModel(id, title, situation, image)
+                        )
                     )
-                )
-                if (!isFinishing) finish()
+                    if (!isFinishing) finish()
+                }
             }
         recommendMissionAdapter = RecommendMissionAdapter(startRecommendActionActivity)
         binding.rvRecommendMission.adapter = recommendMissionAdapter
