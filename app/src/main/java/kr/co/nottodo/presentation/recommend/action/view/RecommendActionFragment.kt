@@ -3,9 +3,11 @@ package kr.co.nottodo.presentation.recommend.action.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import kr.co.nottodo.R
@@ -15,14 +17,11 @@ import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.recommend.action.adapter.RecommendActionAdapter
 import kr.co.nottodo.presentation.recommend.action.viewmodel.RecommendActionViewModel
 import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity
-import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
-import kr.co.nottodo.presentation.recommend.model.RecommendMissionUiModel
 import kr.co.nottodo.presentation.recommend.model.RecommendUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.PublicString.MISSION_ACTION_DETAIL
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
-import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
 
@@ -30,22 +29,13 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
 
     private var recommendActionAdapter: RecommendActionAdapter? = null
     private val viewModel by viewModels<RecommendActionViewModel>()
-    private val dataFromRecommendMissionActivity by lazy {
-        val recommendMissionUiModel = requireActivity().intent.getParcelable(
-            MISSION_DETAIL, RecommendMissionUiModel::class.java
-        )
-        if (recommendMissionUiModel == null) {
-            if (!requireActivity().isFinishing) requireActivity().finish()
-        }
-        requireNotNull(recommendMissionUiModel) {
-            getString(
-                R.string._is_null, getString(R.string.recommend_mission_ui_model)
-            )
-        }
+    private val args: RecommendActionFragmentArgs by navArgs()
+    private val recommendMissionUiModel by lazy {
+        args.recommendMissionUiModel
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setData()
         setViews()
@@ -60,14 +50,14 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
 
     private fun getDataFromRecommendMissionActivity() {
         trackEnterRecommendActionView()
-        viewModel.setMissionId(dataFromRecommendMissionActivity.id)
+        viewModel.setMissionId(recommendMissionUiModel.id)
     }
 
     private fun trackEnterRecommendActionView() {
         trackEventWithProperty(
             getString(R.string.view_recommend_mission_detail), mapOf(
-                getString(R.string.situation) to dataFromRecommendMissionActivity.situation,
-                getString(R.string.title) to dataFromRecommendMissionActivity.title
+                getString(R.string.situation) to recommendMissionUiModel.situation,
+                getString(R.string.title) to recommendMissionUiModel.title
             )
         )
     }
@@ -84,15 +74,15 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
     }
 
     private fun setMissionTextView() {
-        binding.tvRecommendActionMission.text = dataFromRecommendMissionActivity.title
+        binding.tvRecommendActionMission.text = recommendMissionUiModel.title
     }
 
     private fun setSituationTextView() {
-        binding.tvRecommendActionSituation.text = dataFromRecommendMissionActivity.situation
+        binding.tvRecommendActionSituation.text = recommendMissionUiModel.situation
     }
 
     private fun setMissionImageView() {
-        binding.ivRecommendActionMissionSituation.load(dataFromRecommendMissionActivity.image)
+        binding.ivRecommendActionMissionSituation.load(recommendMissionUiModel.image)
     }
 
     private fun setRecommendActionRecyclerView() {
@@ -129,8 +119,8 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
             trackClickCreateRecommendMissionEvent(selectedActionList)
 
             RecommendUiModel(
-                title = dataFromRecommendMissionActivity.title,
-                situation = dataFromRecommendMissionActivity.situation,
+                title = recommendMissionUiModel.title,
+                situation = recommendMissionUiModel.situation,
                 actionList = selectedActionList ?: emptyList()
             ).also {
                 startActivity(
@@ -145,8 +135,8 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
 
     private fun trackClickCreateRecommendMissionEvent(selectedActionList: List<String>?) {
         mutableMapOf<String, Any>(
-            getString(R.string.situation) to dataFromRecommendMissionActivity.situation,
-            getString(R.string.title) to dataFromRecommendMissionActivity.title
+            getString(R.string.situation) to recommendMissionUiModel.situation,
+            getString(R.string.title) to recommendMissionUiModel.title
         ).apply {
             if (selectedActionList != null) plus(getString(R.string.action) to selectedActionList.toTypedArray())
         }.also {
@@ -165,8 +155,8 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
         binding.tvRecommendActionWriteDirect.setOnClickListener {
             trackSelfCreateActionEvent()
             RecommendUiModel(
-                title = dataFromRecommendMissionActivity.title,
-                situation = dataFromRecommendMissionActivity.situation,
+                title = recommendMissionUiModel.title,
+                situation = recommendMissionUiModel.situation,
                 actionList = emptyList()
             ).also {
                 startActivity(
@@ -194,13 +184,13 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
     }
 
     private fun setRecommendActionSuccessObserver() {
-        viewModel.recommendActionListSuccessResponse.observe(this) { actionList ->
+        viewModel.recommendActionListSuccessResponse.observe(viewLifecycleOwner) { actionList ->
             recommendActionAdapter?.submitList(actionList)
         }
     }
 
     private fun setRecommendActionErrorObserver() {
-        viewModel.recommendActionListErrorResponse.observe(this) { errorMessage ->
+        viewModel.recommendActionListErrorResponse.observe(viewLifecycleOwner) { errorMessage ->
             if (errorMessage == NO_INTERNET_CONDITION_ERROR) requireContext().showNotTodoSnackBar(
                 binding.root, NO_INTERNET_CONDITION_ERROR
             )
