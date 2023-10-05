@@ -11,14 +11,12 @@ import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentRecommendMissionBinding
 import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
-import kr.co.nottodo.presentation.recommend.action.view.RecommendActionActivity
 import kr.co.nottodo.presentation.recommend.mission.adapter.RecommendMissionAdapter
 import kr.co.nottodo.presentation.recommend.mission.adapter.RecommendMissionAdapter.RecommendMissionItemDecoration
 import kr.co.nottodo.presentation.recommend.mission.viewmodel.RecommendMissionViewModel
 import kr.co.nottodo.presentation.recommend.model.RecommendMissionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
-import kr.co.nottodo.util.PublicString.MISSION_DETAIL
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
@@ -26,7 +24,6 @@ import kr.co.nottodo.util.showToast
 class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBinding>() {
     private val viewModel: RecommendMissionViewModel by viewModels()
     private var recommendMissionAdapter: RecommendMissionAdapter? = null
-    private val navController by lazy { findNavController() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,26 +56,30 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
     }
 
     private fun setAdapter() {
-        val startRecommendActionActivity =
+        val navigateToRecommendActionFragment =
             { id: Int, title: String, situation: String, image: String ->
-                trackEventWithProperty(
-                    getString(R.string.click_recommend_mission), mapOf(
-                        getString(R.string.situation) to situation,
-                        getString(R.string.title) to title
+                trackClickRecommendMission(title, situation)
+
+                val recommendMissionUiModel = RecommendMissionUiModel(id, title, situation, image)
+                val action =
+                    RecommendMissionFragmentDirections.actionRecommendMissionFragmentToRecommendActionFragment(
+                        recommendMissionUiModel
                     )
-                )
-                startActivity(
-                    Intent(requireContext(), RecommendActionActivity::class.java).putExtra(
-                        MISSION_DETAIL, RecommendMissionUiModel(id, title, situation, image)
-                    )
-                )
-                if (!requireActivity().isFinishing) requireActivity().finish()
+                findNavController().navigate(action)
             }
-        recommendMissionAdapter = RecommendMissionAdapter(startRecommendActionActivity)
+        recommendMissionAdapter = RecommendMissionAdapter(navigateToRecommendActionFragment)
         binding.rvRecommendMission.apply {
             adapter = recommendMissionAdapter
             addItemDecoration(RecommendMissionItemDecoration())
         }
+    }
+
+    private fun trackClickRecommendMission(title: String, situation: String) {
+        trackEventWithProperty(
+            getString(R.string.click_recommend_mission), mapOf(
+                getString(R.string.situation) to situation, getString(R.string.title) to title
+            )
+        )
     }
 
     private fun setClickEvents() {
@@ -88,7 +89,7 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
 
     private fun setDestroyBtnClickEvent() {
         binding.ivRecommendMissionDestroy.setOnClickListener {
-            navController.popBackStack()
+            findNavController().popBackStack()
         }
     }
 
