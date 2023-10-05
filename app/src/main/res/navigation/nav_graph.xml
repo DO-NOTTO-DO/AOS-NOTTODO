@@ -34,5 +34,17 @@
     <fragment
         android:id="@+id/recommendMissionFragment"
         android:name="kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionFragment"
-        android:label="RecommendMissionFragment" />
+        android:label="RecommendMissionFragment">
+        <action
+            android:id="@+id/action_recommendMissionFragment_to_recommendActionFragment"
+            app:destination="@id/recommendActionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recommendActionFragment"
+        android:name="kr.co.nottodo.presentation.recommend.action.view.RecommendActionFragment"
+        android:label="RecommendActionFragment">
+        <argument
+            android:name="recommendMissionUiModel"
+            app:argType="kr.co.nottodo.presentation.recommend.model.RecommendMissionUiModel" />
+    </fragment>
 </navigation>
