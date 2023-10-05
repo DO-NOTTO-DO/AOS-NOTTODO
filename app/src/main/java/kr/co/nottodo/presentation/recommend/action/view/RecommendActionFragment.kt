@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
@@ -16,7 +17,6 @@ import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.recommend.action.adapter.RecommendActionAdapter
 import kr.co.nottodo.presentation.recommend.action.viewmodel.RecommendActionViewModel
-import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity
 import kr.co.nottodo.presentation.recommend.model.RecommendUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
@@ -108,8 +108,7 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
 
     private fun backIvClickEvent() {
         binding.ivRecommendationActionBack.setOnClickListener {
-            startActivity(Intent(context, RecommendMissionActivity::class.java))
-            if (!requireActivity().isFinishing) requireActivity().finish()
+            findNavController().popBackStack()
         }
     }
 
