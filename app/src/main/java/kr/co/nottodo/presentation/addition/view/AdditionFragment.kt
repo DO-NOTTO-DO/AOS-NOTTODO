@@ -287,25 +287,6 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
         val newActionList = viewModel.actionList.value?.plus(viewModel.action.value!!)
         viewModel.actionList.value = newActionList
         viewModel.action.value = EMPTY_STRING
-//        when (actionCount) {
-//            0 -> viewModel.run {
-//                firstAction.value = action.value
-//                action.value = ""
-//            }
-//
-//            1 -> viewModel.run {
-//                secondAction.value = action.value
-//                action.value = ""
-//            }
-//
-//            2 -> {
-//                viewModel.run {
-//                    thirdAction.value = action.value
-//                    action.value = ""
-//                }
-//                requireContext().hideKeyboard(binding.root)
-//            }
-//        }
     }
 
 //    private fun setDeleteButtonsClickEvents() {
