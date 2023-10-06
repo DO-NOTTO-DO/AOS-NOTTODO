@@ -85,8 +85,8 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
             val toRecommendActionUiModel = ToRecommendActionUiModel(id, title, situation, image)
             RecommendMissionFragmentDirections.actionRecommendMissionFragmentToRecommendActionFragment(
                 toRecommendActionUiModel
-            ).also { directions ->
-                findNavController().navigate(directions)
+            ).also { action ->
+                findNavController().navigate(action)
             }
         }
     }
