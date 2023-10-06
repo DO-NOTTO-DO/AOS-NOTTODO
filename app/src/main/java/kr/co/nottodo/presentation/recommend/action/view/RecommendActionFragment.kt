@@ -114,22 +114,25 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
 
     private fun continueBtnClickEvent() {
         binding.btnRecommendActionContinue.setOnClickListener {
-            val selectedActionList = recommendActionAdapter?.getSelectedActionList()
-            trackClickCreateRecommendMissionEvent(selectedActionList)
-
-            ToAdditionUiModel(
-                title = recommendMissionUiModel.title,
-                situation = recommendMissionUiModel.situation,
-                actionList = selectedActionList ?: emptyList()
-            ).also {
-                startActivity(
-                    Intent(context, AdditionActivity::class.java).putExtra(
-                        MISSION_ACTION_DETAIL, it
-                    )
-                )
-                if (!requireActivity().isFinishing) requireActivity().finish()
-            }
+            navigateToAdditionFragment()
         }
+    }
+
+    private fun navigateToAdditionFragment() {
+        val selectedActionList = recommendActionAdapter?.getSelectedActionList()
+        val toAdditionUiModel = ToAdditionUiModel(
+            title = recommendMissionUiModel.title,
+            situation = recommendMissionUiModel.situation,
+            actionList = selectedActionList ?: emptyList()
+        )
+
+        RecommendActionFragmentDirections.actionRecommendActionFragmentToAdditionFragment(
+            toAdditionUiModel
+        ).also { action ->
+            findNavController().navigate(action)
+        }
+
+        trackClickCreateRecommendMissionEvent(selectedActionList)
     }
 
     private fun trackClickCreateRecommendMissionEvent(selectedActionList: List<String>?) {

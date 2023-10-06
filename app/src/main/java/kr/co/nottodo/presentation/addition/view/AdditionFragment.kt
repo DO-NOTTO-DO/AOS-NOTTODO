@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
@@ -18,14 +19,11 @@ import kr.co.nottodo.databinding.FragmentAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionNewViewModel
 import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
-import kr.co.nottodo.presentation.recommend.action.view.RecommendActionActivity
-import kr.co.nottodo.presentation.recommend.model.ToAdditionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.containToday
 import kr.co.nottodo.util.containTomorrow
-import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showNotTodoSnackBar
@@ -35,10 +33,13 @@ import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToInt
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import java.util.Date
 
-class AdditionFragment :
-    DataBindingFragment<FragmentAdditionBinding>(R.layout.fragment_addition) {
+class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.fragment_addition) {
     private val viewModel by viewModels<AdditionNewViewModel>()
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
+    private val args: AdditionFragmentArgs by navArgs()
+    private val toAdditionFragmentUiModel by lazy {
+        args.toAdditionFragmentUiModel
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,20 +58,16 @@ class AdditionFragment :
     private fun setData() {
         getRecentMissionList()
         getRecommendSituationList()
-        // TODO : Intent가 아닌 Bundle에서 받아와야 함
-        // getDataFromRecommendActivity()
+        getDataFromRecommendActivity()
     }
 
     private fun getDataFromRecommendActivity() {
-        val toAdditionUiModel: ToAdditionUiModel = requireActivity().intent?.getParcelable(
-            RecommendActionActivity.MISSION_ACTION_DETAIL, ToAdditionUiModel::class.java
-        ) ?: return
 
         with(viewModel) {
-            mission.value = toAdditionUiModel.title
-            situation.value = toAdditionUiModel.situation
+            mission.value = toAdditionFragmentUiModel.title
+            situation.value = toAdditionFragmentUiModel.situation
         }
-        setActionList(toAdditionUiModel.actionList)
+        setActionList(toAdditionFragmentUiModel.actionList)
     }
 
     private fun setActionList(actionList: List<String>) {
