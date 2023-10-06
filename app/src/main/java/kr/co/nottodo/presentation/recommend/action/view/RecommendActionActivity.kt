@@ -14,7 +14,7 @@ import kr.co.nottodo.presentation.recommend.action.adapter.RecommendActionAdapte
 import kr.co.nottodo.presentation.recommend.action.viewmodel.RecommendActionViewModel
 import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity
 import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
-import kr.co.nottodo.presentation.recommend.model.RecommendMissionUiModel
+import kr.co.nottodo.presentation.recommend.model.ToRecommendActionUiModel
 import kr.co.nottodo.presentation.recommend.model.RecommendUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
@@ -29,13 +29,13 @@ class RecommendActionActivity : AppCompatActivity() {
     private var recommendActionAdapter: RecommendActionAdapter? = null
     private val viewModel by viewModels<RecommendActionViewModel>()
     private val dataFromRecommendMissionActivity by lazy {
-        val recommendMissionUiModel = intent.getParcelable(
-            MISSION_DETAIL, RecommendMissionUiModel::class.java
+        val toRecommendActionUiModel = intent.getParcelable(
+            MISSION_DETAIL, ToRecommendActionUiModel::class.java
         )
-        if (recommendMissionUiModel == null) {
+        if (toRecommendActionUiModel == null) {
             if (!isFinishing) finish()
         }
-        requireNotNull(recommendMissionUiModel) {
+        requireNotNull(toRecommendActionUiModel) {
             getString(
                 R.string._is_null, getString(R.string.recommend_mission_ui_model)
             )

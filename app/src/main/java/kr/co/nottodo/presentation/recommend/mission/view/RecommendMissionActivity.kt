@@ -12,7 +12,7 @@ import kr.co.nottodo.presentation.recommend.action.view.RecommendActionActivity
 import kr.co.nottodo.presentation.recommend.mission.adapter.RecommendMissionAdapter
 import kr.co.nottodo.presentation.recommend.mission.adapter.RecommendMissionAdapter.RecommendMissionItemDecoration
 import kr.co.nottodo.presentation.recommend.mission.viewmodel.RecommendMissionViewModel
-import kr.co.nottodo.presentation.recommend.model.RecommendMissionUiModel
+import kr.co.nottodo.presentation.recommend.model.ToRecommendActionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
@@ -107,7 +107,7 @@ class RecommendMissionActivity : AppCompatActivity() {
                             this@RecommendMissionActivity,
                             RecommendActionActivity::class.java
                         ).putExtra(
-                            MISSION_DETAIL, RecommendMissionUiModel(id, title, situation, image)
+                            MISSION_DETAIL, ToRecommendActionUiModel(id, title, situation, image)
                         )
                     )
                     if (!isFinishing) finish()

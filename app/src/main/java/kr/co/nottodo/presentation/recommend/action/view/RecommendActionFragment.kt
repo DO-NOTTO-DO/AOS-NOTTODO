@@ -31,7 +31,7 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
     private val viewModel by viewModels<RecommendActionViewModel>()
     private val args: RecommendActionFragmentArgs by navArgs()
     private val recommendMissionUiModel by lazy {
-        args.recommendMissionUiModel
+        args.toRecommendActionUiModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

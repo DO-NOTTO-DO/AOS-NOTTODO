@@ -15,7 +15,7 @@ import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.recommend.mission.adapter.RecommendMissionAdapter
 import kr.co.nottodo.presentation.recommend.mission.adapter.RecommendMissionAdapter.RecommendMissionItemDecoration
 import kr.co.nottodo.presentation.recommend.mission.viewmodel.RecommendMissionViewModel
-import kr.co.nottodo.presentation.recommend.model.RecommendMissionUiModel
+import kr.co.nottodo.presentation.recommend.model.ToRecommendActionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
@@ -82,9 +82,9 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
 
     private fun navigateToRecommendActionFragment(data: Mission) {
         data.run {
-            val recommendMissionUiModel = RecommendMissionUiModel(id, title, situation, image)
+            val toRecommendActionUiModel = ToRecommendActionUiModel(id, title, situation, image)
             RecommendMissionFragmentDirections.actionRecommendMissionFragmentToRecommendActionFragment(
-                recommendMissionUiModel
+                toRecommendActionUiModel
             ).also { directions ->
                 findNavController().navigate(directions)
             }
