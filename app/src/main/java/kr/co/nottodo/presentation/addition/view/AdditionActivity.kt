@@ -23,7 +23,7 @@ import kr.co.nottodo.databinding.ActivityAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionViewModel
 import kr.co.nottodo.presentation.recommend.action.view.RecommendActionActivity.Companion.MISSION_ACTION_DETAIL
-import kr.co.nottodo.presentation.recommend.model.RecommendUiModel
+import kr.co.nottodo.presentation.recommend.model.ToAdditionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
@@ -68,14 +68,14 @@ class AdditionActivity : AppCompatActivity() {
     }
 
     private fun getDataFromRecommendActivity() {
-        val recommendUiModel: RecommendUiModel =
-            intent.getParcelable(MISSION_ACTION_DETAIL, RecommendUiModel::class.java) ?: return
+        val toAdditionUiModel: ToAdditionUiModel =
+            intent.getParcelable(MISSION_ACTION_DETAIL, ToAdditionUiModel::class.java) ?: return
 
         with(viewModel) {
-            mission.value = recommendUiModel.title
-            situation.value = recommendUiModel.situation
+            mission.value = toAdditionUiModel.title
+            situation.value = toAdditionUiModel.situation
         }
-        val recommendActionList = recommendUiModel.actionList
+        val recommendActionList = toAdditionUiModel.actionList
         initActionList(recommendActionList)
     }
 

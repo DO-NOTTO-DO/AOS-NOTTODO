@@ -15,7 +15,7 @@ import kr.co.nottodo.presentation.recommend.action.viewmodel.RecommendActionView
 import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity
 import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
 import kr.co.nottodo.presentation.recommend.model.ToRecommendActionUiModel
-import kr.co.nottodo.presentation.recommend.model.RecommendUiModel
+import kr.co.nottodo.presentation.recommend.model.ToAdditionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
@@ -121,14 +121,14 @@ class RecommendActionActivity : AppCompatActivity() {
         binding.btnRecommendActionContinue.setOnClickListener {
             val selectedActionList = recommendActionAdapter?.getSelectedActionList()
             trackClickCreateRecommendMissionEvent(selectedActionList)
-            val recommendUiModel = RecommendUiModel(
+            val toAdditionUiModel = ToAdditionUiModel(
                 title = dataFromRecommendMissionActivity.title,
                 situation = dataFromRecommendMissionActivity.situation,
                 actionList = selectedActionList ?: emptyList()
             )
             startActivity(
                 Intent(this, AdditionActivity::class.java).putExtra(
-                    MISSION_ACTION_DETAIL, recommendUiModel
+                    MISSION_ACTION_DETAIL, toAdditionUiModel
                 )
             )
             if (!isFinishing) finish()
@@ -154,14 +154,14 @@ class RecommendActionActivity : AppCompatActivity() {
     private fun writeDirectTvClickEvent() {
         binding.tvRecommendActionWriteDirect.setOnClickListener {
             trackEvent(getString(R.string.click_self_create_action))
-            val recommendUiModel = RecommendUiModel(
+            val toAdditionUiModel = ToAdditionUiModel(
                 title = dataFromRecommendMissionActivity.title,
                 situation = dataFromRecommendMissionActivity.situation,
                 actionList = emptyList()
             )
             startActivity(
                 Intent(this, AdditionActivity::class.java).putExtra(
-                    MISSION_ACTION_DETAIL, recommendUiModel
+                    MISSION_ACTION_DETAIL, toAdditionUiModel
                 )
             )
             if (!isFinishing) finish()

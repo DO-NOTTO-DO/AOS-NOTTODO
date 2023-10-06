@@ -19,7 +19,7 @@ import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionNewViewModel
 import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
 import kr.co.nottodo.presentation.recommend.action.view.RecommendActionActivity
-import kr.co.nottodo.presentation.recommend.model.RecommendUiModel
+import kr.co.nottodo.presentation.recommend.model.ToAdditionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addButtons
@@ -62,15 +62,15 @@ class AdditionFragment :
     }
 
     private fun getDataFromRecommendActivity() {
-        val recommendUiModel: RecommendUiModel = requireActivity().intent?.getParcelable(
-            RecommendActionActivity.MISSION_ACTION_DETAIL, RecommendUiModel::class.java
+        val toAdditionUiModel: ToAdditionUiModel = requireActivity().intent?.getParcelable(
+            RecommendActionActivity.MISSION_ACTION_DETAIL, ToAdditionUiModel::class.java
         ) ?: return
 
         with(viewModel) {
-            mission.value = recommendUiModel.title
-            situation.value = recommendUiModel.situation
+            mission.value = toAdditionUiModel.title
+            situation.value = toAdditionUiModel.situation
         }
-        setActionList(recommendUiModel.actionList)
+        setActionList(toAdditionUiModel.actionList)
     }
 
     private fun setActionList(actionList: List<String>) {

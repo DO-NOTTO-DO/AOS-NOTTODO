@@ -17,7 +17,7 @@ import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.recommend.action.adapter.RecommendActionAdapter
 import kr.co.nottodo.presentation.recommend.action.viewmodel.RecommendActionViewModel
-import kr.co.nottodo.presentation.recommend.model.RecommendUiModel
+import kr.co.nottodo.presentation.recommend.model.ToAdditionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.PublicString.MISSION_ACTION_DETAIL
@@ -117,7 +117,7 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
             val selectedActionList = recommendActionAdapter?.getSelectedActionList()
             trackClickCreateRecommendMissionEvent(selectedActionList)
 
-            RecommendUiModel(
+            ToAdditionUiModel(
                 title = recommendMissionUiModel.title,
                 situation = recommendMissionUiModel.situation,
                 actionList = selectedActionList ?: emptyList()
@@ -153,7 +153,7 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
     private fun writeDirectTvClickEvent() {
         binding.tvRecommendActionWriteDirect.setOnClickListener {
             trackSelfCreateActionEvent()
-            RecommendUiModel(
+            ToAdditionUiModel(
                 title = recommendMissionUiModel.title,
                 situation = recommendMissionUiModel.situation,
                 actionList = emptyList()
