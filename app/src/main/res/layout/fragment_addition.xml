@@ -588,7 +588,6 @@
                             android:layout_marginVertical="18dp"
                             android:layout_marginStart="82dp"
                             android:lineSpacingExtra="9dp"
-                            android:text="@{vm.actionListToString}"
                             android:textAppearance="@style/R14"
                             android:textColor="@{vm.isFirstActionExist() ? @color/white : @color/gray_3_5d5d6b}"
                             app:layout_constraintBottom_toBottomOf="parent"

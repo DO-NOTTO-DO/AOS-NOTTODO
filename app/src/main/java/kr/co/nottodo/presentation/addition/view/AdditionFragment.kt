@@ -20,6 +20,7 @@ import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionNewViewModel
 import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
 import kr.co.nottodo.util.NotTodoAmplitude
+import kr.co.nottodo.util.PublicString.EMPTY_STRING
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.containToday
@@ -56,42 +57,17 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
     }
 
     private fun setData() {
+        getDataFromRecommendActivity()
         getRecentMissionList()
         getRecommendSituationList()
-        getDataFromRecommendActivity()
     }
 
     private fun getDataFromRecommendActivity() {
-
         with(viewModel) {
             mission.value = toAdditionFragmentUiModel.title
             situation.value = toAdditionFragmentUiModel.situation
+            actionList.value = toAdditionFragmentUiModel.actionList.toMutableList()
         }
-        setActionList(toAdditionFragmentUiModel.actionList)
-    }
-
-    private fun setActionList(actionList: List<String>) {
-        fun List<String>.second() = this[1]
-        fun List<String>.third() = this[2]
-
-        actionList.run {
-            viewModel.actionCount.value = this.size
-            if (this.size >= 1) setFirstAction(this.first())
-            if (this.size >= 2) setSecondAction(this.second())
-            if (this.size >= 3) setThirdAction(this.third())
-        }
-    }
-
-    private fun setFirstAction(firstAction: String) {
-        viewModel.firstAction.value = firstAction
-    }
-
-    private fun setSecondAction(secondAction: String) {
-        viewModel.firstAction.value = secondAction
-    }
-
-    private fun setThirdAction(thirdAction: String) {
-        viewModel.firstAction.value = thirdAction
     }
 
     private fun getRecommendSituationList() {
@@ -105,7 +81,7 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
     private fun setClickEvents() {
         setAddButtonClickEvent()
         setFinishButtonClickEvent()
-        setDeleteButtonsClickEvents()
+//        setDeleteButtonsClickEvents()
         setTogglesClickEvents()
         setEnterKeyClickEvents()
     }
@@ -146,6 +122,7 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
         observeMission()
         observeSituation()
         observeGoal()
+        observeActionListToString()
         observeGetRecommendSituationList()
         observeGetRecentMissionListResponse()
         observePostNottodoResponse()
@@ -291,7 +268,7 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
 
         binding.etAdditionAction.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && binding.etAdditionAction.text.isNotBlank()) {
-                viewModel.actionCount.value?.let { addAction(it) }
+                addAction()
             }
             return@setOnEditorActionListener true
         }
@@ -305,84 +282,85 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
         }
     }
 
-    private fun addAction(actionCount: Int) {
-        when (actionCount) {
-            0 -> viewModel.run {
-                firstAction.value = action.value
-                action.value = ""
-            }
-
-            1 -> viewModel.run {
-                secondAction.value = action.value
-                action.value = ""
-            }
-
-            2 -> {
-                viewModel.run {
-                    thirdAction.value = action.value
-                    action.value = ""
-                }
-                requireContext().hideKeyboard(binding.root)
-            }
-        }
+    private fun addAction() {
+        if (viewModel.actionCount.value == 3 || viewModel.action.value == null) return
+        val newActionList = viewModel.actionList.value?.plus(viewModel.action.value!!)
+        viewModel.actionList.value = newActionList
+        viewModel.action.value = EMPTY_STRING
+//        when (actionCount) {
+//            0 -> viewModel.run {
+//                firstAction.value = action.value
+//                action.value = ""
+//            }
+//
+//            1 -> viewModel.run {
+//                secondAction.value = action.value
+//                action.value = ""
+//            }
+//
+//            2 -> {
+//                viewModel.run {
+//                    thirdAction.value = action.value
+//                    action.value = ""
+//                }
+//                requireContext().hideKeyboard(binding.root)
+//            }
+//        }
     }
 
-    private fun setDeleteButtonsClickEvents() {
-        firstDeleteBtnClickEvent()
-        secondDeleteBtnClickEvent()
-        thirdDeleteBtnClickEvent()
-    }
+//    private fun setDeleteButtonsClickEvents() {
+//        firstDeleteBtnClickEvent()
+//        secondDeleteBtnClickEvent()
+//        thirdDeleteBtnClickEvent()
+//    }
 
     private fun firstDeleteBtnClickEvent() {
         binding.ivAdditionActionFirstDelete.setOnClickListener {
             when (viewModel.actionCount.value) {
                 1 -> {
-                    viewModel.firstAction.value = ""
+                    viewModel.actionList.value = emptyList()
                 }
 
                 2 -> {
-                    viewModel.run {
-                        firstAction.value = secondAction.value
-                        secondAction.value = ""
-                    }
+//                    val newActionList =
                 }
 
                 3 -> {
-                    viewModel.run {
-                        firstAction.value = secondAction.value
-                        secondAction.value = thirdAction.value
-                        thirdAction.value = ""
-                    }
+//                    viewModel.actionList.value?.run {
+//                        set(0, get(1))
+//                        set(1, get(2))
+//                        set(2, "")
+//                    }
                     requestFocusWithShowingKeyboard(binding.etAdditionAction)
                 }
             }
         }
     }
 
-    private fun secondDeleteBtnClickEvent() {
-        binding.ivAdditionActionSecondDelete.setOnClickListener {
-            when (viewModel.actionCount.value) {
-                2 -> {
-                    viewModel.secondAction.value = ""
-                }
+//    private fun secondDeleteBtnClickEvent() {
+//        binding.ivAdditionActionSecondDelete.setOnClickListener {
+//            when (viewModel.actionCount.value) {
+//                2 -> {
+//                    viewModel.actionList.value?.set(1, "")
+//                }
+//
+//                3 -> {
+//                    viewModel.actionList.value?.run {
+//                        set(1, get(2))
+//                        set(2, EMPTY_STRING)
+//                    }
+//                    requestFocusWithShowingKeyboard(binding.etAdditionAction)
+//                }
+//            }
+//        }
+//    }
 
-                3 -> {
-                    viewModel.run {
-                        secondAction.value = thirdAction.value
-                        thirdAction.value = ""
-                    }
-                    requestFocusWithShowingKeyboard(binding.etAdditionAction)
-                }
-            }
-        }
-    }
-
-    private fun thirdDeleteBtnClickEvent() {
-        binding.ivAdditionActionThirdDelete.setOnClickListener {
-            viewModel.thirdAction.value = ""
-            requestFocusWithShowingKeyboard(binding.etAdditionAction)
-        }
-    }
+//    private fun thirdDeleteBtnClickEvent() {
+//        binding.ivAdditionActionThirdDelete.setOnClickListener {
+//            viewModel.actionList.value?.set(2, "")
+//            requestFocusWithShowingKeyboard(binding.etAdditionAction)
+//        }
+//    }
 
     private fun setFinishButtonClickEvent() {
         binding.ivAdditionDelete.setOnClickListener { if (!requireActivity().isFinishing) requireActivity().finish() }
@@ -443,6 +421,12 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
     private fun observeGoal() {
         viewModel.isGoalFilled.observe(viewLifecycleOwner) { isGoalFilled ->
             binding.layoutAdditionGoalClosed.isActivated = isGoalFilled
+        }
+    }
+
+    private fun observeActionListToString() {
+        viewModel.actionListToString.observe(viewLifecycleOwner) { actionListToString ->
+            binding.tvAdditionActionClosedInput.text = actionListToString
         }
     }
 

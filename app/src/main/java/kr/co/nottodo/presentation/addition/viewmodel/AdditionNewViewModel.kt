@@ -13,6 +13,7 @@ import kr.co.nottodo.data.remote.model.ResponseRecentMissionListDto
 import kr.co.nottodo.data.remote.model.ResponseRecommendSituationListDto
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
+import kr.co.nottodo.util.PublicString.EMPTY_STRING
 import kr.co.nottodo.util.PublicString.INPUT
 import kr.co.nottodo.util.PublicString.MAX_COUNT_20
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
@@ -20,6 +21,7 @@ import kr.co.nottodo.util.addSourceList
 import kr.co.nottodo.util.getErrorMessage
 import kr.co.nottodo.util.isConnectException
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
+import timber.log.Timber
 import java.util.Date
 
 class AdditionNewViewModel : ViewModel() {
@@ -46,46 +48,46 @@ class AdditionNewViewModel : ViewModel() {
     val isSituationFilled: LiveData<Boolean> = situation.map { situation ->
         situation.isNotBlank()
     }
-    val action: MutableLiveData<String> = MutableLiveData("")
+
+    val action: MutableLiveData<String> = MutableLiveData(EMPTY_STRING)
     val actionLengthCounter: LiveData<String> =
         action.map { action -> action.length.toString() + MAX_COUNT_20 }
 
-    val firstAction: MutableLiveData<String> = MutableLiveData("")
+    val actionList: MutableLiveData<List<String>> = MutableLiveData(emptyList())
+
+    val firstAction: LiveData<String> = actionList.map { actionList ->
+        Timber.e("actionList Changed : $actionList")
+        Timber.e("actionListToString(ViewModel) : ${actionList?.getOrNull(0) ?: EMPTY_STRING}")
+        actionList?.getOrNull(0) ?: EMPTY_STRING
+    }
     val isFirstActionExist: LiveData<Boolean> =
-        firstAction.map { firstAction -> !firstAction.isNullOrBlank() }
+        firstAction.map { firstAction -> firstAction.isNotBlank() }
 
-    val secondAction: MutableLiveData<String> = MutableLiveData("")
+    val secondAction: LiveData<String> = actionList.map { actionList ->
+        actionList?.getOrNull(1) ?: EMPTY_STRING
+    }
     val isSecondActionExist: LiveData<Boolean> =
-        secondAction.map { secondAction -> !secondAction.isNullOrBlank() }
+        secondAction.map { secondAction -> secondAction.isNotBlank() }
 
-    val thirdAction: MutableLiveData<String> = MutableLiveData("")
+    val thirdAction: LiveData<String> = actionList.map { actionList ->
+        actionList?.getOrNull(2) ?: EMPTY_STRING
+    }
     val isThirdActionExist: LiveData<Boolean> =
-        thirdAction.map { thirdAction -> !thirdAction.isNullOrBlank() }
+        thirdAction.map { thirdAction -> thirdAction.isNotBlank() }
 
-    val actionCount: MediatorLiveData<Int> = MediatorLiveData(0).apply {
-        addSourceList(isFirstActionExist, isSecondActionExist, isThirdActionExist) {
-            countActions()
-        }
+    val actionCount: LiveData<Int> = actionList.map { actionList ->
+        actionList?.size ?: 0
     }
 
-    private fun countActions(): Int {
-        if (isThirdActionExist.value == true) return 3
-        if (isSecondActionExist.value == true) return 2
-        if (isFirstActionExist.value == true) return 1
-        return 0
+    val actionListToString: LiveData<String> = actionList.map {
+        updateActionList()
     }
 
-    val actionListToString: MediatorLiveData<String> = MediatorLiveData("").apply {
-        addSourceList(firstAction, secondAction, thirdAction) {
-            updateActionList()
-        }
-    }
-
-    private fun updateActionList(): String {
-        if (isThirdActionExist.value == true) return "${firstAction.value}\n${secondAction.value}\n${thirdAction.value}"
-        if (isSecondActionExist.value == true) return "${firstAction.value}\n${secondAction.value}"
-        if (isFirstActionExist.value == true) return "${firstAction.value}"
-        else return INPUT
+    private fun updateActionList(): String = when (actionList.value?.size) {
+        1 -> "${firstAction.value}"
+        2 -> "${firstAction.value}\n${secondAction.value}"
+        3 -> "${firstAction.value}\n${secondAction.value}\n${thirdAction.value}"
+        else -> INPUT
     }
 
     val goal: MutableLiveData<String> = MutableLiveData("")
