@@ -81,7 +81,7 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
     private fun setClickEvents() {
         setAddButtonClickEvent()
         setFinishButtonClickEvent()
-//        setDeleteButtonsClickEvents()
+        setDeleteButtonsClickEvents()
         setTogglesClickEvents()
         setEnterKeyClickEvents()
     }
@@ -289,59 +289,37 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
         viewModel.action.value = EMPTY_STRING
     }
 
-//    private fun setDeleteButtonsClickEvents() {
-//        firstDeleteBtnClickEvent()
-//        secondDeleteBtnClickEvent()
-//        thirdDeleteBtnClickEvent()
-//    }
+    private fun setDeleteButtonsClickEvents() {
+        firstDeleteBtnClickEvent()
+        secondDeleteBtnClickEvent()
+        thirdDeleteBtnClickEvent()
+    }
 
     private fun firstDeleteBtnClickEvent() {
         binding.ivAdditionActionFirstDelete.setOnClickListener {
-            when (viewModel.actionCount.value) {
-                1 -> {
-                    viewModel.actionList.value = emptyList()
-                }
-
-                2 -> {
-//                    val newActionList =
-                }
-
-                3 -> {
-//                    viewModel.actionList.value?.run {
-//                        set(0, get(1))
-//                        set(1, get(2))
-//                        set(2, "")
-//                    }
-                    requestFocusWithShowingKeyboard(binding.etAdditionAction)
-                }
-            }
+            deleteAction(indexToRemove = 0)
         }
     }
 
-//    private fun secondDeleteBtnClickEvent() {
-//        binding.ivAdditionActionSecondDelete.setOnClickListener {
-//            when (viewModel.actionCount.value) {
-//                2 -> {
-//                    viewModel.actionList.value?.set(1, "")
-//                }
-//
-//                3 -> {
-//                    viewModel.actionList.value?.run {
-//                        set(1, get(2))
-//                        set(2, EMPTY_STRING)
-//                    }
-//                    requestFocusWithShowingKeyboard(binding.etAdditionAction)
-//                }
-//            }
-//        }
-//    }
+    private fun secondDeleteBtnClickEvent() {
+        binding.ivAdditionActionSecondDelete.setOnClickListener {
+            deleteAction(indexToRemove = 1)
+        }
+    }
 
-//    private fun thirdDeleteBtnClickEvent() {
-//        binding.ivAdditionActionThirdDelete.setOnClickListener {
-//            viewModel.actionList.value?.set(2, "")
-//            requestFocusWithShowingKeyboard(binding.etAdditionAction)
-//        }
-//    }
+    private fun thirdDeleteBtnClickEvent() {
+        binding.ivAdditionActionThirdDelete.setOnClickListener {
+            deleteAction(indexToRemove = 2)
+        }
+    }
+
+    private fun deleteAction(indexToRemove: Int) {
+        val newActionList =
+            viewModel.actionList.value?.filterIndexed { index, _ -> index != indexToRemove }
+        viewModel.actionList.value = newActionList
+
+        if (newActionList?.size == 2) requestFocusWithShowingKeyboard(binding.etAdditionAction)
+    }
 
     private fun setFinishButtonClickEvent() {
         binding.ivAdditionDelete.setOnClickListener { if (!requireActivity().isFinishing) requireActivity().finish() }
