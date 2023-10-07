@@ -284,9 +284,12 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
 
     private fun addAction() {
         if (viewModel.actionCount.value == 3 || viewModel.action.value == null) return
+
         val newActionList = viewModel.actionList.value?.plus(viewModel.action.value!!)
         viewModel.actionList.value = newActionList
         viewModel.action.value = EMPTY_STRING
+
+        if (newActionList?.size == 3) requireContext().hideKeyboard(binding.root)
     }
 
     private fun setDeleteButtonsClickEvents() {
