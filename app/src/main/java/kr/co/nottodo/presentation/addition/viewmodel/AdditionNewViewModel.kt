@@ -21,7 +21,6 @@ import kr.co.nottodo.util.addSourceList
 import kr.co.nottodo.util.getErrorMessage
 import kr.co.nottodo.util.isConnectException
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
-import timber.log.Timber
 import java.util.Date
 
 class AdditionNewViewModel : ViewModel() {
@@ -56,8 +55,6 @@ class AdditionNewViewModel : ViewModel() {
     val actionList: MutableLiveData<List<String>> = MutableLiveData(emptyList())
 
     val firstAction: LiveData<String> = actionList.map { actionList ->
-        Timber.e("actionList Changed : $actionList")
-        Timber.e("actionListToString(ViewModel) : ${actionList?.getOrNull(0) ?: EMPTY_STRING}")
         actionList?.getOrNull(0) ?: EMPTY_STRING
     }
     val isFirstActionExist: LiveData<Boolean> =
