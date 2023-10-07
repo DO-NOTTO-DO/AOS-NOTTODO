@@ -132,6 +132,8 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
             findNavController().navigate(action)
         }
 
+        viewModel.resetActionsCount()
+
         trackClickCreateRecommendMissionEvent(selectedActionList)
     }
 

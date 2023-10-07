@@ -51,4 +51,7 @@ class RecommendActionViewModel : ViewModel() {
     val minusSelectedActionsCount =
         { selectedActionsCount.value = selectedActionsCount.value?.minus(1) ?: 0 }
 
+    fun resetActionsCount() {
+        selectedActionsCount.value = 0
+    }
 }
