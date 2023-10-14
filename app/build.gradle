@@ -27,7 +27,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "KAKAO_NATIVE_APP_KEY", properties["kakao.native.app.key"]
         buildConfigField "String", "BASE_URL", properties["base.url"]
-        buildConfigField "String", "AMPLITUDE_API_KEY", properties["amplitude.api.key"]
+        buildConfigField "String", "AMPLITUDE_API_KEY_DEV", properties["amplitude.api.key.dev"]
+        buildConfigField "String", "AMPLITUDE_API_KEY_PRODUCT", properties["amplitude.api.key.product"]
     }
 
     buildTypes {
