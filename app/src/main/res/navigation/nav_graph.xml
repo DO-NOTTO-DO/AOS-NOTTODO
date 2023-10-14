@@ -30,7 +30,11 @@
     <fragment
         android:id="@+id/myPageInformationFragment"
         android:name="kr.co.nottodo.presentation.mypage.view.MyPageInformationFragment"
-        android:label="MyPageInformationFragment" />
+        android:label="MyPageInformationFragment">
+        <action
+            android:id="@+id/action_myPageInformationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/recommendMissionFragment"
         android:name="kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionFragment"
