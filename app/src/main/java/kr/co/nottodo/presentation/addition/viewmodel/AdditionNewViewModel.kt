@@ -80,7 +80,7 @@ class AdditionNewViewModel : ViewModel() {
         updateActionList()
     }
 
-    private fun updateActionList(): String = when (actionList.value?.size) {
+    private fun updateActionList(): String = when (actionCount.value) {
         1 -> "${firstAction.value}"
         2 -> "${firstAction.value}\n${secondAction.value}"
         3 -> "${firstAction.value}\n${secondAction.value}\n${thirdAction.value}"
