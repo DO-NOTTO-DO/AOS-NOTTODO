@@ -30,7 +30,7 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
     private var recommendActionAdapter: RecommendActionAdapter? = null
     private val viewModel by viewModels<RecommendActionViewModel>()
     private val args: RecommendActionFragmentArgs by navArgs()
-    private val recommendMissionUiModel by lazy {
+    private val toRecommendActionUiModel by lazy {
         args.toRecommendActionUiModel
     }
 
@@ -50,14 +50,14 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
 
     private fun getDataFromRecommendMissionActivity() {
         trackEnterRecommendActionView()
-        viewModel.setMissionId(recommendMissionUiModel.id)
+        viewModel.setMissionId(toRecommendActionUiModel.id)
     }
 
     private fun trackEnterRecommendActionView() {
         trackEventWithProperty(
             getString(R.string.view_recommend_mission_detail), mapOf(
-                getString(R.string.situation) to recommendMissionUiModel.situation,
-                getString(R.string.title) to recommendMissionUiModel.title
+                getString(R.string.situation) to toRecommendActionUiModel.situation,
+                getString(R.string.title) to toRecommendActionUiModel.title
             )
         )
     }
@@ -74,15 +74,15 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
     }
 
     private fun setMissionTextView() {
-        binding.tvRecommendActionMission.text = recommendMissionUiModel.title
+        binding.tvRecommendActionMission.text = toRecommendActionUiModel.title
     }
 
     private fun setSituationTextView() {
-        binding.tvRecommendActionSituation.text = recommendMissionUiModel.situation
+        binding.tvRecommendActionSituation.text = toRecommendActionUiModel.situation
     }
 
     private fun setMissionImageView() {
-        binding.ivRecommendActionMissionSituation.load(recommendMissionUiModel.image)
+        binding.ivRecommendActionMissionSituation.load(toRecommendActionUiModel.image)
     }
 
     private fun setRecommendActionRecyclerView() {
@@ -121,8 +121,8 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
     private fun navigateToAdditionFragment() {
         val selectedActionList = recommendActionAdapter?.getSelectedActionList()
         val toAdditionUiModel = ToAdditionUiModel(
-            title = recommendMissionUiModel.title,
-            situation = recommendMissionUiModel.situation,
+            title = toRecommendActionUiModel.title,
+            situation = toRecommendActionUiModel.situation,
             actionList = selectedActionList ?: emptyList()
         )
 
@@ -139,8 +139,8 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
 
     private fun trackClickCreateRecommendMissionEvent(selectedActionList: List<String>?) {
         mutableMapOf<String, Any>(
-            getString(R.string.situation) to recommendMissionUiModel.situation,
-            getString(R.string.title) to recommendMissionUiModel.title
+            getString(R.string.situation) to toRecommendActionUiModel.situation,
+            getString(R.string.title) to toRecommendActionUiModel.title
         ).apply {
             if (selectedActionList != null) plus(getString(R.string.action) to selectedActionList.toTypedArray())
         }.also {
@@ -159,8 +159,8 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
         binding.tvRecommendActionWriteDirect.setOnClickListener {
             trackSelfCreateActionEvent()
             ToAdditionUiModel(
-                title = recommendMissionUiModel.title,
-                situation = recommendMissionUiModel.situation,
+                title = toRecommendActionUiModel.title,
+                situation = toRecommendActionUiModel.situation,
                 actionList = emptyList()
             ).also {
                 startActivity(
