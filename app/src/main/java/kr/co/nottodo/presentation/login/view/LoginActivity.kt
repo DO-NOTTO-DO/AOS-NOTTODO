@@ -16,7 +16,7 @@ import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
 import kr.co.nottodo.presentation.onboard.view.OnboardActivity
-import kr.co.nottodo.util.NotTodoAmplitude.setUserId
+import kr.co.nottodo.util.NotTodoAmplitude.setAmplitudeUserId
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.showToast
@@ -147,7 +147,7 @@ class LoginActivity : AppCompatActivity() {
                     R.string.kakao
                 )
             )
-            setUserId(response.data.userId)
+            setAmplitudeUserId(response.data.userId)
             startActivity(Intent(this, MainActivity::class.java))
             setUserInfo(response.data.accessToken)
             if (!isFinishing) finish()

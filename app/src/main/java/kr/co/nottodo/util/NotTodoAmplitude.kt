@@ -20,7 +20,7 @@ object NotTodoAmplitude {
         )
     }
 
-    fun setUserId(userId: String) {
+    fun setAmplitudeUserId(userId: String) {
         amplitude.setUserId(userId)
     }
 
