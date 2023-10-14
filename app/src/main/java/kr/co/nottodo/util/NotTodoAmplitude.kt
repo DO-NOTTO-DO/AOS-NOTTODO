@@ -9,9 +9,11 @@ object NotTodoAmplitude {
     private lateinit var amplitude: Amplitude
 
     fun initAmplitude(applicationContext: Context) {
+        val apiKey =
+            if (BuildConfig.DEBUG) BuildConfig.AMPLITUDE_API_KEY_DEV else BuildConfig.AMPLITUDE_API_KEY_PRODUCT
         amplitude = Amplitude(
             Configuration(
-                apiKey = BuildConfig.AMPLITUDE_API_KEY,
+                apiKey = apiKey,
                 context = applicationContext,
                 trackingSessionEvents = false,
             ),
