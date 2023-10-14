@@ -19,7 +19,7 @@ import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
 import kr.co.nottodo.presentation.onboard.view.OnboardActivity
-import kr.co.nottodo.util.NotTodoAmplitude.setUserId
+import kr.co.nottodo.util.NotTodoAmplitude.setAmplitudeUserId
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.showToast
@@ -33,8 +33,31 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
 
         showOnboardForFirstUser()
         setAutoLogin()
-        observeGetTokenResult()
         setClickEvents()
+        observeGetTokenResult()
+    }
+
+    private fun showOnboardForFirstUser() {
+        if (!SharedPreferences.getBoolean(DID_USER_WATCHED_ONBOARD)) {
+            startActivity(
+                Intent(
+                    requireContext(), OnboardActivity::class.java
+                )
+            )
+            if (!requireActivity().isFinishing) requireActivity().finish()
+        }
+    }
+
+    private fun setAutoLogin() {
+        if (!SharedPreferences.getString(USER_TOKEN).isNullOrBlank()) {
+            navigateToHome()
+        } else {
+            trackEvent(getString(R.string.view_signin))
+        }
+    }
+
+    private fun navigateToHome() {
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
     private fun setClickEvents() {
@@ -43,25 +66,6 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
         setTermsOfUseTvClickEvent()
         setPrivacyPolicyTvClickEvent()
     }
-
-    private fun setTermsOfUseTvClickEvent() {
-        binding.tvLoginTermsOfUse.setOnClickListener {
-            val intent = Intent(
-                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_terms_of_use))
-            )
-            startActivity(intent)
-        }
-    }
-
-    private fun setPrivacyPolicyTvClickEvent() {
-        binding.tvLoginPrivacyPolicy.setOnClickListener {
-            val intent = Intent(
-                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_privacy_policy))
-            )
-            startActivity(intent)
-        }
-    }
-
 
     private fun setGoogleLoginBtnClickEvent() {
         binding.layoutLoginGoogle.setOnClickListener {
@@ -118,27 +122,22 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
         }
     }
 
-    private fun showOnboardForFirstUser() {
-        if (!SharedPreferences.getBoolean(DID_USER_WATCHED_ONBOARD)) {
-            startActivity(
-                Intent(
-                    requireContext(), OnboardActivity::class.java
-                )
+    private fun setTermsOfUseTvClickEvent() {
+        binding.tvLoginTermsOfUse.setOnClickListener {
+            val intent = Intent(
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_terms_of_use))
             )
-            if (!requireActivity().isFinishing) requireActivity().finish()
+            startActivity(intent)
         }
     }
 
-    private fun setAutoLogin() {
-        if (!SharedPreferences.getString(USER_TOKEN).isNullOrBlank()) {
-            navigateToHome()
-        } else {
-            trackEvent(getString(R.string.view_signin))
+    private fun setPrivacyPolicyTvClickEvent() {
+        binding.tvLoginPrivacyPolicy.setOnClickListener {
+            val intent = Intent(
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_privacy_policy))
+            )
+            startActivity(intent)
         }
-    }
-
-    private fun navigateToHome() {
-        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
     private fun observeGetTokenResult() {
@@ -148,7 +147,7 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
                     R.string.kakao
                 )
             )
-            setUserId(response.data.userId)
+            setAmplitudeUserId(response.data.userId)
             setUserInfo(response.data.accessToken)
             navigateToHome()
         }
