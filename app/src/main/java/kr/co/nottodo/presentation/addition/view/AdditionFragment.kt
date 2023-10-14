@@ -66,7 +66,7 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
         with(viewModel) {
             mission.value = toAdditionFragmentUiModel.title
             situation.value = toAdditionFragmentUiModel.situation
-            actionList.value = toAdditionFragmentUiModel.actionList.toMutableList()
+            actionList.value = toAdditionFragmentUiModel.actionList.toList()
         }
     }
 
