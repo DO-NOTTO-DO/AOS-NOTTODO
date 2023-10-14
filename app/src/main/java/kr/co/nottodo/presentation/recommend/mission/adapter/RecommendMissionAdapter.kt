@@ -13,7 +13,7 @@ import kr.co.nottodo.databinding.ItemRecommendMissionBinding
 import kr.co.nottodo.util.DiffUtilItemCallback
 import kr.co.nottodo.util.dpToPx
 
-class RecommendMissionAdapter(private val startRecommendActionActivity: (Int, String, String, String) -> Unit) :
+class RecommendMissionAdapter(private val navigateToRecommendActionFragment: (Mission) -> Unit) :
     ListAdapter<Mission, RecommendMissionAdapter.RecommendMissionViewHolder>(
         diffUtil
     ) {
@@ -24,7 +24,7 @@ class RecommendMissionAdapter(private val startRecommendActionActivity: (Int, St
     ): RecommendMissionViewHolder {
         val binding =
             ItemRecommendMissionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return RecommendMissionViewHolder(binding, startRecommendActionActivity)
+        return RecommendMissionViewHolder(binding, navigateToRecommendActionFragment)
     }
 
     override fun onBindViewHolder(holder: RecommendMissionViewHolder, position: Int) {
@@ -33,7 +33,7 @@ class RecommendMissionAdapter(private val startRecommendActionActivity: (Int, St
 
     class RecommendMissionViewHolder(
         private val binding: ItemRecommendMissionBinding,
-        private val startRecommendActionActivity: (Int, String, String, String) -> Unit,
+        private val navigateToRecommendActionFragment: (Mission) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: Mission) {
             with(binding) {
@@ -43,9 +43,7 @@ class RecommendMissionAdapter(private val startRecommendActionActivity: (Int, St
                 ivRecommendationMission.load(data.image)
 
                 layoutRecommendationMission.setOnClickListener {
-                    startRecommendActionActivity.invoke(
-                        data.id, data.title, data.situation, data.image
-                    )
+                    navigateToRecommendActionFragment.invoke(data)
                 }
             }
         }

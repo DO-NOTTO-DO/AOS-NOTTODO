@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="kr.co.nottodo.presentation.home.view.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_recommendMissionFragment"
+            app:destination="@id/recommendMissionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/achieveFragment"
         android:name="kr.co.nottodo.presentation.achieve.AchieveFragment"
@@ -27,4 +31,34 @@
         android:id="@+id/myPageInformationFragment"
         android:name="kr.co.nottodo.presentation.mypage.view.MyPageInformationFragment"
         android:label="MyPageInformationFragment" />
+    <fragment
+        android:id="@+id/recommendMissionFragment"
+        android:name="kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionFragment"
+        android:label="RecommendMissionFragment">
+        <action
+            android:id="@+id/action_recommendMissionFragment_to_recommendActionFragment"
+            app:destination="@id/recommendActionFragment" />
+        <action
+            android:id="@+id/action_recommendMissionFragment_to_additionFragment"
+            app:destination="@id/additionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recommendActionFragment"
+        android:name="kr.co.nottodo.presentation.recommend.action.view.RecommendActionFragment"
+        android:label="RecommendActionFragment">
+        <argument
+            android:name="toRecommendActionUiModel"
+            app:argType="kr.co.nottodo.presentation.recommend.model.ToRecommendActionUiModel" />
+        <action
+            android:id="@+id/action_recommendActionFragment_to_additionFragment"
+            app:destination="@id/additionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/additionFragment"
+        android:name="kr.co.nottodo.presentation.addition.view.AdditionFragment"
+        android:label="AdditionFragment">
+        <argument
+            android:name="toAdditionFragmentUiModel"
+            app:argType="kr.co.nottodo.presentation.recommend.model.ToAdditionUiModel" />
+    </fragment>
 </navigation>

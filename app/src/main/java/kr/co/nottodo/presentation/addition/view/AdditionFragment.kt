@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
@@ -18,14 +19,12 @@ import kr.co.nottodo.databinding.FragmentAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionNewViewModel
 import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
-import kr.co.nottodo.presentation.recommend.action.view.RecommendActionActivity
-import kr.co.nottodo.presentation.recommend.model.RecommendUiModel
 import kr.co.nottodo.util.NotTodoAmplitude
+import kr.co.nottodo.util.PublicString.EMPTY_STRING
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.containToday
 import kr.co.nottodo.util.containTomorrow
-import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.util.hideKeyboard
 import kr.co.nottodo.util.showKeyboard
 import kr.co.nottodo.util.showNotTodoSnackBar
@@ -35,10 +34,13 @@ import kr.co.nottodo.view.calendar.monthly.util.convertDateStringToInt
 import kr.co.nottodo.view.calendar.monthly.util.convertDateToString
 import java.util.Date
 
-class AdditionFragment :
-    DataBindingFragment<FragmentAdditionBinding>(R.layout.fragment_addition) {
+class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.fragment_addition) {
     private val viewModel by viewModels<AdditionNewViewModel>()
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
+    private val args: AdditionFragmentArgs by navArgs()
+    private val toAdditionFragmentUiModel by lazy {
+        args.toAdditionFragmentUiModel
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,46 +57,17 @@ class AdditionFragment :
     }
 
     private fun setData() {
+        getDataFromRecommendActivity()
         getRecentMissionList()
         getRecommendSituationList()
-        // TODO : Intent가 아닌 Bundle에서 받아와야 함
-        // getDataFromRecommendActivity()
     }
 
     private fun getDataFromRecommendActivity() {
-        val recommendUiModel: RecommendUiModel = requireActivity().intent?.getParcelable(
-            RecommendActionActivity.MISSION_ACTION_DETAIL, RecommendUiModel::class.java
-        ) ?: return
-
         with(viewModel) {
-            mission.value = recommendUiModel.title
-            situation.value = recommendUiModel.situation
+            mission.value = toAdditionFragmentUiModel.title
+            situation.value = toAdditionFragmentUiModel.situation
+            actionList.value = toAdditionFragmentUiModel.actionList.toList()
         }
-        setActionList(recommendUiModel.actionList)
-    }
-
-    private fun setActionList(actionList: List<String>) {
-        fun List<String>.second() = this[1]
-        fun List<String>.third() = this[2]
-
-        actionList.run {
-            viewModel.actionCount.value = this.size
-            if (this.size >= 1) setFirstAction(this.first())
-            if (this.size >= 2) setSecondAction(this.second())
-            if (this.size >= 3) setThirdAction(this.third())
-        }
-    }
-
-    private fun setFirstAction(firstAction: String) {
-        viewModel.firstAction.value = firstAction
-    }
-
-    private fun setSecondAction(secondAction: String) {
-        viewModel.firstAction.value = secondAction
-    }
-
-    private fun setThirdAction(thirdAction: String) {
-        viewModel.firstAction.value = thirdAction
     }
 
     private fun getRecommendSituationList() {
@@ -149,6 +122,7 @@ class AdditionFragment :
         observeMission()
         observeSituation()
         observeGoal()
+        observeActionListToString()
         observeGetRecommendSituationList()
         observeGetRecentMissionListResponse()
         observePostNottodoResponse()
@@ -294,7 +268,7 @@ class AdditionFragment :
 
         binding.etAdditionAction.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && binding.etAdditionAction.text.isNotBlank()) {
-                viewModel.actionCount.value?.let { addAction(it) }
+                addAction()
             }
             return@setOnEditorActionListener true
         }
@@ -308,26 +282,14 @@ class AdditionFragment :
         }
     }
 
-    private fun addAction(actionCount: Int) {
-        when (actionCount) {
-            0 -> viewModel.run {
-                firstAction.value = action.value
-                action.value = ""
-            }
+    private fun addAction() {
+        if (viewModel.actionCount.value == 3 || viewModel.action.value == null) return
 
-            1 -> viewModel.run {
-                secondAction.value = action.value
-                action.value = ""
-            }
+        val newActionList = viewModel.actionList.value?.plus(viewModel.action.value!!)
+        viewModel.actionList.value = newActionList
+        viewModel.action.value = EMPTY_STRING
 
-            2 -> {
-                viewModel.run {
-                    thirdAction.value = action.value
-                    action.value = ""
-                }
-                requireContext().hideKeyboard(binding.root)
-            }
-        }
+        if (newActionList?.size == 3) requireContext().hideKeyboard(binding.root)
     }
 
     private fun setDeleteButtonsClickEvents() {
@@ -338,53 +300,28 @@ class AdditionFragment :
 
     private fun firstDeleteBtnClickEvent() {
         binding.ivAdditionActionFirstDelete.setOnClickListener {
-            when (viewModel.actionCount.value) {
-                1 -> {
-                    viewModel.firstAction.value = ""
-                }
-
-                2 -> {
-                    viewModel.run {
-                        firstAction.value = secondAction.value
-                        secondAction.value = ""
-                    }
-                }
-
-                3 -> {
-                    viewModel.run {
-                        firstAction.value = secondAction.value
-                        secondAction.value = thirdAction.value
-                        thirdAction.value = ""
-                    }
-                    requestFocusWithShowingKeyboard(binding.etAdditionAction)
-                }
-            }
+            deleteAction(indexToRemove = 0)
         }
     }
 
     private fun secondDeleteBtnClickEvent() {
         binding.ivAdditionActionSecondDelete.setOnClickListener {
-            when (viewModel.actionCount.value) {
-                2 -> {
-                    viewModel.secondAction.value = ""
-                }
-
-                3 -> {
-                    viewModel.run {
-                        secondAction.value = thirdAction.value
-                        thirdAction.value = ""
-                    }
-                    requestFocusWithShowingKeyboard(binding.etAdditionAction)
-                }
-            }
+            deleteAction(indexToRemove = 1)
         }
     }
 
     private fun thirdDeleteBtnClickEvent() {
         binding.ivAdditionActionThirdDelete.setOnClickListener {
-            viewModel.thirdAction.value = ""
-            requestFocusWithShowingKeyboard(binding.etAdditionAction)
+            deleteAction(indexToRemove = 2)
         }
+    }
+
+    private fun deleteAction(indexToRemove: Int) {
+        val newActionList =
+            viewModel.actionList.value?.filterIndexed { index, _ -> index != indexToRemove }
+        viewModel.actionList.value = newActionList
+
+        if (newActionList?.size == 2) requestFocusWithShowingKeyboard(binding.etAdditionAction)
     }
 
     private fun setFinishButtonClickEvent() {
@@ -446,6 +383,12 @@ class AdditionFragment :
     private fun observeGoal() {
         viewModel.isGoalFilled.observe(viewLifecycleOwner) { isGoalFilled ->
             binding.layoutAdditionGoalClosed.isActivated = isGoalFilled
+        }
+    }
+
+    private fun observeActionListToString() {
+        viewModel.actionListToString.observe(viewLifecycleOwner) { actionListToString ->
+            binding.tvAdditionActionClosedInput.text = actionListToString
         }
     }
 

@@ -4,9 +4,8 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class RecommendMissionUiModel(
-    val id: Int,
+data class ToAdditionUiModel(
     val title: String,
     val situation: String,
-    val image: String,
+    val actionList: List<String>,
 ) : Parcelable

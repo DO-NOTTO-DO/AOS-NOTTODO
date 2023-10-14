@@ -14,8 +14,8 @@ import kr.co.nottodo.presentation.recommend.action.adapter.RecommendActionAdapte
 import kr.co.nottodo.presentation.recommend.action.viewmodel.RecommendActionViewModel
 import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity
 import kr.co.nottodo.presentation.recommend.mission.view.RecommendMissionActivity.Companion.MISSION_DETAIL
-import kr.co.nottodo.presentation.recommend.model.RecommendMissionUiModel
-import kr.co.nottodo.presentation.recommend.model.RecommendUiModel
+import kr.co.nottodo.presentation.recommend.model.ToRecommendActionUiModel
+import kr.co.nottodo.presentation.recommend.model.ToAdditionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
@@ -29,13 +29,13 @@ class RecommendActionActivity : AppCompatActivity() {
     private var recommendActionAdapter: RecommendActionAdapter? = null
     private val viewModel by viewModels<RecommendActionViewModel>()
     private val dataFromRecommendMissionActivity by lazy {
-        val recommendMissionUiModel = intent.getParcelable(
-            MISSION_DETAIL, RecommendMissionUiModel::class.java
+        val toRecommendActionUiModel = intent.getParcelable(
+            MISSION_DETAIL, ToRecommendActionUiModel::class.java
         )
-        if (recommendMissionUiModel == null) {
+        if (toRecommendActionUiModel == null) {
             if (!isFinishing) finish()
         }
-        requireNotNull(recommendMissionUiModel) {
+        requireNotNull(toRecommendActionUiModel) {
             getString(
                 R.string._is_null, getString(R.string.recommend_mission_ui_model)
             )
@@ -121,14 +121,14 @@ class RecommendActionActivity : AppCompatActivity() {
         binding.btnRecommendActionContinue.setOnClickListener {
             val selectedActionList = recommendActionAdapter?.getSelectedActionList()
             trackClickCreateRecommendMissionEvent(selectedActionList)
-            val recommendUiModel = RecommendUiModel(
+            val toAdditionUiModel = ToAdditionUiModel(
                 title = dataFromRecommendMissionActivity.title,
                 situation = dataFromRecommendMissionActivity.situation,
                 actionList = selectedActionList ?: emptyList()
             )
             startActivity(
                 Intent(this, AdditionActivity::class.java).putExtra(
-                    MISSION_ACTION_DETAIL, recommendUiModel
+                    MISSION_ACTION_DETAIL, toAdditionUiModel
                 )
             )
             if (!isFinishing) finish()
@@ -154,14 +154,14 @@ class RecommendActionActivity : AppCompatActivity() {
     private fun writeDirectTvClickEvent() {
         binding.tvRecommendActionWriteDirect.setOnClickListener {
             trackEvent(getString(R.string.click_self_create_action))
-            val recommendUiModel = RecommendUiModel(
+            val toAdditionUiModel = ToAdditionUiModel(
                 title = dataFromRecommendMissionActivity.title,
                 situation = dataFromRecommendMissionActivity.situation,
                 actionList = emptyList()
             )
             startActivity(
                 Intent(this, AdditionActivity::class.java).putExtra(
-                    MISSION_ACTION_DETAIL, recommendUiModel
+                    MISSION_ACTION_DETAIL, toAdditionUiModel
                 )
             )
             if (!isFinishing) finish()
