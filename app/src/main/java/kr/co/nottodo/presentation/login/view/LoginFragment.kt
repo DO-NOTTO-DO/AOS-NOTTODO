@@ -7,12 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
@@ -131,11 +131,14 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
 
     private fun setAutoLogin() {
         if (!SharedPreferences.getString(USER_TOKEN).isNullOrBlank()) {
-            startActivity(Intent(requireContext(), MainActivity::class.java))
-            if (!requireActivity().isFinishing) requireActivity().finish()
+            navigateToHome()
         } else {
             trackEvent(getString(R.string.view_signin))
         }
+    }
+
+    private fun navigateToHome() {
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
     private fun observeGetTokenResult() {
@@ -146,9 +149,8 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
                 )
             )
             setUserId(response.data.userId)
-            startActivity(Intent(requireContext(), MainActivity::class.java))
             setUserInfo(response.data.accessToken)
-            if (!requireActivity().isFinishing) requireActivity().finish()
+            navigateToHome()
         }
         viewModel.getErrorResult.observe(viewLifecycleOwner) {
             UserApiClient.instance.logout { requireContext().showToast(getString(R.string.error_login_again_please)) }
