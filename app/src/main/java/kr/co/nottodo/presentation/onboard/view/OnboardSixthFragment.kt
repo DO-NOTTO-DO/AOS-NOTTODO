@@ -43,6 +43,7 @@ class OnboardSixthFragment : Fragment() {
             trackEvent(getString(R.string.click_onboarding_next_5))
             SharedPreferences.setBoolean(DID_USER_WATCHED_ONBOARD, true)
             requireActivity().apply {
+                // TODO : 온보딩 끝난 후 LoginFragment로 이동 !
                 startActivity(Intent(context, LoginActivity::class.java))
                 if (!isFinishing) {
                     finish()
