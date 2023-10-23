@@ -44,6 +44,10 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".presentation.login.view.LoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -52,10 +56,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.modification.view.ModificationActivity"
             android:exported="false"
