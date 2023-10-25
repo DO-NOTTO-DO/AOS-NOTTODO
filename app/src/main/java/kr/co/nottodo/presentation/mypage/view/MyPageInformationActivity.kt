@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityMyPageInformationBinding
-import kr.co.nottodo.listeners.OnDialogDismissListener
+import kr.co.nottodo.listeners.OnWithdrawalDialogDismissListener
 import kr.co.nottodo.presentation.login.view.LoginActivity
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 import kr.co.nottodo.presentation.mypage.viewmodel.MyPageInformationViewModel
@@ -23,7 +23,7 @@ import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
 
 
-class MyPageInformationActivity : AppCompatActivity(), OnDialogDismissListener {
+class MyPageInformationActivity : AppCompatActivity(), OnWithdrawalDialogDismissListener {
     lateinit var binding: ActivityMyPageInformationBinding
     private val viewModel by viewModels<MyPageInformationViewModel>()
     private val withdrawalDialogFragment by lazy { WithdrawalDialogFragment() }
@@ -192,7 +192,7 @@ class MyPageInformationActivity : AppCompatActivity(), OnDialogDismissListener {
         if (!isFinishing) finish()
     }
 
-    override fun onDialogDismiss() {
+    override fun onWithdrawalDialogDismiss() {
         logout()
     }
 }

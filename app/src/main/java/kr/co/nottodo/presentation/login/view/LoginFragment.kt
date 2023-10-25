@@ -3,17 +3,20 @@ package kr.co.nottodo.presentation.login.view
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
+import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
 import kr.co.nottodo.presentation.onboard.view.OnboardActivity
 import kr.co.nottodo.util.NotTodoAmplitude.setAmplitudeUserId
@@ -22,21 +25,39 @@ import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.showToast
 import timber.log.Timber
 
-class LoginActivity : AppCompatActivity() {
-    private val binding by lazy { ActivityLoginBinding.inflate(layoutInflater) }
-    private val viewModel by viewModels<LoginViewModel>()
+class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
+    private val viewModel: LoginViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setViews()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         showOnboardForFirstUser()
         setAutoLogin()
-        observeGetTokenResult()
         setClickEvents()
+        observeGetTokenResult()
     }
 
-    private fun setViews() {
-        setContentView(binding.root)
+    private fun showOnboardForFirstUser() {
+        if (!SharedPreferences.getBoolean(DID_USER_WATCHED_ONBOARD)) {
+            startActivity(
+                Intent(
+                    requireContext(), OnboardActivity::class.java
+                )
+            )
+            if (!requireActivity().isFinishing) requireActivity().finish()
+        }
+    }
+
+    private fun setAutoLogin() {
+        if (!SharedPreferences.getString(USER_TOKEN).isNullOrBlank()) {
+            navigateToHome()
+        } else {
+            trackEvent(getString(R.string.view_signin))
+        }
+    }
+
+    private fun navigateToHome() {
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
     private fun setClickEvents() {
@@ -46,28 +67,9 @@ class LoginActivity : AppCompatActivity() {
         setPrivacyPolicyTvClickEvent()
     }
 
-    private fun setTermsOfUseTvClickEvent() {
-        binding.tvLoginTermsOfUse.setOnClickListener {
-            val intent = Intent(
-                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_terms_of_use))
-            )
-            startActivity(intent)
-        }
-    }
-
-    private fun setPrivacyPolicyTvClickEvent() {
-        binding.tvLoginPrivacyPolicy.setOnClickListener {
-            val intent = Intent(
-                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_privacy_policy))
-            )
-            startActivity(intent)
-        }
-    }
-
-
     private fun setGoogleLoginBtnClickEvent() {
         binding.layoutLoginGoogle.setOnClickListener {
-            showToast(getString(R.string.google_sign_in_later))
+            requireContext().showToast(getString(R.string.google_sign_in_later))
         }
     }
 
@@ -88,9 +90,9 @@ class LoginActivity : AppCompatActivity() {
                     R.string.kakao
                 )
             )
-            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+            if (UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())) {
                 // 카카오톡 로그인
-                UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
+                UserApiClient.instance.loginWithKakaoTalk(requireContext()) { token, error ->
                     // 로그인 실패 부분
                     if (error != null) {
                         Timber.e(getString(R.string.failure_kakao_login, error))
@@ -101,7 +103,7 @@ class LoginActivity : AppCompatActivity() {
                         // 다른 오류 - 카톡으로 안 될 경우
                         else {
                             UserApiClient.instance.loginWithKakaoAccount(
-                                this, callback = kakaoLoginCallback
+                                requireContext(), callback = kakaoLoginCallback
                             ) // 카카오 이메일 로그인
                         }
                     }
@@ -114,46 +116,43 @@ class LoginActivity : AppCompatActivity() {
                 Timber.d(getString(R.string.kakao_talk_not_installed))
                 // 카카오 이메일 로그인
                 UserApiClient.instance.loginWithKakaoAccount(
-                    this, callback = kakaoLoginCallback
+                    requireContext(), callback = kakaoLoginCallback
                 )
             }
         }
     }
 
-    private fun showOnboardForFirstUser() {
-        if (!SharedPreferences.getBoolean(DID_USER_WATCHED_ONBOARD)) {
-            startActivity(
-                Intent(
-                    this, OnboardActivity::class.java
-                )
+    private fun setTermsOfUseTvClickEvent() {
+        binding.tvLoginTermsOfUse.setOnClickListener {
+            val intent = Intent(
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_terms_of_use))
             )
-            if (!isFinishing) finish()
+            startActivity(intent)
         }
     }
 
-    private fun setAutoLogin() {
-        if (!SharedPreferences.getString(USER_TOKEN).isNullOrBlank()) {
-            startActivity(Intent(this, MainActivity::class.java))
-            if (!isFinishing) finish()
-        } else {
-            trackEvent(getString(R.string.view_signin))
+    private fun setPrivacyPolicyTvClickEvent() {
+        binding.tvLoginPrivacyPolicy.setOnClickListener {
+            val intent = Intent(
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_privacy_policy))
+            )
+            startActivity(intent)
         }
     }
 
     private fun observeGetTokenResult() {
-        viewModel.getTokenResult.observe(this) { response ->
+        viewModel.getTokenResult.observe(viewLifecycleOwner) { response ->
             trackEventWithProperty(
                 getString(R.string.complete_signin), getString(R.string.provider), getString(
                     R.string.kakao
                 )
             )
             setAmplitudeUserId(response.data.userId)
-            startActivity(Intent(this, MainActivity::class.java))
             setUserInfo(response.data.accessToken)
-            if (!isFinishing) finish()
+            navigateToHome()
         }
-        viewModel.getErrorResult.observe(this) {
-            UserApiClient.instance.logout { showToast(getString(R.string.error_login_again_please)) }
+        viewModel.getErrorResult.observe(viewLifecycleOwner) {
+            UserApiClient.instance.logout { requireContext().showToast(getString(R.string.error_login_again_please)) }
         }
     }
 
@@ -168,6 +167,9 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityLoginBinding =
+        ActivityLoginBinding.inflate(inflater, container, false)
 
     companion object {
         const val KAKAO: String = "KAKAO"

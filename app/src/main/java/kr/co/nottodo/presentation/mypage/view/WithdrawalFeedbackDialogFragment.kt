@@ -13,17 +13,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentWithdrawalFeedbackDialogBinding
-import kr.co.nottodo.listeners.OnDialogDismissListener
+import kr.co.nottodo.listeners.OnWithdrawalDialogDismissListener
 
 class WithdrawalFeedbackDialogFragment : DialogFragment() {
     private var _binding: FragmentWithdrawalFeedbackDialogBinding? = null
     private val binding get() = _binding!!
-    private var onDialogDismissListener: OnDialogDismissListener? = null
+    private var onWithdrawalDialogDismissListener: OnWithdrawalDialogDismissListener? = null
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        onDialogDismissListener = context as? OnDialogDismissListener ?: throw TypeCastException(
+        onWithdrawalDialogDismissListener = context as? OnWithdrawalDialogDismissListener ?: throw TypeCastException(
             getString(
                 R.string.context_can_not_cast_as, getString(R.string.on_dialog_dismiss_listener)
             )
@@ -69,12 +69,12 @@ class WithdrawalFeedbackDialogFragment : DialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        onDialogDismissListener = null
+        onWithdrawalDialogDismissListener = null
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        onDialogDismissListener?.onDialogDismiss() ?: throw NullPointerException(
+        onWithdrawalDialogDismissListener?.onWithdrawalDialogDismiss() ?: throw NullPointerException(
             getString(R.string._is_null, getString(R.string.on_dialog_dismiss_listener))
         )
     }

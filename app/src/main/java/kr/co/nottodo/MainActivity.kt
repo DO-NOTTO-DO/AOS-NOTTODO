@@ -20,6 +20,7 @@ import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityMainBinding
+import kr.co.nottodo.listeners.OnWithdrawalDialogDismissListener
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.achieve.AchieveFragment
 import kr.co.nottodo.presentation.home.view.HomeFragment
@@ -27,7 +28,7 @@ import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CH
 import kr.co.nottodo.presentation.mypage.view.MyPageFragment
 import kr.co.nottodo.util.showToast
 
-class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
+class MainActivity : AppCompatActivity(), OnFragmentChangedListener, OnWithdrawalDialogDismissListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private val navController by lazy {
@@ -138,6 +139,11 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
     private fun overrideBackPressed() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                if (navController.currentDestination?.id == R.id.loginFragment) {
+                    if (!isFinishing) finish()
+                    return
+                }
+
                 if (!binding.bnvMain.isVisible) {
                     navController.popBackStack()
                     return
@@ -158,6 +164,20 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener {
         }
         onBackPressedDispatcher.addCallback(this, callback)
     }
+
+    override fun onWithdrawalDialogDismiss() {
+        logout()
+    }
+
+    private fun logout() {
+        SharedPreferences.clearForLogout()
+        navigateToLogin()
+    }
+
+    private fun navigateToLogin() {
+        navController.navigate(R.id.loginFragment)
+    }
+
 
     companion object {
         const val BLANK = ""

@@ -5,13 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import kr.co.nottodo.data.remote.api.ServicePool
+import kr.co.nottodo.data.remote.api.ServicePool.tokenService
 import kr.co.nottodo.data.remote.model.login.RequestTokenDto
 import kr.co.nottodo.data.remote.model.login.ResponseTokenDto
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.KAKAO
 
 class LoginViewModel : ViewModel() {
-    private val tokenService by lazy { ServicePool.tokenService }
 
     private val _getTokenResult: MutableLiveData<ResponseTokenDto> = MutableLiveData()
     val getTokenResult: LiveData<ResponseTokenDto>

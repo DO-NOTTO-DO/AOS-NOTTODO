@@ -1,13 +1,12 @@
 package kr.co.nottodo.presentation.mypage.view
 
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
-import kr.co.nottodo.presentation.login.view.LoginActivity
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 
 class MyPageLogoutDialogFragment : DialogFragment() {
@@ -31,12 +30,11 @@ class MyPageLogoutDialogFragment : DialogFragment() {
     private fun logout() {
         trackEvent(getString(R.string.complete_logout))
         SharedPreferences.clearForLogout()
-        startActivity(
-            Intent(
-                requireContext(), LoginActivity::class.java
-            ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        )
-        if (!requireActivity().isFinishing) requireActivity().finish()
+        navigateToLogin()
+    }
+
+    private fun navigateToLogin() {
+        findNavController().navigate(R.id.action_myPageInformationFragment_to_loginFragment)
     }
 
     companion object {
