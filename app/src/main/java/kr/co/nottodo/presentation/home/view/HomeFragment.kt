@@ -1,19 +1,24 @@
 package kr.co.nottodo.presentation.home.view
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import kr.co.nottodo.R
+import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.addition.view.AdditionActivity.Companion.FIRST_DATE
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
+import kr.co.nottodo.util.PublicString.DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
 import kr.co.nottodo.view.snackbar.NotTodoSnackbar
@@ -60,6 +65,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         setWeeklyDate()
         weeklyDayClick()
         firsetDayGet()
+        navigateToNotificationPermissionRequestFragment()
         trackEvent(getString(R.string.view_home))
     }
 
@@ -162,6 +168,15 @@ class HomeFragment : Fragment(), DialogCloseListener {
             arguments?.getString(FIRST_DATE)?.replace('.', '-')?.convertToLocalDate()
                 ?: LocalDate.now(),
         )
+    }
+
+    private fun navigateToNotificationPermissionRequestFragment() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED && !SharedPreferences.getBoolean(
+                DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT
+            )
+        ) findNavController().navigate(R.id.action_homeFragment_to_notificationPermissionRequestDialogFragment)
     }
 
     override fun onDestroyView() {
