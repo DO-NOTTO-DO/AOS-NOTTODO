@@ -11,7 +11,6 @@ class NotTodoSnackbar(view: View, private val message: CharSequence) {
     private val context = view.context
     private val snackbar = Snackbar.make(view, message, 2000)
     private val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
-
     private val inflater = LayoutInflater.from(context)
     private val binding: ViewNottodoSnackbarBinding =
         ViewNottodoSnackbarBinding.inflate(inflater, null, false)
@@ -19,6 +18,7 @@ class NotTodoSnackbar(view: View, private val message: CharSequence) {
     init {
         initView()
         initData()
+        initClickEvent()
     }
 
     private fun initView() {
@@ -38,6 +38,12 @@ class NotTodoSnackbar(view: View, private val message: CharSequence) {
             else -> {
                 binding.tvNottodoSnackbarDesc.text = message
             }
+        }
+    }
+
+    private fun initClickEvent() {
+        binding.root.setOnClickListener {
+            snackbar.dismiss()
         }
     }
 
