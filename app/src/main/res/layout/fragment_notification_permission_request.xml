@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="kr.co.nottodo.presentation.home.viewmodel.NotificationPermissionRequestViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/iv_notification_permission_request_bell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="41dp"
+            android:src="@drawable/ic_bell"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_notification_permission_request_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:text="알림을 허용하면\n낫투두가 더 잘 도울 수 있어요!"
+            android:textAppearance="@style/Sb22"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_notification_permission_request_bell" />
+
+        <LinearLayout
+            android:id="@+id/layout_notification_permission_request_dialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="41dp"
+            android:background="@drawable/img_dialog_bg"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_notification_permission_request_title">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/ic_alert" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:text="'낫투두'에서 알림을 보내도록 허용하시겠습니까?"
+                android:textAppearance="@style/Sb15"
+                android:textColor="@color/black_050708" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal"
+                android:text="알림 기능이 꺼져있으면\n알람이 울릴 때까지 확인하기 어려워요"
+                android:textAppearance="@style/M13"
+                android:textColor="@color/gray_3_5d5d6b" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rectangle_stroke_5_green_1_radius_100"
+                android:paddingHorizontal="17dp"
+                android:paddingVertical="20dp"
+                android:text="허용"
+                android:textAppearance="@style/Sb15" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="21dp"
+                android:text="허용 안함"
+                android:textAppearance="@style/M15"
+                android:textColor="@color/gray_4_9398aa" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/iv_notification_permission_request_complete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginBottom="29dp"
+            android:background="@drawable/rectangle_solid_white_radius_50"
+            android:onClick="@{() -> vm.onCompleteBtnClick()}"
+            android:text="네, 알겠어요 :)"
+            android:textAppearance="@style/Sb16"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
