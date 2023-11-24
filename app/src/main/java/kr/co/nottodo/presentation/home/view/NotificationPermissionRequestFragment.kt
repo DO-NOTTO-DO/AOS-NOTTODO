@@ -29,6 +29,7 @@ class NotificationPermissionRequestFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        SharedPreferences.setBoolean(DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT, true)
         setResultLaunchers()
         setObservers()
     }
@@ -38,7 +39,6 @@ class NotificationPermissionRequestFragment :
             ActivityResultContracts.RequestPermission(),
         ) { isGranted: Boolean ->
             SharedPreferences.setBoolean(DID_USER_CHOOSE_TO_BE_NOTIFIED, isGranted)
-            SharedPreferences.setBoolean(DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT, true)
             findNavController().popBackStack()
         }
     }
