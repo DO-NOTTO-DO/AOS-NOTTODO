@@ -272,5 +272,12 @@
     <string name="linked_account_kor">연결된 계정</string>
     <string name="kakao_talk_kor">카카오톡</string>
     <string name="push_alarm_setting_kor">푸시 알람 설정</string>
+    <string name="notification_permission_request_title">알림을 허용하면\n낫투두가 더 잘 도울 수 있어요!</string>
+    <string name="cd_bell_icon">알림 모양 아이콘</string>
+    <string name="notification_permission_request_dialog_title">\'낫투두\'에서 알림을 보내도록 허용하시겠습니까?</string>
+    <string name="notification_permission_request_dialog_desc">알림 기능이 꺼져있으면\n알람이 울릴 때까지 확인하기 어려워요</string>
+    <string name="agree">허용</string>
+    <string name="disagree">허용 안함</string>
+    <string name="notification_permission_request_complete">네, 알겠어요 :)</string>
 
 </resources>
