@@ -14,6 +14,9 @@
             android:id="@+id/action_homeFragment_to_recommendMissionFragment"
             app:destination="@id/recommendMissionFragment" />
         <action
+            android:id="@+id/action_homeFragment_to_modificationFragment"
+            app:destination="@id/modificationFragment" />
+        <action
             android:id="@+id/action_homeFragment_to_notificationPermissionRequestDialogFragment"
             app:destination="@id/notificationPermissionRequestFragment" />
     </fragment>
@@ -75,6 +78,14 @@
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modificationFragment"
+        android:name="kr.co.nottodo.presentation.modification.view.ModificationFragment"
+        android:label="ModificationFragment">
+        <argument
+            android:name="toModificationUiModel"
+            app:argType="kr.co.nottodo.data.local.ParcelizeBottomDetail" />
         <action
             android:id="@+id/action_loginFragment_to_onboardFirstFragment"
             app:destination="@id/onboardFirstFragment" />
