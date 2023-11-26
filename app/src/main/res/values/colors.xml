@@ -8,6 +8,7 @@
     <color name="black">#1f1f23</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black_000000">#000000</color>
+    <color name="black_050708">#050708</color>
     <!--gray-->
     <color name="gray_1_2a2a2e">#2a2a2e</color>
     <color name="gray_2_34343a">#34343a</color>
