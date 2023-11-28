@@ -18,7 +18,6 @@ import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
-import kr.co.nottodo.presentation.onboard.view.OnboardActivity
 import kr.co.nottodo.util.NotTodoAmplitude.setAmplitudeUserId
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
@@ -39,12 +38,7 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
 
     private fun showOnboardForFirstUser() {
         if (!SharedPreferences.getBoolean(DID_USER_WATCHED_ONBOARD)) {
-            startActivity(
-                Intent(
-                    requireContext(), OnboardActivity::class.java
-                )
-            )
-            if (!requireActivity().isFinishing) requireActivity().finish()
+            findNavController().navigate(R.id.action_loginFragment_to_onboardFirstFragment)
         }
     }
 
