@@ -82,9 +82,16 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener,
     private fun overrideBackPressed() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (navController.currentDestination?.id == R.id.loginFragment) {
-                    if (!isFinishing) finish()
-                    return
+                when (navController.currentDestination?.id) {
+                    R.id.loginFragment -> {
+                        if (!isFinishing) finish()
+                        return
+                    }
+
+                    R.id.onboardFirstFragment, R.id.onboardSecondFragment, R.id.onboardThirdFragment, R.id.onboardFourthFragment, R.id.onboardFifthFragment, R.id.onboardSixthFragment -> {
+                        finishAppWithBackButtonDoubleClick()
+                        return
+                    }
                 }
 
                 if (!binding.bnvMain.isVisible) {
@@ -92,20 +99,24 @@ class MainActivity : AppCompatActivity(), OnFragmentChangedListener,
                     return
                 }
 
-                if (doubleBackToExitPressedOnce) {
-                    if (!isFinishing) finish()
-                    return
-                }
-
-                doubleBackToExitPressedOnce = true
-                showToast("'뒤로'버튼 한번 더 누르시면 종료됩니다.")
-
-                Handler(Looper.getMainLooper()).postDelayed({
-                    doubleBackToExitPressedOnce = false
-                }, 2000)
+                finishAppWithBackButtonDoubleClick()
             }
         }
         onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    private fun finishAppWithBackButtonDoubleClick() {
+        if (doubleBackToExitPressedOnce) {
+            if (!isFinishing) finish()
+            return
+        }
+
+        doubleBackToExitPressedOnce = true
+        showToast("'뒤로'버튼 한번 더 누르시면 종료됩니다.")
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            doubleBackToExitPressedOnce = false
+        }, 2000)
     }
 
     override fun onWithdrawalDialogDismiss() {
