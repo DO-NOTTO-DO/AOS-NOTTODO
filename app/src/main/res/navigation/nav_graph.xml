@@ -75,6 +75,9 @@
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_onboardFirstFragment"
+            app:destination="@id/onboardFirstFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationPermissionRequestFragment"
@@ -83,5 +86,53 @@
         <action
             android:id="@+id/action_notificationPermissionRequestFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardFirstFragment"
+        android:name="kr.co.nottodo.presentation.onboard.view.OnboardFirstFragment"
+        android:label="OnboardFirstFragment">
+        <action
+            android:id="@+id/action_onboardFirstFragment_to_onboardSecondFragment"
+            app:destination="@id/onboardSecondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardSecondFragment"
+        android:name="kr.co.nottodo.presentation.onboard.view.OnboardSecondFragment"
+        android:label="OnboardSecondFragment">
+        <action
+            android:id="@+id/action_onboardSecondFragment_to_onboardThirdFragment"
+            app:destination="@id/onboardThirdFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardThirdFragment"
+        android:name="kr.co.nottodo.presentation.onboard.view.OnboardThirdFragment"
+        android:label="OnboardThirdFragment">
+        <action
+            android:id="@+id/action_onboardThirdFragment_to_onboardFourthFragment"
+            app:destination="@id/onboardFourthFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardFourthFragment"
+        android:name="kr.co.nottodo.presentation.onboard.view.OnboardFourthFragment"
+        android:label="OnboardFourthFragment">
+        <action
+            android:id="@+id/action_onboardFourthFragment_to_onboardFifthFragment"
+            app:destination="@id/onboardFifthFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardFifthFragment"
+        android:name="kr.co.nottodo.presentation.onboard.view.OnboardFifthFragment"
+        android:label="OnboardFifthFragment">
+        <action
+            android:id="@+id/action_onboardFifthFragment_to_onboardSixthFragment"
+            app:destination="@id/onboardSixthFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardSixthFragment"
+        android:name="kr.co.nottodo.presentation.onboard.view.OnboardSixthFragment"
+        android:label="OnboardSixthFragment">
+        <action
+            android:id="@+id/action_onboardSixthFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>
