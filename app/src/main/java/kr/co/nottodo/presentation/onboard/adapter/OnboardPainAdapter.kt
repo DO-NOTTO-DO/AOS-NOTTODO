@@ -1,31 +1,22 @@
 package kr.co.nottodo.presentation.onboard.adapter
 
-import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.ItemOnboardThirdBinding
-import kr.co.nottodo.presentation.onboard.OnboardInterface
-import kr.co.nottodo.presentation.onboard.view.OnboardFourthFragment
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
-import java.util.Timer
-import kotlin.concurrent.schedule
 
 class OnboardPainAdapter(
-    private val context: Context,
-    private val itemList: List<String>,
+    private val itemList: List<String>, private val navigateToOnboardFourthFragment: () -> Unit,
 ) : RecyclerView.Adapter<OnboardPainAdapter.OnboardPainViewHolder>() {
-    lateinit var binding: ItemOnboardThirdBinding
-    private val inflater by lazy { LayoutInflater.from(context) }
-    lateinit var onboardInterface: OnboardInterface
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnboardPainViewHolder {
-        binding = ItemOnboardThirdBinding.inflate(inflater, parent, false)
-        if (context is OnboardInterface) {
-            onboardInterface = context
-        }
-        return OnboardPainViewHolder(binding, itemList)
+        val binding =
+            ItemOnboardThirdBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return OnboardPainViewHolder(binding, itemList, navigateToOnboardFourthFragment)
     }
 
     override fun getItemCount(): Int {
@@ -33,18 +24,17 @@ class OnboardPainAdapter(
     }
 
     override fun onBindViewHolder(holder: OnboardPainViewHolder, position: Int) {
-        holder.onBind(binding, position, onboardInterface)
+        holder.onBind(position)
     }
 
     class OnboardPainViewHolder(
-        binding: ItemOnboardThirdBinding,
+        val binding: ItemOnboardThirdBinding,
         private val itemList: List<String>,
+        private val navigateToOnboardFourthFragment: () -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(
-            binding: ItemOnboardThirdBinding,
             position: Int,
-            onboardInterface: OnboardInterface,
         ) {
             with(binding) {
                 tvItemOnboardThird.text = itemList[position]
@@ -55,8 +45,10 @@ class OnboardPainAdapter(
                         tvItemOnboardThird.text
                     )
                     layoutItemOnboardThird.isSelected = !layoutItemOnboardThird.isSelected
-                    Timer().schedule(500) {
-                        onboardInterface.changeFragment(OnboardFourthFragment())
+                    Handler(Looper.getMainLooper()).also {
+                        it.postDelayed({
+                            navigateToOnboardFourthFragment()
+                        }, 500)
                     }
                 }
             }
