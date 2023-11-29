@@ -30,6 +30,7 @@ import kr.co.nottodo.presentation.achieve.AchieveFragment
 import kr.co.nottodo.presentation.home.view.HomeFragment
 import kr.co.nottodo.presentation.mypage.view.MyPageFragment
 import kr.co.nottodo.util.showToast
+import timber.log.Timber
 import java.util.Scanner
 
 class MainActivity :
@@ -66,7 +67,7 @@ class MainActivity :
     private fun checkAndShowAppUpdate() {
         val appInfo = Firebase.remoteConfig[REMOTE_KEY_APP_INFO].asString()
         val parsingAppUpdateInfo = Gson().fromJson(appInfo, UpdateAppInfo::class.java)
-
+        Timber.tag("appInfoUpdate").d("$appInfo")
 // 파싱된 결과 사용
         val appVersion = parsingAppUpdateInfo.appVersion
         val forceUpdate = parsingAppUpdateInfo.appForceUpdate
@@ -85,7 +86,9 @@ class MainActivity :
     private fun showUpdatePopUp(fetchUpdateVersion: Int, force: Boolean) {
         val versionName = BuildConfig.VERSION_NAME
         val currentVersion = Scanner(versionName.replace("\\D+".toRegex(), "")).nextInt()
-
+        Timber.tag("update").d("$fetchUpdateVersion")
+        Timber.tag("forceUpdate").d("$force")
+        Timber.tag("currentVersionUpdate").d("$currentVersion")
         if (fetchUpdateVersion > currentVersion) {
             AlertDialog.Builder(this)
                 .setTitle(R.string.app_version_update_title)

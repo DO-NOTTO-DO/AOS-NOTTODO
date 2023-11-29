@@ -4,8 +4,4 @@
     <key>app_info</key>
     <value>{"app_version":"1.0.0","force_update":false}</value>
   </entry>
-  <entry>
-    <key>app_version</key>
-    <value>1.0.0</value>
-  </entry>
 </defaults>
