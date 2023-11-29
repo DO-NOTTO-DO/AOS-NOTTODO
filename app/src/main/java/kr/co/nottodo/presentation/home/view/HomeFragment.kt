@@ -58,7 +58,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         initAdapter()
         homeViewModel.getHomeDaily(weeklyData)
         setActivityBackgroundColor()
-        ObserverDailyTodo()
+        observerDailyTodo()
         observerData()
         clickFloatingBtn()
         showErrorToast()
@@ -91,7 +91,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         }
     }
 
-    private fun ObserverDailyTodo() {
+    private fun observerDailyTodo() {
         homeViewModel.getHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
             if (homeDaily.isEmpty()) {
                 binding.clHomeMain.visibility = View.VISIBLE
@@ -172,11 +172,14 @@ class HomeFragment : Fragment(), DialogCloseListener {
 
     private fun navigateToNotificationPermissionRequestFragment() {
         if (ContextCompat.checkSelfPermission(
-                requireContext(), Manifest.permission.POST_NOTIFICATIONS
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS,
             ) != PackageManager.PERMISSION_GRANTED && !SharedPreferences.getBoolean(
-                DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT
+                DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT,
             )
-        ) findNavController().navigate(R.id.action_homeFragment_to_notificationPermissionRequestDialogFragment)
+        ) {
+            findNavController().navigate(R.id.action_homeFragment_to_notificationPermissionRequestDialogFragment)
+        }
     }
 
     override fun onDestroyView() {
