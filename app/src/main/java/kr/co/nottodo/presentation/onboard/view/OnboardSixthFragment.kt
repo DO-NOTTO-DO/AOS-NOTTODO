@@ -11,7 +11,7 @@ import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.FragmentOnboardSixthBinding
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
-import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_WATCHED_ONBOARD
+import kr.co.nottodo.presentation.login.view.LoginFragment
 import kr.co.nottodo.presentation.onboard.adapter.OnboardActionAdapter
 import kr.co.nottodo.presentation.onboard.viewmodel.OnboardViewModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
@@ -29,7 +29,7 @@ class OnboardSixthFragment : ViewBindingFragment<FragmentOnboardSixthBinding>() 
     private fun initLoginLayoutClickListener() {
         binding.layoutOnboardSixthLogin.setOnClickListener {
             trackEvent(getString(R.string.click_onboarding_next_5))
-            SharedPreferences.setBoolean(DID_USER_WATCHED_ONBOARD, true)
+            SharedPreferences.setBoolean(LoginFragment.DID_USER_WATCHED_ONBOARD, true)
             findNavController().navigate(R.id.action_onboardSixthFragment_to_loginFragment)
         }
     }
