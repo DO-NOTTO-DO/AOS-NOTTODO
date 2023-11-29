@@ -280,4 +280,8 @@
     <string name="disagree">허용 안함</string>
     <string name="notification_permission_request_complete">네, 알겠어요 :)</string>
 
+    <!--Update Dialog-->
+    <string name="app_version_update_title">최신 업데이트가 있습니다. 업데이트 하시겠습니까?</string>
+    <string name="app_play_store_url">https://play.google.com/store/apps/details?id=kr.co.nottodo&amp;hl=ko-KR</string>
+
 </resources>
