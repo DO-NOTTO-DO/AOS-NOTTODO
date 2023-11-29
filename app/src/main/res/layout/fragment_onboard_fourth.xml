@@ -6,6 +6,29 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
+    <ImageView
+        android:id="@+id/iv_onboard_fourth_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:contentDescription="@string/cd_onboard_indicator"
+        android:src="@drawable/ic_tutorial_first"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_onboard_fourth_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/my_life"
+        android:textAppearance="@style/R15"
+        android:textColor="@color/green_3_8ae49a"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_onboard_fourth_indicator" />
+
     <TextView
         android:id="@+id/tv_onboard_fourth_title"
         android:layout_width="wrap_content"
@@ -16,7 +39,7 @@
         android:textAppearance="@style/M20"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_onboard_fourth_indicator" />
 
     <TextView
         android:id="@+id/tv_onboard_fourth_desc"
@@ -34,7 +57,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginVertical="48dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/btn_onboard_fourth_complete"
         app:layout_constraintEnd_toEndOf="parent"
