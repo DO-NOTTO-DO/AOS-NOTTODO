@@ -44,14 +44,10 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
 
     private fun setAutoLogin() {
         if (!SharedPreferences.getString(USER_TOKEN).isNullOrBlank()) {
-            navigateToHome()
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         } else {
             trackEvent(getString(R.string.view_signin))
         }
-    }
-
-    private fun navigateToHome() {
-        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
     private fun setClickEvents() {
@@ -143,7 +139,7 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
             )
             setAmplitudeUserId(response.data.userId)
             setUserInfo(response.data.accessToken)
-            navigateToHome()
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }
         viewModel.getErrorResult.observe(viewLifecycleOwner) {
             UserApiClient.instance.logout { requireContext().showToast(getString(R.string.error_login_again_please)) }
