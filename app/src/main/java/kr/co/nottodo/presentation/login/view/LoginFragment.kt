@@ -18,7 +18,6 @@ import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
-import kr.co.nottodo.presentation.onboard.view.OnboardActivity
 import kr.co.nottodo.util.NotTodoAmplitude.setAmplitudeUserId
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
@@ -39,25 +38,16 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
 
     private fun showOnboardForFirstUser() {
         if (!SharedPreferences.getBoolean(DID_USER_WATCHED_ONBOARD)) {
-            startActivity(
-                Intent(
-                    requireContext(), OnboardActivity::class.java
-                )
-            )
-            if (!requireActivity().isFinishing) requireActivity().finish()
+            findNavController().navigate(R.id.action_loginFragment_to_onboardFirstFragment)
         }
     }
 
     private fun setAutoLogin() {
         if (!SharedPreferences.getString(USER_TOKEN).isNullOrBlank()) {
-            navigateToHome()
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         } else {
             trackEvent(getString(R.string.view_signin))
         }
-    }
-
-    private fun navigateToHome() {
-        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
     private fun setClickEvents() {
@@ -149,7 +139,7 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
             )
             setAmplitudeUserId(response.data.userId)
             setUserInfo(response.data.accessToken)
-            navigateToHome()
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }
         viewModel.getErrorResult.observe(viewLifecycleOwner) {
             UserApiClient.instance.logout { requireContext().showToast(getString(R.string.error_login_again_please)) }
