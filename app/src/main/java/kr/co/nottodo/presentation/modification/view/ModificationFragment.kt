@@ -10,9 +10,9 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.ParcelizeBottomDetail
-import kr.co.nottodo.data.local.ParcelizeBottomDetail.Action
 import kr.co.nottodo.data.remote.model.modification.ResponseModificationDto.Modification
 import kr.co.nottodo.databinding.FragmentModificationBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
@@ -32,17 +32,9 @@ class ModificationFragment :
     DataBindingFragment<FragmentModificationBinding>(R.layout.fragment_modification) {
     private val viewModel by viewModels<ModificationNewViewModel>()
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
-    private val dataFromHome: ParcelizeBottomDetail by lazy {
-        // TODO : Safe Args를 통해 데이터 전달받기
-        ParcelizeBottomDetail(
-            id = 1L,
-            title = "낫투두 예시",
-            situation = "상황 예시",
-            actions = listOf(Action("실천 행동 1"), Action("실천 행동 2")),
-            count = 1,
-            goal = "",
-            date = "2023.09.22"
-        )
+    private val args: ModificationFragmentArgs by navArgs()
+    private val toModificationUiModel: ParcelizeBottomDetail by lazy {
+        args.toModificationUiModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,11 +81,11 @@ class ModificationFragment :
 
     private fun getDataFromHome() {
         NotTodoData(
-            dataFromHome.title,
-            dataFromHome.situation,
-            dataFromHome.actions?.map { action -> action.name.toString() },
-            dataFromHome.goal,
-            dataFromHome.id
+            toModificationUiModel.title,
+            toModificationUiModel.situation,
+            toModificationUiModel.actions?.map { action -> action.name.toString() },
+            toModificationUiModel.goal,
+            toModificationUiModel.id
         ).also { viewModel.setOriginalData(it) }
     }
 
@@ -541,7 +533,8 @@ class ModificationFragment :
 
     private fun observeGetMissionDatesSuccessResponse() {
         viewModel.dates.observe(viewLifecycleOwner) { dates ->
-            trackEnterUpdateMission(dataFromHome, dates.map { it.convertDateStringToInt() })
+            trackEnterUpdateMission(toModificationUiModel,
+                dates.map { it.convertDateStringToInt() })
         }
     }
 
