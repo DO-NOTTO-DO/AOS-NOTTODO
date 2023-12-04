@@ -1,33 +1,27 @@
 package kr.co.nottodo.presentation.home.view
 
-import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.ParcelizeBottomDetail
-import kr.co.nottodo.data.local.ParcelizeBottomDetailRegister
 import kr.co.nottodo.data.remote.model.home.ResponHomeMissionDetail
 import kr.co.nottodo.databinding.FragmentHomeMenuBottomSheetBinding
 import kr.co.nottodo.databinding.ItemHomeBottomActionsBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.CLICK_DAY
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
-import kr.co.nottodo.presentation.modification.view.ModificationActivity
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithPropertyList
-import kr.co.nottodo.util.getParcelable
 import kr.co.nottodo.view.snackbar.NotTodoSnackbar
 import timber.log.Timber
 
@@ -37,7 +31,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         get() = requireNotNull(_binding)
     private val viewModel by activityViewModels<HomeViewModel>()
     val bundle = Bundle()
-    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var modifyParcelizeExtra: ParcelizeBottomDetail
     private lateinit var clickDay: String
     private var dialogDismissListener: DialogCloseListener? = null
@@ -58,7 +51,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         clickDay = requireArguments().getString(CLICK_DAY).toString()
         getMissionData()
         setOnClick()
-        getModifyData()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -80,10 +72,10 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
     private fun setOnClick() {
         binding.ivHomeDialogCancle.setOnClickListener { dismiss() }
         binding.tvHomeDialogEdit.setOnClickListener {
-            val intent = Intent(requireActivity(), ModificationActivity::class.java)
             if (::modifyParcelizeExtra.isInitialized) {
-                intent.putExtra(DETAIL, modifyParcelizeExtra)
-                resultLauncher.launch(intent)
+                HomeFragmentDirections.actionHomeFragmentToModificationFragment(
+                    modifyParcelizeExtra
+                ).also { action -> findNavController().navigate(action) }
             } else {
                 NotTodoSnackbar(binding.root, getString(R.string.net_work_error_message))
             }
@@ -188,26 +180,6 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             item.goal,
             clickDay,
         )
-    }
-
-    private fun getModifyData() {
-        resultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == RESULT_OK) {
-                    val parcelableData = result.data?.getParcelable(
-                        DETAIL,
-                        ParcelizeBottomDetailRegister::class.java,
-                    )
-                    // 결과 처리
-                    if (parcelableData != null) {
-                        binding.tvHomeDialogSituation.text = parcelableData.title
-                        binding.tvHomeDialogNotodo.text = parcelableData.situation
-                        binding.tvHomeDialogGoalDescription.text = parcelableData.goal
-                        // 데이터 클래스 값 사용
-                    }
-                    viewModel.getHomeBottomDetail(requireArguments().getLong(MISSION_ID))
-                }
-            }
     }
 
     override fun onDestroyView() {
