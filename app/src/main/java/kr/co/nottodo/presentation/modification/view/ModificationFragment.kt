@@ -7,9 +7,9 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.ParcelizeBottomDetail
@@ -33,7 +33,7 @@ class ModificationFragment :
     private val viewModel by viewModels<ModificationNewViewModel>()
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
     private val args: ModificationFragmentArgs by navArgs()
-    private val toModificationUiModel: ParcelizeBottomDetail by lazy {
+    private val toModificationUiModel by lazy {
         args.toModificationUiModel
     }
 
@@ -553,9 +553,8 @@ class ModificationFragment :
     private fun observeModifyNottodoSuccessResponse() {
         viewModel.modifyNottodoSuccessResponse.observe(viewLifecycleOwner) { response ->
             requireContext().showToast(getString(R.string.complete_modify_nottodo))
-            requireActivity().setResult(AppCompatActivity.RESULT_OK)
-            if (!requireActivity().isFinishing) requireActivity().finish()
             trackCompleteModifyMission(response)
+            findNavController().popBackStack()
         }
     }
 
