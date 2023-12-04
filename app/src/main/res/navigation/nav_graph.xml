@@ -78,6 +78,9 @@
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_onboardFirstFragment"
+            app:destination="@id/onboardFirstFragment" />
     </fragment>
     <fragment
         android:id="@+id/modificationFragment"
@@ -87,8 +90,8 @@
             android:name="toModificationUiModel"
             app:argType="kr.co.nottodo.data.local.ParcelizeBottomDetail" />
         <action
-            android:id="@+id/action_loginFragment_to_onboardFirstFragment"
-            app:destination="@id/onboardFirstFragment" />
+            android:id="@+id/action_modificationFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationPermissionRequestFragment"
