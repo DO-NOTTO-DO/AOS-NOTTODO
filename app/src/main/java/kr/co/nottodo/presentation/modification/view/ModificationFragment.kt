@@ -20,6 +20,7 @@ import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
 import kr.co.nottodo.presentation.modification.model.NotTodoData
 import kr.co.nottodo.presentation.modification.viewmodel.ModificationNewViewModel
 import kr.co.nottodo.util.NotTodoAmplitude
+import kr.co.nottodo.util.PublicString
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.addButtons
 import kr.co.nottodo.util.hideKeyboard
@@ -83,7 +84,7 @@ class ModificationFragment :
         NotTodoData(
             toModificationUiModel.title,
             toModificationUiModel.situation,
-            toModificationUiModel.actions?.map { action -> action.name.toString() },
+            toModificationUiModel.actions?.map { action -> action.name.toString() }?.toList(),
             toModificationUiModel.goal,
             toModificationUiModel.id
         ).also { viewModel.setOriginalData(it) }
@@ -240,7 +241,7 @@ class ModificationFragment :
 
         binding.etModificationAction.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && binding.etModificationAction.text.isNotBlank()) {
-                viewModel.actionCount.value?.let { addAction(it) }
+                viewModel.actionCount.value?.let { addAction() }
             }
             return@setOnEditorActionListener true
         }
@@ -254,26 +255,14 @@ class ModificationFragment :
         }
     }
 
-    private fun addAction(actionCount: Int) {
-        when (actionCount) {
-            0 -> viewModel.run {
-                actionList.value?.set(0, action.value ?: "")
-                action.value = ""
-            }
+    private fun addAction() {
+        if (viewModel.actionCount.value == 3 || viewModel.action.value == null) return
 
-            1 -> viewModel.run {
-                actionList.value?.set(1, action.value ?: "")
-                action.value = ""
-            }
+        val newActionList = viewModel.actionList.value?.plus(viewModel.action.value!!)
+        viewModel.actionList.value = newActionList
+        viewModel.action.value = PublicString.EMPTY_STRING
 
-            2 -> {
-                viewModel.run {
-                    actionList.value?.set(2, action.value ?: "")
-                    action.value = ""
-                }
-                requireContext().hideKeyboard(binding.root)
-            }
-        }
+        if (newActionList?.size == 3) requireContext().hideKeyboard(binding.root)
     }
 
     private fun setDeleteButtonsClickEvents() {
@@ -284,53 +273,28 @@ class ModificationFragment :
 
     private fun firstDeleteBtnClickEvent() {
         binding.ivModificationActionFirstDelete.setOnClickListener {
-            when (viewModel.actionCount.value) {
-                1 -> {
-                    viewModel.actionList.value?.set(0, "")
-                }
-
-                2 -> {
-                    viewModel.actionList.value?.run {
-                        set(0, get(1))
-                        set(1, "")
-                    }
-                }
-
-                3 -> {
-                    viewModel.actionList.value?.run {
-                        set(0, get(1))
-                        set(1, get(2))
-                        set(2, "")
-                    }
-                    requestFocusWithShowingKeyboard(binding.etModificationAction)
-                }
-            }
+            deleteAction(indexToRemove = 0)
         }
     }
 
     private fun secondDeleteBtnClickEvent() {
         binding.ivModificationActionSecondDelete.setOnClickListener {
-            when (viewModel.actionCount.value) {
-                2 -> {
-                    viewModel.actionList.value?.set(1, "")
-                }
-
-                3 -> {
-                    viewModel.actionList.value?.run {
-                        set(1, get(2))
-                        set(2, "")
-                    }
-                    requestFocusWithShowingKeyboard(binding.etModificationAction)
-                }
-            }
+            deleteAction(indexToRemove = 1)
         }
     }
 
     private fun thirdDeleteBtnClickEvent() {
         binding.ivModificationActionThirdDelete.setOnClickListener {
-            viewModel.actionList.value?.set(2, "")
-            requestFocusWithShowingKeyboard(binding.etModificationAction)
+            deleteAction(indexToRemove = 2)
         }
+    }
+
+    private fun deleteAction(indexToRemove: Int) {
+        val newActionList =
+            viewModel.actionList.value?.filterIndexed { index, _ -> index != indexToRemove }
+        viewModel.actionList.value = newActionList
+
+        if (newActionList?.size == 2) requestFocusWithShowingKeyboard(binding.etModificationAction)
     }
 
     private fun setFinishButtonClickEvent() {
@@ -463,6 +427,7 @@ class ModificationFragment :
         observeGetRecentMissionListResponse()
         observeModifyNottodoResponse()
         observeGetMissionDatesResponse()
+        observeActionListToString()
     }
 
     private fun observeMission() {
@@ -604,6 +569,12 @@ class ModificationFragment :
         when (errorMessage.first()) {
             '해' -> NotTodoAmplitude.trackEvent(getString(R.string.appear_same_mission_issue_message))
             '낫' -> NotTodoAmplitude.trackEvent(getString(R.string.appear_maxed_issue_message))
+        }
+    }
+
+    private fun observeActionListToString() {
+        viewModel.actionListToString.observe(viewLifecycleOwner) { actionListToString ->
+            binding.tvModificationActionClosedInput.text = actionListToString
         }
     }
 
