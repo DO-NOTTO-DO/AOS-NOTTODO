@@ -298,7 +298,7 @@ class ModificationFragment :
     }
 
     private fun setFinishButtonClickEvent() {
-        binding.ivModificationDelete.setOnClickListener { if (!requireActivity().isFinishing) requireActivity().finish() }
+        binding.ivModificationDelete.setOnClickListener { findNavController().popBackStack() }
     }
 
     private fun setModifyBtnClickEvent() {
