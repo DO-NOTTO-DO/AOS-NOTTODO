@@ -39,7 +39,7 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
     private val args: AdditionFragmentArgs by navArgs()
     private val toAdditionFragmentUiModel by lazy {
-        args.toAdditionFragmentUiModel
+        args.toAdditionUiModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
