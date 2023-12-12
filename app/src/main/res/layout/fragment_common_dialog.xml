@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -21,7 +22,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="28dp"
             android:gravity="center"
-            android:text="1분 서비스 피드백하고\n기프티콘 받아가세요!"
+            android:text="@string/common_dialog_title"
             android:textAppearance="@style/B18"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="매주 추첨을 통해 스타벅스 기프티콘을 드려요"
+            android:text="@string/common_dialog_desc"
             android:textAppearance="@style/M12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="10dp"
+            android:contentDescription="@null"
             android:src="@drawable/img_service_feedback"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +65,7 @@
             android:onClick="@{() -> vm.onBtnClickEvent()}"
             android:paddingTop="10dp"
             android:paddingBottom="12dp"
-            android:text="이정도야 쉽지!"
+            android:text="@string/common_dialog_button_text"
             android:textAppearance="@style/M13"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -87,7 +89,8 @@
                 android:onClick="@{() -> vm.changeIsCheckBoxChecked()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:id="@+id/iv_common_dialog_check"
@@ -95,6 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
+                    android:contentDescription="@string/cd_do_not_look_anymore_checkbox"
                     android:src="@drawable/selector_dialog_check"
                     app:selected="@{vm.isCheckBoxChecked()}" />
 
@@ -104,7 +108,7 @@
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
-                    android:text="더 이상 보지 않기"
+                    android:text="@string/do_not_look_anymore"
                     android:textAppearance="@style/M13"
                     android:textColor="@color/gray_3_5d5d6b" />
 
@@ -120,7 +124,7 @@
                 android:onClick="@{() -> vm.onDismissTvClickEvent()}"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="13dp"
-                android:text="닫기"
+                android:text="@string/close"
                 android:textAppearance="@style/M13"
                 android:textColor="@color/gray_3_5d5d6b"
                 app:layout_constraintBottom_toBottomOf="parent"
