@@ -58,7 +58,6 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
     }
 
     private fun showCommonDialog() {
-        Timber.e("showCommonDialog is invoked")
         if (SharedPreferences.getBoolean(STOP_WATCHING_COMMON_DIALOG)) return
         CommonDialogFragment.newInstance().also {
             it.show(parentFragmentManager, it.tag)
