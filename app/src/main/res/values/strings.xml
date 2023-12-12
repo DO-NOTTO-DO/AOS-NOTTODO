@@ -285,5 +285,6 @@
     <string name="do_not_look_anymore">더 이상 보지 않기</string>
     <string name="close">닫기</string>
     <string name="cd_do_not_look_anymore_checkbox">더 이상 보지 않기 체크박스</string>
+    <string name="url_feedback_after_use">https://forms.gle/rWFJrpVv1RqHwTg28</string>
 
 </resources>

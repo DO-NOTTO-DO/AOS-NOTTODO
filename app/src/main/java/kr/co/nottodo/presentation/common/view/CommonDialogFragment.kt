@@ -59,7 +59,7 @@ class CommonDialogFragment :
     }
 
     private fun startFeedbackPage() = Intent(
-        Intent.ACTION_VIEW, Uri.parse("https://www.naver.com")
+        Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_feedback_after_use))
     ).also { intent -> startActivity(intent) }
 
     override fun bindViewModelWithBinding() {
