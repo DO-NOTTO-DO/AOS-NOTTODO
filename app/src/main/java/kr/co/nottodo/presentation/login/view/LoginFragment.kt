@@ -17,10 +17,12 @@ import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
+import kr.co.nottodo.presentation.common.view.CommonDialogFragment
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
 import kr.co.nottodo.util.NotTodoAmplitude.setAmplitudeUserId
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
+import kr.co.nottodo.util.PublicString.STOP_WATCHING_COMMON_DIALOG
 import kr.co.nottodo.util.showToast
 import timber.log.Timber
 
@@ -44,9 +46,22 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
 
     private fun setAutoLogin() {
         if (!SharedPreferences.getString(USER_TOKEN).isNullOrBlank()) {
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            navigateToLoginFragment()
         } else {
             trackEvent(getString(R.string.view_signin))
+        }
+    }
+
+    private fun navigateToLoginFragment() {
+        showCommonDialog()
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+    }
+
+    private fun showCommonDialog() {
+        Timber.e("showCommonDialog is invoked")
+        if (SharedPreferences.getBoolean(STOP_WATCHING_COMMON_DIALOG)) return
+        CommonDialogFragment.newInstance().also {
+            it.show(parentFragmentManager, it.tag)
         }
     }
 
@@ -139,7 +154,7 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
             )
             setAmplitudeUserId(response.data.userId)
             setUserInfo(response.data.accessToken)
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            navigateToLoginFragment()
         }
         viewModel.getErrorResult.observe(viewLifecycleOwner) {
             UserApiClient.instance.logout { requireContext().showToast(getString(R.string.error_login_again_please)) }
