@@ -35,7 +35,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="매주 추첨을 통해 스타벅스 기프티콘을 드려요"
-            android:textAppearance="@style/M10"
+            android:textAppearance="@style/M12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_common_dialog_title" />
@@ -60,6 +60,7 @@
             android:background="@drawable/rectangle_radius_20"
             android:backgroundTint="@color/black"
             android:minHeight="0dp"
+            android:onClick="@{() -> vm.onBtnClickEvent()}"
             android:paddingTop="10dp"
             android:paddingBottom="12dp"
             android:text="이정도야 쉽지!"
@@ -80,39 +81,45 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_common_dialog">
 
-            <ImageView
-                android:id="@+id/iv_common_dialog_check"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="16dp"
-                android:onClick="@{() -> vm.changeIsChecked}"
-                android:src="@drawable/selector_dialog_check"
+                android:onClick="@{() -> vm.changeIsCheckBoxChecked()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="17dp"
-                android:text="더 이상 보지 않기"
-                android:textAppearance="@style/M13"
-                android:textColor="@color/gray_3_5d5d6b"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_common_dialog_check"
-                app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/iv_common_dialog_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/selector_dialog_check"
+                    app:selected="@{vm.isCheckBoxChecked()}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="더 이상 보지 않기"
+                    android:textAppearance="@style/M13"
+                    android:textColor="@color/gray_3_5d5d6b" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_common_dialog_dismiss"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="17dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="4dp"
+                android:onClick="@{() -> vm.onDismissTvClickEvent()}"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="13dp"
                 android:text="닫기"
                 android:textAppearance="@style/M13"
                 android:textColor="@color/gray_3_5d5d6b"
