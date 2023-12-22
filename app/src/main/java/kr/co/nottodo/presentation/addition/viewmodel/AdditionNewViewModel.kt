@@ -73,7 +73,7 @@ class AdditionNewViewModel : ViewModel() {
         thirdAction.map { thirdAction -> thirdAction.isNotBlank() }
 
     val actionCount: LiveData<Int> = actionList.map { actionList ->
-        actionList?.size ?: 0
+        actionList.size
     }
 
     val actionListToString: LiveData<String> = actionList.map {
