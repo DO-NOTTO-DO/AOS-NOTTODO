@@ -95,11 +95,6 @@ class MainActivity :
             )
         }
     }
-    // 현재 버전보다 높으면 무조건 보여저야 된다.
-    // 현재버전보다 높은 경우 처음 보여준 경우가 아니라면 취소/확인을 눌렀겠지?
-    // 취소를 누른경우에는 true를 저장
-
-    // 다시 처음 뷰에 드러왔을 경우 취소를 누른 경우에는 현재 버전보다 앱 버전이 높은데 shared에 true가 저장되어있으면 보여주면 안됨
 
     private fun checkForceUpdate(forceUpdate: Boolean) {
         if (forceUpdate) {
