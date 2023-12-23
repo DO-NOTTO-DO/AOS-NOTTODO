@@ -28,7 +28,6 @@ import kr.co.nottodo.presentation.mypage.view.MyPageFragment
 import kr.co.nottodo.util.showToast
 import kr.co.nottodo.view.calendar.monthly.util.navigateToGooglePlayStore
 import org.json.JSONObject
-import timber.log.Timber
 import java.util.Scanner
 
 class MainActivity :
@@ -56,7 +55,7 @@ class MainActivity :
     private fun initializeFirebaseRemoteConfig() {
         val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
         val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600
+            minimumFetchIntervalInSeconds = 0
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
         remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
@@ -71,7 +70,6 @@ class MainActivity :
                     showUpdatePopUp(updated.appVersion, updated.appForceUpdate)
                 } else {
                     // todo fetch and activate 실패일 경우
-//                    Timber.tag("appInfoUpdate 실패에요").d("$appInfo")
                 }
             }
     }
@@ -88,12 +86,45 @@ class MainActivity :
         val versionName = BuildConfig.VERSION_NAME
         val currentVersion = Scanner(versionName.replace("\\D+".toRegex(), "")).nextInt()
         if (fetchUpdateVersion > currentVersion) {
-            AlertDialog.Builder(this)
-                .setTitle(R.string.app_version_update_title)
-                .setPositiveButton("확인") { _, _ -> openUpdatePage() }
-                .setNegativeButton("취소") { _, _ -> }
-                .show()
+            checkForceUpdate(force)
         }
+        if (fetchUpdateVersion > currentVersion + 1) { // 업데이트가 2번 이뤄진 경우를 위한
+            SharedPreferences.setBoolean(
+                CHECK_SHOW_UPDATE_DIALOG,
+                false,
+            )
+        }
+    }
+    // 현재 버전보다 높으면 무조건 보여저야 된다.
+    // 현재버전보다 높은 경우 처음 보여준 경우가 아니라면 취소/확인을 눌렀겠지?
+    // 취소를 누른경우에는 true를 저장
+
+    // 다시 처음 뷰에 드러왔을 경우 취소를 누른 경우에는 현재 버전보다 앱 버전이 높은데 shared에 true가 저장되어있으면 보여주면 안됨
+
+    private fun checkForceUpdate(forceUpdate: Boolean) {
+        if (forceUpdate) {
+            createDialog(openUpdatePage(), closeAppOnCancelUpdate())
+        } else { // 강제 업데이트가 아닌경우
+            if (!SharedPreferences.getBoolean(CHECK_SHOW_UPDATE_DIALOG)) { // 강제업데이트가 아닌데 취소를 눌렀던 경우
+                createDialog(
+                    openUpdatePage(),
+                    SharedPreferences.setBoolean(
+                        CHECK_SHOW_UPDATE_DIALOG,
+                        true,
+                    ),
+                )
+            }
+        }
+    }
+
+    private fun closeAppOnCancelUpdate() {}
+
+    private fun createDialog(ok: Unit, cancel: Unit) {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.app_version_update_title)
+            .setPositiveButton("확인") { _, _ -> ok }
+            .setNegativeButton("취소") { _, _ -> cancel }
+            .show()
     }
 
     private fun openUpdatePage() {
@@ -197,7 +228,7 @@ class MainActivity :
     companion object {
         const val BLANK = ""
         const val REQUEST_PHONE_STATE_OR_NUMBERS_CODE = 0
-        const val FORCE_UPDATE = "force_update"
+        const val CHECK_SHOW_UPDATE_DIALOG = "CHECK_SHOW_UPDATE_DIALOG"
         private const val REMOTE_KEY_APP_INFO = "app_info"
     }
 }
