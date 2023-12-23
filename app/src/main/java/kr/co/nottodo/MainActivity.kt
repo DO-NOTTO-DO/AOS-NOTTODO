@@ -17,6 +17,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import kotlinx.serialization.json.Json
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.data.local.UpdateAppInfo
 import kr.co.nottodo.databinding.ActivityMainBinding
@@ -27,7 +28,6 @@ import kr.co.nottodo.presentation.home.view.HomeFragment
 import kr.co.nottodo.presentation.mypage.view.MyPageFragment
 import kr.co.nottodo.util.showToast
 import kr.co.nottodo.view.calendar.monthly.util.navigateToGooglePlayStore
-import org.json.JSONObject
 import java.util.Scanner
 
 class MainActivity :
@@ -35,6 +35,10 @@ class MainActivity :
     OnFragmentChangedListener,
     OnWithdrawalDialogDismissListener {
     private lateinit var binding: ActivityMainBinding
+    val json = Json {
+        prettyPrint = true
+        ignoreUnknownKeys = true
+    }
     private val navController by lazy {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
@@ -55,7 +59,7 @@ class MainActivity :
     private fun initializeFirebaseRemoteConfig() {
         val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
         val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600
+            minimumFetchIntervalInSeconds = 0
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
         remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
@@ -74,12 +78,8 @@ class MainActivity :
             }
     }
 
-    private fun parseAppInfoJson(json: String): UpdateAppInfo {
-        val jsonObject = JSONObject(json)
-        return UpdateAppInfo(
-            appVersion = jsonObject.getInt("app_version"),
-            appForceUpdate = jsonObject.getBoolean("force_update"),
-        )
+    private fun parseAppInfoJson(jsonFomServer: String): UpdateAppInfo {
+        return json.decodeFromString<UpdateAppInfo>(jsonFomServer)
     }
 
     private fun showUpdatePopUp(fetchUpdateVersion: Int, force: Boolean) {
