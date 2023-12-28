@@ -98,7 +98,7 @@ class MainActivity :
 
     private fun checkForceUpdate(forceUpdate: Boolean) {
         if (forceUpdate) {
-            createDialog(openUpdatePage(), closeAppOnCancelUpdate())
+            createDialog(openUpdatePage())
         } else { // 강제 업데이트가 아닌경우
             if (!SharedPreferences.getBoolean(CHECK_SHOW_UPDATE_DIALOG)) { // 강제업데이트가 아닌데 취소를 눌렀던 경우
                 createDialog(
@@ -112,9 +112,7 @@ class MainActivity :
         }
     }
 
-    private fun closeAppOnCancelUpdate() {}
-
-    private fun createDialog(ok: Unit, cancel: Unit) {
+    private fun createDialog(ok: Unit, cancel: Unit? = null) {
         AlertDialog.Builder(this)
             .setTitle(R.string.app_version_update_title)
             .setPositiveButton("확인") { _, _ -> ok }
