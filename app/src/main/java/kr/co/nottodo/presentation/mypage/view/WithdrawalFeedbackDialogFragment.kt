@@ -60,7 +60,7 @@ class WithdrawalFeedbackDialogFragment : DialogFragment() {
 
         binding.btnFeedback.setOnClickListener {
             val intent = Intent(
-                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_feedback))
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_feedback_withdrawal))
             )
             resultLauncher.launch(intent)
         }
