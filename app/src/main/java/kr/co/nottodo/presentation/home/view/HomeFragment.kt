@@ -58,7 +58,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         initAdapter()
         homeViewModel.getHomeDaily(weeklyData)
         setActivityBackgroundColor()
-        observerDailyTodo()
+        observeDailyTodo()
         observerData()
         clickFloatingBtn()
         showErrorToast()
@@ -91,7 +91,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         }
     }
 
-    private fun observerDailyTodo() {
+    private fun observeDailyTodo() {
         homeViewModel.getHomeDaily.observe(viewLifecycleOwner) { homeDaily ->
             if (homeDaily.isEmpty()) {
                 binding.clHomeMain.visibility = View.VISIBLE
