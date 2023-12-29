@@ -200,7 +200,7 @@
     <string name="modification_modify_nottodo">낫투두 수정</string>
     <string name="package_package_name">package:%s</string>
     <string name="context_can_not_cast_as">context can not cast as %s</string>
-    <string name="url_feedback">https://forms.gle/sXWnpYjYFuhVXxB38</string>
+    <string name="url_feedback_withdrawal">https://forms.gle/sXWnpYjYFuhVXxB38</string>
     <string name="_is_null">%s is null</string>
     <string name="how_to_use">사용 방법</string>
     <string name="on_dialog_dismiss_listener">OnDialogDismissListener</string>
@@ -280,6 +280,13 @@
     <string name="agree">허용</string>
     <string name="disagree">허용 안함</string>
     <string name="notification_permission_request_complete">네, 알겠어요 :)</string>
+    <string name="common_dialog_title">1분 서비스 피드백하고\n기프티콘 받아가세요!</string>
+    <string name="common_dialog_desc">매주 추첨을 통해 스타벅스 기프티콘을 드려요</string>
+    <string name="common_dialog_button_text">이정도야 쉽지!</string>
+    <string name="do_not_look_anymore">더 이상 보지 않기</string>
+    <string name="close">닫기</string>
+    <string name="cd_do_not_look_anymore_checkbox">더 이상 보지 않기 체크박스</string>
+    <string name="url_feedback_after_use">https://forms.gle/rWFJrpVv1RqHwTg28</string>
 
     <!--Update Dialog-->
     <string name="app_version_update_title">최신 업데이트가 있습니다. 업데이트 하시겠습니까?</string>

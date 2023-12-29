@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="kr.co.nottodo.presentation.common.viewmodel.CommonDialogViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_common_dialog_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="28dp"
+            android:gravity="center"
+            android:text="@string/common_dialog_title"
+            android:textAppearance="@style/B18"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_common_dialog_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="@string/common_dialog_desc"
+            android:textAppearance="@style/M12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_common_dialog_title" />
+
+        <ImageView
+            android:id="@+id/iv_common_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@null"
+            android:src="@drawable/img_service_feedback"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_common_dialog_desc" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_common_dialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="37dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rectangle_radius_20"
+            android:backgroundTint="@color/black"
+            android:minHeight="0dp"
+            android:onClick="@{() -> vm.onBtnClickEvent()}"
+            android:paddingTop="10dp"
+            android:paddingBottom="12dp"
+            android:text="@string/common_dialog_button_text"
+            android:textAppearance="@style/M13"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_common_dialog" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_common_dialog_bottom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:background="@color/gray_5_d8d8e5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_common_dialog">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> vm.changeIsCheckBoxChecked()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:id="@+id/iv_common_dialog_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:contentDescription="@string/cd_do_not_look_anymore_checkbox"
+                    android:src="@drawable/selector_dialog_check"
+                    app:selected="@{vm.isCheckBoxChecked()}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/do_not_look_anymore"
+                    android:textAppearance="@style/M13"
+                    android:textColor="@color/gray_3_5d5d6b" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_common_dialog_dismiss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="4dp"
+                android:onClick="@{() -> vm.onDismissTvClickEvent()}"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="13dp"
+                android:text="@string/close"
+                android:textAppearance="@style/M13"
+                android:textColor="@color/gray_3_5d5d6b"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
