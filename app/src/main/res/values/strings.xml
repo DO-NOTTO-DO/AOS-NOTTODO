@@ -88,6 +88,7 @@
     <string name="you_can_not_sync_history">로그아웃을 하면\n다른 기기와 낫투두 기록을 연동하지 못해요.</string>
     <string name="do_you_want_to_logout">로그아웃 하시겠습니까?</string>
     <string name="cancel">취소</string>
+    <string name="ok">확인</string>
     <string name="view_signin">view_signin</string>
     <string name="click_signin">click_signin</string>
     <string name="provider">provider</string>

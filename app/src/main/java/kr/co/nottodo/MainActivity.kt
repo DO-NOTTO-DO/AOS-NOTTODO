@@ -1,5 +1,6 @@
 package kr.co.nottodo
 
+import android.content.ContextWrapper
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -35,10 +36,7 @@ class MainActivity :
     OnFragmentChangedListener,
     OnWithdrawalDialogDismissListener {
     private lateinit var binding: ActivityMainBinding
-    val json = Json {
-        prettyPrint = true
-        ignoreUnknownKeys = true
-    }
+
     private val navController by lazy {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
@@ -78,6 +76,11 @@ class MainActivity :
             }
     }
 
+    private val json = Json {
+        prettyPrint = true
+        ignoreUnknownKeys = true
+    }
+
     private fun parseAppInfoJson(jsonFomServer: String): UpdateAppInfo {
         return json.decodeFromString<UpdateAppInfo>(jsonFomServer)
     }
@@ -115,13 +118,13 @@ class MainActivity :
     private fun createDialog(ok: Unit, cancel: Unit? = null) {
         AlertDialog.Builder(this)
             .setTitle(R.string.app_version_update_title)
-            .setPositiveButton("확인") { _, _ -> ok }
-            .setNegativeButton("취소") { _, _ -> cancel }
+            .setPositiveButton(R.string.ok) { _, _ -> ok }
+            .setNegativeButton(R.string.cancel) { _, _ -> cancel }
             .show()
     }
 
     private fun openUpdatePage() {
-        navigateToGooglePlayStore("kr.co.nottodo")
+        navigateToGooglePlayStore(ContextWrapper.p)
     }
 
     private fun setBottomNavigationView() {
