@@ -1,6 +1,6 @@
 package kr.co.nottodo
 
-import android.content.ContextWrapper
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -124,7 +124,7 @@ class MainActivity :
     }
 
     private fun openUpdatePage() {
-        navigateToGooglePlayStore(ContextWrapper.p)
+        navigateToGooglePlayStore(this.packageName)
     }
 
     private fun setBottomNavigationView() {
