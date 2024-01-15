@@ -156,6 +156,7 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
     }
 
     private fun writeDirectTvClickEvent() {
+        //여기자나 필요없어요 직접할게요 누르면 생성되는 곳
         binding.tvRecommendActionWriteDirect.setOnClickListener {
             trackSelfCreateActionEvent()
             ToAdditionUiModel(
@@ -163,12 +164,7 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
                 situation = toRecommendActionUiModel.situation,
                 actionList = emptyList()
             ).also {
-                startActivity(
-                    Intent(context, AdditionActivity::class.java).putExtra(
-                        MISSION_ACTION_DETAIL, it
-                    )
-                )
-                if (!requireActivity().isFinishing) requireActivity().finish()
+                navigateToAdditionFragment()
             }
         }
     }
