@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -19,7 +20,7 @@ import kr.co.nottodo.presentation.login.view.LoginActivity
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 import kr.co.nottodo.presentation.mypage.viewmodel.MyPageInformationNewViewModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
-
+import timber.log.Timber
 
 class MyPageInformationFragment :
     DataBindingFragment<FragmentMyPageInformationBinding>(R.layout.fragment_my_page_information) {
@@ -70,8 +71,9 @@ class MyPageInformationFragment :
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             viewModel.setIsNotificationPermissionValid(
                 isNotificationPermissionValid = ContextCompat.checkSelfPermission(
-                    requireContext(), Manifest.permission.POST_NOTIFICATIONS
-                ) == PERMISSION_GRANTED
+                    requireContext(),
+                    Manifest.permission.POST_NOTIFICATIONS,
+                ) == PERMISSION_GRANTED,
             )
         } else {
             viewModel.setIsNotificationPermissionValid(isNotificationPermissionValid = true)
@@ -79,10 +81,20 @@ class MyPageInformationFragment :
     }
 
     private fun setNotificationPermissionSwitchChecked() {
+//        var isSwitchCheck = binding.switchMyPageInformationNotificationPermission.isChecked
+        val isSystemSwitch = context?.let {
+            NotificationManagerCompat.from(it).areNotificationsEnabled()
+        }
         binding.switchMyPageInformationNotificationPermission.isChecked =
             SharedPreferences.getBoolean(
-                DID_USER_CHOOSE_TO_BE_NOTIFIED
+                DID_USER_CHOOSE_TO_BE_NOTIFIED,
             )
+        Timber.tag("here").d("1 $isSystemSwitch")
+        Timber.tag("here").d("2 ${binding.switchMyPageInformationNotificationPermission.isChecked}")
+        if (binding.switchMyPageInformationNotificationPermission.isChecked !== isSystemSwitch) {
+            binding.switchMyPageInformationNotificationPermission.isChecked = isSystemSwitch!!
+            Timber.tag("here").d("$isSystemSwitch")
+        }
     }
 
     private fun setCheckedChangeEvents() {
@@ -90,12 +102,46 @@ class MyPageInformationFragment :
     }
 
     private fun setNotificationPermissionSwitchCheckedChangeEvent() {
+        val isSystemSwitch = context?.let {
+            NotificationManagerCompat.from(it).areNotificationsEnabled()
+        }
         binding.switchMyPageInformationNotificationPermission.setOnCheckedChangeListener { _, isChecked ->
+            gotoSystemSetting(isSystemSwitch!!, isChecked)
             if (isChecked) {
                 trackEvent(getString(R.string.complete_push_on))
             } else {
                 trackEvent(getString(R.string.complete_push_off))
             }
+        }
+    }
+
+    private fun gotoSystemSetting(isSystemSwitch: Boolean, isAppCheck: Boolean) {
+        if (isSystemSwitch !== isAppCheck) {
+            val intent = when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                    Intent().apply {
+                        action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                        putExtra(Settings.EXTRA_APP_PACKAGE, activity?.packageName)
+                    }
+                }
+
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
+                    Intent().apply {
+                        action = "android.settings.APP_NOTIFICATION_SETTINGS"
+                        putExtra("app_package", activity?.packageName)
+                        putExtra("app_uid", activity?.applicationInfo?.uid)
+                    }
+                }
+
+                else -> {
+                    Intent().apply {
+                        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                        addCategory(Intent.CATEGORY_DEFAULT)
+                        data = Uri.parse("package:${activity?.packageName}")
+                    }
+                }
+            }
+            startActivity(intent)
         }
     }
 
@@ -107,10 +153,9 @@ class MyPageInformationFragment :
     private fun setDidUserChooseToBeNotified() {
         SharedPreferences.setBoolean(
             DID_USER_CHOOSE_TO_BE_NOTIFIED,
-            binding.switchMyPageInformationNotificationPermission.isChecked
+            binding.switchMyPageInformationNotificationPermission.isChecked,
         )
     }
-
 
     private fun setClickEvents() {
         setAlarmLayoutClickEvent()
@@ -123,12 +168,14 @@ class MyPageInformationFragment :
         binding.layoutMyPageInformationAlarm.setOnClickListener {
             startActivity(
                 Intent(
-                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse(
                         getString(
-                            R.string.package_package_name, requireContext().packageName
-                        )
-                    )
-                )
+                            R.string.package_package_name,
+                            requireContext().packageName,
+                        ),
+                    ),
+                ),
             )
         }
     }
@@ -136,7 +183,8 @@ class MyPageInformationFragment :
     private fun setMemberWithdrawalTvClickEvent() {
         binding.tvMyPageInformationMemberWithdrawal.setOnClickListener {
             withdrawalDialogFragment.show(
-                requireActivity().supportFragmentManager, withdrawalDialogFragment.tag
+                requireActivity().supportFragmentManager,
+                withdrawalDialogFragment.tag,
             )
         }
     }
@@ -149,7 +197,8 @@ class MyPageInformationFragment :
 
     private fun startMyPageLogoutDialog() {
         myPageLogoutDialogFragment.show(
-            requireActivity().supportFragmentManager, myPageLogoutDialogFragment.tag
+            requireActivity().supportFragmentManager,
+            myPageLogoutDialogFragment.tag,
         )
     }
 
