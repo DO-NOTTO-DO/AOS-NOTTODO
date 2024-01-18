@@ -15,7 +15,7 @@ import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
-import kr.co.nottodo.presentation.addition.view.AdditionActivity.Companion.FIRST_DATE
+import kr.co.nottodo.presentation.addition.view.AdditionFragment.Companion.FIRST_DATE
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.PublicString.DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT
@@ -64,7 +64,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         showErrorToast()
         setWeeklyDate()
         weeklyDayClick()
-        firsetDayGet()
+        firstDayGet()
         navigateToNotificationPermissionRequestFragment()
         trackEvent(getString(R.string.view_home))
     }
@@ -163,7 +163,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         )
     }
 
-    private fun firsetDayGet() {
+    private fun firstDayGet() {
         binding.weeklyCalendar.moveToDate(
             arguments?.getString(FIRST_DATE)?.replace('.', '-')?.convertToLocalDate()
                 ?: LocalDate.now(),
