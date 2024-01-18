@@ -1,6 +1,5 @@
 package kr.co.nottodo.presentation.recommend.mission.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +9,11 @@ import androidx.navigation.fragment.findNavController
 import kr.co.nottodo.R
 import kr.co.nottodo.data.remote.model.recommendation.mission.ResponseRecommendMissionListDto.Mission
 import kr.co.nottodo.databinding.FragmentRecommendMissionBinding
-import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.recommend.mission.adapter.RecommendMissionAdapter
 import kr.co.nottodo.presentation.recommend.mission.adapter.RecommendMissionAdapter.RecommendMissionItemDecoration
 import kr.co.nottodo.presentation.recommend.mission.viewmodel.RecommendMissionViewModel
+import kr.co.nottodo.presentation.recommend.model.ToAdditionUiModel
 import kr.co.nottodo.presentation.recommend.model.ToRecommendActionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
@@ -74,9 +73,11 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
 
     private fun trackClickRecommendMission(title: String, situation: String) {
         trackEventWithProperty(
-            getString(R.string.click_recommend_mission), mapOf(
-                getString(R.string.situation) to situation, getString(R.string.title) to title
-            )
+            getString(R.string.click_recommend_mission),
+            mapOf(
+                getString(R.string.situation) to situation,
+                getString(R.string.title) to title,
+            ),
         )
     }
 
@@ -84,7 +85,7 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
         data.run {
             val toRecommendActionUiModel = ToRecommendActionUiModel(id, title, situation, image)
             RecommendMissionFragmentDirections.actionRecommendMissionFragmentToRecommendActionFragment(
-                toRecommendActionUiModel
+                toRecommendActionUiModel,
             ).also { action ->
                 findNavController().navigate(action)
             }
@@ -105,11 +106,13 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
     private fun setWriteDirectlyBtnClickEvent() {
         binding.fabRecommendMissionWriteDirectly.setOnClickListener {
             trackEvent(getString(R.string.click_self_create_mission))
-            startActivity(Intent(requireContext(), AdditionActivity::class.java))
-            if (!requireActivity().isFinishing) requireActivity().finish()
+            RecommendMissionFragmentDirections.actionRecommendMissionFragmentToAdditionFragment(
+                ToAdditionUiModel(),
+            ).also { action ->
+                findNavController().navigate(action)
+            }
         }
     }
-
 
     private fun setObservers() {
         setRecommendMissionObserver()
@@ -128,9 +131,12 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
 
     private fun setRecommendMissionFailureObserver() {
         viewModel.recommendMissionListErrorResponse.observe(viewLifecycleOwner) { errorMessage ->
-            if (errorMessage == NO_INTERNET_CONDITION_ERROR) requireContext().showNotTodoSnackBar(
-                binding.root, NO_INTERNET_CONDITION_ERROR
-            ) else {
+            if (errorMessage == NO_INTERNET_CONDITION_ERROR) {
+                requireContext().showNotTodoSnackBar(
+                    binding.root,
+                    NO_INTERNET_CONDITION_ERROR,
+                )
+            } else {
                 requireContext().showToast(errorMessage)
             }
             recommendMissionAdapter?.submitList(emptyList())
