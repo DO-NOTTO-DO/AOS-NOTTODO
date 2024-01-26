@@ -81,7 +81,6 @@ class MyPageInformationFragment :
     }
 
     private fun setNotificationPermissionSwitchChecked() {
-//        var isSwitchCheck = binding.switchMyPageInformationNotificationPermission.isChecked
         val isSystemSwitch = context?.let {
             NotificationManagerCompat.from(it).areNotificationsEnabled()
         }
@@ -89,11 +88,8 @@ class MyPageInformationFragment :
             SharedPreferences.getBoolean(
                 DID_USER_CHOOSE_TO_BE_NOTIFIED,
             )
-        Timber.tag("here").d("1 $isSystemSwitch")
-        Timber.tag("here").d("2 ${binding.switchMyPageInformationNotificationPermission.isChecked}")
         if (binding.switchMyPageInformationNotificationPermission.isChecked !== isSystemSwitch) {
             binding.switchMyPageInformationNotificationPermission.isChecked = isSystemSwitch!!
-            Timber.tag("here").d("$isSystemSwitch")
         }
     }
 
