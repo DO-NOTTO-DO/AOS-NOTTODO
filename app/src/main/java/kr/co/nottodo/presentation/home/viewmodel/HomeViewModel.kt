@@ -1,4 +1,4 @@
-package kr.co.nottodo.presentation.home.view
+package kr.co.nottodo.presentation.home.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -43,7 +43,7 @@ class HomeViewModel : ViewModel() {
     private val _deleteTodo: MutableLiveData<Boolean> =
         MutableLiveData()
     val clickDay: MutableLiveData<String> = MutableLiveData()
-
+    val getFirstDateOnAdd: MutableLiveData<String> = MutableLiveData()
     val errorMessage: MutableLiveData<String> = MutableLiveData()
 
     fun getHomeDaily(date: String) {

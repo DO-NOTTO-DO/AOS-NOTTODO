@@ -1,6 +1,5 @@
 package kr.co.nottodo.presentation.addition.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -9,9 +8,10 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.core.text.HtmlCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
@@ -19,6 +19,7 @@ import kr.co.nottodo.databinding.FragmentAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionNewViewModel
 import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
+import kr.co.nottodo.presentation.home.viewmodel.HomeViewModel
 import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.PublicString.EMPTY_STRING
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
@@ -36,6 +37,7 @@ import java.util.Date
 
 class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.fragment_addition) {
     private val viewModel by viewModels<AdditionNewViewModel>()
+    private val homeViewModel by activityViewModels<HomeViewModel>()
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
     private val args: AdditionFragmentArgs by navArgs()
     private val toAdditionFragmentUiModel by lazy {
@@ -238,12 +240,8 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
     }
 
     private fun navigateToMainWithFirstDay(firstDate: String) {
-        startActivity(
-            Intent(requireContext(), MainActivity::class.java).setFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK,
-            ).putExtra(FIRST_DATE, firstDate),
-        )
-        if (!requireActivity().isFinishing) requireActivity().finish()
+        homeViewModel.getFirstDateOnAdd.value = firstDate
+        findNavController().popBackStack()
     }
 
     private fun setActions() {

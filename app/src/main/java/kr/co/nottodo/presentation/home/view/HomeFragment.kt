@@ -15,7 +15,7 @@ import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.FragmentHomeBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
-import kr.co.nottodo.presentation.addition.view.AdditionFragment.Companion.FIRST_DATE
+import kr.co.nottodo.presentation.home.viewmodel.HomeViewModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 import kr.co.nottodo.util.PublicString.DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT
@@ -164,10 +164,14 @@ class HomeFragment : Fragment(), DialogCloseListener {
     }
 
     private fun firstDayGet() {
-        binding.weeklyCalendar.moveToDate(
-            arguments?.getString(FIRST_DATE)?.replace('.', '-')?.convertToLocalDate()
-                ?: LocalDate.now(),
-        )
+        Timber.tag("firstDay").d("")
+        // 추가하기에서 가장 최근 날짜 값 가져오기
+        homeViewModel.getFirstDateOnAdd.observe(viewLifecycleOwner) {
+            binding.weeklyCalendar.moveToDate(
+                arguments?.getString(it)?.replace('.', '-')?.convertToLocalDate()
+                    ?: LocalDate.now(),
+            )
+        }
     }
 
     private fun navigateToNotificationPermissionRequestFragment() {
@@ -208,7 +212,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
 
     override fun onDeleteButtonClicked() {
         Timber.tag("interface3").d("$weeklyData")
-//        homeViewModel.getHomeDaily(weeklyData)
         homeViewModel.getHomeWeekly(binding.weeklyCalendar.getCurrentSundayDate().toString())
     }
 
