@@ -37,11 +37,7 @@
             android:name=".presentation.onboard.view.OnboardActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.addition.view.AdditionActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+
         <activity
             android:name=".presentation.login.view.LoginActivity"
             android:exported="false"
@@ -57,20 +53,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.modification.view.ModificationActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
             android:name=".presentation.mypage.view.MyPageInformationActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.recommend.mission.view.RecommendMissionActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".presentation.recommend.action.view.RecommendActionActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

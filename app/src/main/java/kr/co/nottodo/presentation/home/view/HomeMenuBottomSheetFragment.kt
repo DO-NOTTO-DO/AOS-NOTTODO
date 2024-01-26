@@ -20,6 +20,7 @@ import kr.co.nottodo.databinding.FragmentHomeMenuBottomSheetBinding
 import kr.co.nottodo.databinding.ItemHomeBottomActionsBinding
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.CLICK_DAY
 import kr.co.nottodo.presentation.home.view.HomeFragment.Companion.MISSION_ID
+import kr.co.nottodo.presentation.home.viewmodel.HomeViewModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithPropertyList
 import kr.co.nottodo.view.snackbar.NotTodoSnackbar

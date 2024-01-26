@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ToAdditionUiModel(
-    val title: String,
-    val situation: String,
-    val actionList: List<String>,
+    val title: String = "",
+    val situation: String = "",
+    val actionList: List<String> = emptyList(),
 ) : Parcelable

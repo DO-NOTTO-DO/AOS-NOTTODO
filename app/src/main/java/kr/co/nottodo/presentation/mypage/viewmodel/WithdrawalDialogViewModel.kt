@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.launch
 import kr.co.nottodo.data.remote.api.ServicePool.myPageService
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
@@ -23,6 +24,7 @@ class WithdrawalDialogViewModel : ViewModel() {
                 myPageService.withdrawal()
             }.fold(onSuccess = { response ->
                 _withdrawalSuccessResponse.value = response.isSuccessful
+                UserApiClient.instance.unlink { }
             }, onFailure = { error ->
                 _withdrawalErrorResponse.value =
                     if (error.isConnectException) NO_INTERNET_CONDITION_ERROR else error.message

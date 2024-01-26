@@ -1,6 +1,5 @@
 package kr.co.nottodo.presentation.addition.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -9,9 +8,10 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.core.text.HtmlCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
@@ -19,6 +19,7 @@ import kr.co.nottodo.databinding.FragmentAdditionBinding
 import kr.co.nottodo.presentation.addition.adapter.MissionHistoryAdapter
 import kr.co.nottodo.presentation.addition.viewmodel.AdditionNewViewModel
 import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
+import kr.co.nottodo.presentation.home.viewmodel.HomeViewModel
 import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.PublicString.EMPTY_STRING
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
@@ -36,6 +37,7 @@ import java.util.Date
 
 class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.fragment_addition) {
     private val viewModel by viewModels<AdditionNewViewModel>()
+    private val homeViewModel by activityViewModels<HomeViewModel>()
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
     private val args: AdditionFragmentArgs by navArgs()
     private val toAdditionFragmentUiModel by lazy {
@@ -114,7 +116,9 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
 
     private fun trackSetMissionName(missionName: String) {
         NotTodoAmplitude.trackEventWithProperty(
-            getString(R.string.click_mission_history), getString(R.string.title), missionName
+            getString(R.string.click_mission_history),
+            getString(R.string.title),
+            missionName,
         )
     }
 
@@ -147,7 +151,7 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
     private fun String.showErrorMessage(isHtmlTagExist: Boolean = false) {
         when (this) {
             NO_INTERNET_CONDITION_ERROR -> binding.root.showNotTodoSnackBar(
-                NO_INTERNET_CONDITION_ERROR
+                NO_INTERNET_CONDITION_ERROR,
             )
 
             else -> {
@@ -157,7 +161,7 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
                     requireContext().showNotTodoSnackBar(binding.root, errorMessageWithHtmlTag)
                 } else {
                     binding.root.showNotTodoSnackBar(
-                        this
+                        this,
                     )
                     trackAdditionFailureEvent(this)
                 }
@@ -167,9 +171,11 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
 
     private fun observeGetRecentMissionListSuccessResponse() {
         viewModel.getRecentMissionListSuccessResponse.observe(viewLifecycleOwner) { response ->
-            missionHistoryAdapter?.submitList(response.data.map { recentMission ->
-                recentMission.title
-            })
+            missionHistoryAdapter?.submitList(
+                response.data.map { recentMission ->
+                    recentMission.title
+                },
+            )
         }
     }
 
@@ -218,25 +224,24 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
             val completeCreateMissionEventPropertyMap = mutableMapOf<String, Any>(
                 getString(R.string.date) to dates.map { date -> date.convertDateStringToInt() },
                 getString(R.string.title) to title,
-                getString(R.string.situation) to situation
+                getString(R.string.situation) to situation,
             )
             if (goal != null) completeCreateMissionEventPropertyMap.plus(getString(R.string.goal) to goal)
-            if (actions != null) completeCreateMissionEventPropertyMap.plus(
-                getString(R.string.action) to actions.toTypedArray()
-            )
+            if (actions != null) {
+                completeCreateMissionEventPropertyMap.plus(
+                    getString(R.string.action) to actions.toTypedArray(),
+                )
+            }
             NotTodoAmplitude.trackEventWithProperty(
-                getString(R.string.complete_create_mission), completeCreateMissionEventPropertyMap
+                getString(R.string.complete_create_mission),
+                completeCreateMissionEventPropertyMap,
             )
         }
     }
 
     private fun navigateToMainWithFirstDay(firstDate: String) {
-        startActivity(
-            Intent(requireContext(), MainActivity::class.java).setFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            ).putExtra(FIRST_DATE, firstDate)
-        )
-        if (!requireActivity().isFinishing) requireActivity().finish()
+        homeViewModel.getFirstDateOnAdd.value = firstDate
+        findNavController().popBackStack()
     }
 
     private fun setActions() {
@@ -325,12 +330,17 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
     }
 
     private fun setFinishButtonClickEvent() {
-        binding.ivAdditionDelete.setOnClickListener { if (!requireActivity().isFinishing) requireActivity().finish() }
+        binding.ivAdditionDelete.setOnClickListener {
+            if (!requireActivity().isFinishing) {
+                requireActivity().supportFragmentManager.popBackStack()
+            }
+        }
     }
 
     private fun setSituationRecommendations(situationList: List<String>) {
         binding.layoutAdditionSituationRecommend.addButtons(
-            situationList, binding.etAdditionSituation
+            situationList,
+            binding.etAdditionSituation,
         )
     }
 
@@ -356,7 +366,7 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
                 situation = viewModel.situation.value ?: throw NullPointerException(),
                 actions = actionList,
                 goal = goal,
-                dates = dateList
+                dates = dateList,
             )
             trackClickCreateMission(requestAdditionDto)
             viewModel.postNottodo(requestAdditionDto)
@@ -368,14 +378,17 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
             val clickCreateMissionEventPropertyMap = mutableMapOf<String, Any>(
                 getString(R.string.date) to dates.map { date -> date.convertDateStringToInt() },
                 getString(R.string.title) to title,
-                getString(R.string.situation) to situation
+                getString(R.string.situation) to situation,
             )
             if (goal != null) clickCreateMissionEventPropertyMap.plus(getString(R.string.goal) to goal)
-            if (actions != null) clickCreateMissionEventPropertyMap.plus(
-                getString(R.string.action) to actions.toTypedArray()
-            )
+            if (actions != null) {
+                clickCreateMissionEventPropertyMap.plus(
+                    getString(R.string.action) to actions.toTypedArray(),
+                )
+            }
             NotTodoAmplitude.trackEventWithProperty(
-                getString(R.string.click_create_mission), clickCreateMissionEventPropertyMap
+                getString(R.string.click_create_mission),
+                clickCreateMissionEventPropertyMap,
             )
         }
     }
@@ -490,15 +503,19 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
             }
         }
 
-        if (selectedDays.containToday()) binding.tvAdditionDateStartDesc.apply {
-            visibility = View.VISIBLE
-            text = getString(R.string.today)
-            return
+        if (selectedDays.containToday()) {
+            binding.tvAdditionDateStartDesc.apply {
+                visibility = View.VISIBLE
+                text = getString(R.string.today)
+                return
+            }
         }
-        if (selectedDays.containTomorrow()) binding.tvAdditionDateStartDesc.apply {
-            visibility = View.VISIBLE
-            text = getString(R.string.tomorrow)
-            return
+        if (selectedDays.containTomorrow()) {
+            binding.tvAdditionDateStartDesc.apply {
+                visibility = View.VISIBLE
+                text = getString(R.string.tomorrow)
+                return
+            }
         }
 
         binding.tvAdditionDateStartDesc.visibility = View.GONE
@@ -532,9 +549,13 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
 
     private fun openActionToggle() {
         viewModel.isActionToggleVisible.value = true
-        if ((viewModel.actionCount.value
-                ?: 0) < 3
-        ) requestFocusWithShowingKeyboard(binding.etAdditionAction)
+        if ((
+                viewModel.actionCount.value
+                    ?: 0
+                ) < 3
+        ) {
+            requestFocusWithShowingKeyboard(binding.etAdditionAction)
+        }
     }
 
     private fun closeActionToggle() {
@@ -572,32 +593,32 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
                 ForegroundColorSpan(requireContext().getColor(R.color.white)),
                 0,
                 this.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
             )
             setSpan(
                 ForegroundColorSpan(requireContext().getColor(R.color.green_1_98ffa9)),
                 3,
                 6,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
             )
         }.also { spannedString -> binding.tvAdditionMissionOpenedDesc.text = spannedString }
     }
 
     private fun setSituationOpenedDescSpan() {
         SpannableStringBuilder(
-            getString(R.string.situation_desc)
+            getString(R.string.situation_desc),
         ).apply {
             setSpan(
                 ForegroundColorSpan(requireContext().getColor(R.color.white)),
                 0,
                 this.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
             )
             setSpan(
                 ForegroundColorSpan(requireContext().getColor(R.color.green_1_98ffa9)),
                 10,
                 12,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
             )
         }.also { spannedString -> binding.tvAdditionSituationOpenedDesc.text = spannedString }
     }
@@ -608,13 +629,13 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
                 ForegroundColorSpan(requireContext().getColor(R.color.white)),
                 0,
                 this.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
             )
             setSpan(
                 ForegroundColorSpan(requireContext().getColor(R.color.green_1_98ffa9)),
                 3,
                 5,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
             )
         }.also { spannedString -> binding.tvAdditionActionOpenedDesc.text = spannedString }
     }
@@ -625,13 +646,13 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
                 ForegroundColorSpan(requireContext().getColor(R.color.white)),
                 0,
                 this.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
             )
             setSpan(
                 ForegroundColorSpan(requireContext().getColor(R.color.green_1_98ffa9)),
                 12,
                 14,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
             )
         }.also { spannedString -> binding.tvAdditionGoalOpenedDesc.text = spannedString }
     }

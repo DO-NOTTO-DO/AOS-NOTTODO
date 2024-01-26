@@ -1,6 +1,5 @@
 package kr.co.nottodo.presentation.recommend.action.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,14 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import kr.co.nottodo.R
 import kr.co.nottodo.databinding.FragmentRecommendActionBinding
-import kr.co.nottodo.presentation.addition.view.AdditionActivity
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.recommend.action.adapter.RecommendActionAdapter
 import kr.co.nottodo.presentation.recommend.action.viewmodel.RecommendActionViewModel
 import kr.co.nottodo.presentation.recommend.model.ToAdditionUiModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
-import kr.co.nottodo.util.PublicString.MISSION_ACTION_DETAIL
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.showNotTodoSnackBar
 import kr.co.nottodo.util.showToast
@@ -163,12 +160,7 @@ class RecommendActionFragment : ViewBindingFragment<FragmentRecommendActionBindi
                 situation = toRecommendActionUiModel.situation,
                 actionList = emptyList()
             ).also {
-                startActivity(
-                    Intent(context, AdditionActivity::class.java).putExtra(
-                        MISSION_ACTION_DETAIL, it
-                    )
-                )
-                if (!requireActivity().isFinishing) requireActivity().finish()
+                navigateToAdditionFragment()
             }
         }
     }
