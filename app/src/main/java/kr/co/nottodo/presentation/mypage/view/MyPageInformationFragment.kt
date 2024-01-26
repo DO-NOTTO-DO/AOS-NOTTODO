@@ -20,7 +20,6 @@ import kr.co.nottodo.presentation.login.view.LoginActivity
 import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 import kr.co.nottodo.presentation.mypage.viewmodel.MyPageInformationNewViewModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
-import timber.log.Timber
 
 class MyPageInformationFragment :
     DataBindingFragment<FragmentMyPageInformationBinding>(R.layout.fragment_my_page_information) {
@@ -35,6 +34,7 @@ class MyPageInformationFragment :
         trackEnterMyPageInformation()
         setViews()
         setClickEvents()
+        setNotificationPermissionSwitchChecked()
     }
 
     private fun trackEnterMyPageInformation() {
@@ -59,7 +59,6 @@ class MyPageInformationFragment :
     override fun onResume() {
         super.onResume()
         setData()
-        setNotificationPermissionSwitchChecked()
         setCheckedChangeEvents()
     }
 
@@ -81,9 +80,7 @@ class MyPageInformationFragment :
     }
 
     private fun setNotificationPermissionSwitchChecked() {
-        val isSystemSwitch = context?.let {
-            NotificationManagerCompat.from(it).areNotificationsEnabled()
-        }
+        val isSystemSwitch = checkAlamSystem()
         binding.switchMyPageInformationNotificationPermission.isChecked =
             SharedPreferences.getBoolean(
                 DID_USER_CHOOSE_TO_BE_NOTIFIED,
@@ -93,16 +90,18 @@ class MyPageInformationFragment :
         }
     }
 
+    private fun checkAlamSystem() = context?.let {
+        NotificationManagerCompat.from(it).areNotificationsEnabled()
+    }
+
     private fun setCheckedChangeEvents() {
         setNotificationPermissionSwitchCheckedChangeEvent()
     }
 
     private fun setNotificationPermissionSwitchCheckedChangeEvent() {
-        val isSystemSwitch = context?.let {
-            NotificationManagerCompat.from(it).areNotificationsEnabled()
-        }
+        val isSystemSwitch = checkAlamSystem()
         binding.switchMyPageInformationNotificationPermission.setOnCheckedChangeListener { _, isChecked ->
-            gotoSystemSetting(isSystemSwitch!!, isChecked)
+            navigateToSystemSetting(isSystemSwitch!!, isChecked)
             if (isChecked) {
                 trackEvent(getString(R.string.complete_push_on))
             } else {
@@ -111,21 +110,13 @@ class MyPageInformationFragment :
         }
     }
 
-    private fun gotoSystemSetting(isSystemSwitch: Boolean, isAppCheck: Boolean) {
+    private fun navigateToSystemSetting(isSystemSwitch: Boolean, isAppCheck: Boolean) {
         if (isSystemSwitch !== isAppCheck) {
             val intent = when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
                     Intent().apply {
                         action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
                         putExtra(Settings.EXTRA_APP_PACKAGE, activity?.packageName)
-                    }
-                }
-
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
-                    Intent().apply {
-                        action = "android.settings.APP_NOTIFICATION_SETTINGS"
-                        putExtra("app_package", activity?.packageName)
-                        putExtra("app_uid", activity?.applicationInfo?.uid)
                     }
                 }
 
