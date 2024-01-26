@@ -85,7 +85,7 @@ class MyPageInformationFragment :
             SharedPreferences.getBoolean(
                 DID_USER_CHOOSE_TO_BE_NOTIFIED,
             )
-        if (binding.switchMyPageInformationNotificationPermission.isChecked !== isSystemSwitch) {
+        if (binding.switchMyPageInformationNotificationPermission.isChecked != isSystemSwitch) {
             binding.switchMyPageInformationNotificationPermission.isChecked = isSystemSwitch!!
         }
     }
@@ -111,7 +111,7 @@ class MyPageInformationFragment :
     }
 
     private fun navigateToSystemSetting(isSystemSwitch: Boolean, isAppCheck: Boolean) {
-        if (isSystemSwitch !== isAppCheck) {
+        if (isSystemSwitch != isAppCheck) {
             val intent = when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
                     Intent().apply {
