@@ -1,7 +1,6 @@
 package kr.co.nottodo.presentation.home.view
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +12,11 @@ import kr.co.nottodo.databinding.ItemListHomeTodoBinding
 import kr.co.nottodo.util.DiffUtilItemCallback
 import timber.log.Timber
 
-class HomeAdpater(
+class HomeAdapter(
     private val menuItemClick: (Long) -> Unit,
     private val todoItemClick: (Long, String) -> Unit,
 ) :
-    ListAdapter<HomeDailyResponse.HomeDaily, HomeAdpater.HomeViewHolder>(diffUtil) {
+    ListAdapter<HomeDailyResponse.HomeDaily, HomeAdapter.HomeViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val binding =
