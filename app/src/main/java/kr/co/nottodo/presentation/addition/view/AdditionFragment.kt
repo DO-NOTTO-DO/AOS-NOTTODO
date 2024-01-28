@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import kr.co.nottodo.MainActivityViewModel
 import kr.co.nottodo.R
 import kr.co.nottodo.data.remote.model.addition.RequestAdditionDto
 import kr.co.nottodo.data.remote.model.addition.ResponseAdditionDto
@@ -37,7 +38,8 @@ import java.util.Date
 
 class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.fragment_addition) {
     private val viewModel by viewModels<AdditionNewViewModel>()
-    private val homeViewModel by activityViewModels<HomeViewModel>()
+    private val mainViewModel by activityViewModels<MainActivityViewModel>()
+    private val homeModel by activityViewModels<HomeViewModel>()
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
     private val args: AdditionFragmentArgs by navArgs()
     private val toAdditionFragmentUiModel by lazy {
@@ -240,7 +242,8 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
     }
 
     private fun navigateToMainWithFirstDay(firstDate: String) {
-        homeViewModel.getFirstDateOnAdd.value = firstDate
+        mainViewModel.getFirstDateOnAdd.value = firstDate
+        homeModel.getFirstDateOnAdd.value = firstDate
         findNavController().popBackStack()
     }
 
