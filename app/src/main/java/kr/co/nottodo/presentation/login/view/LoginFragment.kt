@@ -7,22 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.launch
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityLoginBinding
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
-import kr.co.nottodo.presentation.common.view.CommonDialogFragment
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
 import kr.co.nottodo.util.NotTodoAmplitude.setAmplitudeUserId
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
-import kr.co.nottodo.util.PublicString.STOP_WATCHING_COMMON_DIALOG
+import kr.co.nottodo.util.PublicString.DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT
 import kr.co.nottodo.util.showToast
 import timber.log.Timber
 
@@ -46,21 +47,17 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
 
     private fun setAutoLogin() {
         if (!SharedPreferences.getString(USER_TOKEN).isNullOrBlank()) {
-            navigateToLoginFragment()
+            navigateToNextFragment()
         } else {
             trackEvent(getString(R.string.view_signin))
         }
     }
 
-    private fun navigateToLoginFragment() {
-        showCommonDialog()
-        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-    }
-
-    private fun showCommonDialog() {
-        if (SharedPreferences.getBoolean(STOP_WATCHING_COMMON_DIALOG)) return
-        CommonDialogFragment.newInstance().also {
-            it.show(parentFragmentManager, it.tag)
+    private fun navigateToNextFragment() {
+        if (!SharedPreferences.getBoolean(DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT)) {
+            findNavController().navigate(R.id.action_loginFragment_to_notificationPermissionRequestFragment)
+        } else {
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }
     }
 
@@ -84,6 +81,9 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
             } else if (socialToken != null) {
                 FirebaseMessaging.getInstance().token.addOnSuccessListener { fcmToken ->
                     viewModel.login(socialToken = socialToken.accessToken, fcmToken = fcmToken)
+                }.addOnFailureListener { firebaseException ->
+                    requireContext().showToast(getString(R.string.error_login_again_please))
+                    Timber.e(firebaseException)
                 }
             }
         }
@@ -145,16 +145,19 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
     }
 
     private fun observeGetTokenResult() {
-        viewModel.getTokenResult.observe(viewLifecycleOwner) { response ->
-            trackEventWithProperty(
-                getString(R.string.complete_signin), getString(R.string.provider), getString(
-                    R.string.kakao
+        lifecycleScope.launch {
+            viewModel.getTokenResult.collect { response ->
+                trackEventWithProperty(
+                    getString(R.string.complete_signin), getString(R.string.provider), getString(
+                        R.string.kakao
+                    )
                 )
-            )
-            setAmplitudeUserId(response.data.userId)
-            setUserInfo(response.data.accessToken)
-            navigateToLoginFragment()
+                setAmplitudeUserId(response.data.userId)
+                setUserInfo(response.data.accessToken)
+                navigateToNextFragment()
+            }
         }
+
         viewModel.getErrorResult.observe(viewLifecycleOwner) {
             UserApiClient.instance.logout { requireContext().showToast(getString(R.string.error_login_again_please)) }
         }
