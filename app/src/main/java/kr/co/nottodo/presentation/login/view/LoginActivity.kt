@@ -5,11 +5,13 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.launch
 import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
@@ -141,16 +143,19 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observeGetTokenResult() {
-        viewModel.getTokenResult.observe(this) { response ->
-            trackEventWithProperty(
-                getString(R.string.complete_signin), getString(R.string.provider), getString(
-                    R.string.kakao
+
+        lifecycleScope.launch {
+            viewModel.getTokenResult.collect { response ->
+                trackEventWithProperty(
+                    getString(R.string.complete_signin), getString(R.string.provider), getString(
+                        R.string.kakao
+                    )
                 )
-            )
-            setAmplitudeUserId(response.data.userId)
-            startActivity(Intent(this, MainActivity::class.java))
-            setUserInfo(response.data.accessToken)
-            if (!isFinishing) finish()
+                setAmplitudeUserId(response.data.userId)
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                setUserInfo(response.data.accessToken)
+                if (!isFinishing) finish()
+            }
         }
         viewModel.getErrorResult.observe(this) {
             UserApiClient.instance.logout { showToast(getString(R.string.error_login_again_please)) }
