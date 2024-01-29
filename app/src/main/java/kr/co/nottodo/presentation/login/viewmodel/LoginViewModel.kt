@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kr.co.nottodo.data.remote.api.ServicePool.tokenService
 import kr.co.nottodo.data.remote.model.login.RequestTokenDto
@@ -12,9 +15,9 @@ import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.KAKAO
 
 class LoginViewModel : ViewModel() {
 
-    private val _getTokenResult: MutableLiveData<ResponseTokenDto> = MutableLiveData()
-    val getTokenResult: LiveData<ResponseTokenDto>
-        get() = _getTokenResult
+    private val _getTokenResult: MutableSharedFlow<ResponseTokenDto> = MutableSharedFlow()
+    val getTokenResult: SharedFlow<ResponseTokenDto>
+        get() = _getTokenResult.asSharedFlow()
 
     private val _getErrorResult: MutableLiveData<String> = MutableLiveData()
     val getErrorResult: LiveData<String>
@@ -28,7 +31,7 @@ class LoginViewModel : ViewModel() {
                         socialToken = socialToken, fcmToken = fcmToken
                     )
                 )
-            }.fold(onSuccess = { _getTokenResult.value = it },
+            }.fold(onSuccess = { _getTokenResult.emit(it) },
                 onFailure = { _getErrorResult.value = it.message })
         }
     }

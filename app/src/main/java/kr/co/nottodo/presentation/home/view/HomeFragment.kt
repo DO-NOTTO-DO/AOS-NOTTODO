@@ -18,6 +18,7 @@ import kr.co.nottodo.listeners.OnFragmentChangedListener
 import kr.co.nottodo.presentation.home.viewmodel.HomeViewModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
+import kr.co.nottodo.util.PublicString
 import kr.co.nottodo.util.PublicString.DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT
 import kr.co.nottodo.view.calendar.monthly.util.convertToLocalDate
 import kr.co.nottodo.view.calendar.weekly.listener.OnWeeklyCalendarSwipeListener
@@ -67,6 +68,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         firstDayGet()
         navigateToNotificationPermissionRequestFragment()
         trackEvent(getString(R.string.view_home))
+        showCommonDialog()
     }
 
     private fun observerData() {
@@ -184,6 +186,11 @@ class HomeFragment : Fragment(), DialogCloseListener {
         ) {
             findNavController().navigate(R.id.action_homeFragment_to_notificationPermissionRequestDialogFragment)
         }
+    }
+
+    private fun showCommonDialog() {
+        if (SharedPreferences.getBoolean(PublicString.STOP_WATCHING_COMMON_DIALOG)) return
+        findNavController().navigate(R.id.action_homeFragment_to_commonDialogFragment)
     }
 
     override fun onDestroyView() {
