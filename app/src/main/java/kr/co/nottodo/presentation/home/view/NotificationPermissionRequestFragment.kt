@@ -63,6 +63,7 @@ class NotificationPermissionRequestFragment :
             requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         } else {
             SharedPreferences.setBoolean(DID_USER_CHOOSE_TO_BE_NOTIFIED, true)
+            findNavController().popBackStack()
         }
     }
 
