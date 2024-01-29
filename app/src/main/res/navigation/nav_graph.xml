@@ -83,6 +83,9 @@
         <action
             android:id="@+id/action_loginFragment_to_onboardFirstFragment"
             app:destination="@id/onboardFirstFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_notificationPermissionRequestFragment"
+            app:destination="@id/notificationPermissionRequestFragment" />
     </fragment>
     <fragment
         android:id="@+id/modificationFragment"
