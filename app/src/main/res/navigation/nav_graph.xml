@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_homeFragment_to_notificationPermissionRequestDialogFragment"
             app:destination="@id/notificationPermissionRequestFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_commonDialogFragment"
+            app:destination="@id/commonDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/achieveFragment"
@@ -154,4 +157,8 @@
             android:id="@+id/action_onboardSixthFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/commonDialogFragment"
+        android:name="kr.co.nottodo.presentation.common.view.CommonDialogFragment"
+        android:label="CommonDialogFragment" />
 </navigation>
