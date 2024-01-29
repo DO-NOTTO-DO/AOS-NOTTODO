@@ -1,6 +1,5 @@
 package kr.co.nottodo
 
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -222,7 +221,6 @@ class MainActivity :
     }
 
     companion object {
-        const val BLANK = ""
         const val REQUEST_PHONE_STATE_OR_NUMBERS_CODE = 0
         const val CHECK_SHOW_UPDATE_DIALOG = "CHECK_SHOW_UPDATE_DIALOG"
         private const val REMOTE_KEY_APP_INFO = "app_info"
