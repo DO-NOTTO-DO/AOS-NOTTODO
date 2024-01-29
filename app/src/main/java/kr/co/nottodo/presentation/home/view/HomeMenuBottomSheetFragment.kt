@@ -142,15 +142,15 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             binding.tvHomeBottomActionEmptyDescription.visibility = View.GONE
             binding.ivActionEmpty.visibility = View.GONE
             binding.linearHomeAction.run {
-                val createLinearBindinding = {
+                val createLinearBinding = {
                     ItemHomeBottomActionsBinding.inflate(LayoutInflater.from(binding.root.context))
                 }
                 removeAllViews()
-                it.actions?.map { actions ->
-                    createLinearBindinding().apply {
+                it.actions.map { actions ->
+                    createLinearBinding().apply {
                         tvHomeBottomActionItem.text = actions.name.toString()
                     }
-                }?.forEach {
+                }.forEach {
                     addView(it.root)
                 }
             }
