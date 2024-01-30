@@ -10,12 +10,14 @@ import android.provider.Settings
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.ActivityMyPageInformationBinding
 import kr.co.nottodo.listeners.OnWithdrawalDialogDismissListener
-import kr.co.nottodo.presentation.login.view.LoginActivity
-import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
+import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
+import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.USER_EMAIL
+import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.USER_NAME
 import kr.co.nottodo.presentation.mypage.viewmodel.MyPageInformationViewModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
@@ -95,12 +97,12 @@ class MyPageInformationActivity : AppCompatActivity(), OnWithdrawalDialogDismiss
 
     private fun setUserEmail() {
         binding.tvMyPageInformationEmail.text =
-            SharedPreferences.getString(LoginActivity.USER_EMAIL) ?: getString(R.string.no_email)
+            SharedPreferences.getString(USER_EMAIL) ?: getString(R.string.no_email)
     }
 
     private fun setUserName() {
         binding.tvMyPageInformationName.text =
-            SharedPreferences.getString(LoginActivity.USER_NAME) ?: getString(R.string.no_name)
+            SharedPreferences.getString(USER_NAME) ?: getString(R.string.no_name)
     }
 
     override fun onResume() {
@@ -188,7 +190,7 @@ class MyPageInformationActivity : AppCompatActivity(), OnWithdrawalDialogDismiss
 
     private fun logout() {
         SharedPreferences.clearForLogout()
-        startActivity(Intent(this, LoginActivity::class.java))
+        startActivity(Intent(this, MainActivity::class.java))
         if (!isFinishing) finish()
     }
 
