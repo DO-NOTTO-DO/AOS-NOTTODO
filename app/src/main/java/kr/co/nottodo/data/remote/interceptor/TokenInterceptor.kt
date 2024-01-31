@@ -1,10 +1,10 @@
 package kr.co.nottodo.data.remote.interceptor
 
+import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.data.resource.PublicErrorCode.ERROR_CODE_401
 import kr.co.nottodo.data.resource.PublicPathString.AUTHORIZATION
-import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.listeners.OnTokenExpiredListener
-import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.USER_TOKEN
+import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.USER_TOKEN
 import okhttp3.Interceptor
 import okhttp3.Response
 

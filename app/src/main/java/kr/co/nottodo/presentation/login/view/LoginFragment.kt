@@ -17,7 +17,7 @@ import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.launch
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
-import kr.co.nottodo.databinding.ActivityLoginBinding
+import kr.co.nottodo.databinding.FragmentLoginBinding
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.login.viewmodel.LoginViewModel
 import kr.co.nottodo.util.NotTodoAmplitude.setAmplitudeUserId
@@ -27,7 +27,7 @@ import kr.co.nottodo.util.PublicString.DID_USER_WATCHED_NOTIFICATION_PERMISSION_
 import kr.co.nottodo.util.showToast
 import timber.log.Timber
 
-class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
+class LoginFragment : ViewBindingFragment<FragmentLoginBinding>() {
     private val viewModel: LoginViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -175,8 +175,8 @@ class LoginFragment : ViewBindingFragment<ActivityLoginBinding>() {
         }
     }
 
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityLoginBinding =
-        ActivityLoginBinding.inflate(inflater, container, false)
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentLoginBinding =
+        FragmentLoginBinding.inflate(inflater, container, false)
 
     companion object {
         const val KAKAO: String = "KAKAO"
