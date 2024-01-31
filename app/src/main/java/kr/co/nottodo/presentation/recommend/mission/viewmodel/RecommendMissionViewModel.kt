@@ -28,8 +28,8 @@ class RecommendMissionViewModel : ViewModel() {
         viewModelScope.launch {
             kotlin.runCatching {
                 recommendMissionRepository.getRecommendMissionList()
-            }.fold(onSuccess = { recommendMissionUiModel ->
-                _recommendMissionListSuccessResponse.value = recommendMissionUiModel
+            }.fold(onSuccess = { recommendMissionDomainModel ->
+                _recommendMissionListSuccessResponse.value = recommendMissionDomainModel
             }, onFailure = { error ->
                 _recommendMissionListErrorResponse.value =
                     if (error.isConnectException) NO_INTERNET_CONDITION_ERROR else error.message
