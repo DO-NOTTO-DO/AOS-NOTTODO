@@ -14,7 +14,7 @@ import com.google.firebase.messaging.RemoteMessage
 import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
-import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
+import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 
 
 class FirebaseMessagingService : FirebaseMessagingService() {

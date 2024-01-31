@@ -14,8 +14,8 @@ import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.FragmentMyPageBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
-import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.USER_EMAIL
-import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.USER_NAME
+import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.USER_EMAIL
+import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.USER_NAME
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 
 class MyPageFragment : Fragment() {

@@ -34,15 +34,6 @@
         </service>
 
         <activity
-            android:name=".presentation.onboard.view.OnboardActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".presentation.login.view.LoginActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
@@ -52,10 +43,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".presentation.mypage.view.MyPageInformationActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"

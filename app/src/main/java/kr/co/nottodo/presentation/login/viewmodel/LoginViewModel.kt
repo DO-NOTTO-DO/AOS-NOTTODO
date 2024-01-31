@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import kr.co.nottodo.data.remote.api.ServicePool.tokenService
 import kr.co.nottodo.data.remote.model.login.RequestTokenDto
 import kr.co.nottodo.data.remote.model.login.ResponseTokenDto
-import kr.co.nottodo.presentation.login.view.LoginActivity.Companion.KAKAO
+import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.KAKAO
 
 class LoginViewModel : ViewModel() {
 
