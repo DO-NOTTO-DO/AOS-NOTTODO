@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="kr.co.nottodo.presentation.mypage.viewmodel.MyPageInformationNewViewModel" />
+            type="kr.co.nottodo.presentation.mypage.viewmodel.MyPageInformationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
