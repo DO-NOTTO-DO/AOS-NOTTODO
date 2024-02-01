@@ -17,6 +17,7 @@ import kr.co.nottodo.databinding.FragmentNotificationPermissionRequestBinding
 import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
 import kr.co.nottodo.presentation.home.viewmodel.NotificationPermissionRequestViewModel
 import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
+import kr.co.nottodo.util.NotTodoAmplitude
 import kr.co.nottodo.util.PublicString.DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT
 
 class NotificationPermissionRequestFragment :
@@ -38,7 +39,14 @@ class NotificationPermissionRequestFragment :
         requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission(),
         ) { isGranted: Boolean ->
-            SharedPreferences.setBoolean(DID_USER_CHOOSE_TO_BE_NOTIFIED, isGranted)
+            NotTodoAmplitude.trackEventWithProperty(
+                eventName = getString(if (isGranted) R.string.click_push_allow else R.string.click_push_reject),
+                propertyName = getString(R.string.section),
+                propertyValue = getString(R.string.onboarding)
+            )
+            SharedPreferences.setBoolean(
+                DID_USER_CHOOSE_TO_BE_NOTIFIED, isGranted
+            )
             findNavController().popBackStack()
         }
     }
@@ -49,6 +57,7 @@ class NotificationPermissionRequestFragment :
 
     private fun setCompleteBtnClickHandlerObserver() {
         viewModel.completeBtnClickHandler.observe(viewLifecycleOwner) {
+            NotTodoAmplitude.trackEvent(getString(R.string.click_onboarding_next_6))
             requestPermissions()
         }
     }
@@ -63,6 +72,7 @@ class NotificationPermissionRequestFragment :
             requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         } else {
             SharedPreferences.setBoolean(DID_USER_CHOOSE_TO_BE_NOTIFIED, true)
+            findNavController().popBackStack()
         }
     }
 

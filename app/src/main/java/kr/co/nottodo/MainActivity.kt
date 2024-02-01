@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -26,6 +27,7 @@ import kr.co.nottodo.listeners.OnWithdrawalDialogDismissListener
 import kr.co.nottodo.presentation.achieve.AchieveFragment
 import kr.co.nottodo.presentation.home.view.HomeFragment
 import kr.co.nottodo.presentation.mypage.view.MyPageFragment
+import kr.co.nottodo.util.PublicString
 import kr.co.nottodo.util.showToast
 import kr.co.nottodo.view.calendar.monthly.util.navigateToGooglePlayStore
 import java.util.Scanner
@@ -35,6 +37,7 @@ class MainActivity :
     OnFragmentChangedListener,
     OnWithdrawalDialogDismissListener {
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModels()
 
     private val navController by lazy {
         val navHostFragment =
@@ -150,8 +153,17 @@ class MainActivity :
         ).also {
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 binding.bnvMain.isVisible = it.topLevelDestinations.contains(destination.id)
+                if (destination.id == R.id.homeFragment && viewModel.isFirstEntryToHomeFragment) {
+                    showCommonDialog()
+                    viewModel.isFirstEntryToHomeFragment = false
+                }
             }
         }
+    }
+
+    private fun showCommonDialog() {
+        if (SharedPreferences.getBoolean(PublicString.STOP_WATCHING_COMMON_DIALOG)) return
+        navController.navigate(R.id.action_homeFragment_to_commonDialogFragment)
     }
 
     private fun setBottomNavigationViewWithNavController() {

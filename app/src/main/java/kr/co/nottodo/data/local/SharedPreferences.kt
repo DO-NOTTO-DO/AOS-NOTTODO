@@ -8,6 +8,7 @@ import androidx.security.crypto.MasterKey
 import kr.co.nottodo.BuildConfig
 import kr.co.nottodo.R
 import kr.co.nottodo.presentation.login.view.LoginFragment
+import kr.co.nottodo.util.PublicString.DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT
 import kr.co.nottodo.util.PublicString.STOP_WATCHING_COMMON_DIALOG
 
 object SharedPreferences {
@@ -50,9 +51,15 @@ object SharedPreferences {
     }
 
     fun clearForLogout() {
+        val tempForNotificationPermissionRequestFragment =
+            getBoolean(DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT)
         val tempForCommonDialog = getBoolean(STOP_WATCHING_COMMON_DIALOG)
         clear()
         setBoolean(LoginFragment.DID_USER_WATCHED_ONBOARD, true)
         setBoolean(STOP_WATCHING_COMMON_DIALOG, tempForCommonDialog)
+        setBoolean(
+            DID_USER_WATCHED_NOTIFICATION_PERMISSION_FRAGMENT,
+            tempForNotificationPermissionRequestFragment
+        )
     }
 }

@@ -298,13 +298,15 @@
 
                         <TextView
                             android:id="@+id/tv_modification_mission_closed_name"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="82dp"
+                            android:layout_marginEnd="5dp"
                             android:text="@{vm.isMissionFilled() ? vm.mission : @string/addition_input }"
                             android:textAppearance="@style/R14"
                             android:textColor="@{vm.isMissionFilled() ? @color/white : @color/gray_3_5d5d6b}"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/iv_modification_mission_closed_check"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -441,13 +443,15 @@
 
                         <TextView
                             android:id="@+id/tv_modification_situation_name"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="82dp"
+                            android:layout_marginEnd="5dp"
                             android:text="@{vm.isSituationFilled() ? vm.situation : @string/addition_input}"
                             android:textAppearance="@style/R14"
                             android:textColor="@{vm.isSituationFilled() ? @color/white : @color/gray_3_5d5d6b}"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/iv_modification_situation_check"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -583,14 +587,16 @@
 
                         <TextView
                             android:id="@+id/tv_modification_action_closed_input"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="18dp"
                             android:layout_marginStart="82dp"
+                            android:layout_marginEnd="5dp"
                             android:lineSpacingExtra="9dp"
                             android:textAppearance="@style/R14"
                             android:textColor="@{vm.isFirstActionExist() ? @color/white : @color/gray_3_5d5d6b}"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/iv_modification_action_closed_check"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -856,13 +862,15 @@
 
                         <TextView
                             android:id="@+id/tv_modification_goal_input"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="82dp"
+                            android:layout_marginEnd="5dp"
                             android:text="@{vm.isGoalFilled() ? vm.goal : @string/addition_input}"
                             android:textAppearance="@style/R14"
                             android:textColor="@{vm.isGoalFilled() ? @color/white : @color/gray_3_5d5d6b}"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/iv_modification_goal_check"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 

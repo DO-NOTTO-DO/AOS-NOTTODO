@@ -195,6 +195,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         }
     }
 
+
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()

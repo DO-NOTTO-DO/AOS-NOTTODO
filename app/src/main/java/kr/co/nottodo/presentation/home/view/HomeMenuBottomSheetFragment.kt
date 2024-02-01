@@ -99,7 +99,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
         trackEvent(getString(R.string.close_detail_mission))
     }
 
-    private fun trackListData(EventName: Int) {
+    private fun trackListData(eventName: Int) {
         val trackList = mutableMapOf<String, CharSequence>().apply {
             put(getString(R.string.title), binding.tvHomeDialogNotodo.text)
             put(getString(R.string.situation), binding.tvHomeDialogSituation.text)
@@ -107,7 +107,7 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             val actionCharSequence: CharSequence = trackActions.joinToString(",")
             put(getString(R.string.action), actionCharSequence)
         }
-        trackEventWithPropertyList(getString(EventName), trackList)
+        trackEventWithPropertyList(getString(eventName), trackList)
     }
 
     private fun showDeleteDialog() {
@@ -142,15 +142,15 @@ class HomeMenuBottomSheetFragment : BottomSheetDialogFragment(), DialogCloseList
             binding.tvHomeBottomActionEmptyDescription.visibility = View.GONE
             binding.ivActionEmpty.visibility = View.GONE
             binding.linearHomeAction.run {
-                val createLinearBindinding = {
+                val createLinearBinding = {
                     ItemHomeBottomActionsBinding.inflate(LayoutInflater.from(binding.root.context))
                 }
                 removeAllViews()
-                it.actions?.map { actions ->
-                    createLinearBindinding().apply {
+                it.actions.map { actions ->
+                    createLinearBinding().apply {
                         tvHomeBottomActionItem.text = actions.name.toString()
                     }
-                }?.forEach {
+                }.forEach {
                     addView(it.root)
                 }
             }
