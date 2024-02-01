@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import kr.co.nottodo.MainActivityViewModel
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.FragmentHomeBinding
@@ -34,7 +33,6 @@ class HomeFragment : Fragment(), DialogCloseListener {
     private lateinit var homeAdapter: HomeAdapter
     private var onFragmentChangedListener: OnFragmentChangedListener? = null
     private val homeViewModel by activityViewModels<HomeViewModel>()
-    private val mainViewModel by activityViewModels<MainActivityViewModel>()
     private var todayData = LocalDate.now().format(DateTimeFormatter.ofPattern(YEAR_PATTERN))
     private var weeklyData = todayData
     val bundle = Bundle()
@@ -58,6 +56,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
         homeViewModel.getHomeWeekly(binding.weeklyCalendar.getCurrentSundayDate().toString())
         bundle.putString(CLICK_DAY, todayData)
         firstDayGet()
+        getHomeDaily(weeklyData)
         initAdapter()
         setActivityBackgroundColor()
         observeDailyTodo()
@@ -71,17 +70,15 @@ class HomeFragment : Fragment(), DialogCloseListener {
     }
 
     private fun firstDayGet() {
-        mainViewModel.getFirstDateOnAdd.observe(viewLifecycleOwner) { date ->
+        homeViewModel.getFirstDateOnAdd.observe(viewLifecycleOwner) { date ->
             weeklyData = date.replace('.', '-')?.convertToLocalDate().toString()
             Timber.d("calender firstday를 home에서 observe $date")
             binding.weeklyCalendar.moveToDate(
                 date.replace('.', '-')?.convertToLocalDate()
                     ?: LocalDate.now(),
             )
+            getHomeDaily(weeklyData)
         }
-        // LiveData 값이 도착한 후에 실행되도록 이 부분을 observe 콜백 내부로 이동
-        Timber.d("calender 여기자나 처음 불리는 곳이")
-        getHomeDaily(weeklyData)
     }
 
     private fun getHomeDaily(day: String) {
@@ -106,7 +103,7 @@ class HomeFragment : Fragment(), DialogCloseListener {
     }
 
     private fun showErrorToast() {
-        homeViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+        homeViewModel.errorMessage.observe(viewLifecycleOwner) {
             NotTodoSnackbar(binding.root, getString(R.string.net_work_error_message)).show()
         }
     }
