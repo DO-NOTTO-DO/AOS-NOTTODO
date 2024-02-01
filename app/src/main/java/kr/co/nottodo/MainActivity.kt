@@ -32,7 +32,6 @@ import kr.co.nottodo.util.showToast
 import kr.co.nottodo.view.calendar.monthly.util.navigateToGooglePlayStore
 import kr.co.nottodo.view.snackbar.NotTodoSnackbar
 import timber.log.Timber
-import java.util.Scanner
 
 class MainActivity :
     AppCompatActivity(),
@@ -91,11 +90,8 @@ class MainActivity :
     }
 
     private fun handleUpdateAndCheckForce(fetchUpdateVersion: Int, force: Boolean) {
-        val versionName = BuildConfig.VERSION_NAME
-        val currentVersion = Scanner(versionName.replace("\\D+".toRegex(), "")).nextInt()
-        //
-        Timber.d("currentVersion${currentVersion + 1} fetch $fetchUpdateVersion")
-        // 현재 버전이 왜 103이지
+        val currentVersion = BuildConfig.VERSION_NAME.split(".").joinToString("").toInt()
+        Timber.d("currentVersion$currentVersion fetch $fetchUpdateVersion")
         if (fetchUpdateVersion > currentVersion) {
             checkForce(force, fetchUpdateVersion)
         }
@@ -142,18 +138,32 @@ class MainActivity :
     }
 
     private fun appUpdateDialog() {
+        if (SharedPreferences.getBoolean(CHECK_SHOW_UPDATE_DIALOG)) {
+            // 이미 다이얼로그를 취소한 경우 더 이상 표시하지 않음
+            return
+        }
         AlertDialog.Builder(this)
             .setTitle(R.string.app_version_update_title)
             .setPositiveButton(R.string.ok) { _, _ -> "ok" }
             .setNegativeButton(R.string.cancel) { _, _ ->
                 "cancel"
-                SharedPreferences.setBoolean(
-                    CHECK_SHOW_UPDATE_DIALOG,
-                    true,
-                )
             }
             .show()
+        SharedPreferences.setBoolean(CHECK_SHOW_UPDATE_DIALOG, true)
     }
+    /*
+    AlertDialog.Builder(this)
+        .setTitle(R.string.app_version_update_title)
+        .setPositiveButton(R.string.ok) { _, _ ->
+            // 사용자가 확인을 누르면 다이얼로그 플래그를 설정하고 업데이트 페이지로 이동
+            SharedPreferences.setBoolean(CHECK_SHOW_UPDATE_DIALOG, true)
+        }
+        .setNegativeButton(R.string.cancel) { _, _ ->
+            // 사용자가 취소를 누르면 플래그를 설정하고 다이얼로그를 더 이상 표시하지 않음
+            SharedPreferences.setBoolean(CHECK_SHOW_UPDATE_DIALOG, true)
+        }
+        .show()
+     */
 
     private fun openUpdatePage() {
         navigateToGooglePlayStore(this.packageName)
