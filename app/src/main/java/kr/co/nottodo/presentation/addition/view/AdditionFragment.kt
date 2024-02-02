@@ -37,7 +37,7 @@ import java.util.Date
 
 class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.fragment_addition) {
     private val viewModel by viewModels<AdditionNewViewModel>()
-    private val homeModel by activityViewModels<HomeViewModel>()
+    private val homeViewModel by activityViewModels<HomeViewModel>()
     private var missionHistoryAdapter: MissionHistoryAdapter? = null
     private val args: AdditionFragmentArgs by navArgs()
     private val toAdditionFragmentUiModel by lazy {
@@ -240,7 +240,7 @@ class AdditionFragment : DataBindingFragment<FragmentAdditionBinding>(R.layout.f
     }
 
     private fun navigateToMainWithFirstDay(firstDate: String) {
-        homeModel.getFirstDateOnAdd.value = firstDate
+        homeViewModel.getFirstDateOnAdd.value = firstDate
         findNavController().popBackStack()
     }
 
