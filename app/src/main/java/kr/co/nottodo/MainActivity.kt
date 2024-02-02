@@ -30,7 +30,8 @@ import kr.co.nottodo.presentation.mypage.view.MyPageFragment
 import kr.co.nottodo.util.PublicString
 import kr.co.nottodo.util.showToast
 import kr.co.nottodo.view.calendar.monthly.util.navigateToGooglePlayStore
-import java.util.Scanner
+import kr.co.nottodo.view.snackbar.NotTodoSnackbar
+import timber.log.Timber
 
 class MainActivity :
     AppCompatActivity(),
@@ -71,9 +72,10 @@ class MainActivity :
                 if (it.isSuccessful) {
                     val updated =
                         parseAppInfoJson(Firebase.remoteConfig.getString(REMOTE_KEY_APP_INFO))
-                    showUpdatePopUp(updated.appVersion, updated.appForceUpdate)
+                    handleUpdateAndCheckForce(updated.appVersion, updated.appForceUpdate)
                 } else {
                     // todo fetch and activate 실패일 경우
+                    NotTodoSnackbar(binding.root, getString(R.string.net_work_error_message)).show()
                 }
             }
     }
@@ -87,42 +89,65 @@ class MainActivity :
         return json.decodeFromString<UpdateAppInfo>(jsonFomServer)
     }
 
-    private fun showUpdatePopUp(fetchUpdateVersion: Int, force: Boolean) {
-        val versionName = BuildConfig.VERSION_NAME
-        val currentVersion = Scanner(versionName.replace("\\D+".toRegex(), "")).nextInt()
+    private fun handleUpdateAndCheckForce(fetchUpdateVersion: Int, force: Boolean) {
+        val currentVersion = BuildConfig.VERSION_NAME.split(".").joinToString("").toInt()
+        Timber.d("currentVersion$currentVersion fetch $fetchUpdateVersion")
         if (fetchUpdateVersion > currentVersion) {
-            checkForceUpdate(force)
-        }
-        if (fetchUpdateVersion > currentVersion + 1) { // 업데이트가 2번 이뤄진 경우를 위한
-            SharedPreferences.setBoolean(
-                CHECK_SHOW_UPDATE_DIALOG,
-                false,
-            )
+            checkForce(force, fetchUpdateVersion)
         }
     }
 
-    private fun checkForceUpdate(forceUpdate: Boolean) {
-        if (forceUpdate) {
-            createDialog(openUpdatePage())
-        } else { // 강제 업데이트가 아닌경우
-            if (!SharedPreferences.getBoolean(CHECK_SHOW_UPDATE_DIALOG)) { // 강제업데이트가 아닌데 취소를 눌렀던 경우
-                createDialog(
-                    openUpdatePage(),
-                    SharedPreferences.setBoolean(
-                        CHECK_SHOW_UPDATE_DIALOG,
-                        true,
-                    ),
-                )
+    private fun checkForce(force: Boolean, fetchUpdateVersion: Int) {
+        when (force) {
+            true -> { // 강제업데이트인 경우
+                forceUpdateDialog(fetchUpdateVersion)
+            }
+
+            false -> {
+                if (!SharedPreferences.getBoolean(CHECK_SHOW_UPDATE_DIALOG)) appUpdateDialog()
             }
         }
     }
 
-    private fun createDialog(ok: Unit, cancel: Unit? = null) {
+    private fun forceUpdateDialog(fetchUpdateVersion: Int) {
+        val title = formatData(fetchUpdateVersion)
+
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                "ok"
+                openUpdatePage()
+                finishAffinity()
+            }
+            .setNegativeButton(R.string.cancel) { _, _ ->
+                "cancel"
+                finishAffinity()
+            }
+            .show()
+    }
+
+    private fun formatData(fetchUpdateVersion: Int): String {
+        val versionCode = listOf(
+            fetchUpdateVersion / 100,
+            (fetchUpdateVersion / 10) % 10,
+            fetchUpdateVersion % 10,
+        ).joinToString(separator = ".")
+        return resources.getString(R.string.app_version_force_update_title, versionCode)
+    }
+
+    private fun appUpdateDialog() {
+        if (SharedPreferences.getBoolean(CHECK_SHOW_UPDATE_DIALOG)) {
+            // 이미 다이얼로그를 취소한 경우 더 이상 표시하지 않음
+            return
+        }
         AlertDialog.Builder(this)
             .setTitle(R.string.app_version_update_title)
-            .setPositiveButton(R.string.ok) { _, _ -> ok }
-            .setNegativeButton(R.string.cancel) { _, _ -> cancel }
+            .setPositiveButton(R.string.ok) { _, _ -> "ok" }
+            .setNegativeButton(R.string.cancel) { _, _ ->
+                "cancel"
+            }
             .show()
+        SharedPreferences.setBoolean(CHECK_SHOW_UPDATE_DIALOG, true)
     }
 
     private fun openUpdatePage() {
@@ -233,7 +258,6 @@ class MainActivity :
     }
 
     companion object {
-        const val BLANK = ""
         const val REQUEST_PHONE_STATE_OR_NUMBERS_CODE = 0
         const val CHECK_SHOW_UPDATE_DIALOG = "CHECK_SHOW_UPDATE_DIALOG"
         private const val REMOTE_KEY_APP_INFO = "app_info"
