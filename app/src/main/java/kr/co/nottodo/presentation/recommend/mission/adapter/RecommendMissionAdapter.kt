@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import coil.load
-import kr.co.nottodo.data.remote.model.recommendation.mission.ResponseRecommendMissionListDto.Mission
 import kr.co.nottodo.databinding.ItemRecommendMissionBinding
+import kr.co.nottodo.domain.entity.recommend.RecommendMissionDomainModel
 import kr.co.nottodo.util.DiffUtilItemCallback
 import kr.co.nottodo.util.dpToPx
 
-class RecommendMissionAdapter(private val navigateToRecommendActionFragment: (Mission) -> Unit) :
-    ListAdapter<Mission, RecommendMissionAdapter.RecommendMissionViewHolder>(
+class RecommendMissionAdapter(private val navigateToRecommendActionFragment: (RecommendMissionDomainModel.Mission) -> Unit) :
+    ListAdapter<RecommendMissionDomainModel.Mission, RecommendMissionAdapter.RecommendMissionViewHolder>(
         diffUtil
     ) {
 
@@ -33,14 +33,14 @@ class RecommendMissionAdapter(private val navigateToRecommendActionFragment: (Mi
 
     class RecommendMissionViewHolder(
         private val binding: ItemRecommendMissionBinding,
-        private val navigateToRecommendActionFragment: (Mission) -> Unit,
+        private val navigateToRecommendActionFragment: (RecommendMissionDomainModel.Mission) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: Mission) {
+        fun onBind(data: RecommendMissionDomainModel.Mission) {
             with(binding) {
+                tvRecommendationMission.text = data.missionTitle
+                tvRecommendationMissionDesc.text = data.missionDesc
                 tvRecommendationMissionSituation.text = data.situation
-                tvRecommendationMission.text = data.title
-                tvRecommendationMissionDesc.text = data.description
-                ivRecommendationMission.load(data.image)
+                ivRecommendationMission.load(data.imageUrl)
 
                 layoutRecommendationMission.setOnClickListener {
                     navigateToRecommendActionFragment.invoke(data)
@@ -71,7 +71,8 @@ class RecommendMissionAdapter(private val navigateToRecommendActionFragment: (Mi
     }
 
     companion object {
-        val diffUtil = DiffUtilItemCallback<Mission>(onItemsTheSame = { old, new -> old === new },
-            onContentsTheSame = { old, new -> old == new })
+        val diffUtil =
+            DiffUtilItemCallback<RecommendMissionDomainModel.Mission>(onItemsTheSame = { old, new -> old === new },
+                onContentsTheSame = { old, new -> old == new })
     }
 }

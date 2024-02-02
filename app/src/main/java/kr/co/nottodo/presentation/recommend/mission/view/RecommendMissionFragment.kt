@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import kr.co.nottodo.R
-import kr.co.nottodo.data.remote.model.recommendation.mission.ResponseRecommendMissionListDto.Mission
 import kr.co.nottodo.databinding.FragmentRecommendMissionBinding
+import kr.co.nottodo.domain.entity.recommend.RecommendMissionDomainModel
 import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.recommend.mission.adapter.RecommendMissionAdapter
 import kr.co.nottodo.presentation.recommend.mission.adapter.RecommendMissionAdapter.RecommendMissionItemDecoration
@@ -56,9 +56,9 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
     }
 
     private fun setAdapter() {
-        { missionData: Mission ->
+        { missionData: RecommendMissionDomainModel.Mission ->
             missionData.run {
-                trackClickRecommendMission(title, situation)
+                trackClickRecommendMission(title = missionTitle, situation = situation)
                 navigateToRecommendActionFragment(missionData)
             }
         }.also { itemClickEvent ->
@@ -81,9 +81,11 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
         )
     }
 
-    private fun navigateToRecommendActionFragment(data: Mission) {
+    private fun navigateToRecommendActionFragment(data: RecommendMissionDomainModel.Mission) {
         data.run {
-            val toRecommendActionUiModel = ToRecommendActionUiModel(id, title, situation, image)
+            val toRecommendActionUiModel = ToRecommendActionUiModel(
+                id = id, title = missionTitle, situation = situation, image = imageUrl
+            )
             RecommendMissionFragmentDirections.actionRecommendMissionFragmentToRecommendActionFragment(
                 toRecommendActionUiModel,
             ).also { action ->
@@ -124,8 +126,8 @@ class RecommendMissionFragment : ViewBindingFragment<FragmentRecommendMissionBin
     }
 
     private fun setRecommendMissionSuccessObserver() {
-        viewModel.recommendMissionListSuccessResponse.observe(viewLifecycleOwner) { missionList ->
-            recommendMissionAdapter?.submitList(missionList)
+        viewModel.recommendMissionListSuccessResponse.observe(viewLifecycleOwner) { recommendMissionUiModel ->
+            recommendMissionAdapter?.submitList(recommendMissionUiModel.recommendMissionList)
         }
     }
 
