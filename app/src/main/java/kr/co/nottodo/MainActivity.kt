@@ -110,8 +110,6 @@ class MainActivity :
     }
 
     private fun forceUpdateDialog(fetchUpdateVersion: Int) {
-        // 강제업데이트 인 경우 확인을 누르면 가고
-        // 취소를 누르면 종료
         val title = formatData(fetchUpdateVersion)
 
         AlertDialog.Builder(this)
@@ -151,19 +149,6 @@ class MainActivity :
             .show()
         SharedPreferences.setBoolean(CHECK_SHOW_UPDATE_DIALOG, true)
     }
-    /*
-    AlertDialog.Builder(this)
-        .setTitle(R.string.app_version_update_title)
-        .setPositiveButton(R.string.ok) { _, _ ->
-            // 사용자가 확인을 누르면 다이얼로그 플래그를 설정하고 업데이트 페이지로 이동
-            SharedPreferences.setBoolean(CHECK_SHOW_UPDATE_DIALOG, true)
-        }
-        .setNegativeButton(R.string.cancel) { _, _ ->
-            // 사용자가 취소를 누르면 플래그를 설정하고 다이얼로그를 더 이상 표시하지 않음
-            SharedPreferences.setBoolean(CHECK_SHOW_UPDATE_DIALOG, true)
-        }
-        .show()
-     */
 
     private fun openUpdatePage() {
         navigateToGooglePlayStore(this.packageName)
