@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.launch
-import kr.co.nottodo.data.remote.api.ServicePool.myPageService
+import kr.co.nottodo.domain.repository.withdrawal.WithdrawalRepository
 import kr.co.nottodo.util.PublicString.NO_INTERNET_CONDITION_ERROR
 import kr.co.nottodo.util.isConnectException
 
 class WithdrawalDialogViewModel : ViewModel() {
+
+    private val withdrawalRepository = WithdrawalRepository()
 
     private val _withdrawalSuccessResponse: MutableLiveData<Boolean> = MutableLiveData()
     val withdrawalSuccessResponse: LiveData<Boolean> = _withdrawalSuccessResponse
@@ -20,11 +22,11 @@ class WithdrawalDialogViewModel : ViewModel() {
 
     fun withdrawal() {
         viewModelScope.launch {
-            kotlin.runCatching {
-                myPageService.withdrawal()
+            runCatching {
+                withdrawalRepository.withdrawal()
             }.fold(onSuccess = { response ->
                 _withdrawalSuccessResponse.value = response.isSuccessful
-                UserApiClient.instance.unlink { }
+                UserApiClient.instance.unlink {}
             }, onFailure = { error ->
                 _withdrawalErrorResponse.value =
                     if (error.isConnectException) NO_INTERNET_CONDITION_ERROR else error.message

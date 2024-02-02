@@ -19,13 +19,13 @@ import kr.co.nottodo.presentation.base.fragment.DataBindingFragment
 import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
 import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.USER_EMAIL
 import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.USER_NAME
-import kr.co.nottodo.presentation.mypage.viewmodel.MyPageInformationNewViewModel
+import kr.co.nottodo.presentation.mypage.viewmodel.MyPageInformationViewModel
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 
 class MyPageInformationFragment :
     DataBindingFragment<FragmentMyPageInformationBinding>(R.layout.fragment_my_page_information) {
 
-    private val viewModel: MyPageInformationNewViewModel by viewModels()
+    private val viewModel: MyPageInformationViewModel by viewModels()
     private val withdrawalDialogFragment by lazy { WithdrawalDialogFragment.newInstance() }
     private val myPageLogoutDialogFragment by lazy { MyPageLogoutDialogFragment.newInstance() }
 
