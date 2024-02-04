@@ -83,6 +83,7 @@ class WeeklyCalendarView @JvmOverloads constructor(
         setOnClickListener {
             weeklyCalendar.refresh()
             currentYearAndMonthTextView.text = yearMonthText
+            onClickReturnToTodayBtn?.invoke(it)
             NotTodoAmplitude.trackEvent("click_return_today")
         }
     }
@@ -111,6 +112,8 @@ class WeeklyCalendarView @JvmOverloads constructor(
 
         addView(returnToTodayButton)
     }
+
+    private var onClickReturnToTodayBtn : ((View) -> Unit)? = null
 
     init {
         initWeeklyCalendarView()
@@ -169,6 +172,11 @@ class WeeklyCalendarView @JvmOverloads constructor(
         weeklyCalendar.setOnWeeklyCalendarSwipeListener(
             onWeeklyCalendarSwipeListener = onWeeklyCalendarSwipeListener
         )
+    }
+
+    /** 현재 날짜로 돌아오는 버튼 클릭 시 리스너 **/
+    fun setOnClickReturnToTodayButtonListener(block : (view: View) -> Unit) {
+        onClickReturnToTodayBtn = block
     }
 
     /** 한 주의 일요일 Date를 가져오는 함수 **/
