@@ -286,7 +286,7 @@
     <string name="agree">허용</string>
     <string name="disagree">허용 안함</string>
     <string name="notification_permission_request_complete">네, 알겠어요 :)</string>
-    <string name="common_dialog_title">1분 서비스 피드백하고\n기프티콘 받아가세요!</string>
+    <string name="common_dialog_title">오픈채팅으로\n일일 인증 하고\n갓생살자!</string>
     <string name="common_dialog_desc">매주 추첨을 통해 스타벅스 기프티콘을 드려요</string>
     <string name="common_dialog_button_text">이정도야 쉽지!</string>
     <string name="do_not_look_anymore">더 이상 보지 않기</string>
@@ -307,5 +307,5 @@
     <string name="again">again</string>
     <string name="click_ad_modal_close">click_ad_modal_close</string>
     <string name="click_ad_modal_cta">click_ad_modal_cta</string>
-
+    <string name="url_open_chat">https://open.kakao.com/o/gbrW727f</string>
 </resources>
