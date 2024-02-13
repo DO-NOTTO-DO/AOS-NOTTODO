@@ -60,6 +60,7 @@ class MyPageFragment : ViewBindingFragment<FragmentMyPageBinding>() {
         setGuideClickEvent()
         setQuestionClickEvent()
         setNoticeClickEvent()
+        setFeedbackClickEvent()
         setContactClickEvent()
         setPoliciesClickEvent()
         setOssClickEvent()
@@ -99,6 +100,16 @@ class MyPageFragment : ViewBindingFragment<FragmentMyPageBinding>() {
                 Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_notice))
             )
             startActivity(intent)
+        }
+    }
+
+    private fun setFeedbackClickEvent() {
+        binding.layoutMyPageFeedback.setOnClickListener {
+            Intent(
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_feedback))
+            ).also { intent ->
+                startActivity(intent)
+            }
         }
     }
 
