@@ -105,6 +105,7 @@ class MyPageFragment : ViewBindingFragment<FragmentMyPageBinding>() {
 
     private fun setFeedbackClickEvent() {
         binding.layoutMyPageFeedback.setOnClickListener {
+            trackEvent(getString(R.string.click_suggestion))
             Intent(
                 Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_feedback))
             ).also { intent ->

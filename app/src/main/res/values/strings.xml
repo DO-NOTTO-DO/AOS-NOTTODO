@@ -121,6 +121,7 @@
     <string name="click_guide">click_guide</string>
     <string name="click_faq">click_faq</string>
     <string name="click_notice">click_notice</string>
+    <string name="click_suggestion">click_suggestion</string>
     <string name="click_question">click_question</string>
     <string name="click_terms">click_terms</string>
     <string name="click_opensource">click_opensource</string>
