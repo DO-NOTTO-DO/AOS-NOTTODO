@@ -16,9 +16,4 @@ class Event<out T>(val content: T) {
             content
         }
     }
-
-    /**
-     * 이미 핸들 되었더라도 값을 반환합니다.
-     */
-    fun peekContent(): T = content
 }
