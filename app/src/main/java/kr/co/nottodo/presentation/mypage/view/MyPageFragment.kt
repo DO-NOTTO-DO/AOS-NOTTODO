@@ -7,21 +7,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.databinding.FragmentMyPageBinding
 import kr.co.nottodo.listeners.OnFragmentChangedListener
+import kr.co.nottodo.presentation.base.fragment.ViewBindingFragment
 import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.USER_EMAIL
 import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.USER_NAME
 import kr.co.nottodo.util.NotTodoAmplitude.trackEvent
 
-class MyPageFragment : Fragment() {
-    private var _binding: FragmentMyPageBinding? = null
-    private val binding: FragmentMyPageBinding
-        get() = requireNotNull(_binding)
+class MyPageFragment : ViewBindingFragment<FragmentMyPageBinding>() {
     private var onFragmentChangedListener: OnFragmentChangedListener? = null
 
     override fun onAttach(context: Context) {
@@ -33,14 +30,6 @@ class MyPageFragment : Fragment() {
                     getString(R.string.on_fragment_changed_listener)
                 )
             )
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentMyPageBinding.inflate(layoutInflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,6 +60,7 @@ class MyPageFragment : Fragment() {
         setGuideClickEvent()
         setQuestionClickEvent()
         setNoticeClickEvent()
+        setFeedbackClickEvent()
         setContactClickEvent()
         setPoliciesClickEvent()
         setOssClickEvent()
@@ -113,6 +103,17 @@ class MyPageFragment : Fragment() {
         }
     }
 
+    private fun setFeedbackClickEvent() {
+        binding.layoutMyPageFeedback.setOnClickListener {
+            trackEvent(getString(R.string.click_suggestion))
+            Intent(
+                Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_feedback))
+            ).also { intent ->
+                startActivity(intent)
+            }
+        }
+    }
+
     private fun setQuestionClickEvent() {
         binding.layoutMyPageQuestion.setOnClickListener {
             trackEvent(getString(R.string.click_faq))
@@ -149,13 +150,14 @@ class MyPageFragment : Fragment() {
             )
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
-
     override fun onDetach() {
         onFragmentChangedListener = null
         super.onDetach()
     }
+
+    override fun setBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+    ): FragmentMyPageBinding = FragmentMyPageBinding.inflate(inflater, container, false)
+
 }

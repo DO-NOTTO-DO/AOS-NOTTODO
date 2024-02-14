@@ -75,7 +75,7 @@
     <string name="channel_name">낫투두 알림</string>
     <string name="channel_desc">낫투두 알림을 위한 채널</string>
     <!--my_page-->
-    <string name="version">버전 정보 1.0.0</string>
+    <string name="version">버전 정보 1.0.2</string>
     <string name="withdrawal_kor_underline"><u>회원탈퇴</u></string>
     <string name="terms_of_use"><u>이용약관</u></string>
     <string name="privacy_policy"><u>개인정보 처리방침</u></string>
@@ -117,9 +117,11 @@
     <string name="url_notice">https://teamnottodo.notion.site/a5dbb310ec1d43baae02b7e9bf0b3411</string>
     <string name="url_contact">http://pf.kakao.com/_fUIQxj/chat</string>
     <string name="url_polices">https://teamnottodo.notion.site/81594da775614d23900cdb2475eadb73</string>
+    <string name="url_feedback">https://forms.gle/xKq4oV8u7TQawKtE6</string>
     <string name="click_guide">click_guide</string>
     <string name="click_faq">click_faq</string>
     <string name="click_notice">click_notice</string>
+    <string name="click_suggestion">click_suggestion</string>
     <string name="click_question">click_question</string>
     <string name="click_terms">click_terms</string>
     <string name="click_opensource">click_opensource</string>
@@ -225,7 +227,8 @@
     <string name="cd_nottodo_guide_icon">낫투두 가이드 아이콘</string>
     <string name="cd_frequently_question_guide">자주 묻는 질문 아이콘</string>
     <string name="cd_notice_icon">공지사항 페이지로 이동하는 아이콘</string>
-    <string name="contact_kor">문의하기</string>
+    <string name="feedback_kor">의견 보내기</string>
+    <string name="contact_kor">1:1 문의</string>
     <string name="cd_contact_icon">문의하기 페이지로 이동하는 아이콘</string>
     <string name="policies_kor">약관 및 정책</string>
     <string name="cd_policies_icon">약관 및 정책 페이지로 이동하는 아이콘</string>
