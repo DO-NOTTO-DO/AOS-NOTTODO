@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 
 abstract class SingleLiveData<T> {
 
-    private val liveData = MutableLiveData<Event<T>>()
+    protected val liveData = MutableLiveData<Event<T>>()
 
     protected constructor()
 
@@ -13,15 +13,7 @@ abstract class SingleLiveData<T> {
         liveData.value = Event(value)
     }
 
-    protected open fun setValue(value: T) {
-        liveData.value = Event(value)
-    }
-
-    protected open fun postValue(value: T) {
-        liveData.postValue(Event(value))
-    }
-
-    val value = liveData.value?.peekContent()
+    val value get() = liveData.value?.content
 
 
     /**
@@ -35,7 +27,6 @@ abstract class SingleLiveData<T> {
      * 이미 핸들된 경우에도 이벤트를 수행합니다.
      * */
     fun observePeek(owner: LifecycleOwner, onResult: (T) -> Unit) {
-        liveData.observe(owner) { onResult(it.peekContent()) }
+        liveData.observe(owner) { onResult(it.content) }
     }
-
 }

@@ -3,14 +3,19 @@ package kr.co.nottodo.util.livedata
 class MutableSingleLiveData<T> : SingleLiveData<T> {
 
     constructor() : super()
-
     constructor(value: T) : super(value)
 
-    public override fun postValue(value: T) {
-        super.postValue(value)
+    /**
+     * MutableLiveData의 setValue()를 통해 값을 설정합니다.
+     */
+    fun setValue(value: T) {
+        liveData.value = Event(value)
     }
 
-    public override fun setValue(value: T) {
-        super.setValue(value)
+    /**
+     * MutableLiveData의 postValue()를 통해 값을 설정합니다.
+     */
+    fun postValue(value: T) {
+        liveData.postValue(Event(value))
     }
 }
