@@ -7,12 +7,6 @@ abstract class SingleLiveData<T> {
 
     protected val liveData = MutableLiveData<Event<T>>()
 
-    protected constructor()
-
-    protected constructor(value: T) {
-        liveData.value = Event(value)
-    }
-
     val value get() = liveData.value?.content
 
 

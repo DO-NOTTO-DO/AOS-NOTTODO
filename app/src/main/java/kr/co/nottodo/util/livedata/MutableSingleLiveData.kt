@@ -2,8 +2,11 @@ package kr.co.nottodo.util.livedata
 
 class MutableSingleLiveData<T> : SingleLiveData<T> {
 
-    constructor() : super()
-    constructor(value: T) : super(value)
+    constructor()
+
+    constructor(value: T) {
+        liveData.value = Event(value)
+    }
 
     /**
      * MutableLiveData의 setValue()를 통해 값을 설정합니다.
