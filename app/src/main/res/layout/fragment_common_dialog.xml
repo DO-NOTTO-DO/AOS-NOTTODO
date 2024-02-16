@@ -19,55 +19,41 @@
             android:id="@+id/tv_common_dialog_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="28dp"
-            android:gravity="center"
-            android:text="@string/common_dialog_title"
-            android:textAppearance="@style/B18"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="30dp"
+            android:textAppearance="@style/Sb22"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_common_dialog_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="@string/common_dialog_desc"
-            android:textAppearance="@style/M12"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_common_dialog_title" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/common_dialog_title" />
 
         <ImageView
             android:id="@+id/iv_common_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="28dp"
+            android:layout_marginTop="4dp"
             android:contentDescription="@null"
-            android:src="@drawable/img_service_feedback"
+            android:src="@drawable/img_open_chat"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_common_dialog_desc" />
+            app:layout_constraintTop_toBottomOf="@id/tv_common_dialog_title" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_common_dialog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="37dp"
+            android:layout_marginHorizontal="32dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/rectangle_radius_20"
-            android:backgroundTint="@color/black"
+            android:background="@drawable/rectangle_radius_8"
+            android:backgroundTint="@color/green_2_4ae59b"
             android:minHeight="0dp"
-            android:onClick="@{() -> vm.onBtnClickEvent()}"
+            android:onClick="@{() -> vm.onBtnClick()}"
             android:paddingTop="10dp"
             android:paddingBottom="12dp"
             android:text="@string/common_dialog_button_text"
-            android:textAppearance="@style/M13"
-            android:textColor="@color/white"
+            android:textAppearance="@style/Sb20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_common_dialog" />
@@ -76,57 +62,53 @@
             android:id="@+id/layout_common_dialog_bottom"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="17dp"
             android:background="@color/gray_5_d8d8e5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_common_dialog">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/iv_common_dialog_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> vm.changeIsCheckBoxChecked()}"
+                android:layout_marginVertical="5dp"
+                android:layout_marginStart="8dp"
+                android:contentDescription="@string/cd_do_not_look_anymore_checkbox"
+                android:onClick="@{() -> vm.onCheckBoxClick()}"
+                android:paddingVertical="14dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="5dp"
+                android:src="@drawable/selector_dialog_check"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="UseCompoundDrawables">
+                app:selected="@{vm.isCheckBoxChecked}" />
 
-                <ImageView
-                    android:id="@+id/iv_common_dialog_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"
-                    android:contentDescription="@string/cd_do_not_look_anymore_checkbox"
-                    android:src="@drawable/selector_dialog_check"
-                    app:selected="@{vm.isCheckBoxChecked()}" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:text="@string/do_not_look_anymore"
-                    android:textAppearance="@style/M13"
-                    android:textColor="@color/gray_3_5d5d6b" />
-
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="19dp"
+                android:text="@string/do_not_look_anymore"
+                android:textAppearance="@style/Sb15"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_common_dialog_check"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_common_dialog_dismiss"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginBottom="4dp"
-                android:onClick="@{() -> vm.onDismissTvClickEvent()}"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="13dp"
+                android:layout_marginVertical="5dp"
+                android:layout_marginEnd="22dp"
+                android:onClick="@{() -> vm.onDismissTvClick()}"
+                android:paddingHorizontal="11dp"
+                android:paddingVertical="14dp"
                 android:text="@string/close"
-                android:textAppearance="@style/M13"
-                android:textColor="@color/gray_3_5d5d6b"
+                android:textAppearance="@style/Sb15"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
