@@ -43,6 +43,10 @@
     <string name="click_edit_mission">click_edit_mission</string>
     <string name="complete_delete_mission">complete_delete_mission</string>
     <string name="click_delete_mission">click_delete_mission</string>
+    <!--pushAlarm amplitude-->
+    <string name="click_push_noti">click_push_noti</string>
+    <string name="click_push_noti_value">개인화1</string>
+    <string name="click_push_noti_key">pushnoti</string>
     <!--section detail amplitude-->
     <string name="appear_detail_mission">appear_detail_mission</string>
     <string name="close_detail_mission">close_detail_mission</string>
