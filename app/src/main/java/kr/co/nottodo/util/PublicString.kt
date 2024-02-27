@@ -27,5 +27,5 @@ object PublicString {
     const val MISSION_ACTION_DETAIL = "MISSION_ACTION_DETAIL"
 
     // Shared Preferences Key
-    const val STOP_WATCHING_COMMON_DIALOG = "STOP_WATCHING_COMMON_DIALOG"
+    const val STOP_WATCHING_COMMON_DIALOG = "common dialog 2"
 }
