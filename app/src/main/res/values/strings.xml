@@ -43,6 +43,10 @@
     <string name="click_edit_mission">click_edit_mission</string>
     <string name="complete_delete_mission">complete_delete_mission</string>
     <string name="click_delete_mission">click_delete_mission</string>
+    <!--pushAlarm amplitude-->
+    <string name="click_push_noti">click_push_noti</string>
+    <string name="click_push_noti_value">개인화1</string>
+    <string name="click_push_noti_key">pushnoti</string>
     <!--section detail amplitude-->
     <string name="appear_detail_mission">appear_detail_mission</string>
     <string name="close_detail_mission">close_detail_mission</string>
@@ -65,7 +69,7 @@
 
     <!--acheive-->
     <string name="achieve_achieve">성취</string>
-    <string name="achieve_description">&lt;매달 낫투두 성취 공유하고 선물받자!&gt;\n인스타 @nottodo_official을 확인해주세요 :)</string>
+    <string name="achieve_description">남겨주신 피드백으로\n새로운 기능을 업데이트 할 예정이에요 :)</string>
     <string name="achieve_dialog_noToDo">등록된 낫투두가 없습니다.</string>
     <!--acheive apmplituede-->
     <string name="total_add_mission">total_add_mission</string>

@@ -15,7 +15,7 @@ import kr.co.nottodo.MainActivity
 import kr.co.nottodo.R
 import kr.co.nottodo.data.local.SharedPreferences
 import kr.co.nottodo.presentation.login.view.LoginFragment.Companion.DID_USER_CHOOSE_TO_BE_NOTIFIED
-
+import kr.co.nottodo.util.NotTodoAmplitude.trackEventWithProperty
 
 class FirebaseMessagingService : FirebaseMessagingService() {
 
@@ -49,7 +49,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         val channel = NotificationChannel(
             getString(R.string.channel_id),
             getString(R.string.channel_name),
-            NotificationManager.IMPORTANCE_HIGH
+            NotificationManager.IMPORTANCE_HIGH,
         ).apply {
             description = getString(R.string.channel_desc)
         }
@@ -59,12 +59,18 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         notificationManager.createNotificationChannel(channel)
 
         if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.POST_NOTIFICATIONS
+                this,
+                Manifest.permission.POST_NOTIFICATIONS,
             ) == PackageManager.PERMISSION_GRANTED && SharedPreferences.getBoolean(
-                DID_USER_CHOOSE_TO_BE_NOTIFIED
+                DID_USER_CHOOSE_TO_BE_NOTIFIED,
             )
         ) {
             notificationManager.notify(NOTIFICATION_ID, builder.build())
+            trackEventWithProperty(
+                getString(R.string.click_push_noti),
+                getString(R.string.click_push_noti_key),
+                getString(R.string.click_push_noti_value),
+            )
         }
     }
 
