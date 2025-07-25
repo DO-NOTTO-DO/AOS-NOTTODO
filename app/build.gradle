@@ -15,12 +15,12 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 
 android {
     namespace 'kr.co.nottodo'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "kr.co.nottodo"
         minSdk 26
-        targetSdk 34
+        targetSdk 35
         versionCode 15
         versionName "1.0.4"
         multiDexEnabled true
