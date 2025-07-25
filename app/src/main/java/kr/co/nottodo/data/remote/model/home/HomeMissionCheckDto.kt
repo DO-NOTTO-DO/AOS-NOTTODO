@@ -11,7 +11,7 @@ data class ResponseHomeMissionCheckDto(
     val message: String,
     val status: Int,
     val success: Boolean,
-    val data: HomeMissionCheckDto
+    val data: HomeMissionCheckDto,
 ) {
     @Serializable
     data class HomeMissionCheckDto(
@@ -19,5 +19,6 @@ data class ResponseHomeMissionCheckDto(
         @SerialName("id") val id: Long,
         @SerialName("title") val title: String,
         @SerialName("situationName") val situationName: String,
-        )
+        @SerialName("date") val date: String,
+    )
 }
