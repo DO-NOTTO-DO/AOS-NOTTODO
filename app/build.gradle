@@ -112,8 +112,6 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     // lottie
     implementation 'com.airbnb.android:lottie:6.0.0'
-    // koral : android gif drawable
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'
     // google oss licenses
     implementation("com.google.android.gms:play-services-oss-licenses:17.0.1")
     // amplitude
